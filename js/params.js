@@ -10,15 +10,15 @@
   // s=procedencia ('est'|'med'|'def' para constante definida) t=tipo o=opcoes n=nota
   var SCHEMA = [
     // ---------------- BOLA ----------------
-    { k: 'ball.d', g: 'Bola', l: 'Diâmetro', u: 'mm', v: 38, min: 8, max: 120, step: 0.5, s: 'est' },
-    { k: 'ball.m', g: 'Bola', l: 'Massa', u: 'g', v: 26, min: 1, max: 500, step: 0.5, s: 'est' },
+    { k: 'ball.d', g: 'Bola', l: 'Diâmetro', u: 'mm', v: 35, min: 8, max: 120, step: 0.5, s: 'est' },
+    { k: 'ball.m', g: 'Bola', l: 'Massa', u: 'g', v: 30, min: 1, max: 500, step: 0.5, s: 'est' },
     { k: 'ball.mat', g: 'Bola', l: 'Material', u: '—', v: 'ABS', t: 'sel', o: ['ABS', 'Poliuretano', 'Aço', 'Borracha', 'Madeira', 'Acrílico'], s: 'est' },
     { k: 'ball.e', g: 'Bola', l: 'Coef. de restituição', u: '—', v: 0.72, min: 0, max: 1, step: 0.01, s: 'est', n: 'Só afeta ricochete na borda; não afeta o critério de vitória.' },
     { k: 'ball.cd', g: 'Bola', l: 'Coef. de arrasto Cd', u: '—', v: 0.47, min: 0.05, max: 1.5, step: 0.01, s: 'est', n: 'Esfera lisa em regime subcrítico. Depende de Re — a seção de arrasto verifica.' },
     { k: 'ball.ki', g: 'Bola', l: 'Fator de inércia k (I = k·m·r²)', u: '—', v: 0.4, min: 0.1, max: 1, step: 0.01, s: 'est', n: '0,400 = esfera maciça homogênea; 0,667 = casca fina.' },
 
     // ---------------- EIXO A ----------------
-    { k: 'A.stroke', g: 'Eixo A (bola)', l: 'Curso útil', u: 'mm', v: 320, min: 50, max: 1200, step: 5, s: 'est' },
+    { k: 'A.stroke', g: 'Eixo A (bola)', l: 'Curso útil', u: 'mm', v: 280, min: 50, max: 1200, step: 5, s: 'est' },
     { k: 'A.mass', g: 'Eixo A (bola)', l: 'Massa do carro', u: 'g', v: 210, min: 10, max: 3000, step: 5, s: 'est' },
     { k: 'A.prof', g: 'Eixo A (bola)', l: 'Perfil de movimento', u: '—', v: 'senoidal', t: 'sel', o: ['senoidal', 'triangular', 'trapezoidal', 'customizado'], s: 'est' },
     { k: 'A.T', g: 'Eixo A (bola)', l: 'Período ida-e-volta', u: 's', v: 2.40, min: 0.3, max: 12, step: 0.02, s: 'est' },
@@ -27,7 +27,7 @@
     { k: 'A.jerk', g: 'Eixo A (bola)', l: 'Jerk admitido', u: 'mm/s³', v: 60000, min: 500, max: 2000000, step: 500, s: 'est' },
 
     // ---------------- EIXO B ----------------
-    { k: 'B.stroke', g: 'Eixo B (buraco)', l: 'Curso útil', u: 'mm', v: 320, min: 50, max: 1200, step: 5, s: 'est' },
+    { k: 'B.stroke', g: 'Eixo B (buraco)', l: 'Curso útil', u: 'mm', v: 280, min: 50, max: 1200, step: 5, s: 'est' },
     { k: 'B.mass', g: 'Eixo B (buraco)', l: 'Massa do carro', u: 'g', v: 320, min: 10, max: 3000, step: 5, s: 'est' },
     { k: 'B.prof', g: 'Eixo B (buraco)', l: 'Perfil de movimento', u: '—', v: 'senoidal', t: 'sel', o: ['senoidal', 'triangular', 'trapezoidal', 'customizado'], s: 'est' },
     { k: 'B.T', g: 'Eixo B (buraco)', l: 'Período ida-e-volta', u: 's', v: 3.10, min: 0.3, max: 12, step: 0.02, s: 'est' },
@@ -36,11 +36,13 @@
     { k: 'B.jerk', g: 'Eixo B (buraco)', l: 'Jerk admitido', u: 'mm/s³', v: 50000, min: 500, max: 2000000, step: 500, s: 'est' },
 
     // ---------------- GEOMETRIA ----------------
-    { k: 'geo.h', g: 'Geometria', l: 'Altura de queda (plano de soltura -> boca do buraco)', u: 'mm', v: 420, min: 20, max: 2000, step: 1, s: 'est' },
+    { k: 'geo.h', g: 'Geometria', l: 'Altura de queda (plano de soltura -> boca do buraco)', u: 'mm', v: 250, min: 20, max: 2000, step: 1, s: 'est' },
     { k: 'geo.L', g: 'Geometria', l: 'Largura da abertura do buraco', u: 'mm', v: 78, min: 5, max: 400, step: 0.5, s: 'est' },
     { k: 'geo.depth', g: 'Geometria', l: 'Profundidade da boca', u: 'mm', v: 60, min: 5, max: 400, step: 1, s: 'est' },
-    { k: 'geo.sep', g: 'Geometria', l: 'Separação entre planos dos eixos (mecânica)', u: 'mm', v: 445, min: 20, max: 2000, step: 1, s: 'est', n: 'Deve ser maior ou igual à altura de queda. A diferença é o recuo do plano de soltura dentro do carro A.' },
+    { k: 'geo.sep', g: 'Geometria', l: 'Separação entre planos dos eixos (mecânica)', u: 'mm', v: 355, min: 20, max: 2000, step: 1, s: 'est', n: 'Deve ser maior ou igual à altura de queda. A diferença é o recuo do plano de soltura dentro do carro A. Relação construtiva: geo.sep = geo.h + 60 mm (eixo do trilho superior até o berço) + 45 mm (boca do buraco até o eixo do trilho inferior). O modelo 3D mantém essa relação enquanto "travar geo.sep" estiver ligado.' },
     { k: 'geo.floor', g: 'Geometria', l: 'Área de piso do gabinete (lado)', u: 'mm', v: 450, min: 200, max: 1200, step: 5, s: 'est' },
+    { k: 'geo.height', g: 'Geometria', l: 'Altura externa do gabinete', u: 'mm', v: 1700, min: 400, max: 3000, step: 5, s: 'est', n: 'Envelope externo da torre: geo.floor x geo.floor x geo.height. Usado pela verificação de envelope do modelo 3D.' },
+    { k: 'geo.inner', g: 'Geometria', l: 'Largura interna útil', u: 'mm', v: 415, min: 100, max: 1200, step: 1, s: 'est', n: 'Limita o curso útil somado às larguras de carro e suportes de extremidade.' },
 
     // ---------------- SOLTURA ----------------
     { k: 'rel.type', g: 'Mecanismo de soltura', l: 'Tipo', u: '—', v: 'solenoide', t: 'sel', o: ['solenoide', 'servo', 'motor DC com came'], s: 'est' },

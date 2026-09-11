@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PICBOX — modelo 3D</title>
+<style>
+:root{
+  --bg:#0e1113; --bg2:#15191c; --bg3:#1c2226; --line:#2a3238; --line2:#384249;
+  --fg:#e6ecef; --fg2:#9aa7ae; --acc:#2ad3d3; --cat:#9aa3ab; --err:#ff4d4d; --ok:#7bd88f;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
+  font:13px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
+#top{display:flex;align-items:center;gap:10px;height:46px;padding:0 12px;
+  background:var(--bg2);border-bottom:1px solid var(--line);position:relative;z-index:20}
+#brand{font-weight:700;letter-spacing:.14em;font-size:15px}
+#brand span{color:var(--acc)}
+.xlink{color:var(--acc);text-decoration:none;font-size:12px;white-space:nowrap;
+  padding:4px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--bg3)}
+.xlink:hover{color:var(--fg);border-color:var(--acc)}
+#camBar{display:flex;gap:2px;flex-wrap:wrap}
+.btn{font:inherit;font-size:12px;color:var(--fg2);background:var(--bg3);
+  border:1px solid var(--line2);border-radius:6px;padding:5px 9px;cursor:pointer;white-space:nowrap}
+.btn:hover{color:var(--fg);border-color:var(--acc)}
+.btn.on{color:#06232a;background:var(--acc);border-color:var(--acc);font-weight:600}
+.btn.sm{padding:3px 7px;font-size:11px}
+#wrap{position:absolute;inset:46px 0 0 0}
+canvas{display:block}
+.panel{position:absolute;background:rgba(21,25,28,.94);border:1px solid var(--line);
+  border-radius:8px;padding:9px 10px;backdrop-filter:blur(3px)}
+#left{left:10px;top:10px;bottom:124px;width:284px;overflow-y:auto;z-index:10}
+#right{right:10px;top:10px;width:268px;max-height:calc(60% - 20px);overflow-y:auto;z-index:10}
+#legend{left:10px;bottom:10px;width:284px;z-index:11}
+#coll{right:10px;bottom:10px;width:268px;max-height:36%;overflow-y:auto;z-index:10}
+h4{margin:2px 0 7px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);
+  font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px}
+h4:not(:first-child){margin-top:12px}
+.row{display:flex;align-items:center;gap:6px;margin:4px 0}
+.row label{flex:0 0 96px;color:var(--fg2);font-size:11.5px}
+.row input[type=range]{flex:1;min-width:0;accent-color:var(--acc)}
+.row select,.row input[type=number]{flex:1;min-width:0;font:inherit;font-size:11.5px;
+  background:var(--bg3);color:var(--fg);border:1px solid var(--line2);border-radius:4px;padding:2px 4px}
+.val{flex:0 0 66px;text-align:right;font-family:var(--mono);font-size:11px;color:var(--fg)}
+.kv{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:11.5px;padding:1px 0}
+.kv b{font-weight:600}
+.kv .u{color:var(--fg2)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.sw{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+.note{color:var(--fg2);font-size:11px;margin-top:6px;line-height:1.35}
+.errline{color:var(--err);font-family:var(--mono);font-size:11px;padding:1px 0}
+.lbl{font-family:var(--mono);font-size:10.5px;color:#cfe9e9;background:rgba(10,14,16,.72);
+  padding:0 3px;border-radius:3px;white-space:nowrap;pointer-events:none}
+#boot{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:24px;z-index:30;background:var(--bg);color:var(--fg2)}
+#textOverlay{position:fixed;inset:6% 8%;background:var(--bg2);border:1px solid var(--line2);
+  border-radius:10px;display:none;flex-direction:column;z-index:40;padding:10px}
+#textOverlay.open{display:flex}
+#textOverlay header{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+#textOverlayBody{flex:1;width:100%;background:var(--bg);color:var(--fg);border:1px solid var(--line);
+  border-radius:6px;font-family:var(--mono);font-size:11.5px;padding:8px;resize:none}
+</style>
+</head>
+<body>
+
+<div id="top">
+  <div id="brand">PIC<span>BOX</span> &nbsp;<span style="font-weight:400;font-size:11px;color:var(--fg2);letter-spacing:0">modelo 3D</span></div>
+  <div id="camBar"></div>
+  <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
+    <button class="btn" id="btnGltf">GLTF</button>
+    <button class="btn" id="btnCsv">CSV peças</button>
+    <a class="xlink" href="index.html">simulador &#8599;</a>
+  </div>
+</div>
+
+<div id="wrap">
+  <div id="boot">carregando three.js do CDN&hellip;<br><span style="font-size:11px">se esta mensagem não sair, a página não tem acesso à internet — o three.js vem de CDN e é o único requisito externo</span></div>
+  <div class="panel" id="left"></div>
+  <div class="panel" id="right"></div>
+  <div class="panel" id="legend"></div>
+  <div class="panel" id="coll"></div>
+</div>
+
+<div id="textOverlay">
+  <header>
+    <div id="textOverlayTitle" style="font-family:var(--mono);font-size:12px"></div>
+    <span style="flex:1"></span>
+    <button class="btn" id="btnCopyText">Copiar</button>
+    <button class="btn" id="btnCloseText">Fechar</button>
+  </header>
+  <textarea id="textOverlayBody" spellcheck="false"></textarea>
+</div>
+
+<script src="js/util.js"></script>
+<script src="js/params.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/model.js"></script>
+<script src="js/catalog.js"></script>
+
+<!-- three.js 0.147: ultima versao com build classico (nao-modulo). E de proposito:
+     modulo ES carregado de file:// e bloqueado por CORS, e o requisito e abrir
+     com duplo clique. Script classico de CDN https funciona nos dois casos. -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/exporters/GLTFExporter.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/renderers/CSS2DRenderer.js"></script>
+
+<script>
+(function () {
+'use strict';
+if (!window.THREE || !THREE.OrbitControls) {
+  document.getElementById('boot').innerHTML =
+    'three.js não carregou.<br><span style="font-size:11px">esta página busca a biblioteca em cdn.jsdelivr.net; ' +
+    'sem acesso à internet ela não monta. O simulador, esse sim, funciona offline.</span>';
+  return;
+}
+const OrbitControls = THREE.OrbitControls, GLTFExporter = THREE.GLTFExporter,
+      CSS2DRenderer = THREE.CSS2DRenderer, CSS2DObject = THREE.CSS2DObject;
+
+const U = window.PB.util, P = window.PB.params, PH = window.PB.physics,
+      M = window.PB.model, CT = window.PB.catalog;
+
+/* ============================================================================
+   GEOM — constantes puramente geometricas, que o simulador nao usa.
+   Unidade de cena: MILIMETRO. Origem no centro do piso do gabinete.
+   Eixos: +X largura (direita do jogador), +Y para cima, +Z para o jogador.
+   Toda cota tem procedencia propria: CAT = dimensao publicada em catalogo,
+   EST = dimensao de projeto, estimada. Uma cota nunca mistura as duas.
+   O que o simulador TAMBEM usa nao mora aqui: vem de params.js (P.num) ou,
+   no caso de peca com alternativa, de catalog.js (CT.geom).
+   ========================================================================== */
+const CAT = 'cat', EST = 'est';
+const mm  = (v, s) => ({ v, s, u: 'mm' });
+const un  = (v, s, u) => ({ v, s, u });
+
+const GEOM = {
+  gabinete: {
+    parede:      mm(18, EST),            // chapa de MDF estrutural
+    campoY0:     mm(1100, EST),          // piso do campo de jogo (orcamento vertical)
+    painelY0:    mm(1050, EST),          // painel de botoes comeca aqui
+    bandaEixoSup: mm(80, EST),           // trilho + carro + soltura
+    bandaEixoInf: mm(70, EST),           // trilho + carro + boca
+    bandaBandeja: mm(50, EST),           // bandeja de captura + retorno
+    planoTrilhoZ: mm(0, EST),            // plano vertical dos dois trilhos; a bola cai nele
+    vidroE:      mm(6, EST),             // vidro frontal do campo
+    ledFitaL:    mm(10, CAT),            // WS2812B
+    ledFitaE:    mm(3, EST),
+    folga:       mm(2, EST)              // folga de montagem padrao
+  },
+  eixo: {
+    trilhoComp:  mm(350, CAT),           // MGN12 350 mm
+    trilhoLarg:  mm(12, CAT),
+    trilhoAlt:   mm(8, CAT),
+    carroComp:   mm(45.4, CAT),          // MGN12H
+    carroLarg:   mm(27, CAT),
+    carroAlt:    mm(13, CAT),
+    vigaZ:       mm(40, EST),            // perfil de aluminio que carrega o trilho
+    suporteX:    mm(15, EST),            // suporte de extremidade
+    suporteY:    mm(40, EST),
+    placaE:      mm(3, EST),             // placa do carro montado
+    placaXY:     mm(64, EST),
+    recuoSup:    mm(60, EST),            // eixo do trilho superior -> centro da bola no berco
+    recuoInf:    mm(45, EST),            // boca do buraco -> eixo do trilho inferior
+    sensorOptC:  mm(12, EST),            // sensor optico: 2 de fim de curso por eixo e
+    sensorOptL:  mm(8, EST),             // a barreira na boca do lancador usam o mesmo
+    sensorOptA:  mm(6, EST),             // encapsulamento
+    as5600:      mm(15, CAT),            // PCB do encoder magnetico da polia tensora
+    vMin:        un(0.2, EST, 'm/s'),    // envelope de velocidade de pico do carro
+    vMax:        un(0.8, EST, 'm/s')
+  },
+  boca: {
+    parede:      mm(3, EST),             // paredes do bocal que forma o buraco
+    flange:      mm(10, EST)             // aba de fixacao na placa do carro
+  },
+  soltura: {
+    bercoParede: mm(2.5, EST),
+    bercoAbraco: un(150, EST, 'graus'),  // arco do copo que retem a bola
+    bracoE:      mm(4, EST),             // braco que desce da placa ate o berco
+    bracoL:      mm(26, EST),
+    pcbC:        mm(40, EST),            // PCB do carro (capacitor + MOSFET)
+    pcbL:        mm(30, EST),
+    pcbE:        mm(1.6, EST),
+    capD:        mm(18, EST),            // capacitor 2200 uF
+    capA:        mm(35, EST),
+    mosfetC:     mm(6, EST),
+    mosfetL:     mm(5, EST),
+    mosfetA:     mm(9, EST)
+  },
+  magazine: {
+    bolas:       un(15, EST, 'bolas'),   // capacidade alvo
+    passos:      un(2, EST, 'passes'),   // serpentina: 2 passes cabem na largura util
+    z:           mm(-100, EST),          // atras do plano dos trilhos, na frente do elevador
+    y:           mm(1500, EST),          // base do primeiro passe
+    dy:          mm(42, EST),            // desnivel entre passes
+    incl:        un(6, EST, 'graus'),    // inclinacao de escoamento por gravidade
+    tuboParede:  mm(2.5, EST),
+    servoC:      mm(23, CAT),            // SG90 do escapement
+    servoL:      mm(12, CAT),
+    servoA:      mm(29, CAT),
+    cameR:       mm(11, EST),
+    cameE:       mm(4, EST),
+    sensorNivel: mm(10, EST)
+  },
+  elevador: {
+    colunaX:     mm(70, EST),
+    colunaZ:     mm(70, EST),
+    y0:          mm(150, EST),           // fundo, onde as calhas entregam
+    y1:          mm(1520, EST),          // topo, entrega no magazine
+    esteiraL:    mm(50, EST),
+    esteiraE:    mm(2, EST),
+    taliscaL:    mm(24, EST),
+    taliscaE:    mm(3, EST),
+    poliaD:      mm(40, EST),
+    motorD:      mm(37, EST),
+    motorC:      mm(62, EST),
+    rpm:         un(30, EST, 'rpm')      // motor DC 12 V
+  },
+  calha: {
+    parede:      mm(2.5, EST),
+    folgaLat:    mm(8, EST),             // largura = diametro da bola + 2x esta folga
+    vBola:       un(420, EST, 'mm/s')    // velocidade de escoamento da bola na calha
+  },
+  botoes: {
+    dGrande:     mm(60, EST),
+    dPequeno:    mm(30, EST),
+    corpoA:      mm(32, EST),
+    incl:        un(12, EST, 'graus'),
+    nPequenos:   un(4, EST, 'botoes')
+  },
+  telas: {
+    campoMoldC:  mm(360, CAT),           // LCD 15,6": moldura
+    campoMoldA:  mm(215, CAT),
+    campoMoldE:  mm(6, CAT),
+    campoAtivaC: mm(345, CAT),           // area ativa
+    campoAtivaA: mm(194, CAT),
+    campoRecuo:  mm(30, EST),            // atras do plano dos trilhos
+    acrilicoE:   mm(3, EST),
+    acrilicoFolga: mm(20, EST),          // sobra em volta da moldura
+    barraAtivaC: mm(310, CAT),           // testeira 12,6" 1920x515
+    barraAtivaA: mm(85, CAT),
+    barraMoldC:  mm(340, EST),
+    barraMoldA:  mm(110, EST),
+    barraMoldE:  mm(8, EST)
+  },
+  eletronica: {
+    rpiC:        mm(85, CAT), rpiL: mm(56, CAT), rpiA: mm(17, CAT),
+    rpiFuroX:    mm(58, CAT), rpiFuroY: mm(49, CAT),
+    picoC:       mm(51, CAT), picoL: mm(21, CAT), picoA: mm(4, EST),
+    tmcC:        mm(20, CAT), tmcL: mm(15, CAT), tmcA: mm(12, EST),
+    fonteC:      mm(199, CAT), fonteL: mm(99, CAT), fonteA: mm(30, CAT),
+    dcdcC:       mm(60, EST), dcdcL: mm(45, EST), dcdcA: mm(25, EST),
+    pcbC:        mm(150, EST), pcbL: mm(100, EST), pcbA: mm(16, EST),
+    dinC:        mm(160, EST), dinL: mm(60, EST), dinA: mm(80, EST),
+    falanteD:    mm(50, EST), falanteA: mm(26, EST),
+    ampC:        mm(50, EST), ampL: mm(40, EST), ampA: mm(12, EST),
+    prateleiraE: mm(15, EST),
+    corredor:    mm(90, EST),            // faixa livre em +X para a calha de retorno
+                                         // descer da bandeja ate o elevador sem
+                                         // atravessar as prateleiras
+    yFonte:      mm(180, EST),
+    yLogica:     mm(430, EST),
+    yPotencia:   mm(660, EST),
+    yFalante:    mm(880, EST),
+    chicoteD:    mm(12, EST)
+  },
+  vista: {
+    explodeMax:  mm(300, EST),
+    cotaOffset:  mm(90, EST),
+    cotaSeta:    mm(10, EST)
+  }
+};
+
+/* --------------------------------------------------------------------------
+   Cotas derivadas: nao sao escolha, sao consequencia. Recalculadas a cada
+   rebuild porque geo.h, geo.sep e ball.d sao parametros vivos.
+   -------------------------------------------------------------------------- */
+function derive() {
+  const g = GEOM.gabinete, e = GEOM.eixo;
+  const h = P.num('geo.h'), sep = P.num('geo.sep');
+  const d = {
+    lado: P.num('geo.floor'), alturaExt: P.num('geo.height'), interna: P.num('geo.inner'),
+    h: h, sep: sep, curso: P.num('A.stroke'), bolaR: P.num('ball.d') / 2,
+    yBandeja0: g.campoY0.v,
+    yBandeja1: g.campoY0.v + g.bandaBandeja.v
+  };
+  d.yBoca    = d.yBandeja1 + g.bandaEixoInf.v;          // plano da boca do buraco
+  d.ySoltura = d.yBoca + h;                             // centro da bola ao soltar
+  d.yCampo1  = d.ySoltura + g.bandaEixoSup.v;           // teto do campo de jogo
+  d.yTrilhoB = d.yBoca - e.recuoInf.v;
+  d.yTrilhoA = d.yTrilhoB + sep;                        // geo.sep manda, sempre
+  d.recuoSupReal = d.yTrilhoA - d.ySoltura;             // = recuoSup se geo.sep coerente
+  d.vigaAltSup = d.yCampo1 - (d.yTrilhoA + e.trilhoAlt.v / 2);
+  d.vigaAltInf = (d.yTrilhoB - e.trilhoAlt.v / 2) - d.yBandeja1;
+  d.bracoH   = d.recuoSupReal - e.trilhoAlt.v / 2 - e.carroAlt.v - e.placaE.v;
+  d.bocaH    = e.recuoInf.v - e.trilhoAlt.v / 2 - e.carroAlt.v - e.placaE.v;
+  d.trnZ     = -(e.carroLarg.v / 2 + g.folga.v + trnRaio());   // plano da transmissao, atras do carro
+  d.xRail    = e.trilhoComp.v / 2;
+  return d;
+}
+// meia-altura da transmissao selecionada: a correia, o fuso e a cremalheira
+// ocupam espessuras diferentes atras do carro. Sai do catalogo, nao daqui.
+function trnRaio() {
+  const t = CT.geom('transmissao'), d = t.d;
+  if (t.kind === 'correia') return d.poliaFlange.v / 2;
+  if (t.kind === 'fuso') return d.castanhaD.v / 2;
+  return d.barraE.v / 2 + d.pinhaoDp.v / 2;
+}
+let D = derive();
+
+/* --------------------------------------------------------------------------
+   Materiais: CINZA = catalogo, CIANO = estimado. Sem textura, sem PBR.
+   -------------------------------------------------------------------------- */
+const COR = { cat: 0x9aa3ab, est: 0x2ad3d3, err: 0xff3b3b, vidro: 0x7fb6c4 };
+const matCache = {};
+function matFor(src, opts) {
+  const key = src + '|' + JSON.stringify(opts || {});
+  if (!matCache[key]) {
+    matCache[key] = new THREE.MeshLambertMaterial(Object.assign({
+      color: src === CAT ? COR.cat : COR.est
+    }, opts || {}));
+  }
+  return matCache[key];
+}
+const matErr = new THREE.MeshLambertMaterial({ color: COR.err });
+const matEdge = new THREE.LineBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.35 });
+const matVidro = new THREE.MeshLambertMaterial({ color: COR.vidro, transparent: true, opacity: 0.14, side: THREE.DoubleSide });
+// a bola e peca estimada: entra no codigo de cor como qualquer outra
+
+/* ============================================================================
+   CENA
+   ========================================================================== */
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0e1113);
+const camera = new THREE.PerspectiveCamera(38, 1, 1, 20000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+const wrap = document.getElementById('wrap');
+wrap.appendChild(renderer.domElement);
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.domElement.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:5';
+wrap.appendChild(labelRenderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.09;
+controls.screenSpacePanning = true;
+
+scene.add(new THREE.HemisphereLight(0xdfefff, 0x202a30, 0.85));
+const dl1 = new THREE.DirectionalLight(0xffffff, 0.55); dl1.position.set(700, 1800, 1400); scene.add(dl1);
+const dl2 = new THREE.DirectionalLight(0xffffff, 0.30); dl2.position.set(-900, 900, -800); scene.add(dl2);
+
+/* Grupos de primeiro nivel: sao as unidades da vista explodida e dos toggles.
+   O que se move na animacao (carros, bola, taliscas) e filho deles. */
+const SUB = {
+  gabinete:   { dir: [0, 0, -1], tog: 'gabinete' },
+  vidro:      { dir: [0, 0, 1], tog: 'vidro' },
+  telas:      { dir: [0, 0, -1], tog: 'telas' },
+  led:        { dir: [0, 0, 1], tog: 'gabinete' },
+  eixoA:      { dir: [0, 1, 0.35] },
+  eixoB:      { dir: [0, -1, 0.35] },
+  magazine:   { dir: [-0.6, 1, -0.5] },
+  elevador:   { dir: [0.9, 0, -0.6] },
+  calhas:     { dir: [0.5, -0.4, 0.7] },
+  bandeja:    { dir: [0, -0.5, 1] },
+  botoes:     { dir: [0, 0.3, 1] },
+  eletronica: { dir: [-1, -0.2, 0], tog: 'eletronica' },
+  chicote:    { dir: [-0.8, 0, 0.4], tog: 'chicote' },
+  envelope:   { dir: [0, 0, 0], tog: 'envelope' },
+  cotas:      { dir: [0, 0, 0], tog: 'cotas' }
+};
+const G = {};
+const root = new THREE.Group(); scene.add(root);
+Object.keys(SUB).forEach(k => {
+  G[k] = new THREE.Group(); G[k].name = k;
+  G[k].userData.dir = new THREE.Vector3().fromArray(SUB[k].dir).normalize();
+  root.add(G[k]);
+});
+
+/* ============================================================================
+   REGISTRO DE PECAS — alimenta CSV, legenda de cor e verificacao de envelope
+   ========================================================================== */
+let PARTS = [];
+function reg(mesh, nome, sub, src, dims, qtd) {
+  mesh.userData.p = { nome, sub, src, dims, qtd: qtd || 1, obj: mesh };
+  PARTS.push(mesh.userData.p);
+  return mesh;
+}
+function dimsOf() {   // junta cotas em "a × b × c mm", cada uma pelo valor
+  return Array.prototype.slice.call(arguments).map(x => U.fmt(x, 1).replace(/,0$/, '')).join(' × ') + ' mm';
+}
+
+function edges(m) {
+  const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry, 28), matEdge);
+  e.userData.isEdge = true; m.add(e); return m;
+}
+function box(w, h, d, src, mat) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(Math.abs(w), Math.abs(h), Math.abs(d)), mat || matFor(src));
+  return edges(m);
+}
+function cyl(dia, len, src, axis, mat, seg) {
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(dia / 2, dia / 2, len, seg || 28), mat || matFor(src));
+  if (axis === 'x') m.rotation.z = Math.PI / 2;
+  if (axis === 'z') m.rotation.x = Math.PI / 2;
+  return m;
+}
+function ball(dia) { return new THREE.Mesh(new THREE.SphereGeometry(dia / 2, 22, 16), matFor(EST)); }
+function at(m, x, y, z) { m.position.set(x || 0, y || 0, z || 0); return m; }
+
+/* ============================================================================
+   GABINETE
+   ========================================================================== */
+function buildGabinete() {
+  const g = GEOM.gabinete, p = g.parede.v, L = D.lado, H = D.alturaExt;
+  const add = (m, nome, dims) => { G.gabinete.add(reg(m, nome, 'Gabinete', EST, dims)); return m; };
+
+  add(at(box(L, p, L, EST), 0, p / 2, 0), 'Piso do gabinete', dimsOf(L, p, L));
+  [-1, 1].forEach(s => add(at(box(p, H, L, EST), s * (L / 2 - p / 2), H / 2, 0),
+    'Lateral do gabinete', dimsOf(p, H, L)));
+  add(at(box(L - 2 * p, H, p, EST), 0, H / 2, -(L / 2 - p / 2)), 'Fundo do gabinete', dimsOf(L - 2 * p, H, p));
+  add(at(box(L - 2 * p, H - D.yCampo1, p, EST), 0, (H + D.yCampo1) / 2, (L / 2 - p / 2)),
+    'Testeira (fechamento frontal)', dimsOf(L - 2 * p, H - D.yCampo1, p));
+  add(at(box(L - 2 * p, g.painelY0.v, p, EST), 0, g.painelY0.v / 2, (L / 2 - p / 2)),
+    'Frente da coluna', dimsOf(L - 2 * p, g.painelY0.v, p));
+  add(at(box(L, p, L, EST), 0, H - p / 2, 0), 'Teto do gabinete', dimsOf(L, p, L));
+  // divisoria entre coluna e campo de jogo: fecha o campo por baixo
+  add(at(box(L - 2 * p, p, L - 2 * p, EST), 0, g.campoY0.v - p / 2, 0),
+    'Divisória campo/coluna', dimsOf(L - 2 * p, p, L - 2 * p));
+  // bandeja de captura + retorno (banda de 50 mm)
+  const bl = D.lado - 2 * p;
+  G.bandeja.add(reg(at(box(bl, g.parede.v / 2, L / 2, EST), 0, D.yBandeja1 - g.parede.v / 4, L / 8),
+    'Bandeja de captura (fundo inclinado)', 'Retorno de bolas', EST, dimsOf(bl, L / 2, g.parede.v / 2)));
+}
+
+/* ============================================================================
+   VIDRO DO CAMPO + FITA DE LED
+   ========================================================================== */
+function buildVidro() {
+  const g = GEOM.gabinete, p = g.parede.v, alt = D.yCampo1 - g.campoY0.v;
+  const vidro = at(new THREE.Mesh(new THREE.BoxGeometry(D.lado - 2 * p, alt, g.vidroE.v), matVidro),
+    0, (D.yCampo1 + g.campoY0.v) / 2, D.lado / 2 - p - g.vidroE.v / 2);
+  G.vidro.add(reg(vidro, 'Vidro do campo de jogo', 'Gabinete', EST, dimsOf(D.lado - 2 * p, alt, g.vidroE.v)));
+
+  // WS2812B contornando o campo, colada por dentro do vidro
+  const zLed = vidro.position.z - g.vidroE.v / 2 - g.ledFitaE.v / 2;
+  const wIn = D.lado - 2 * p - 2 * g.ledFitaL.v;
+  [[wIn, g.ledFitaL.v, 0, D.yCampo1 - g.ledFitaL.v / 2], [wIn, g.ledFitaL.v, 0, g.campoY0.v + g.ledFitaL.v / 2],
+   [g.ledFitaL.v, alt, -(wIn / 2 + g.ledFitaL.v / 2), (D.yCampo1 + g.campoY0.v) / 2],
+   [g.ledFitaL.v, alt, (wIn / 2 + g.ledFitaL.v / 2), (D.yCampo1 + g.campoY0.v) / 2]
+  ].forEach(s => G.led.add(reg(at(box(s[0], s[1], g.ledFitaE.v, CAT), s[2], s[3], zLed),
+    'Fita WS2812B', 'Iluminação', CAT, dimsOf(Math.max(s[0], s[1]), g.ledFitaL.v, g.ledFitaE.v))));
+}
+
+/* ============================================================================
+   EIXO LINEAR (x2) — trilho, carro, transmissao, motor, encoder, fim de curso
+   id 'A' = eixo da bola (carro pendurado sob o trilho)
+   id 'B' = eixo do buraco (carro sobre o trilho)
+   ========================================================================== */
+function buildEixo(id) {
+  const e = GEOM.eixo, g = GEOM.gabinete, grp = G['eixo' + id];
+  const sup = id === 'A';
+  const yRail = sup ? D.yTrilhoA : D.yTrilhoB;
+  const sgn = sup ? -1 : 1;                       // lado do carro em relacao ao trilho
+  const vigaAlt = sup ? D.vigaAltSup : D.vigaAltInf;
+  const add = (m, nome, src, dims) => { grp.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
+
+  add(at(box(e.trilhoComp.v, e.trilhoAlt.v, e.trilhoLarg.v, CAT), 0, yRail, g.planoTrilhoZ.v),
+    'Trilho linear MGN12 350 mm', CAT, dimsOf(e.trilhoComp.v, e.trilhoLarg.v, e.trilhoAlt.v));
+  if (vigaAlt > 0) add(at(box(e.trilhoComp.v, vigaAlt, e.vigaZ.v, EST),
+    0, yRail - sgn * (e.trilhoAlt.v / 2 + vigaAlt / 2), g.planoTrilhoZ.v),
+    'Viga de fixação do trilho', EST, dimsOf(e.trilhoComp.v, vigaAlt, e.vigaZ.v));
+  [-1, 1].forEach(sx => add(at(box(e.suporteX.v, e.suporteY.v, e.vigaZ.v, EST),
+    sx * (D.xRail + e.suporteX.v / 2), yRail, g.planoTrilhoZ.v),
+    'Suporte de extremidade', EST, dimsOf(e.suporteX.v, e.suporteY.v, e.vigaZ.v)));
+  // 2 sensores opticos de fim de curso, logo depois do curso util
+  [-1, 1].forEach(sx => add(at(box(e.sensorOptC.v, e.sensorOptA.v, e.sensorOptL.v, EST),
+    sx * (D.curso / 2 + e.sensorOptC.v), yRail - sgn * (e.trilhoAlt.v / 2 + e.sensorOptA.v / 2), g.planoTrilhoZ.v + e.vigaZ.v / 2),
+    'Sensor óptico de fim de curso', EST, dimsOf(e.sensorOptC.v, e.sensorOptL.v, e.sensorOptA.v)));
+
+  const carro = new THREE.Group();
+  carro.position.set(0, yRail, g.planoTrilhoZ.v);
+  grp.add(carro);
+  const addc = (m, nome, src, dims) => { carro.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
+  addc(at(box(e.carroComp.v, e.carroAlt.v, e.carroLarg.v, CAT), 0, sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v / 2), 0),
+    'Carro MGN12H', CAT, dimsOf(e.carroComp.v, e.carroLarg.v, e.carroAlt.v));
+
+  const yPlaca = sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v + e.placaE.v / 2);
+  const paySrc = sup ? CT.geom('soltura') : null;
+  // a placa do carro nao e cota escolhida: ela cobre o que o carro carrega
+  const payZ = sup ? (D.bolaR + g.folga.v + (paySrc.d.corpoC || paySrc.d.motorC).v + g.folga.v)
+                   : (P.num('geo.depth') / 2 + GEOM.boca.parede.v + GEOM.boca.flange.v);
+  const placaZ = payZ + e.carroLarg.v / 2;
+  addc(at(box(e.carroComp.v + 2 * g.folga.v, e.placaE.v, placaZ, EST),
+    0, yPlaca, (payZ - e.carroLarg.v / 2) / 2),
+    'Placa do carro montado', EST, dimsOf(e.carroComp.v + 2 * g.folga.v, placaZ, e.placaE.v));
+
+  const trn = buildTransmissao(grp, carro, yRail, sgn, id);
+  if (sup) buildSoltura(carro, yPlaca); else buildBoca(carro, yPlaca);
+  return { grp, carro, yRail, trn, sgn };
+}
+
+/* Transmissao: a peca vem do catalogo, logo a malha tambem. */
+function buildTransmissao(grp, carro, yRail, sgn, id) {
+  const e = GEOM.eixo, g = GEOM.gabinete, t = CT.geom('transmissao'), d = t.d;
+  const zT = D.trnZ, mot = CT.geom('motor'), md = mot.d;
+  const add = (m, nome, src, dims) => { grp.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
+  const addc = (m, nome, src, dims) => { carro.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
+  const out = { kind: t.kind, girantes: [] };
+
+  if (t.kind === 'correia') {
+    [-1, 1].forEach(sx => {
+      const pol = at(cyl(d.poliaFlange.v, d.poliaL.v, CAT, 'z'), sx * D.xRail, yRail, zT);
+      add(pol, sx > 0 ? 'Polia GT2 20T (motora)' : 'Polia tensora GT2 20T', CAT,
+        dimsOf(d.poliaDp.v, d.poliaFlange.v, d.poliaL.v));
+      out.girantes.push(pol);
+    });
+    [-1, 1].forEach(sy => add(at(box(2 * D.xRail, d.correiaL.v, d.correiaE.v, CAT),
+      0, yRail + sy * d.poliaDp.v / 2, zT), 'Correia GT2 6 mm', CAT,
+      dimsOf(2 * D.xRail, d.correiaL.v, d.correiaE.v)));
+    const garraZ = Math.abs(zT) - e.carroLarg.v / 2;   // do fundo do carro ate a correia
+    addc(at(box(e.carroComp.v / 2, d.correiaL.v + 2 * g.folga.v, garraZ, EST),
+      0, sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v / 2), zT / 2 - e.carroLarg.v / 4),
+      'Garra de correia do carro', EST, dimsOf(e.carroComp.v / 2, garraZ, d.correiaL.v));
+  } else if (t.kind === 'fuso') {
+    const f = at(cyl(d.fusoD.v, 2 * D.xRail, CAT, 'x'), 0, yRail, zT);
+    add(f, 'Fuso trapezoidal T8', CAT, dimsOf(2 * D.xRail, d.fusoD.v, d.fusoD.v));
+    out.girantes.push(f);
+    [-1, 1].forEach(sx => add(at(cyl(d.mancalD.v, e.suporteX.v, EST, 'x'), sx * D.xRail, yRail, zT),
+      'Mancal do fuso', EST, dimsOf(d.mancalD.v, d.mancalD.v, e.suporteX.v)));
+    addc(at(cyl(d.castanhaD.v, d.castanhaC.v, EST, 'x'), 0, sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v / 2), zT),
+      'Castanha do fuso', EST, dimsOf(d.castanhaC.v, d.castanhaD.v, d.castanhaD.v));
+  } else {
+    add(at(box(2 * D.xRail, d.barraA.v, d.barraE.v, EST), 0, yRail, zT),
+      'Cremalheira', EST, dimsOf(2 * D.xRail, d.barraA.v, d.barraE.v));
+    const pin = at(cyl(d.pinhaoDp.v, d.pinhaoL.v, EST, 'z'), 0,
+      yRail + d.barraA.v / 2 + d.pinhaoDp.v / 2, zT);
+    addc(pin, 'Pinhão do carro', EST, dimsOf(d.pinhaoDp.v, d.pinhaoDp.v, d.pinhaoL.v));
+    out.girantes.push(pin);
+  }
+
+  // motor: sempre na extremidade +X, corpo atras do plano da transmissao
+  const zMot = zT - (t.kind === 'correia' ? d.poliaL.v / 2 : GEOM.eixo.suporteX.v / 2) - g.folga.v;
+  const corpoC = md.corpoC.v;
+  if (mot.kind === 'dc') {
+    add(at(cyl(md.corpoD.v, corpoC, EST, 'z'), D.xRail, yRail, zMot - corpoC / 2),
+      'Motor DC 12 V do eixo', EST, dimsOf(md.corpoD.v, md.corpoD.v, corpoC));
+    add(at(cyl(md.corpoD.v, md.potC.v, EST, 'z'), D.xRail, yRail, zMot - corpoC - md.potC.v / 2),
+      'Potenciômetro linear de realimentação', EST, dimsOf(md.corpoD.v, md.corpoD.v, md.potC.v));
+  } else {
+    const src = md.flange.s;
+    add(at(box(md.flange.v, md.flange.v, corpoC, src), D.xRail, yRail, zMot - corpoC / 2),
+      mot.kind === 'nema' ? 'Motor de passo NEMA 17' : 'Motor BLDC 42 mm', src,
+      dimsOf(md.flange.v, md.flange.v, corpoC));
+    add(at(cyl(md.eixoD.v, md.eixoC.v, src, 'z'), D.xRail, yRail, zMot + md.eixoC.v / 2),
+      'Eixo do motor', src, dimsOf(md.eixoD.v, md.eixoD.v, md.eixoC.v));
+  }
+  // encoder AS5600 na extremidade livre: nao e peca com alternativa, cota em GEOM
+  add(at(box(e.as5600.v, e.as5600.v, GEOM.soltura.pcbE.v, CAT), -D.xRail, yRail, zT - GEOM.soltura.pcbE.v),
+    'Encoder AS5600 (PCB)', CAT, dimsOf(e.as5600.v, e.as5600.v, GEOM.soltura.pcbE.v));
+  return out;
+}
+
+/* ============================================================================
+   SOLTURA — berco, pino retratil, acionador (do catalogo), barreira, PCB
+   Filho do carro do eixo A: viaja com ele, como na maquina.
+   ========================================================================== */
+function buildSoltura(carro, yPlaca) {
+  const s = GEOM.soltura, e = GEOM.eixo, g = GEOM.gabinete, so = CT.geom('soltura'), d = so.d;
+  const yBola = -D.recuoSupReal;                       // centro da bola, relativo ao trilho
+  const rExt = D.bolaR + g.folga.v + s.bercoParede.v;
+  const add = (m, nome, src, dims) => { carro.add(reg(m, nome, 'Soltura', src, dims)); return m; };
+
+  add(at(box(s.bracoL.v, D.bracoH, s.bracoE.v, EST), 0, yPlaca - e.placaE.v / 2 - D.bracoH / 2,
+    -(D.bolaR + g.folga.v + s.bracoE.v / 2)), 'Braço do berço', EST, dimsOf(s.bracoL.v, D.bracoH, s.bracoE.v));
+
+  // berco: copo aberto embaixo. E o pino lateral que segura a bola, nao o fundo.
+  const arco = s.bercoAbraco.v * Math.PI / 180;
+  const berco = new THREE.Mesh(
+    new THREE.CylinderGeometry(rExt, rExt, D.bolaR, 28, 1, true, Math.PI / 2 - arco / 2, arco),
+    new THREE.MeshLambertMaterial({ color: COR.est, side: THREE.DoubleSide }));
+  add(at(berco, 0, yBola - D.bolaR / 2, 0), 'Berço da bola', EST,
+    dimsOf(2 * rExt, 2 * rExt, D.bolaR));
+
+  const corpoC = (d.corpoC || d.motorC).v;
+  const zCorpo = D.bolaR + g.folga.v + corpoC / 2;
+  if (so.kind === 'solenoide') {
+    add(at(box(corpoC, d.corpoA.v, d.corpoL.v, d.corpoC.s), 0, yBola, zCorpo),
+      'Solenoide de tração 12 V', d.corpoC.s, dimsOf(corpoC, d.corpoL.v, d.corpoA.v));
+  } else if (so.kind === 'servo') {
+    add(at(box(d.corpoC.v, d.corpoA.v, d.corpoL.v, d.corpoC.s), 0, yBola, zCorpo),
+      'Servo de soltura', d.corpoC.s, dimsOf(d.corpoC.v, d.corpoL.v, d.corpoA.v));
+    add(at(box(d.braco.v, d.pinoD.v, d.pinoD.v, EST), d.braco.v / 2, yBola, zCorpo - d.corpoL.v / 2),
+      'Braço do servo', EST, dimsOf(d.braco.v, d.pinoD.v, d.pinoD.v));
+  } else {
+    add(at(cyl(d.motorD.v, d.motorC.v, EST, 'z'), 0, yBola, zCorpo),
+      'Motor DC da came', EST, dimsOf(d.motorD.v, d.motorD.v, d.motorC.v));
+    add(at(cyl(2 * d.cameR.v, d.cameE.v, EST, 'z'), 0, yBola, zCorpo - d.motorC.v / 2 - d.cameE.v / 2),
+      'Came de soltura', EST, dimsOf(2 * d.cameR.v, 2 * d.cameR.v, d.cameE.v));
+  }
+  // pino retratil: fecha a distancia entre o acionador e a bola
+  const pino = at(cyl(d.pinoD.v, d.cursoPino ? d.cursoPino.v + g.folga.v : g.folga.v * 2 + d.pinoD.v, EST, 'z'),
+    0, yBola - D.bolaR / 2, D.bolaR + g.folga.v / 2);
+  add(pino, 'Pino retrátil do berço', EST, dimsOf(d.pinoD.v, d.pinoD.v, d.cursoPino ? d.cursoPino.v : d.pinoD.v));
+  SOL.pino = pino; SOL.pinoZ0 = pino.position.z;
+  SOL.pinoCurso = d.cursoPino ? d.cursoPino.v : d.pinoD.v;
+
+  // barreira optica na boca do lancador: emissor e receptor, mesmo encapsulamento
+  [-1, 1].forEach(sx => add(at(box(e.sensorOptL.v, e.sensorOptA.v, e.sensorOptC.v, EST),
+    sx * (rExt + e.sensorOptL.v / 2), yBola - D.bolaR, 0),
+    'Barreira óptica do lançador', EST, dimsOf(e.sensorOptC.v, e.sensorOptL.v, e.sensorOptA.v)));
+
+  // eletronica embarcada no carro
+  const yPcb = yPlaca - e.placaE.v / 2 - s.pcbE.v / 2;
+  add(at(box(s.pcbC.v, s.pcbE.v, s.pcbL.v, EST), 0, yPcb, zCorpo + corpoC / 2 + s.pcbL.v / 2),
+    'PCB do carro (MOSFET + capacitor)', EST, dimsOf(s.pcbC.v, s.pcbL.v, s.pcbE.v));
+  add(at(cyl(s.capD.v, s.capA.v, EST, 'y'), -s.pcbC.v / 4, yPcb - s.capA.v / 2, zCorpo + corpoC / 2 + s.pcbL.v / 2),
+    'Capacitor 2200 µF', EST, dimsOf(s.capD.v, s.capD.v, s.capA.v));
+  add(at(box(s.mosfetC.v, s.mosfetA.v, s.mosfetL.v, EST), s.pcbC.v / 4, yPcb - s.mosfetA.v / 2,
+    zCorpo + corpoC / 2 + s.pcbL.v / 2), 'MOSFET de potência', EST,
+    dimsOf(s.mosfetC.v, s.mosfetL.v, s.mosfetA.v));
+}
+
+/* ============================================================================
+   BOCA DO BURACO — filha do carro do eixo B
+   ========================================================================== */
+function buildBoca(carro, yPlaca) {
+  const b = GEOM.boca, e = GEOM.eixo, g = GEOM.gabinete, det = CT.geom('deteccao'), dd = det.d;
+  const L = P.num('geo.L'), dep = P.num('geo.depth'), h = D.bocaH;
+  const yTop = e.recuoInf.v, yc = yTop - h / 2;
+  const add = (m, nome, src, dims) => { carro.add(reg(m, nome, 'Buraco', src, dims)); return m; };
+
+  [-1, 1].forEach(sx => add(at(box(b.parede.v, h, dep + 2 * b.parede.v, EST),
+    sx * (L / 2 + b.parede.v / 2), yc, 0), 'Parede lateral da boca', EST,
+    dimsOf(b.parede.v, dep + 2 * b.parede.v, h)));
+  [-1, 1].forEach(sz => add(at(box(L, h, b.parede.v, EST), 0, yc, sz * (dep / 2 + b.parede.v / 2)),
+    'Parede frontal da boca', EST, dimsOf(L, b.parede.v, h)));
+  add(at(box(L + 2 * b.parede.v + 2 * b.flange.v, b.parede.v, dep + 2 * b.parede.v + 2 * b.flange.v, EST),
+    0, yTop + b.parede.v / 2, 0), 'Flange da boca', EST,
+    dimsOf(L + 2 * (b.parede.v + b.flange.v), dep + 2 * (b.parede.v + b.flange.v), b.parede.v));
+  // rampa que joga a bola capturada para tras, na bandeja
+  const rampa = at(box(L, b.parede.v, h * Math.SQRT2, EST), 0, yc - h / 4, -dep / 4);
+  rampa.rotation.x = Math.PI / 4;
+  add(rampa, 'Rampa de saída da boca', EST, dimsOf(L, h * Math.SQRT2, b.parede.v));
+
+  if (det.kind === 'optica') {
+    [-1, 1].forEach(sx => add(at(box(dd.emissorL.v, dd.emissorA.v, dd.emissorC.v, EST),
+      sx * (L / 2 + b.parede.v + dd.emissorL.v / 2), yTop - dd.emissorA.v, 0),
+      'Barreira óptica da boca', EST, dimsOf(dd.emissorC.v, dd.emissorL.v, dd.emissorA.v)));
+  } else if (det.kind === 'indutivo') {
+    add(at(cyl(dd.corpoD.v, dd.corpoC.v, dd.corpoD.s, 'x'), L / 2 + b.parede.v + dd.corpoC.v / 2, yTop - dd.corpoD.v, 0),
+      'Sensor indutivo da boca', dd.corpoD.s, dimsOf(dd.corpoC.v, dd.corpoD.v, dd.corpoD.v));
+  } else {
+    add(at(box(dd.corpoC.v, dd.corpoA.v, dd.corpoL.v, dd.corpoC.s),
+      L / 2 + b.parede.v + dd.corpoC.v / 2, yTop - dd.corpoA.v / 2, 0),
+      'Microswitch da boca', dd.corpoC.s, dimsOf(dd.corpoC.v, dd.corpoL.v, dd.corpoA.v));
+    add(at(box(dd.alavanca.v, GEOM.boca.parede.v, GEOM.boca.parede.v, EST),
+      L / 2 + b.parede.v - dd.alavanca.v / 2 + dd.corpoC.v, yTop - dd.corpoA.v, 0),
+      'Alavanca do microswitch', EST, dimsOf(dd.alavanca.v, b.parede.v, b.parede.v));
+  }
+}
+
+/* ============================================================================
+   CAMINHOS — poligonal com comprimento de arco, usada por magazine, calhas e
+   elevador. A bola anda sobre o caminho; o canal e desenhado sobre ele.
+   ========================================================================== */
+function polyPath(pts) {
+  const acc = [0];
+  for (let i = 0; i < pts.length - 1; i++) acc.push(acc[i] + pts[i].distanceTo(pts[i + 1]));
+  const total = acc[acc.length - 1];
+  return {
+    pts, total, acc,
+    at(s) {
+      s = U.clamp(s, 0, total);
+      let i = 0; while (i < acc.length - 2 && acc[i + 1] < s) i++;
+      const f = (s - acc[i]) / Math.max(1e-9, acc[i + 1] - acc[i]);
+      return pts[i].clone().lerp(pts[i + 1], f);
+    }
+  };
+}
+function segCanal(a, b, larg, alt, src, p) {
+  const grp = new THREE.Group(), len = a.distanceTo(b);
+  const piso = box(len, p, larg + 2 * p, src); piso.position.y = -alt / 2;
+  grp.add(piso);
+  [-1, 1].forEach(sz => { const w = box(len, alt, p, src); w.position.set(0, 0, sz * (larg / 2 + p / 2)); grp.add(w); });
+  grp.position.copy(a).add(b).multiplyScalar(0.5);
+  grp.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), b.clone().sub(a).normalize());
+  return grp;
+}
+function canalSobre(path, larg, alt, src, grupo, nome, sub, parede) {
+  for (let i = 0; i < path.pts.length - 1; i++) {
+    const a = path.pts[i], b = path.pts[i + 1];
+    grupo.add(reg(segCanal(a, b, larg, alt, src, parede), nome, sub, src,
+      dimsOf(a.distanceTo(b), larg + 2 * parede, alt)));
+  }
+}
+
+/* ============================================================================
+   MAGAZINE + ESCAPEMENT
+   ========================================================================== */
+let MAG = null;
+function buildMagazine() {
+  const m = GEOM.magazine, g = GEOM.gabinete, e = GEOM.elevador;
+  const passo = P.num('ball.d') + g.folga.v;                 // passo entre bolas na fila
+  const porPasse = Math.ceil(m.bolas.v / m.passos.v);
+  const passeL = porPasse * passo;
+  const xElev = D.lado / 2 - g.parede.v - e.colunaX.v / 2;   // coluna do elevador, canto +X
+  const xLoad = -D.curso / 2;                                // carro A estaciona aqui para carregar
+  const dh = passeL * Math.tan(m.incl.v * Math.PI / 180);
+  const pts = [
+    new THREE.Vector3(xElev, m.y.v + m.dy.v + dh, m.z.v),
+    new THREE.Vector3(xElev - passeL, m.y.v + m.dy.v, m.z.v),
+    new THREE.Vector3(xElev - passeL, m.y.v + dh, m.z.v),
+    new THREE.Vector3(xElev, m.y.v, m.z.v),
+    new THREE.Vector3(xLoad - D.bolaR - GEOM.calha.folgaLat.v, D.ySoltura + D.bolaR / 2, g.planoTrilhoZ.v)
+  ];
+  const path = polyPath(pts);
+  canalSobre(path, P.num('ball.d') + 2 * GEOM.calha.folgaLat.v, P.num('ball.d'), EST,
+    G.magazine, 'Tubo do magazine', 'Magazine', m.tuboParede.v);
+
+  // escapement: micro-servo + came, na saida do ultimo passe
+  const saida = pts[3];
+  G.magazine.add(reg(at(box(m.servoC.v, m.servoA.v, m.servoL.v, m.servoC.s),
+    saida.x - m.servoC.v, saida.y + m.servoA.v, m.z.v), 'Micro-servo SG90 (escapement)', 'Magazine',
+    m.servoC.s, dimsOf(m.servoC.v, m.servoL.v, m.servoA.v)));
+  const came = at(cyl(2 * m.cameR.v, m.cameE.v, EST, 'z'), saida.x - m.servoC.v, saida.y, m.z.v + m.servoL.v);
+  G.magazine.add(reg(came, 'Came do escapement', 'Magazine', EST, dimsOf(2 * m.cameR.v, 2 * m.cameR.v, m.cameE.v)));
+  G.magazine.add(reg(at(box(m.sensorNivel.v, m.sensorNivel.v, m.sensorNivel.v, EST),
+    pts[0].x - passo, pts[0].y + m.sensorNivel.v, m.z.v), 'Sensor de nível do magazine', 'Magazine',
+    EST, dimsOf(m.sensorNivel.v, m.sensorNivel.v, m.sensorNivel.v)));
+
+  // sSaida = fim do ultimo passe, onde o escapement segura a fila.
+  // O trecho entre sSaida e o fim do caminho e a queda ate o berco.
+  MAG = {
+    path, passo, capacidade: porPasse * m.passos.v, came, xLoad, passeL,
+    sSaida: path.acc[3]
+  };
+  return MAG;
+}
+
+/* ============================================================================
+   ELEVADOR DE ESTEIRA COM TALISCAS
+   ========================================================================== */
+let ELEV = null;
+function buildElevador() {
+  const e = GEOM.elevador, g = GEOM.gabinete;
+  const x = D.lado / 2 - g.parede.v - e.colunaX.v / 2;
+  const z = -(D.lado / 2 - g.parede.v - e.colunaZ.v / 2);
+  const add = (m, nome, src, dims) => { G.elevador.add(reg(m, nome, 'Elevador', src, dims)); return m; };
+
+  [-1, 1].forEach(sz => add(at(box(e.colunaX.v, e.y1.v - e.y0.v, GEOM.calha.parede.v, EST),
+    x, (e.y1.v + e.y0.v) / 2, z + sz * e.colunaZ.v / 2), 'Parede da coluna do elevador', EST,
+    dimsOf(e.colunaX.v, e.y1.v - e.y0.v, GEOM.calha.parede.v)));
+  [e.y0.v, e.y1.v].forEach((y, i) => add(at(cyl(e.poliaD.v, e.esteiraL.v, EST, 'x'), x, y, z),
+    i ? 'Polia superior do elevador' : 'Polia inferior do elevador', EST,
+    dimsOf(e.poliaD.v, e.poliaD.v, e.esteiraL.v)));
+  [-1, 1].forEach(sz => add(at(box(e.esteiraE.v, e.y1.v - e.y0.v, e.esteiraL.v, EST),
+    x, (e.y1.v + e.y0.v) / 2, z + sz * e.poliaD.v / 2), 'Esteira do elevador', EST,
+    dimsOf(e.y1.v - e.y0.v, e.esteiraL.v, e.esteiraE.v)));
+  add(at(cyl(e.motorD.v, e.motorC.v, EST, 'x'), x - e.colunaX.v / 2 - e.motorC.v / 2, e.y0.v, z),
+    'Motor DC 12 V 30 rpm do elevador', EST, dimsOf(e.motorC.v, e.motorD.v, e.motorD.v));
+
+  // caminho fechado da esteira: sobe na frente (+Z), desce atras (-Z)
+  const zf = z + e.poliaD.v / 2, zt = z - e.poliaD.v / 2;
+  const loop = polyPath([
+    new THREE.Vector3(x, e.y0.v, zf), new THREE.Vector3(x, e.y1.v, zf),
+    new THREE.Vector3(x, e.y1.v, zt), new THREE.Vector3(x, e.y0.v, zt),
+    new THREE.Vector3(x, e.y0.v, zf)
+  ]);
+  const vLinear = e.rpm.v / 60 * Math.PI * e.poliaD.v;          // mm/s na superficie da polia
+  const passo = P.num('ball.d') * 2;                            // uma bola a cada 2 diametros
+  const n = Math.max(2, Math.floor(loop.total / passo));
+  const taliscas = [];
+  for (let i = 0; i < n; i++) {
+    const t = box(e.taliscaE.v, e.taliscaL.v, e.esteiraL.v, EST);
+    reg(t, 'Talisca do elevador', 'Elevador', EST, dimsOf(e.taliscaL.v, e.esteiraL.v, e.taliscaE.v));
+    G.elevador.add(t); taliscas.push(t);
+  }
+  ELEV = {
+    loop, v: vLinear, taliscas, n, passo: loop.total / n, x, z, zf,
+    sSubida: loop.acc[1]                       // fim do trecho de subida
+  };
+  return ELEV;
+}
+
+/* ============================================================================
+   CALHAS DE RETORNO — bandeja -> fundo do elevador
+   ========================================================================== */
+let CAL = null;
+function buildCalhas() {
+  const g = GEOM.gabinete, e = GEOM.elevador;
+  const x = D.lado / 2 - g.parede.v - e.colunaX.v / 2;
+  const z = -(D.lado / 2 - g.parede.v - e.colunaZ.v / 2);
+  const pts = [
+    new THREE.Vector3(-D.curso / 2, D.yBandeja1, D.lado / 4),
+    new THREE.Vector3(x, D.yBandeja1 - GEOM.gabinete.parede.v, D.lado / 4),
+    new THREE.Vector3(x, GEOM.elevador.y0.v + GEOM.elevador.poliaD.v, z + GEOM.elevador.poliaD.v)
+  ];
+  const path = polyPath(pts);
+  canalSobre(path, P.num('ball.d') + 2 * GEOM.calha.folgaLat.v, P.num('ball.d'), EST,
+    G.calhas, 'Calha de retorno', 'Retorno de bolas', GEOM.calha.parede.v);
+  CAL = { path, v: GEOM.calha.vBola.v };
+  return CAL;
+}
+
+/* ============================================================================
+   PAINEL DE BOTOES (1050 -> 1100)
+   ========================================================================== */
+function buildBotoes() {
+  const b = GEOM.botoes, g = GEOM.gabinete;
+  const alt = g.campoY0.v - g.painelY0.v, larg = D.interna;
+  const painel = at(box(larg, GEOM.eixo.placaE.v, alt / Math.cos(b.incl.v * Math.PI / 180), EST),
+    0, (g.campoY0.v + g.painelY0.v) / 2, D.lado / 2 - g.parede.v - alt / 2);
+  painel.rotation.x = -b.incl.v * Math.PI / 180;
+  G.botoes.add(reg(painel, 'Painel de botões', 'Botões', EST, dimsOf(larg, alt, GEOM.eixo.placaE.v)));
+
+  // espacamento simetrico: o grande no centro, os pequenos em passo igual
+  const n = b.nPequenos.v, passo = larg / (n + 2);
+  const y = painel.position.y, z = painel.position.z;
+  const bt = (dia, nome, x) => {
+    const m = at(cyl(dia, b.corpoA.v, EST, 'y'), x, y + b.corpoA.v / 2 * Math.cos(b.incl.v * Math.PI / 180), z);
+    m.rotation.x = -b.incl.v * Math.PI / 180;
+    G.botoes.add(reg(m, nome, 'Botões', EST, dimsOf(dia, dia, b.corpoA.v)));
+  };
+  bt(b.dGrande.v, 'Botão arcade Ø60 iluminado (SOLTAR)', 0);
+  for (let i = 0; i < n; i++) {
+    const k = i - (n - 1) / 2;
+    bt(b.dPequeno.v, 'Botão arcade Ø30 iluminado', k * passo + (k >= 0 ? passo / 2 : -passo / 2));
+  }
+}
+
+/* ============================================================================
+   TELAS — LCD do campo (orientacao e parametro) e barra da testeira
+   ========================================================================== */
+let TELA = null;
+function buildTelas(orient) {
+  const t = GEOM.telas, g = GEOM.gabinete;
+  const ret = orient === 'retrato';
+  const mc = ret ? t.campoMoldA.v : t.campoMoldC.v, ma = ret ? t.campoMoldC.v : t.campoMoldA.v;
+  const ac = ret ? t.campoAtivaA.v : t.campoAtivaC.v, aa = ret ? t.campoAtivaC.v : t.campoAtivaA.v;
+  // centrada na zona de queda: entre a boca e o plano de soltura
+  const yc = (D.ySoltura + D.yBoca) / 2;
+  const zFrente = g.planoTrilhoZ.v - t.campoRecuo.v;
+  G.telas.add(reg(at(box(mc, ma, t.campoMoldE.v, CAT), 0, yc, zFrente - t.campoMoldE.v / 2),
+    'LCD 15,6" do campo (moldura)', 'Telas', CAT, dimsOf(mc, ma, t.campoMoldE.v)));
+  G.telas.add(reg(at(new THREE.Mesh(new THREE.PlaneGeometry(ac, aa), matFor(CAT)), 0, yc, zFrente + 0.2),
+    'LCD 15,6" do campo (área ativa)', 'Telas', CAT, dimsOf(ac, aa, 0)));
+  G.telas.add(reg(at(box(mc + 2 * t.acrilicoFolga.v, ma + 2 * t.acrilicoFolga.v, t.acrilicoE.v, EST),
+    0, yc, zFrente + t.acrilicoE.v / 2 + g.folga.v), 'Acrílico de proteção da tela', 'Telas', EST,
+    dimsOf(mc + 2 * t.acrilicoFolga.v, ma + 2 * t.acrilicoFolga.v, t.acrilicoE.v)));
+
+  const yBarra = (D.alturaExt + D.yCampo1) / 2, zBarra = D.lado / 2 - g.parede.v - t.barraMoldE.v / 2;
+  G.telas.add(reg(at(box(t.barraMoldC.v, t.barraMoldA.v, t.barraMoldE.v, EST), 0, yBarra, zBarra),
+    'Barra 12,6" da testeira (moldura)', 'Telas', EST, dimsOf(t.barraMoldC.v, t.barraMoldA.v, t.barraMoldE.v)));
+  G.telas.add(reg(at(new THREE.Mesh(new THREE.PlaneGeometry(t.barraAtivaC.v, t.barraAtivaA.v), matFor(CAT)),
+    0, yBarra, zBarra + t.barraMoldE.v / 2 + 0.2), 'Barra 12,6" da testeira (área ativa)', 'Telas', CAT,
+    dimsOf(t.barraAtivaC.v, t.barraAtivaA.v, 0)));
+  TELA = { orient, mc, ma, yc, zFrente };
+}
+
+/* ============================================================================
+   ELETRONICA — tudo abaixo de 1050, em prateleiras
+   ========================================================================== */
+function buildEletronica() {
+  const el = GEOM.eletronica, g = GEOM.gabinete;
+  const larg = D.interna - el.corredor.v, zc = 0, cx = -el.corredor.v / 2;
+  const add = (m, nome, src, dims) => { G.eletronica.add(reg(m, nome, 'Eletrônica', src, dims)); return m; };
+  const prat = y => add(at(box(larg, el.prateleiraE.v, D.lado - 2 * g.parede.v, EST), cx, y - el.prateleiraE.v / 2, 0),
+    'Prateleira da coluna', EST, dimsOf(larg, D.lado - 2 * g.parede.v, el.prateleiraE.v));
+
+  prat(el.yFonte.v);
+  add(at(box(el.fonteC.v, el.fonteA.v, el.fonteL.v, CAT), cx - larg / 2 + el.fonteC.v / 2 + g.folga.v,
+    el.yFonte.v + el.fonteA.v / 2, zc), 'Fonte Meanwell LRS-150', CAT,
+    dimsOf(el.fonteC.v, el.fonteL.v, el.fonteA.v));
+  add(at(box(el.dinC.v, el.dinA.v, el.dinL.v, EST), cx + larg / 2 - el.dinC.v / 2 - g.folga.v,
+    el.yFonte.v + el.dinA.v / 2, zc), 'Trilho DIN (disjuntor, fusíveis, filtro de linha)', EST,
+    dimsOf(el.dinC.v, el.dinL.v, el.dinA.v));
+
+  prat(el.yLogica.v);
+  add(at(box(el.pcbC.v, el.pcbA.v, el.pcbL.v, EST), cx, el.yLogica.v + el.pcbA.v / 2, zc),
+    'PCB de interface', EST, dimsOf(el.pcbC.v, el.pcbL.v, el.pcbA.v));
+  add(at(box(el.rpiC.v, el.rpiA.v, el.rpiL.v, CAT), cx - el.pcbC.v / 2 - el.rpiC.v / 2 - g.folga.v,
+    el.yLogica.v + el.rpiA.v / 2, zc), 'Raspberry Pi 4', CAT,
+    dimsOf(el.rpiC.v, el.rpiL.v, el.rpiA.v) + ' (furos ' + U.fmt(el.rpiFuroX.v, 0) + ' × ' + U.fmt(el.rpiFuroY.v, 0) + ')');
+  add(at(box(el.picoC.v, el.picoA.v, el.picoL.v, CAT), cx, el.yLogica.v + el.pcbA.v + el.picoA.v / 2,
+    zc - el.pcbL.v / 4), 'Pico RP2040', CAT, dimsOf(el.picoC.v, el.picoL.v, el.picoA.v));
+  [-1, 1].forEach(sx => add(at(box(el.tmcC.v, el.tmcA.v, el.tmcL.v, CAT), cx + sx * el.pcbC.v / 4,
+    el.yLogica.v + el.pcbA.v + el.tmcA.v / 2, zc + el.pcbL.v / 4), 'Driver TMC2209', CAT,
+    dimsOf(el.tmcC.v, el.tmcL.v, el.tmcA.v)));
+
+  prat(el.yPotencia.v);
+  [-1, 1].forEach(sx => add(at(box(el.dcdcC.v, el.dcdcA.v, el.dcdcL.v, EST),
+    cx + sx * (el.dcdcC.v / 2 + g.folga.v), el.yPotencia.v + el.dcdcA.v / 2, zc),
+    'Conversor DC-DC', EST, dimsOf(el.dcdcC.v, el.dcdcL.v, el.dcdcA.v)));
+  add(at(box(el.ampC.v, el.ampA.v, el.ampL.v, EST), cx + larg / 2 - el.ampC.v / 2 - g.folga.v,
+    el.yPotencia.v + el.ampA.v / 2, zc), 'Amplificador classe D', EST,
+    dimsOf(el.ampC.v, el.ampL.v, el.ampA.v));
+  [-1, 1].forEach(sx => add(at(cyl(el.falanteD.v, el.falanteA.v, EST, 'z'),
+    cx + sx * (larg / 2 - el.falanteD.v), el.yFalante.v, D.lado / 2 - g.parede.v - el.falanteA.v / 2),
+    'Falante Ø50', EST, dimsOf(el.falanteD.v, el.falanteD.v, el.falanteA.v)));
+}
+
+/* ============================================================================
+   CHICOTE — so os troncos, sem terminal e sem trilho de cabo
+   ========================================================================== */
+function buildChicote() {
+  const el = GEOM.eletronica, g = GEOM.gabinete;
+  const lim = D.lado / 2 - g.parede.v - el.chicoteD.v;    // limite util para o tronco
+  const cl = p => new THREE.Vector3(U.clamp(p[0], -lim, lim), U.clamp(p[1], el.chicoteD.v, D.alturaExt - el.chicoteD.v), U.clamp(p[2], -lim, lim));
+  const meio = (D.yTrilhoA + el.yLogica.v) / 2;
+  const rotas = [
+    [[0, el.yLogica.v, 0], [lim / 2, meio, -D.lado / 5], [D.xRail, D.yTrilhoA, D.trnZ]],
+    [[0, el.yLogica.v, 0], [-lim / 2, meio, -D.lado / 5], [-D.xRail, D.yTrilhoB, D.trnZ]],
+    [[0, el.yFonte.v, 0], [0, (el.yFonte.v + g.painelY0.v) / 2, D.lado / 5], [0, g.painelY0.v - el.chicoteD.v, D.lado / 5]],
+    [[0, el.yLogica.v, 0], [lim / 2, (D.yCampo1 + el.yLogica.v) / 2, -D.lado / 5], [TELA.mc / 2, TELA.yc, TELA.zFrente]]
+  ];
+  rotas.forEach(r => {
+    const curva = new THREE.CatmullRomCurve3(r.map(cl), false, 'centripetal', 0.2);
+    const m = new THREE.Mesh(new THREE.TubeGeometry(curva, 24, el.chicoteD.v / 2, 8, false), matFor(EST));
+    G.chicote.add(reg(m, 'Tronco de chicote', 'Chicote', EST,
+      dimsOf(el.chicoteD.v, el.chicoteD.v, curva.getLength())));
+  });
+}
+
+/* ============================================================================
+   ENVELOPE 450 x 450 x 1700 E VERIFICACAO DE INVASAO
+   ========================================================================== */
+const matEnv = new THREE.LineBasicMaterial({ color: 0x5a6a72 });
+let envBox = null, OFENSORES = [];
+function buildEnvelope() {
+  const w = D.lado, h = D.alturaExt;
+  const geo = new THREE.BoxGeometry(w, h, w);
+  const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geo), matEnv);
+  wire.position.y = h / 2;
+  G.envelope.add(wire);
+  envBox = new THREE.Box3(new THREE.Vector3(-w / 2, 0, -w / 2), new THREE.Vector3(w / 2, h, w / 2));
+  const lab = new CSS2DObject(rotulo('envelope ' + U.fmt(w, 0) + ' × ' + U.fmt(w, 0) + ' × ' + U.fmt(h, 0) + ' mm'));
+  lab.position.set(0, h + GEOM.vista.cotaSeta.v * 3, 0); G.envelope.add(lab);
+}
+function rotulo(txt) { const d = document.createElement('div'); d.className = 'lbl'; d.textContent = txt; return d; }
+
+const TOL_ENV = 0.5;   // mm: abaixo disto e ruido de montagem, nao invasao
+function checkEnvelope() {
+  const found = {};
+  // a verificacao mede a maquina montada: vista explodida nao conta como invasao
+  const desloc = Object.keys(G).map(k => [G[k], G[k].position.clone()]);
+  desloc.forEach(([g2]) => g2.position.set(0, 0, 0));
+  [-D.curso / 2, D.curso / 2].forEach(x => {
+    setCarros(x, x); root.updateMatrixWorld(true);
+    PARTS.forEach(p => {
+      const b = new THREE.Box3().setFromObject(p.obj);
+      if (!isFinite(b.min.x)) return;
+      const over = Math.max(
+        envBox.min.x - b.min.x, b.max.x - envBox.max.x,
+        envBox.min.y - b.min.y, b.max.y - envBox.max.y,
+        envBox.min.z - b.min.z, b.max.z - envBox.max.z);
+      if (over > TOL_ENV) {
+        const k = p.nome;
+        if (!found[k] || found[k].over < over) found[k] = { p, over };
+      }
+    });
+  });
+  desloc.forEach(([g2, pos]) => g2.position.copy(pos));
+  root.updateMatrixWorld(true);
+  OFENSORES = Object.keys(found).map(k => found[k]).sort((a, b) => b.over - a.over);
+  return OFENSORES;
+}
+
+/* Coerencia dimensional: o que nao e invasao de envelope mas torna a maquina
+   impossivel de montar com os parametros correntes. */
+function checkCoerencia() {
+  const e = GEOM.eixo, g = GEOM.gabinete, av = [];
+  if (Math.abs(D.recuoSupReal - e.recuoSup.v) > TOL_ENV)
+    av.push('geo.sep (' + U.fmt(D.sep, 0) + ' mm) não fecha com geo.h (' + U.fmt(D.h, 0) +
+      ' mm): recuo superior real ' + U.fmt(D.recuoSupReal, 1) + ' mm contra ' + U.fmt(e.recuoSup.v, 0) + ' mm de projeto.');
+  if (D.bracoH <= 0) av.push('Recuo superior insuficiente: o berço não cabe abaixo do carro do eixo A.');
+  if (D.vigaAltSup <= 0) av.push('Banda do eixo superior (' + U.fmt(g.bandaEixoSup.v, 0) +
+    ' mm) não comporta trilho + carro + soltura com geo.sep atual.');
+  if (D.vigaAltInf <= 0) av.push('Banda do eixo inferior (' + U.fmt(g.bandaEixoInf.v, 0) + ' mm) não comporta o conjunto.');
+  if (D.yCampo1 > D.alturaExt) av.push('Campo de jogo ultrapassa a altura externa: reduza geo.h.');
+  if (D.curso + e.carroComp.v > e.trilhoComp.v)
+    av.push('Curso útil ' + U.fmt(D.curso, 0) + ' mm + carro não cabe no trilho de ' + U.fmt(e.trilhoComp.v, 0) + ' mm.');
+  if (D.curso + P.num('geo.L') > D.interna)
+    av.push('Curso útil + largura da boca (' + U.fmt(D.curso + P.num('geo.L'), 0) +
+      ' mm) excede a largura interna útil de ' + U.fmt(D.interna, 0) + ' mm.');
+  if (MAG && MAG.passeL > D.interna)
+    av.push('Passe do magazine (' + U.fmt(MAG.passeL, 0) + ' mm) excede a largura interna útil.');
+  return av;
+}
+
+/* ============================================================================
+   COTAS — linhas com valor em mm, vistas FRONTAL e CORTE_LATERAL
+   ========================================================================== */
+const cotaMat = new THREE.LineBasicMaterial({ color: 0x2ad3d3 });
+let GF = null, GL = null;
+function linha(pts) { return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), cotaMat); }
+function cota(grp, a, b, txt, dir) {
+  const A = new THREE.Vector3().fromArray(a), B = new THREE.Vector3().fromArray(b);
+  const d = new THREE.Vector3().fromArray(dir).normalize().multiplyScalar(GEOM.vista.cotaSeta.v);
+  grp.add(linha([A, B]));
+  grp.add(linha([A.clone().add(d), A.clone().sub(d)]));
+  grp.add(linha([B.clone().add(d), B.clone().sub(d)]));
+  const lab = new CSS2DObject(rotulo(txt || (U.fmt(A.distanceTo(B), 0) + ' mm')));
+  lab.position.copy(A).add(B).multiplyScalar(0.5); grp.add(lab);
+}
+function buildCotas() {
+  const g = GEOM.gabinete, o = GEOM.vista.cotaOffset.v;
+  GF = new THREE.Group(); GL = new THREE.Group();
+  G.cotas.add(GF); G.cotas.add(GL);
+  const zf = D.lado / 2 + o;                       // plano das cotas frontais
+  cota(GF, [-D.lado / 2, -o / 2, zf], [D.lado / 2, -o / 2, zf], null, [0, 1, 0]);
+  cota(GF, [-D.lado / 2 - o / 2, 0, zf], [-D.lado / 2 - o / 2, D.alturaExt, zf], null, [1, 0, 0]);
+  cota(GF, [-D.interna / 2, D.yCampo1 + o / 3, zf], [D.interna / 2, D.yCampo1 + o / 3, zf],
+    'largura interna útil ' + U.fmt(D.interna, 0) + ' mm', [0, 1, 0]);
+  cota(GF, [-D.curso / 2, D.ySoltura + o / 6, zf], [D.curso / 2, D.ySoltura + o / 6, zf],
+    'curso útil ' + U.fmt(D.curso, 0) + ' mm', [0, 1, 0]);
+  cota(GF, [D.lado / 2 + o / 3, D.yBoca, zf], [D.lado / 2 + o / 3, D.ySoltura, zf],
+    'queda ' + U.fmt(D.h, 0) + ' mm', [1, 0, 0]);
+  cota(GF, [-D.lado / 2 - o / 2, D.yTrilhoB, zf], [-D.lado / 2 - o / 2, D.yTrilhoA, zf],
+    'entre trilhos ' + U.fmt(D.sep, 0) + ' mm', [1, 0, 0]);
+  cota(GF, [-D.lado / 2 - o / 5, g.campoY0.v, zf], [-D.lado / 2 - o / 5, D.yCampo1, zf],
+    'campo ' + U.fmt(D.yCampo1 - g.campoY0.v, 0) + ' mm', [1, 0, 0]);
+
+  const xl = -D.lado / 2 - o;                      // plano das cotas laterais
+  cota(GL, [xl, -o / 2, -D.lado / 2], [xl, -o / 2, D.lado / 2], null, [0, 1, 0]);
+  [[0, g.painelY0.v, 'coluna'], [g.painelY0.v, g.campoY0.v, 'painel'],
+   [g.campoY0.v, D.yCampo1, 'campo'], [D.yCampo1, D.alturaExt, 'testeira']]
+    .forEach((f, i) => cota(GL, [xl, f[0], -D.lado / 2 - (i % 2) * o / 3], [xl, f[1], -D.lado / 2 - (i % 2) * o / 3],
+      f[2] + ' ' + U.fmt(f[1] - f[0], 0) + ' mm', [0, 0, 1]));
+  cota(GL, [xl, D.ySoltura, g.planoTrilhoZ.v], [xl, D.ySoltura, TELA.zFrente],
+    'recuo da tela ' + U.fmt(GEOM.telas.campoRecuo.v, 0) + ' mm', [0, 1, 0]);
+  cota(GL, [xl, D.yBoca, -P.num('geo.depth') / 2], [xl, D.yBoca, P.num('geo.depth') / 2],
+    'boca ' + U.fmt(P.num('geo.depth'), 0) + ' mm', [0, 1, 0]);
+}
+
+/* ============================================================================
+   ESTADO — o mundo fisico e o MESMO do simulador: M.buildWorld / M.evalPress.
+   Nada de formula reescrita aqui. Arrasto, latencia de cadeia e jitter entram
+   porque estao no conjunto de parametros, nao porque este arquivo os repete.
+   Nota de projeto: com esta geometria o arrasto vale ~0,4 % do peso da bola
+   (a prova esta na aba Engenharia do simulador); o parametro sim.drag decide.
+   ========================================================================== */
+const SOL = {};
+let W = null, EIXO_A = null, EIXO_B = null;
+let tMaq = 0, TIRO = null, ULTIMO = null, BOLAS = [], rodando = true;
+let orientTela = 'paisagem', explode = 0, mostraCotas = false;
+const rnd = U.rng(P.num('sim.seed'));
+
+function limparGrupo(g) {
+  while (g.children.length) {
+    const c = g.children[0]; g.remove(c);
+    c.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+  }
+}
+function setCarros(xA, xB) {
+  if (EIXO_A) EIXO_A.carro.position.x = xA;
+  if (EIXO_B) EIXO_B.carro.position.x = xB;
+}
+
+function rebuild() {
+  D = derive();
+  W = M.buildWorld();
+  PARTS = [];
+  Object.keys(G).forEach(k => limparGrupo(G[k]));
+  buildGabinete(); buildVidro();
+  EIXO_A = buildEixo('A'); EIXO_B = buildEixo('B');
+  buildTelas(orientTela);
+  buildMagazine(); buildElevador(); buildCalhas();
+  buildBotoes(); buildEletronica(); buildChicote();
+  buildEnvelope(); buildCotas();
+  criarBolas();
+  aplicaToggles(); aplicaExplode();
+  passoBolas(0); moveTaliscas();          // sem isto a verificacao mede a pose zero
+  checkEnvelope();
+  setCarros(0, 0);
+  pintaLegenda(); pintaColisao();
+}
+
+/* ---- bolas em circulacao ---------------------------------------------------
+   Estados: mag (fila do magazine) -> carga -> berco -> voo -> bandeja ->
+   calha -> elev -> mag. So o estado 'voo' usa fisica; o resto e transporte. */
+function criarBolas() {
+  BOLAS.forEach(b => { if (b.mesh.parent) b.mesh.parent.remove(b.mesh); });
+  BOLAS = [];
+  const n = MAG.capacidade;
+  for (let i = 0; i < n; i++) {
+    const mesh = ball(P.num('ball.d'));
+    root.add(mesh);
+    BOLAS.push({ mesh, st: i === 0 ? 'berco' : 'mag', slot: i - 1, s: 0, t0: 0 });
+  }
+  reg(BOLAS[0].mesh, 'Bola acrílica Ø' + U.fmt(P.num('ball.d'), 0), 'Bolas', EST,
+    'Ø' + U.fmt(P.num('ball.d'), 0) + ' mm, ' + U.fmt(P.num('ball.m'), 0) + ' g', n);
+}
+function bolaNoBerco() { return BOLAS.filter(b => b.st === 'berco')[0]; }
+function filaMag() { return BOLAS.filter(b => b.st === 'mag').sort((a, b) => a.slot - b.slot); }
+
+function passoBolas(dt) {
+  const xCarroA = EIXO_A.carro.position.x;
+  const zJogo = GEOM.gabinete.planoTrilhoZ.v;
+  const fila = filaMag();
+  fila.forEach((b, i) => { b.slot = i; });
+
+  BOLAS.forEach(b => {
+    if (b.st === 'mag') {
+      b.mesh.position.copy(MAG.path.at(MAG.sSaida - MAG.passo * (b.slot + 1.5)));
+    } else if (b.st === 'carga') {
+      b.s += GEOM.calha.vBola.v * dt;
+      if (MAG.sSaida + b.s >= MAG.path.total) { b.st = 'berco'; b.s = 0; }
+      else b.mesh.position.copy(MAG.path.at(MAG.sSaida + b.s));
+    } else if (b.st === 'berco') {
+      b.mesh.position.set(xCarroA, D.ySoltura, zJogo);
+    } else if (b.st === 'voo' && TIRO) {
+      const tau = tMaq - TIRO.ev.tRel;
+      if (tau < 0) { b.mesh.position.set(xCarroA, D.ySoltura, zJogo); return; }
+      const pt = TIRO.pos(tau);
+      b.mesh.position.set(TIRO.x0 + pt.x, D.ySoltura - pt.y, zJogo);
+      if (tau >= TIRO.ev.tf) {
+        b.st = 'bandeja'; b.s = 0; b.t0 = tMaq;
+        b.pIni = b.mesh.position.clone();
+        b.pFim = CAL.path.at(0);
+        ULTIMO = TIRO.ev; TIRO = null; pintaHud();
+      }
+    } else if (b.st === 'bandeja') {
+      const T = Math.max(0.2, b.pIni.distanceTo(b.pFim) / GEOM.calha.vBola.v);
+      const f = U.clamp((tMaq - b.t0) / T, 0, 1);
+      b.mesh.position.copy(b.pIni).lerp(b.pFim, f);
+      b.mesh.position.y = U.lerp(b.pIni.y, b.pFim.y, f * f);       // cai, depois rola
+      if (f >= 1) { b.st = 'calha'; b.s = 0; }
+    } else if (b.st === 'calha') {
+      b.s += CAL.v * dt;
+      b.mesh.position.copy(CAL.path.at(b.s));
+      if (b.s >= CAL.path.total) { b.st = 'elev'; b.s = 0; }
+    } else if (b.st === 'elev') {
+      b.s += ELEV.v * dt;
+      const p = ELEV.loop.at(b.s);
+      b.mesh.position.copy(p);
+      b.mesh.position.y += P.num('ball.d') / 2 + GEOM.elevador.taliscaL.v / 2;
+      if (b.s >= ELEV.sSubida) { b.st = 'mag'; b.slot = 1e6; }
+    }
+  });
+
+  // escapement: repoe o berco quando ele esvazia
+  if (!bolaNoBerco() && !BOLAS.some(b => b.st === 'carga')) {
+    const prox = filaMag()[0];
+    if (prox) { prox.st = 'carga'; prox.s = 0; }
+  }
+}
+
+/* ---- soltura --------------------------------------------------------------- */
+function soltar() {
+  if (TIRO || !bolaNoBerco()) return;
+  const jit = P.num('sim.macjit') ? rnd.normal(0, W.sigT) : 0;
+  const ev = M.evalPress(W, tMaq, jit);
+  const f = PH.flight(Object.assign({}, W.flightBase, { vx0: ev.v0 / 1000 }));
+  // integracao ja feita pela engine: aqui so se le a trajetoria, em mm
+  const path = f.path;
+  TIRO = {
+    ev, x0: ev.xRel - D.curso / 2,
+    pos(tau) {
+      let i = 0; while (i < path.length - 2 && path[i + 1][2] < tau) i++;
+      const a = path[i], b = path[i + 1];
+      const fr = U.clamp((tau - a[2]) / Math.max(1e-9, b[2] - a[2]), 0, 1);
+      return { x: 1000 * U.lerp(a[0], b[0], fr), y: 1000 * U.lerp(a[1], b[1], fr) };
+    }
+  };
+  const bola = bolaNoBerco(); bola.st = 'voo';
+  pintaHud();
+}
+
+/* ============================================================================
+   VISTAS, TOGGLES E EXPLODIDA
+   ========================================================================== */
+function distParaEnquadrar(raio) {
+  const fv = camera.fov * Math.PI / 360;
+  const fh = Math.atan(Math.tan(fv) * Math.max(0.4, camera.aspect));
+  return 1.12 * raio / Math.sin(Math.min(fv, fh));
+}
+function camerasPreset() {
+  const meio = D.alturaExt / 2;
+  const R = Math.hypot(D.lado / 2, D.lado / 2, meio);      // esfera do envelope
+  const d = distParaEnquadrar(R);
+  const xE = D.lado / 2 - GEOM.gabinete.parede.v - GEOM.elevador.colunaX.v / 2;
+  const zE = -(D.lado / 2 - GEOM.gabinete.parede.v - GEOM.elevador.colunaZ.v / 2);
+  const yE = (GEOM.elevador.y1.v + GEOM.elevador.y0.v) / 2;
+  const dir = (v, t) => ({ p: [t[0] + v[0] * d, t[1] + v[1] * d, t[2] + v[2] * d], t });
+  const n = (a, b, c) => { const m = Math.hypot(a, b, c); return [a / m, b / m, c / m]; };
+  return {
+    FRONTAL_JOGADOR: dir([0, 0, 1], [0, meio, 0]),
+    ISOMETRICA: dir(n(0.72, 0.48, 0.82), [0, meio, 0]),
+    TOPO: dir([0, 1, 0.001], [0, meio, 0]),
+    CORTE_LATERAL: dir([1, 0, 0], [0, meio, 0]),
+    // segue o carro A: sem isto o detalhe da soltura so mostra o mecanismo
+    // quando o carro passa por acaso na frente da camera
+    DETALHE_SOLTURA: { p: [95, D.ySoltura + 25, 290], t: [0, D.ySoltura - 15, 0], segue: 'A' },
+    DETALHE_ELEVADOR: (() => {
+      const t = [xE, yE, zE], dE = distParaEnquadrar((GEOM.elevador.y1.v - GEOM.elevador.y0.v) * 0.38);
+      const u = n(0.55, 0.18, 0.82);
+      return { p: [t[0] + u[0] * dE, t[1] + u[1] * dE, t[2] + u[2] * dE], t };
+    })()
+  };
+}
+let vistaAtual = 'ISOMETRICA';
+const SEGUE = { on: false, x: 0 };
+function irPara(nome) {
+  const c = camerasPreset()[nome]; if (!c) return;
+  vistaAtual = nome;
+  const dx = c.segue ? (c.segue === 'A' ? EIXO_A : EIXO_B).carro.position.x : 0;
+  SEGUE.on = !!c.segue; SEGUE.x = dx;
+  camera.position.set(c.p[0] + dx, c.p[1], c.p[2]);
+  controls.target.set(c.t[0] + dx, c.t[1], c.t[2]);
+  controls.update();
+  vistaCotas();
+  U.$$('#camBar .btn').forEach(b => b.classList.toggle('on', b.dataset.cam === nome));
+}
+const TOG = { gabinete: false, vidro: true, telas: true, eletronica: true, chicote: false, envelope: true, cotas: false };
+function aplicaToggles() {
+  Object.keys(SUB).forEach(k => {
+    const t = SUB[k].tog, vis = t ? !!TOG[t] : true;
+    G[k].visible = vis;
+    G[k].traverse(o => { if (o.isCSS2DObject) o.visible = vis; });
+  });
+  mostraCotas = !!TOG.cotas;
+  vistaCotas();
+}
+// cota so faz sentido na vista ortogonal a que ela foi desenhada
+function vistaCotas() {
+  const f = mostraCotas && vistaAtual === 'FRONTAL_JOGADOR', l = mostraCotas && vistaAtual === 'CORTE_LATERAL';
+  [[GF, f], [GL, l]].forEach(([g2, v]) => {
+    if (!g2) return;
+    g2.visible = v; g2.traverse(o => { if (o.isCSS2DObject) o.visible = v; });
+  });
+}
+function aplicaExplode() {
+  const k = explode * GEOM.vista.explodeMax.v;
+  Object.keys(G).forEach(n => G[n].position.copy(G[n].userData.dir).multiplyScalar(k));
+}
+
+/* ============================================================================
+   PAINEIS
+   ========================================================================== */
+const el = (h, host) => { const d = document.createElement('div'); d.innerHTML = h; host.appendChild(d.firstElementChild); return host.lastElementChild; };
+function linhaRange(host, rot, min, max, step, val, fmtv, onIn) {
+  const r = el('<div class="row"><label>' + rot + '</label><input type="range"><span class="val"></span></div>', host);
+  const inp = r.querySelector('input'), out = r.querySelector('.val');
+  inp.min = min; inp.max = max; inp.step = step; inp.value = val;
+  const upd = () => { out.textContent = fmtv(+inp.value); };
+  inp.addEventListener('input', () => { upd(); onIn(+inp.value); });
+  upd(); return { inp, out, upd };
+}
+function linhaSelect(host, rot, ops, val, onCh) {
+  const r = el('<div class="row"><label>' + rot + '</label><select></select></div>', host);
+  const sel = r.querySelector('select');
+  ops.forEach(o => { const op = document.createElement('option'); op.value = o.v !== undefined ? o.v : o; op.textContent = o.t !== undefined ? o.t : o; sel.appendChild(op); });
+  sel.value = val;
+  sel.addEventListener('change', () => onCh(sel.value));
+  return sel;
+}
+function linhaCheck(host, rot, val, onCh) {
+  const r = el('<div class="row"><label>' + rot + '</label><input type="checkbox"></div>', host);
+  const c = r.querySelector('input'); c.checked = val;
+  c.addEventListener('change', () => onCh(c.checked));
+  return c;
+}
+
+// velocidade de pico <-> periodo: a conversao vive em physics.js, nunca aqui
+function cfgEixo(id) {
+  return {
+    stroke: P.num(id + '.stroke'), phaseDeg: P.num(id + '.phase'), profile: P.get(id + '.prof'),
+    aPeak: P.num(id + '.aPeak'), jerk: P.num(id + '.jerk'), table: P.customTable()[id]
+  };
+}
+function vPicoDe(id) { return PH.makeAxis(Object.assign(cfgEixo(id), { T: P.num(id + '.T') })).meta.vPeak / 1000; }
+function setVPico(id, vms) {
+  const d = P.def(id + '.T');
+  P.set(id + '.T', U.clamp(PH.periodForPeakSpeed(cfgEixo(id), vms * 1000, d.min, d.max), d.min, d.max));
+}
+
+let refs = {};
+function montaPainel() {
+  const host = document.getElementById('left'); host.innerHTML = '';
+  el('<h4>Parâmetros</h4>', host);
+  const e = GEOM.eixo;
+  ['A', 'B'].forEach(id => {
+    refs['v' + id] = linhaRange(host, 'veloc. ' + id + ' (m/s)', e.vMin.v, e.vMax.v, 0.01, vPicoDe(id),
+      v => U.fmt(v, 2) + ' m/s', v => { setVPico(id, v); depoisDeParam(true); });
+    refs['T' + id] = el('<div class="kv"><span class="u">curso ' + id + ' (ida)</span><b>—</b></div>', host);
+    linhaSelect(host, 'perfil ' + id, P.def(id + '.prof').o, P.get(id + '.prof'),
+      v => { P.set(id + '.prof', v); refs['v' + id].inp.value = vPicoDe(id); refs['v' + id].upd(); depoisDeParam(true); });
+  });
+  const dPh = P.def('B.phase');
+  linhaRange(host, 'defasagem (°)', dPh.min, dPh.max, dPh.step, P.num('B.phase'),
+    v => U.fmt(v, 0) + '°', v => { P.set('B.phase', v); depoisDeParam(true); });
+  const dH = P.def('geo.h');
+  linhaRange(host, 'queda (mm)', 100, 600, dH.step, P.num('geo.h'),
+    v => U.fmt(v, 0) + ' mm', v => {
+      P.set('geo.h', v);
+      if (refs.travaSep.checked) P.set('geo.sep', v + GEOM.eixo.recuoSup.v + GEOM.eixo.recuoInf.v);
+      depoisDeParam(true);
+    });
+  refs.travaSep = linhaCheck(host, 'travar geo.sep', true, () => { });
+  const dJ = P.def('rel.jit');
+  linhaRange(host, 'jitter (ms)', dJ.min, Math.min(dJ.max, 20), dJ.step, P.num('rel.jit'),
+    v => U.fmt(v, 2) + ' ms', v => { P.set('rel.jit', v); depoisDeParam(false); });
+  const dD = P.def('ball.d');
+  linhaRange(host, 'bola Ø (mm)', 20, 60, dD.step, P.num('ball.d'),
+    v => U.fmt(v, 1) + ' mm', v => { P.set('ball.d', v); depoisDeParam(true); });
+  linhaSelect(host, 'tela do campo', ['paisagem', 'retrato'], orientTela,
+    v => { orientTela = v; depoisDeParam(true); });
+
+  el('<h4>Peças</h4>', host);
+  CT.CATALOG.forEach(c => linhaSelect(host, c.label.replace('Mecanismo de ', '').replace(' dos eixos', ''),
+    c.options.map((o, i) => ({ v: i, t: o.name.split(' (')[0] })), CT.selected(c.id),
+    v => { CT.select(c.id, +v); depoisDeParam(true); }));
+
+  el('<h4>Vista</h4>', host);
+  linhaRange(host, 'explodida', 0, 1, 0.01, explode, v => U.fmt(100 * v, 0) + ' %',
+    v => { explode = v; aplicaExplode(); });
+  Object.keys(TOG).forEach(k => linhaCheck(host, k, TOG[k], v => { TOG[k] = v; aplicaToggles(); }));
+}
+function depoisDeParam(geometria) {
+  if (geometria) rebuild(); else W = M.buildWorld();
+  ['A', 'B'].forEach(id => { if (refs['v' + id]) { refs['v' + id].inp.value = vPicoDe(id); refs['v' + id].upd(); } });
+  pintaHud();
+}
+
+/* ============================================================================
+   HUD, LEGENDA, LISTA DE COLISAO
+   ========================================================================== */
+const kv = (k, v) => '<div class="kv"><span class="u">' + k + '</span><b>' + v + '</b></div>';
+function pintaHud() {
+  if (!W) return;
+  const tRel = tMaq + W.latMean;
+  const v0 = W.axA.vel(tRel), tf = W.tFlight(v0), dx = W.dxOf(v0);
+  const xA = W.axA.pos(tMaq) - D.curso / 2, xB = W.axB.pos(tMaq) - D.curso / 2;
+  let h = '<h4>Leitura ao vivo</h4>';
+  h += kv('tempo de voo', U.fmt(1000 * tf, 1) + ' ms');
+  h += kv('avanço horizontal', U.fmt(dx, 1) + ' mm');
+  h += kv('v de soltura', U.fmt(v0 / 1000, 3) + ' m/s');
+  h += kv('carro A (bola)', U.fmt(xA, 1) + ' mm');
+  h += kv('carro B (buraco)', U.fmt(xB, 1) + ' mm');
+  h += kv('Δ carros', U.fmt(xA + dx - xB, 1) + ' mm');
+  h += '<h4>Último lançamento</h4>';
+  if (ULTIMO) {
+    h += kv('erro', '<span style="color:' + (ULTIMO.hit ? 'var(--ok)' : 'var(--err)') + '">' +
+      U.fmt(ULTIMO.delta, 1) + ' mm</span>');
+    h += kv('resultado', ULTIMO.hit ? 'entrou' : 'errou');
+    h += kv('v na soltura', U.fmt(ULTIMO.v0 / 1000, 3) + ' m/s');
+    h += kv('voo', U.fmt(1000 * ULTIMO.tf, 1) + ' ms');
+    h += kv('avanço', U.fmt(ULTIMO.dx, 1) + ' mm');
+  } else h += '<div class="note">clique na cena ou ESPAÇO para soltar · P pausa os eixos</div>';
+  h += '<h4>Máquina</h4>';
+  h += kv('tolerância (' + W.crit + ')', '± ' + U.fmt(W.tol, 1) + ' mm');
+  h += kv('latência da cadeia', U.fmt(1000 * W.latMean, 1) + ' ms');
+  h += kv('σ da máquina', U.fmt(1000 * W.sigT, 2) + ' ms');
+  h += kv('erro da tabela de voo', U.fmt(W.ft.interpErrMm, 3) + ' mm');
+  h += kv('hash dos parâmetros', P.hash());
+  document.getElementById('right').innerHTML = h;
+  ['A', 'B'].forEach(id => {
+    if (!refs['T' + id]) return;
+    const T = P.num(id + '.T');
+    refs['T' + id].innerHTML = '<span class="u">curso ' + id + ' (ida)</span><b>' +
+      U.fmt(T / 2, 2) + ' s · T = ' + U.fmt(T, 2) + ' s</b>';
+  });
+}
+function pintaLegenda() {
+  const nCat = PARTS.filter(p => p.src === CAT).length, nEst = PARTS.length - nCat;
+  document.getElementById('legend').innerHTML =
+    '<h4>Procedência</h4>' +
+    '<div class="kv"><span><span class="sw" style="background:#9aa3ab"></span>CATÁLOGO — dimensão publicada</span><b>' + nCat + '</b></div>' +
+    '<div class="kv"><span><span class="sw" style="background:#2ad3d3"></span>ESTIMADO — dimensão de projeto</span><b>' + nEst + '</b></div>' +
+    '<div class="kv"><span><span class="sw" style="background:#ff3b3b"></span>fora do envelope</span><b>' + OFENSORES.length + '</b></div>';
+}
+function pintaColisao() {
+  const av = checkCoerencia();
+  let h = '<h4>Envelope ' + U.fmt(D.lado, 0) + ' × ' + U.fmt(D.lado, 0) + ' × ' + U.fmt(D.alturaExt, 0) + '</h4>';
+  h += OFENSORES.length
+    ? OFENSORES.map(o => '<div class="errline">' + o.p.nome + ' — ultrapassa ' + U.fmt(o.over, 1) + ' mm</div>').join('')
+    : '<div class="kv"><span class="u">nenhuma peça fora</span><b style="color:var(--ok)">ok</b></div>';
+  if (av.length) h += '<h4>Coerência</h4>' + av.map(a => '<div class="errline">' + a + '</div>').join('');
+  document.getElementById('coll').innerHTML = h;
+}
+
+/* ============================================================================
+   EXPORTACAO
+   ========================================================================== */
+function tabelaPecas() {
+  const agg = {};
+  PARTS.forEach(p => {
+    const k = p.nome + '|' + p.dims + '|' + p.src;
+    if (!agg[k]) agg[k] = { nome: p.nome, sub: p.sub, dims: p.dims, src: p.src, qtd: 0 };
+    agg[k].qtd += p.qtd;
+  });
+  return Object.keys(agg).map(k => agg[k]).sort((a, b) =>
+    a.sub === b.sub ? a.nome.localeCompare(b.nome) : a.sub.localeCompare(b.sub));
+}
+function exportaCSV() {
+  const rows = [['subsistema', 'nome', 'dimensoes', 'procedencia', 'quantidade']];
+  tabelaPecas().forEach(p => rows.push([p.sub, p.nome, p.dims, p.src === CAT ? 'CATALOGO' : 'ESTIMADO', p.qtd]));
+  U.download('picbox-pecas-' + P.hash() + '.csv', U.toCSV(rows), 'text/csv');
+}
+function exportaGLTF() {
+  new GLTFExporter().parse(root, r => {
+    U.download('picbox-modelo3d-' + P.hash() + '.gltf', JSON.stringify(r), 'model/gltf+json');
+  }, e => U.showText('erro no export GLTF', String(e)), { onlyVisible: true });
+}
+
+/* ============================================================================
+   LACO
+   ========================================================================== */
+const relogio = new THREE.Clock();
+let tHud = 0, tPisca = 0, piscaOn = false;
+function giraTransmissao(dt) {
+  [[EIXO_A, 'axA'], [EIXO_B, 'axB']].forEach(([ex, ax]) => {
+    if (!ex || !ex.trn.girantes.length) return;
+    const v = W[ax].vel(tMaq), t = CT.geom('transmissao').d;
+    const r = ex.trn.kind === 'correia' ? t.poliaDp.v / 2
+      : ex.trn.kind === 'fuso' ? t.fusoD.v / 2 : t.pinhaoDp.v / 2;
+    const ang = (v / r) * dt;
+    ex.trn.girantes.forEach(g2 => g2.rotateOnAxis(new THREE.Vector3(0, 1, 0), ang));
+  });
+}
+function moveTaliscas() {
+  if (!ELEV) return;
+  ELEV.taliscas.forEach((t, i) => {
+    const s = U.frac((i * ELEV.passo + ELEV.v * tMaq) / ELEV.loop.total) * ELEV.loop.total;
+    t.position.copy(ELEV.loop.at(s));
+  });
+}
+function piscaOfensores() {
+  if (tMaq - tPisca < 0.4) return;
+  tPisca = tMaq; piscaOn = !piscaOn;
+  OFENSORES.forEach(o => o.p.obj.traverse(m => {
+    if (!m.isMesh) return;
+    if (!m.userData.matBase) m.userData.matBase = m.material;
+    m.material = piscaOn ? matErr : m.userData.matBase;
+  }));
+}
+function laco() {
+  requestAnimationFrame(laco);
+  const dt = Math.min(0.05, relogio.getDelta());
+  if (rodando) tMaq += dt;
+  setCarros(W.axA.pos(tMaq) - D.curso / 2, W.axB.pos(tMaq) - D.curso / 2);
+  if (SEGUE.on) {
+    const dx = EIXO_A.carro.position.x - SEGUE.x;
+    camera.position.x += dx; controls.target.x += dx; SEGUE.x += dx;
+  }
+  passoBolas(dt); giraTransmissao(dt); moveTaliscas(); piscaOfensores();
+  if (SOL.pino) SOL.pino.position.z = SOL.pinoZ0 + (TIRO && tMaq - TIRO.ev.tRel > 0 ? SOL.pinoCurso : 0);
+  controls.update();
+  renderer.render(scene, camera); labelRenderer.render(scene, camera);
+  if (tMaq - tHud > 0.12) { tHud = tMaq; pintaHud(); }
+}
+
+/* ============================================================================
+   ENTRADA E BOOT
+   ========================================================================== */
+function ajusta() {
+  const w = wrap.clientWidth, h = wrap.clientHeight;
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+  renderer.setSize(w, h); labelRenderer.setSize(w, h);
+}
+window.addEventListener('resize', ajusta);
+window.addEventListener('keydown', ev => {
+  const tag = (document.activeElement && document.activeElement.tagName) || '';
+  if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+  if (ev.code === 'Space') { ev.preventDefault(); soltar(); }
+  if (ev.code === 'KeyP') rodando = !rodando;
+});
+let down = null;
+renderer.domElement.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', e => {
+  if (down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 4) soltar();
+  down = null;
+});
+document.getElementById('btnCsv').addEventListener('click', exportaCSV);
+document.getElementById('btnGltf').addEventListener('click', exportaGLTF);
+document.getElementById('btnCloseText').addEventListener('click', () => document.getElementById('textOverlay').classList.remove('open'));
+document.getElementById('btnCopyText').addEventListener('click', () => U.copyText(document.getElementById('textOverlayBody').value));
+
+const camBar = document.getElementById('camBar');
+Object.keys(camerasPreset()).forEach(k => {
+  const b = document.createElement('button');
+  b.className = 'btn sm'; b.dataset.cam = k; b.textContent = k.replace(/_/g, ' ').toLowerCase();
+  b.addEventListener('click', () => irPara(k));
+  camBar.appendChild(b);
+});
+
+document.getElementById('boot').remove();
+rebuild();
+montaPainel();
+irPara('ISOMETRICA');
+ajusta();
+pintaHud();
+laco();
+})();
+</script>
+</body>
+</html>

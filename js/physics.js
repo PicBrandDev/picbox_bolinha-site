@@ -120,6 +120,23 @@
     return { pos: pos, vel: vel, meta: meta, stroke: S, T: T, phaseDeg: cfg.phaseDeg || 0 };
   }
 
+  // Inverso de makeAxis: qual periodo ida-e-volta entrega uma velocidade de pico
+  // pedida, no perfil dado. Existe porque a interface do modelo 3D e em m/s e o
+  // parametro do conjunto e o periodo T: a conversao tem que ter UMA implementacao.
+  // vPeak e monotonicamente decrescente em T em todos os perfis, logo bissecao fecha.
+  function periodForPeakSpeed(cfg, vPeakTarget, Tmin, Tmax) {
+    var lo = Tmin || 0.05, hi = Tmax || 60, i, mid, v;
+    var peak = function (T) { return makeAxis(Object.assign({}, cfg, { T: T })).meta.vPeak; };
+    if (!(vPeakTarget > 0)) return hi;
+    if (peak(lo) < vPeakTarget) return lo;   // pedido acima do que o perfil entrega
+    if (peak(hi) > vPeakTarget) return hi;
+    for (i = 0; i < 60; i++) {
+      mid = 0.5 * (lo + hi); v = peak(mid);
+      if (v > vPeakTarget) lo = mid; else hi = mid;
+    }
+    return 0.5 * (lo + hi);
+  }
+
   // ============================================================
   // 2. VOO DA BOLA
   // ============================================================
@@ -234,7 +251,8 @@
   }
 
   PB.physics = {
-    makeAxis: makeAxis, flight: flight, freeFall: freeFall,
+    makeAxis: makeAxis, periodForPeakSpeed: periodForPeakSpeed,
+    flight: flight, freeFall: freeFall,
     dragProof: dragProof, magnusProof: magnusProof
   };
 })(window.PB);

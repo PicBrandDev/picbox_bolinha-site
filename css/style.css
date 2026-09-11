@@ -41,6 +41,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .tab:hover { color: var(--fg); background: var(--bg3); }
 .tab.on { color: var(--fg); background: var(--bg3); border-color: var(--line); border-bottom-color: var(--bg3); }
+.xlink {
+  color: var(--acc); text-decoration: none; font-size: 12px; white-space: nowrap;
+  padding: 4px 8px; border: 1px solid var(--line2); border-radius: 6px; background: var(--bg3);
+}
+.xlink:hover { color: var(--fg); border-color: var(--acc); }
+
 #topRight { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 
 .badge {
