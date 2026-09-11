@@ -13,14 +13,16 @@
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
   font:13px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
-#top{display:flex;align-items:center;gap:10px;height:46px;padding:0 12px;
+#top{display:flex;align-items:center;gap:10px;height:46px;padding:0 12px;flex-wrap:nowrap;
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
   background:var(--bg2);border-bottom:1px solid var(--line);position:relative;z-index:20}
+#top::-webkit-scrollbar{display:none}
 #brand{font-weight:700;letter-spacing:.14em;font-size:15px}
 #brand span{color:var(--acc)}
 .xlink{color:var(--acc);text-decoration:none;font-size:12px;white-space:nowrap;
   padding:4px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--bg3)}
 .xlink:hover{color:var(--fg);border-color:var(--acc)}
-#camBar{display:flex;gap:2px;flex-wrap:wrap}
+#camBar{display:flex;gap:2px;flex-wrap:nowrap}
 .btn{font:inherit;font-size:12px;color:var(--fg2);background:var(--bg3);
   border:1px solid var(--line2);border-radius:6px;padding:5px 9px;cursor:pointer;white-space:nowrap}
 .btn:hover{color:var(--fg);border-color:var(--acc)}
@@ -58,6 +60,16 @@ h4:not(:first-child){margin-top:12px}
 #textOverlay{position:fixed;inset:6% 8%;background:var(--bg2);border:1px solid var(--line2);
   border-radius:10px;display:none;flex-direction:column;z-index:40;padding:10px}
 #textOverlay.open{display:flex}
+#wrap.sempaineis .panel{display:none}
+@media (max-width:860px){
+  #left,#legend{width:min(46vw,260px)}
+  #right,#coll{width:min(46vw,240px)}
+  .panel{padding:7px 8px;font-size:11.5px}
+  .row label{flex-basis:76px;font-size:10.5px}
+  #left{bottom:10px}
+  #legend{display:none}
+  #left .val{flex-basis:54px}
+}
 #textOverlay header{display:flex;gap:8px;align-items:center;margin-bottom:8px}
 #textOverlayBody{flex:1;width:100%;background:var(--bg);color:var(--fg);border:1px solid var(--line);
   border-radius:6px;font-family:var(--mono);font-size:11.5px;padding:8px;resize:none}
@@ -69,6 +81,7 @@ h4:not(:first-child){margin-top:12px}
   <div id="brand">PIC<span>BOX</span> &nbsp;<span style="font-weight:400;font-size:11px;color:var(--fg2);letter-spacing:0">modelo 3D</span></div>
   <div id="camBar"></div>
   <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
+    <button class="btn" id="btnPaineis" title="esconder os painéis (tecla H)">painéis</button>
     <button class="btn" id="btnGltf">GLTF</button>
     <button class="btn" id="btnCsv">CSV peças</button>
     <a class="xlink" href="index.html">simulador &#8599;</a>
@@ -1529,7 +1542,7 @@ function pintaHud() {
     h += kv('v na soltura', U.fmt(ULTIMO.v0 / 1000, 3) + ' m/s');
     h += kv('voo', U.fmt(1000 * ULTIMO.tf, 1) + ' ms');
     h += kv('avanço', U.fmt(ULTIMO.dx, 1) + ' mm');
-  } else h += '<div class="note">clique na cena ou ESPAÇO para soltar · P pausa os eixos</div>';
+  } else h += '<div class="note">clique na cena ou ESPAÇO para soltar · P pausa os eixos · H esconde os painéis</div>';
   h += '<h4>Máquina</h4>';
   h += kv('tolerância (' + W.crit + ')', '± ' + U.fmt(W.tol, 1) + ' mm');
   h += kv('latência da cadeia', U.fmt(1000 * W.latMean, 1) + ' ms');
@@ -1570,7 +1583,7 @@ function pintaLegenda() {
   h += '<div class="kv"><span><span class="sw" style="background:' + hx(COR.err) + '"></span>fora do envelope</span><b>' + OFENSORES.length + '</b></div>';
   const lg = document.getElementById('legend');
   lg.innerHTML = h;
-  document.getElementById('left').style.bottom = (lg.offsetHeight + 20) + 'px';
+  document.getElementById('left').style.bottom = lg.offsetHeight ? (lg.offsetHeight + 20) + 'px' : '';
 }
 function pintaColisao() {
   const av = checkCoerencia();
@@ -1678,6 +1691,7 @@ window.addEventListener('keydown', ev => {
   if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
   if (ev.code === 'Space') { ev.preventDefault(); soltar(); }
   if (ev.code === 'KeyP') rodando = !rodando;
+  if (ev.code === 'KeyH') wrap.classList.toggle('sempaineis');
 });
 let down = null;
 renderer.domElement.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; });
@@ -1685,6 +1699,7 @@ renderer.domElement.addEventListener('pointerup', e => {
   if (down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 4) soltar();
   down = null;
 });
+document.getElementById('btnPaineis').addEventListener('click', () => wrap.classList.toggle('sempaineis'));
 document.getElementById('btnCsv').addEventListener('click', exportaCSV);
 document.getElementById('btnGltf').addEventListener('click', exportaGLTF);
 document.getElementById('btnCloseText').addEventListener('click', () => document.getElementById('textOverlay').classList.remove('open'));
@@ -1699,6 +1714,9 @@ Object.keys(camerasPreset()).forEach(k => {
 });
 
 document.getElementById('boot').remove();
+// tela estreita: os paineis cobrem a cena, entao a maquina aparece primeiro e os
+// paineis entram pelo botao
+if (window.innerWidth < 860) wrap.classList.add('sempaineis');
 rebuild();
 montaPainel();
 irPara('ISOMETRICA');
