@@ -32,7 +32,8 @@ canvas{display:block}
   border-radius:8px;padding:9px 10px;backdrop-filter:blur(3px)}
 #left{left:10px;top:10px;bottom:124px;width:284px;overflow-y:auto;z-index:10}
 #right{right:10px;top:10px;width:268px;max-height:calc(60% - 20px);overflow-y:auto;z-index:10}
-#legend{left:10px;bottom:10px;width:284px;z-index:11}
+#legend{left:10px;bottom:10px;width:284px;max-height:46%;overflow-y:auto;z-index:11}
+#legend .kv{font-size:11px}
 #coll{right:10px;bottom:10px;width:268px;max-height:36%;overflow-y:auto;z-index:10}
 h4{margin:2px 0 7px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);
   font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px}
@@ -105,11 +106,12 @@ h4:not(:first-child){margin-top:12px}
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/exporters/GLTFExporter.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/renderers/CSS2DRenderer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/math/OBB.js"></script>
 
 <script>
 (function () {
 'use strict';
-if (!window.THREE || !THREE.OrbitControls) {
+if (!window.THREE || !THREE.OrbitControls || !THREE.OBB) {
   document.getElementById('boot').innerHTML =
     'three.js não carregou.<br><span style="font-size:11px">esta página busca a biblioteca em cdn.jsdelivr.net; ' +
     'sem acesso à internet ela não monta. O simulador, esse sim, funciona offline.</span>';
@@ -189,9 +191,13 @@ const GEOM = {
   },
   magazine: {
     bolas:       un(15, EST, 'bolas'),   // capacidade alvo
-    passos:      un(2, EST, 'passes'),   // serpentina: 2 passes cabem na largura util
+    passos:      un(3, EST, 'passes'),   // serpentina. Numero IMPAR de proposito: o
+                                         // magazine entra pelo lado do elevador (+X) e
+                                         // tem que terminar do lado do berco (-X), senao
+                                         // a ultima calha atravessa a maquina inteira
     z:           mm(-100, EST),          // atras do plano dos trilhos, na frente do elevador
-    y:           mm(1500, EST),          // base do primeiro passe
+    y:           mm(1520, EST),          // base do primeiro passe, na altura em que
+                                         // o elevador entrega (GEOM.elevador.y1)
     dy:          mm(42, EST),            // desnivel entre passes
     incl:        un(6, EST, 'graus'),    // inclinacao de escoamento por gravidade
     tuboParede:  mm(2.5, EST),
@@ -258,6 +264,7 @@ const GEOM = {
     corredor:    mm(90, EST),            // faixa livre em +X para a calha de retorno
                                          // descer da bandeja ate o elevador sem
                                          // atravessar as prateleiras
+    corredorCabo: mm(40, EST),           // faixa livre em -X para o chicote subir
     yFonte:      mm(180, EST),
     yLogica:     mm(430, EST),
     yPotencia:   mm(660, EST),
@@ -294,12 +301,20 @@ function derive() {
   d.vigaAltInf = (d.yTrilhoB - e.trilhoAlt.v / 2) - d.yBandeja1;
   d.bracoH   = d.recuoSupReal - e.trilhoAlt.v / 2 - e.carroAlt.v - e.placaE.v;
   d.bocaH    = e.recuoInf.v - e.trilhoAlt.v / 2 - e.carroAlt.v - e.placaE.v;
-  d.trnZ     = -(e.carroLarg.v / 2 + g.folga.v + trnRaio());   // plano da transmissao, atras do carro
+  // plano da transmissao de cada eixo: tem que ficar atras do que o carro carrega,
+  // senao o corpo do motor entra no volume varrido pela peca do carro
+  d.trnZ = id => -(fundoDoCarro(id) + g.folga.v + trnRaio());
   d.xRail    = e.trilhoComp.v / 2;
   return d;
 }
 // meia-altura da transmissao selecionada: a correia, o fuso e a cremalheira
 // ocupam espessuras diferentes atras do carro. Sai do catalogo, nao daqui.
+// quanto o carro avanca para tras do plano do trilho, por eixo
+function fundoDoCarro(id) {
+  const e = GEOM.eixo;
+  if (id === 'B') return P.num('geo.depth') / 2 + GEOM.boca.parede.v + GEOM.boca.flange.v;
+  return e.carroLarg.v / 2;              // no eixo A a soltura fica toda na frente
+}
 function trnRaio() {
   const t = CT.geom('transmissao'), d = t.d;
   if (t.kind === 'correia') return d.poliaFlange.v / 2;
@@ -324,8 +339,74 @@ function matFor(src, opts) {
 }
 const matErr = new THREE.MeshLambertMaterial({ color: COR.err });
 const matEdge = new THREE.LineBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.35 });
-const matVidro = new THREE.MeshLambertMaterial({ color: COR.vidro, transparent: true, opacity: 0.14, side: THREE.DoubleSide });
 // a bola e peca estimada: entra no codigo de cor como qualquer outra
+
+/* ---------------------------------------------------------------------------
+   MODOS DE COR. O modo ENGENHEIRO-PROCEDENCIA e o codigo obrigatorio do projeto
+   (cinza = cota publicada, ciano = cota estimada) e e o padrao. Os outros dois
+   existem para ler a maquina de outro jeito e dizem, na legenda, que o codigo
+   de procedencia esta desligado ali — quem manda na procedencia e o CSV.
+   Cor nao e cota: estas tabelas nao levam flag CATALOGO/ESTIMADO.
+   -------------------------------------------------------------------------- */
+const PALETA_SUB = {
+  'Gabinete': 0x7c8794, 'Eixo A': 0x38bdf8, 'Eixo B': 0xa78bfa, 'Soltura': 0xf472b6,
+  'Buraco': 0xfb923c, 'Magazine': 0xfacc15, 'Elevador': 0x4ade80, 'Retorno de bolas': 0x2dd4bf,
+  'Botões': 0xf87171, 'Telas': 0x94a3b8, 'Eletrônica': 0xc084fc, 'Iluminação': 0xfde68a,
+  'Chicote': 0xfca5a5, 'Bolas': 0xf8fafc
+};
+// material real: [regex no nome da peca, cor, rotulo do material]
+const MAT_REAL = [
+  [/^Bola/, 0xeef6fa, 'bola'],
+  [/^Vidro/, 0x8fb9cc, 'vidro'],
+  [/Acrílico|Tubo do magazine|Calha de retorno/, 0xa9ccd8, 'acrílico'],
+  [/Trilho linear|Carro MGN12H|Viga|Suporte de extremidade|Polia|Fuso|Mancal|Castanha|Cremalheira|Pinhão|Coluna do elevador/, 0xb7bec6, 'alumínio'],
+  [/Motor|Solenoide|Micro-servo|Came|Falante|Amplificador/, 0x2f343a, 'corpo preto'],
+  [/Correia|Esteira|Talisca|Chicote/, 0x1b1e22, 'borracha'],
+  [/PCB|Raspberry|Pico|TMC2209|Encoder|Barreira|Sensor|Microswitch|MOSFET/, 0x176b3f, 'placa'],
+  [/Capacitor/, 0x2f5fa8, 'capacitor'],
+  [/Fonte Meanwell|Trilho DIN|Conversor/, 0xcfd4d9, 'aço'],
+  [/Botão arcade Ø60/, 0xe0372c, 'botão de soltar'],
+  [/Botão arcade Ø30/, 0xe8eef2, 'botão lateral'],
+  [/Fita WS2812B/, 0xfff3cf, 'LED'],
+  [/área ativa/, 0x12303a, 'tela'],
+  [/Lateral|Fundo do gabinete|Teto|Piso|Frente da coluna|Testeira|Divisória|Painel de botões|Prateleira/, 0x262b31, 'gabinete'],
+  [/moldura|Berço|Braço|Placa do carro|Garra|Boca|Flange|Rampa|Pino|Bandeja/, 0x3b4248, 'peça impressa'],
+  [/./, 0x4a5157, 'chapa']
+];
+const TRANSP = { 'Vidro do campo de jogo': 0.14 };
+const TRANSP_APRES = { vidro: /^Vidro/, chapa: /Acrílico|Tubo do magazine|Calha de retorno/ };
+const LUZ_APRES = /área ativa|Fita WS2812B/;   // tela e LED sao fonte, nao superficie
+let modoCor = 'procedencia';
+
+function matDaPeca(part) {
+  let cor, op = TRANSP[part.nome];
+  if (modoCor === 'procedencia') cor = part.src === CAT ? COR.cat : COR.est;
+  else if (modoCor === 'subsistema') cor = PALETA_SUB[part.sub] || COR.est;
+  else {
+    cor = (MAT_REAL.find(r => r[0].test(part.nome)) || [null, COR.cat])[1];
+    if (TRANSP_APRES.vidro.test(part.nome)) op = 0.12;
+    else if (TRANSP_APRES.chapa.test(part.nome)) op = 0.22;
+  }
+  const luz = modoCor === 'apresentacao' && LUZ_APRES.test(part.nome);
+  const k = modoCor + '|' + cor + '|' + (op || 1) + (luz ? '|luz' : '');
+  if (!matCache[k]) {
+    const def = op ? { color: cor, transparent: true, opacity: op, side: THREE.DoubleSide }
+                   : { color: cor, side: THREE.DoubleSide };
+    matCache[k] = luz ? new THREE.MeshBasicMaterial(def) : new THREE.MeshLambertMaterial(def);
+  }
+  return matCache[k];
+}
+function aplicaModo() {
+  PARTS.forEach(p => p.obj.traverse(m => {
+    if (!m.isMesh) return;
+    m.userData.matBase = matDaPeca(p);
+    m.material = m.userData.matBase;
+  }));
+  const mb = matDaPeca({ nome: 'Bola acrílica', sub: 'Bolas', src: EST });
+  BOLAS.forEach(b => { b.mesh.material = mb; b.mesh.userData.matBase = mb; });
+  matEdge.opacity = modoCor === 'apresentacao' ? 0.18 : 0.35;
+  pintaLegenda();
+}
 
 /* ============================================================================
    CENA
@@ -403,6 +484,7 @@ function cyl(dia, len, src, axis, mat, seg) {
   return m;
 }
 function ball(dia) { return new THREE.Mesh(new THREE.SphereGeometry(dia / 2, 22, 16), matFor(EST)); }
+function planoTela(c, a) { return new THREE.Mesh(new THREE.PlaneGeometry(c, a), matFor(CAT)); }
 function at(m, x, y, z) { m.position.set(x || 0, y || 0, z || 0); return m; }
 
 /* ============================================================================
@@ -422,8 +504,9 @@ function buildGabinete() {
     'Frente da coluna', dimsOf(L - 2 * p, g.painelY0.v, p));
   add(at(box(L, p, L, EST), 0, H - p / 2, 0), 'Teto do gabinete', dimsOf(L, p, L));
   // divisoria entre coluna e campo de jogo: fecha o campo por baixo
-  add(at(box(L - 2 * p, p, L - 2 * p, EST), 0, g.campoY0.v - p / 2, 0),
-    'Divisória campo/coluna', dimsOf(L - 2 * p, p, L - 2 * p));
+  const cor = GEOM.eletronica.corredor.v;
+  add(at(box(L - 2 * p - cor, p, L - 2 * p, EST), -cor / 2, g.campoY0.v - p / 2, 0),
+    'Divisória campo/coluna', dimsOf(L - 2 * p - cor, L - 2 * p, p));
   // bandeja de captura + retorno (banda de 50 mm)
   const bl = D.lado - 2 * p;
   G.bandeja.add(reg(at(box(bl, g.parede.v / 2, L / 2, EST), 0, D.yBandeja1 - g.parede.v / 4, L / 8),
@@ -435,7 +518,7 @@ function buildGabinete() {
    ========================================================================== */
 function buildVidro() {
   const g = GEOM.gabinete, p = g.parede.v, alt = D.yCampo1 - g.campoY0.v;
-  const vidro = at(new THREE.Mesh(new THREE.BoxGeometry(D.lado - 2 * p, alt, g.vidroE.v), matVidro),
+  const vidro = at(box(D.lado - 2 * p, alt, g.vidroE.v, EST),
     0, (D.yCampo1 + g.campoY0.v) / 2, D.lado / 2 - p - g.vidroE.v / 2);
   G.vidro.add(reg(vidro, 'Vidro do campo de jogo', 'Gabinete', EST, dimsOf(D.lado - 2 * p, alt, g.vidroE.v)));
 
@@ -492,15 +575,15 @@ function buildEixo(id) {
     0, yPlaca, (payZ - e.carroLarg.v / 2) / 2),
     'Placa do carro montado', EST, dimsOf(e.carroComp.v + 2 * g.folga.v, placaZ, e.placaE.v));
 
-  const trn = buildTransmissao(grp, carro, yRail, sgn, id);
+  const trn = buildTransmissao(grp, carro, yRail, sgn, id, D.trnZ(id));
   if (sup) buildSoltura(carro, yPlaca); else buildBoca(carro, yPlaca);
   return { grp, carro, yRail, trn, sgn };
 }
 
 /* Transmissao: a peca vem do catalogo, logo a malha tambem. */
-function buildTransmissao(grp, carro, yRail, sgn, id) {
+function buildTransmissao(grp, carro, yRail, sgn, id, zT) {
   const e = GEOM.eixo, g = GEOM.gabinete, t = CT.geom('transmissao'), d = t.d;
-  const zT = D.trnZ, mot = CT.geom('motor'), md = mot.d;
+  const mot = CT.geom('motor'), md = mot.d;
   const add = (m, nome, src, dims) => { grp.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
   const addc = (m, nome, src, dims) => { carro.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
   const out = { kind: t.kind, girantes: [] };
@@ -517,7 +600,7 @@ function buildTransmissao(grp, carro, yRail, sgn, id) {
       dimsOf(2 * D.xRail, d.correiaL.v, d.correiaE.v)));
     const garraZ = Math.abs(zT) - e.carroLarg.v / 2;   // do fundo do carro ate a correia
     addc(at(box(e.carroComp.v / 2, d.correiaL.v + 2 * g.folga.v, garraZ, EST),
-      0, sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v / 2), zT / 2 - e.carroLarg.v / 4),
+      0, sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v / 2), (zT - e.carroLarg.v / 2) / 2),
       'Garra de correia do carro', EST, dimsOf(e.carroComp.v / 2, garraZ, d.correiaL.v));
   } else if (t.kind === 'fuso') {
     const f = at(cyl(d.fusoD.v, 2 * D.xRail, CAT, 'x'), 0, yRail, zT);
@@ -575,7 +658,7 @@ function buildSoltura(carro, yPlaca) {
   const arco = s.bercoAbraco.v * Math.PI / 180;
   const berco = new THREE.Mesh(
     new THREE.CylinderGeometry(rExt, rExt, D.bolaR, 28, 1, true, Math.PI / 2 - arco / 2, arco),
-    new THREE.MeshLambertMaterial({ color: COR.est, side: THREE.DoubleSide }));
+    matFor(EST));
   add(at(berco, 0, yBola - D.bolaR / 2, 0), 'Berço da bola', EST,
     dimsOf(2 * rExt, 2 * rExt, D.bolaR));
 
@@ -636,9 +719,12 @@ function buildBoca(carro, yPlaca) {
     0, yTop + b.parede.v / 2, 0), 'Flange da boca', EST,
     dimsOf(L + 2 * (b.parede.v + b.flange.v), dep + 2 * (b.parede.v + b.flange.v), b.parede.v));
   // rampa que joga a bola capturada para tras, na bandeja
-  const rampa = at(box(L, b.parede.v, h * Math.SQRT2, EST), 0, yc - h / 4, -dep / 4);
-  rampa.rotation.x = Math.PI / 4;
-  add(rampa, 'Rampa de saída da boca', EST, dimsOf(L, h * Math.SQRT2, b.parede.v));
+  // a rampa cai de uma parede a outra SEM passar da altura da garganta: com a
+  // diagonal cheia ela sai por baixo e entra na placa do carro
+  const hb = h - b.parede.v, rampaC = Math.hypot(hb, dep);
+  const rampa = at(box(L, b.parede.v, rampaC, EST), 0, yc, 0);
+  rampa.rotation.x = Math.atan2(hb, dep);
+  add(rampa, 'Rampa de saída da boca', EST, dimsOf(L, rampaC, b.parede.v));
 
   if (det.kind === 'optica') {
     [-1, 1].forEach(sx => add(at(box(dd.emissorL.v, dd.emissorA.v, dd.emissorC.v, EST),
@@ -684,8 +770,8 @@ function segCanal(a, b, larg, alt, src, p) {
   grp.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), b.clone().sub(a).normalize());
   return grp;
 }
-function canalSobre(path, larg, alt, src, grupo, nome, sub, parede) {
-  for (let i = 0; i < path.pts.length - 1; i++) {
+function canalSobre(path, larg, alt, src, grupo, nome, sub, parede, vaosFinais) {
+  for (let i = 0; i < path.pts.length - 1 - (vaosFinais || 0); i++) {
     const a = path.pts[i], b = path.pts[i + 1];
     grupo.add(reg(segCanal(a, b, larg, alt, src, parede), nome, sub, src,
       dimsOf(a.distanceTo(b), larg + 2 * parede, alt)));
@@ -697,40 +783,55 @@ function canalSobre(path, larg, alt, src, grupo, nome, sub, parede) {
    ========================================================================== */
 let MAG = null;
 function buildMagazine() {
-  const m = GEOM.magazine, g = GEOM.gabinete, e = GEOM.elevador;
+  const m = GEOM.magazine, g = GEOM.gabinete, e = GEOM.elevador, s2 = GEOM.soltura;
   const passo = P.num('ball.d') + g.folga.v;                 // passo entre bolas na fila
   const porPasse = Math.ceil(m.bolas.v / m.passos.v);
   const passeL = porPasse * passo;
   const xElev = D.lado / 2 - g.parede.v - e.colunaX.v / 2;   // coluna do elevador, canto +X
-  const xLoad = -D.curso / 2;                                // carro A estaciona aqui para carregar
-  const dh = passeL * Math.tan(m.incl.v * Math.PI / 180);
-  const pts = [
-    new THREE.Vector3(xElev, m.y.v + m.dy.v + dh, m.z.v),
-    new THREE.Vector3(xElev - passeL, m.y.v + m.dy.v, m.z.v),
-    new THREE.Vector3(xElev - passeL, m.y.v + dh, m.z.v),
-    new THREE.Vector3(xElev, m.y.v, m.z.v),
-    new THREE.Vector3(xLoad - D.bolaR - GEOM.calha.folgaLat.v, D.ySoltura + D.bolaR / 2, g.planoTrilhoZ.v)
-  ];
+  const dh = passeL * Math.tan(m.incl.v * Math.PI / 180);    // desnivel de escoamento
+  const rBerco = D.bolaR + g.folga.v + s2.bercoParede.v;     // raio externo do berco
+  const xLoad = -D.curso / 2;                                // carro A estaciona aqui
+  // o tubo tem que morrer FORA do volume que o berco varre; o ultimo trecho e vao
+  // livre, a bola atravessa em queda — e por isso nao leva calha desenhada
+  const xFim = xLoad - rBerco - g.folga.v;
+  const zFim = -(rBerco + P.num('ball.d') / 2 + g.folga.v);
+
+  // serpentina de N passes, entrando pelo lado do elevador. N impar termina do
+  // lado do berco, que e o unico jeito da ultima calha nao cruzar a maquina.
+  const pts = [];
+  for (let i = m.passos.v - 1; i >= 0; i--) {
+    const dir = (m.passos.v - 1 - i) % 2 === 0 ? -1 : 1;     // alterna o sentido
+    const xa = dir < 0 ? xElev : xElev - passeL;
+    const y0 = m.y.v + m.dy.v * i;
+    pts.push(new THREE.Vector3(xa, y0 + dh, m.z.v));
+    pts.push(new THREE.Vector3(xa + dir * passeL, y0, m.z.v));
+  }
+  const saida = pts[pts.length - 1];
+  pts.push(new THREE.Vector3(xFim, saida.y, m.z.v));                        // ate a vertical de carga
+  pts.push(new THREE.Vector3(xFim, D.ySoltura + D.bolaR / 2, m.z.v));       // desce fora do curso
+  pts.push(new THREE.Vector3(xFim, D.ySoltura + D.bolaR / 2, zFim));        // avanca e para antes do berco
+  pts.push(new THREE.Vector3(xLoad, D.ySoltura, g.planoTrilhoZ.v));         // vao livre ate o berco
+
   const path = polyPath(pts);
   canalSobre(path, P.num('ball.d') + 2 * GEOM.calha.folgaLat.v, P.num('ball.d'), EST,
-    G.magazine, 'Tubo do magazine', 'Magazine', m.tuboParede.v);
+    G.magazine, 'Tubo do magazine', 'Magazine', m.tuboParede.v, 1);
 
   // escapement: micro-servo + came, na saida do ultimo passe
-  const saida = pts[3];
   G.magazine.add(reg(at(box(m.servoC.v, m.servoA.v, m.servoL.v, m.servoC.s),
-    saida.x - m.servoC.v, saida.y + m.servoA.v, m.z.v), 'Micro-servo SG90 (escapement)', 'Magazine',
+    saida.x + m.servoC.v, saida.y + m.servoA.v, m.z.v), 'Micro-servo SG90 (escapement)', 'Magazine',
     m.servoC.s, dimsOf(m.servoC.v, m.servoL.v, m.servoA.v)));
-  const came = at(cyl(2 * m.cameR.v, m.cameE.v, EST, 'z'), saida.x - m.servoC.v, saida.y, m.z.v + m.servoL.v);
+  const came = at(cyl(2 * m.cameR.v, m.cameE.v, EST, 'z'), saida.x + m.servoC.v, saida.y,
+    m.z.v + m.servoL.v);
   G.magazine.add(reg(came, 'Came do escapement', 'Magazine', EST, dimsOf(2 * m.cameR.v, 2 * m.cameR.v, m.cameE.v)));
   G.magazine.add(reg(at(box(m.sensorNivel.v, m.sensorNivel.v, m.sensorNivel.v, EST),
     pts[0].x - passo, pts[0].y + m.sensorNivel.v, m.z.v), 'Sensor de nível do magazine', 'Magazine',
     EST, dimsOf(m.sensorNivel.v, m.sensorNivel.v, m.sensorNivel.v)));
 
   // sSaida = fim do ultimo passe, onde o escapement segura a fila.
-  // O trecho entre sSaida e o fim do caminho e a queda ate o berco.
+  // Dali ate o fim do caminho e o trajeto de carga do berco.
   MAG = {
     path, passo, capacidade: porPasse * m.passos.v, came, xLoad, passeL,
-    sSaida: path.acc[3]
+    sSaida: path.acc[2 * m.passos.v - 1]
   };
   return MAG;
 }
@@ -745,17 +846,23 @@ function buildElevador() {
   const z = -(D.lado / 2 - g.parede.v - e.colunaZ.v / 2);
   const add = (m, nome, src, dims) => { G.elevador.add(reg(m, nome, 'Elevador', src, dims)); return m; };
 
-  [-1, 1].forEach(sz => add(at(box(e.colunaX.v, e.y1.v - e.y0.v, GEOM.calha.parede.v, EST),
-    x, (e.y1.v + e.y0.v) / 2, z + sz * e.colunaZ.v / 2), 'Parede da coluna do elevador', EST,
-    dimsOf(e.colunaX.v, e.y1.v - e.y0.v, GEOM.calha.parede.v)));
+  // as paredes ficam DENTRO dos 70 mm declarados da coluna, senao a de tras
+  // penetra o fundo do gabinete
+  const pw = GEOM.calha.parede.v;
+  [-1, 1].forEach(sz => add(at(box(e.colunaX.v, e.y1.v - e.y0.v, pw, EST),
+    x, (e.y1.v + e.y0.v) / 2, z + sz * (e.colunaZ.v - pw) / 2), 'Parede da coluna do elevador', EST,
+    dimsOf(e.colunaX.v, e.y1.v - e.y0.v, pw)));
   [e.y0.v, e.y1.v].forEach((y, i) => add(at(cyl(e.poliaD.v, e.esteiraL.v, EST, 'x'), x, y, z),
     i ? 'Polia superior do elevador' : 'Polia inferior do elevador', EST,
     dimsOf(e.poliaD.v, e.poliaD.v, e.esteiraL.v)));
-  [-1, 1].forEach(sz => add(at(box(e.esteiraE.v, e.y1.v - e.y0.v, e.esteiraL.v, EST),
+  // a esteira e larga em X (a largura da polia) e fina em Z: invertido, ela varria
+  // meia coluna e batia no fundo do gabinete
+  [-1, 1].forEach(sz => add(at(box(e.esteiraL.v, e.y1.v - e.y0.v, e.esteiraE.v, EST),
     x, (e.y1.v + e.y0.v) / 2, z + sz * e.poliaD.v / 2), 'Esteira do elevador', EST,
-    dimsOf(e.y1.v - e.y0.v, e.esteiraL.v, e.esteiraE.v)));
-  add(at(cyl(e.motorD.v, e.motorC.v, EST, 'x'), x - e.colunaX.v / 2 - e.motorC.v / 2, e.y0.v, z),
-    'Motor DC 12 V 30 rpm do elevador', EST, dimsOf(e.motorC.v, e.motorD.v, e.motorD.v));
+    dimsOf(e.esteiraL.v, e.y1.v - e.y0.v, e.esteiraE.v)));
+  // motor na face da frente da coluna: no lado -X ele bate na prateleira da fonte
+  add(at(cyl(e.motorD.v, e.motorC.v, EST, 'z'), x, e.y0.v, z + e.colunaZ.v / 2 + e.motorC.v / 2),
+    'Motor DC 12 V 30 rpm do elevador', EST, dimsOf(e.motorD.v, e.motorD.v, e.motorC.v));
 
   // caminho fechado da esteira: sobe na frente (+Z), desce atras (-Z)
   const zf = z + e.poliaD.v / 2, zt = z - e.poliaD.v / 2;
@@ -769,8 +876,8 @@ function buildElevador() {
   const n = Math.max(2, Math.floor(loop.total / passo));
   const taliscas = [];
   for (let i = 0; i < n; i++) {
-    const t = box(e.taliscaE.v, e.taliscaL.v, e.esteiraL.v, EST);
-    reg(t, 'Talisca do elevador', 'Elevador', EST, dimsOf(e.taliscaL.v, e.esteiraL.v, e.taliscaE.v));
+    const t = box(e.esteiraL.v, e.taliscaL.v, e.taliscaE.v, EST);
+    reg(t, 'Talisca do elevador', 'Elevador', EST, dimsOf(e.esteiraL.v, e.taliscaL.v, e.taliscaE.v));
     G.elevador.add(t); taliscas.push(t);
   }
   ELEV = {
@@ -791,11 +898,13 @@ function buildCalhas() {
   const pts = [
     new THREE.Vector3(-D.curso / 2, D.yBandeja1, D.lado / 4),
     new THREE.Vector3(x, D.yBandeja1 - GEOM.gabinete.parede.v, D.lado / 4),
-    new THREE.Vector3(x, GEOM.elevador.y0.v + GEOM.elevador.poliaD.v, z + GEOM.elevador.poliaD.v)
+    // para na frente da coluna: quem entra no elevador e a bola, nao a calha
+    new THREE.Vector3(x, GEOM.elevador.y0.v + GEOM.elevador.poliaD.v,
+      z + GEOM.elevador.colunaZ.v / 2 + P.num('ball.d'))
   ];
   const path = polyPath(pts);
   canalSobre(path, P.num('ball.d') + 2 * GEOM.calha.folgaLat.v, P.num('ball.d'), EST,
-    G.calhas, 'Calha de retorno', 'Retorno de bolas', GEOM.calha.parede.v);
+    G.calhas, 'Calha de retorno', 'Retorno de bolas', GEOM.calha.parede.v, 0);
   CAL = { path, v: GEOM.calha.vBola.v };
   return CAL;
 }
@@ -806,16 +915,23 @@ function buildCalhas() {
 function buildBotoes() {
   const b = GEOM.botoes, g = GEOM.gabinete;
   const alt = g.campoY0.v - g.painelY0.v, larg = D.interna;
-  const painel = at(box(larg, GEOM.eixo.placaE.v, alt / Math.cos(b.incl.v * Math.PI / 180), EST),
-    0, (g.campoY0.v + g.painelY0.v) / 2, D.lado / 2 - g.parede.v - alt / 2);
+  // recuo do painel: sai da meia-diagonal do maior botao inclinado, para o corpo
+  // dele nao encostar na frente da coluna
+  const ri = b.incl.v * Math.PI / 180;
+  const meiaZ = b.dGrande.v / 2 * Math.cos(ri) + b.corpoA.v / 2 * Math.sin(ri);
+  const painel = at(box(larg, GEOM.eixo.placaE.v, alt / Math.cos(ri), EST),
+    0, (g.campoY0.v + g.painelY0.v) / 2, D.lado / 2 - g.parede.v - meiaZ - g.folga.v);
   painel.rotation.x = -b.incl.v * Math.PI / 180;
   G.botoes.add(reg(painel, 'Painel de botões', 'Botões', EST, dimsOf(larg, alt, GEOM.eixo.placaE.v)));
 
   // espacamento simetrico: o grande no centro, os pequenos em passo igual
   const n = b.nPequenos.v, passo = larg / (n + 2);
   const y = painel.position.y, z = painel.position.z;
+  // o corpo do botao fica ABAIXO do painel, dentro da coluna: para cima so vai o
+  // cabecote. Com o corpo para cima ele atravessa a divisoria e o vidro do campo.
+  const cosI = Math.cos(b.incl.v * Math.PI / 180);
   const bt = (dia, nome, x) => {
-    const m = at(cyl(dia, b.corpoA.v, EST, 'y'), x, y + b.corpoA.v / 2 * Math.cos(b.incl.v * Math.PI / 180), z);
+    const m = at(cyl(dia, b.corpoA.v, EST, 'y'), x, y - b.corpoA.v / 2 * cosI, z);
     m.rotation.x = -b.incl.v * Math.PI / 180;
     G.botoes.add(reg(m, nome, 'Botões', EST, dimsOf(dia, dia, b.corpoA.v)));
   };
@@ -835,12 +951,15 @@ function buildTelas(orient) {
   const ret = orient === 'retrato';
   const mc = ret ? t.campoMoldA.v : t.campoMoldC.v, ma = ret ? t.campoMoldC.v : t.campoMoldA.v;
   const ac = ret ? t.campoAtivaA.v : t.campoAtivaC.v, aa = ret ? t.campoAtivaC.v : t.campoAtivaA.v;
-  // centrada na zona de queda: entre a boca e o plano de soltura
-  const yc = (D.ySoltura + D.yBoca) / 2;
+  // centrada na zona de queda, mas presa dentro do campo: o acrilico e maior que a
+  // moldura e, solto, desce abaixo do plano da boca e bate no bocal do buraco
+  const meia = ma / 2 + t.acrilicoFolga.v + g.folga.v;
+  const yc = U.clamp((D.ySoltura + D.yBoca) / 2,
+    D.yBoca + GEOM.boca.parede.v + meia, D.yCampo1 - meia);
   const zFrente = g.planoTrilhoZ.v - t.campoRecuo.v;
   G.telas.add(reg(at(box(mc, ma, t.campoMoldE.v, CAT), 0, yc, zFrente - t.campoMoldE.v / 2),
     'LCD 15,6" do campo (moldura)', 'Telas', CAT, dimsOf(mc, ma, t.campoMoldE.v)));
-  G.telas.add(reg(at(new THREE.Mesh(new THREE.PlaneGeometry(ac, aa), matFor(CAT)), 0, yc, zFrente + 0.2),
+  G.telas.add(reg(at(planoTela(ac, aa), 0, yc, zFrente + 0.2),
     'LCD 15,6" do campo (área ativa)', 'Telas', CAT, dimsOf(ac, aa, 0)));
   G.telas.add(reg(at(box(mc + 2 * t.acrilicoFolga.v, ma + 2 * t.acrilicoFolga.v, t.acrilicoE.v, EST),
     0, yc, zFrente + t.acrilicoE.v / 2 + g.folga.v), 'Acrílico de proteção da tela', 'Telas', EST,
@@ -849,7 +968,7 @@ function buildTelas(orient) {
   const yBarra = (D.alturaExt + D.yCampo1) / 2, zBarra = D.lado / 2 - g.parede.v - t.barraMoldE.v / 2;
   G.telas.add(reg(at(box(t.barraMoldC.v, t.barraMoldA.v, t.barraMoldE.v, EST), 0, yBarra, zBarra),
     'Barra 12,6" da testeira (moldura)', 'Telas', EST, dimsOf(t.barraMoldC.v, t.barraMoldA.v, t.barraMoldE.v)));
-  G.telas.add(reg(at(new THREE.Mesh(new THREE.PlaneGeometry(t.barraAtivaC.v, t.barraAtivaA.v), matFor(CAT)),
+  G.telas.add(reg(at(planoTela(t.barraAtivaC.v, t.barraAtivaA.v),
     0, yBarra, zBarra + t.barraMoldE.v / 2 + 0.2), 'Barra 12,6" da testeira (área ativa)', 'Telas', CAT,
     dimsOf(t.barraAtivaC.v, t.barraAtivaA.v, 0)));
   TELA = { orient, mc, ma, yc, zFrente };
@@ -860,7 +979,8 @@ function buildTelas(orient) {
    ========================================================================== */
 function buildEletronica() {
   const el = GEOM.eletronica, g = GEOM.gabinete;
-  const larg = D.interna - el.corredor.v, zc = 0, cx = -el.corredor.v / 2;
+  const larg = D.interna - el.corredor.v - el.corredorCabo.v, zc = 0;
+  const cx = (el.corredorCabo.v - el.corredor.v) / 2;
   const add = (m, nome, src, dims) => { G.eletronica.add(reg(m, nome, 'Eletrônica', src, dims)); return m; };
   const prat = y => add(at(box(larg, el.prateleiraE.v, D.lado - 2 * g.parede.v, EST), cx, y - el.prateleiraE.v / 2, 0),
     'Prateleira da coluna', EST, dimsOf(larg, D.lado - 2 * g.parede.v, el.prateleiraE.v));
@@ -904,15 +1024,19 @@ function buildChicote() {
   const el = GEOM.eletronica, g = GEOM.gabinete;
   const lim = D.lado / 2 - g.parede.v - el.chicoteD.v;    // limite util para o tronco
   const cl = p => new THREE.Vector3(U.clamp(p[0], -lim, lim), U.clamp(p[1], el.chicoteD.v, D.alturaExt - el.chicoteD.v), U.clamp(p[2], -lim, lim));
-  const meio = (D.yTrilhoA + el.yLogica.v) / 2;
+  // sobe pelo corredor de cabo (-X), colado na parede de tras, e so depois cruza
+  const xc = -(D.interna / 2 - el.corredorCabo.v / 2);
+  const zc2 = -(D.lado / 2 - g.parede.v - el.chicoteD.v);
   const rotas = [
-    [[0, el.yLogica.v, 0], [lim / 2, meio, -D.lado / 5], [D.xRail, D.yTrilhoA, D.trnZ]],
-    [[0, el.yLogica.v, 0], [-lim / 2, meio, -D.lado / 5], [-D.xRail, D.yTrilhoB, D.trnZ]],
-    [[0, el.yFonte.v, 0], [0, (el.yFonte.v + g.painelY0.v) / 2, D.lado / 5], [0, g.painelY0.v - el.chicoteD.v, D.lado / 5]],
-    [[0, el.yLogica.v, 0], [lim / 2, (D.yCampo1 + el.yLogica.v) / 2, -D.lado / 5], [TELA.mc / 2, TELA.yc, TELA.zFrente]]
+    [[xc, el.yLogica.v, 0], [xc, D.yTrilhoA, zc2], [D.xRail, D.yTrilhoA, D.trnZ('A')]],
+    [[xc, el.yLogica.v, 0], [xc, D.yTrilhoB, zc2], [-D.xRail, D.yTrilhoB, D.trnZ('B')]],
+    [[xc, el.yFonte.v, 0], [xc, (el.yFonte.v + g.painelY0.v) / 2, D.lado / 5], [0, g.painelY0.v - el.chicoteD.v, D.lado / 5]],
+    [[xc, el.yLogica.v, 0], [xc, TELA.yc, zc2], [-TELA.mc / 2, TELA.yc, TELA.zFrente]]
   ];
   rotas.forEach(r => {
-    const curva = new THREE.CatmullRomCurve3(r.map(cl), false, 'centripetal', 0.2);
+    // tensao zero = poligonal: a curva nao passa por fora dos pontos, e o tronco
+    // fica dentro do envelope sem depender de sorte
+    const curva = new THREE.CatmullRomCurve3(r.map(cl), false, 'catmullrom', 0);
     const m = new THREE.Mesh(new THREE.TubeGeometry(curva, 24, el.chicoteD.v / 2, 8, false), matFor(EST));
     G.chicote.add(reg(m, 'Tronco de chicote', 'Chicote', EST,
       dimsOf(el.chicoteD.v, el.chicoteD.v, curva.getLength())));
@@ -923,7 +1047,7 @@ function buildChicote() {
    ENVELOPE 450 x 450 x 1700 E VERIFICACAO DE INVASAO
    ========================================================================== */
 const matEnv = new THREE.LineBasicMaterial({ color: 0x5a6a72 });
-let envBox = null, OFENSORES = [];
+let envBox = null, OFENSORES = [], CHOQUES = [];
 function buildEnvelope() {
   const w = D.lado, h = D.alturaExt;
   const geo = new THREE.BoxGeometry(w, h, w);
@@ -961,6 +1085,62 @@ function checkEnvelope() {
   root.updateMatrixWorld(true);
   OFENSORES = Object.keys(found).map(k => found[k]).sort((a, b) => b.over - a.over);
   return OFENSORES;
+}
+
+/* Interferencia peca-a-peca: duas pecas de subsistemas diferentes ocupando o
+   mesmo volume. Encostar nao conta — so penetracao acima da tolerancia nos TRES
+   eixos ao mesmo tempo, que e o que caracteriza volume comum. Peca do mesmo
+   subsistema nao entra: ali o contato e de projeto (carro no trilho, componente
+   na placa). Avaliado com os carros nos dois extremos do curso, como o envelope. */
+const TOL_CHOQUE = 1.0;   // mm de penetracao a partir do qual e furo, nao encosto
+// Dois subsistemas ficam fora da conta, e por motivo, nao por conveniencia:
+// a bola tem que estar dentro de alguma guia o tempo todo — e o trabalho dela;
+// o chicote e flexivel, a rota e indicativa e passa por onde o projeto abrir furo.
+const SEM_CHOQUE = { 'Bolas': 1, 'Chicote': 1 };
+
+// Caixa alinhada ao MUNDO nao serve aqui: calha, tubo e chicote sao diagonais, e a
+// caixa de um diagonal longo cobre meia maquina. Cada malha vira uma caixa orientada
+// (OBB) no seu proprio referencial; encolher a meia-dimensao em TOL/2 de cada lado
+// transforma "intersecta" em "penetra mais de TOL".
+function obbsDe(part) {
+  const out = [];
+  part.obj.traverse(m => {
+    if (!m.isMesh) return;
+    if (!m.geometry.boundingBox) m.geometry.computeBoundingBox();
+    const bb = m.geometry.boundingBox;
+    const meia = bb.getSize(new THREE.Vector3()).multiplyScalar(0.5).addScalar(-TOL_CHOQUE / 2);
+    meia.set(Math.max(meia.x, 0.01), Math.max(meia.y, 0.01), Math.max(meia.z, 0.01));
+    out.push(new THREE.OBB(bb.getCenter(new THREE.Vector3()), meia).applyMatrix4(m.matrixWorld));
+  });
+  return out;
+}
+function checkInterferencia() {
+  const desloc = Object.keys(G).map(k => [G[k], G[k].position.clone()]);
+  desloc.forEach(([g2]) => g2.position.set(0, 0, 0));
+  const achados = {};
+  [-D.curso / 2, D.curso / 2].forEach(x => {
+    setCarros(x, x); root.updateMatrixWorld(true);
+    const cx = PARTS.map(p => ({ p, b: new THREE.Box3().setFromObject(p.obj), obbs: null }))
+      .filter(o => isFinite(o.b.min.x));
+    for (let i = 0; i < cx.length; i++) {
+      for (let j = i + 1; j < cx.length; j++) {
+        const A = cx[i], B = cx[j];
+        if (A.p.sub === B.p.sub) continue;
+        if (SEM_CHOQUE[A.p.sub] || SEM_CHOQUE[B.p.sub]) continue;
+        if (!A.b.intersectsBox(B.b)) continue;          // filtro barato antes do SAT
+        if (!A.obbs) A.obbs = obbsDe(A.p);
+        if (!B.obbs) B.obbs = obbsDe(B.p);
+        const bate = A.obbs.some(oa => B.obbs.some(ob => oa.intersectsOBB(ob)));
+        if (!bate) continue;
+        const k = [A.p.nome, B.p.nome].sort().join(' × ');
+        achados[k] = { k, a: A.p, b: B.p };
+      }
+    }
+  });
+  desloc.forEach(([g2, pos]) => g2.position.copy(pos));
+  root.updateMatrixWorld(true);
+  CHOQUES = Object.keys(achados).map(k => achados[k]).sort((a, b) => a.k.localeCompare(b.k));
+  return CHOQUES;
 }
 
 /* Coerencia dimensional: o que nao e invasao de envelope mas torna a maquina
@@ -1068,9 +1248,9 @@ function rebuild() {
   criarBolas();
   aplicaToggles(); aplicaExplode();
   passoBolas(0); moveTaliscas();          // sem isto a verificacao mede a pose zero
-  checkEnvelope();
+  checkEnvelope(); checkInterferencia();
   setCarros(0, 0);
-  pintaLegenda(); pintaColisao();
+  aplicaModo(); pintaColisao();
 }
 
 /* ---- bolas em circulacao ---------------------------------------------------
@@ -1310,6 +1490,11 @@ function montaPainel() {
     v => { CT.select(c.id, +v); depoisDeParam(true); }));
 
   el('<h4>Vista</h4>', host);
+  linhaSelect(host, 'modo de cor', [
+    { v: 'procedencia', t: 'engenheiro — procedência' },
+    { v: 'subsistema', t: 'engenheiro — subsistema' },
+    { v: 'apresentacao', t: 'apresentação — material' }
+  ], modoCor, v => { modoCor = v; aplicaModo(); });
   linhaRange(host, 'explodida', 0, 1, 0.01, explode, v => U.fmt(100 * v, 0) + ' %',
     v => { explode = v; aplicaExplode(); });
   Object.keys(TOG).forEach(k => linhaCheck(host, k, TOG[k], v => { TOG[k] = v; aplicaToggles(); }));
@@ -1359,13 +1544,33 @@ function pintaHud() {
       U.fmt(T / 2, 2) + ' s · T = ' + U.fmt(T, 2) + ' s</b>';
   });
 }
+const hx = c => '#' + ('000000' + c.toString(16)).slice(-6);
 function pintaLegenda() {
   const nCat = PARTS.filter(p => p.src === CAT).length, nEst = PARTS.length - nCat;
-  document.getElementById('legend').innerHTML =
-    '<h4>Procedência</h4>' +
-    '<div class="kv"><span><span class="sw" style="background:#9aa3ab"></span>CATÁLOGO — dimensão publicada</span><b>' + nCat + '</b></div>' +
-    '<div class="kv"><span><span class="sw" style="background:#2ad3d3"></span>ESTIMADO — dimensão de projeto</span><b>' + nEst + '</b></div>' +
-    '<div class="kv"><span><span class="sw" style="background:#ff3b3b"></span>fora do envelope</span><b>' + OFENSORES.length + '</b></div>';
+  let h = '';
+  if (modoCor === 'procedencia') {
+    h = '<h4>Procedência</h4>' +
+      '<div class="kv"><span><span class="sw" style="background:' + hx(COR.cat) + '"></span>CATÁLOGO — dimensão publicada</span><b>' + nCat + '</b></div>' +
+      '<div class="kv"><span><span class="sw" style="background:' + hx(COR.est) + '"></span>ESTIMADO — dimensão de projeto</span><b>' + nEst + '</b></div>';
+  } else if (modoCor === 'subsistema') {
+    const cont = {};
+    PARTS.forEach(p => { cont[p.sub] = (cont[p.sub] || 0) + p.qtd; });
+    h = '<h4>Subsistema</h4><div style="columns:2;column-gap:12px">' +
+      Object.keys(cont).sort().map(k => '<div class="kv" style="break-inside:avoid"><span><span class="sw" style="background:' +
+        hx(PALETA_SUB[k] || COR.est) + '"></span>' + k + '</span><b>' + cont[k] + '</b></div>').join('') + '</div>' +
+      '<div class="note">código de procedência desligado neste modo — ele está no CSV e no modo procedência</div>';
+  } else {
+    const vis = {};
+    PARTS.forEach(p => { const r = MAT_REAL.find(x => x[0].test(p.nome)); if (r) vis[r[2]] = r[1]; });
+    h = '<h4>Material</h4><div style="columns:2;column-gap:12px">' +
+      Object.keys(vis).map(k => '<div class="kv" style="break-inside:avoid"><span><span class="sw" style="background:' +
+        hx(vis[k]) + '"></span>' + k + '</span></div>').join('') + '</div>' +
+      '<div class="note">cor indicativa de material, sem textura nem render: o código de procedência está desligado aqui</div>';
+  }
+  h += '<div class="kv"><span><span class="sw" style="background:' + hx(COR.err) + '"></span>fora do envelope</span><b>' + OFENSORES.length + '</b></div>';
+  const lg = document.getElementById('legend');
+  lg.innerHTML = h;
+  document.getElementById('left').style.bottom = (lg.offsetHeight + 20) + 'px';
 }
 function pintaColisao() {
   const av = checkCoerencia();
@@ -1373,6 +1578,11 @@ function pintaColisao() {
   h += OFENSORES.length
     ? OFENSORES.map(o => '<div class="errline">' + o.p.nome + ' — ultrapassa ' + U.fmt(o.over, 1) + ' mm</div>').join('')
     : '<div class="kv"><span class="u">nenhuma peça fora</span><b style="color:var(--ok)">ok</b></div>';
+  h += '<h4>Interferência entre peças</h4>';
+  h += '<div class="note" style="margin:0 0 4px">bola e chicote fora da conta: a bola vive dentro das guias, o chicote é flexível</div>';
+  h += CHOQUES.length
+    ? CHOQUES.map(c => '<div class="errline">' + c.k + '</div>').join('')
+    : '<div class="kv"><span class="u">nenhum volume comum</span><b style="color:var(--ok)">ok</b></div>';
   if (av.length) h += '<h4>Coerência</h4>' + av.map(a => '<div class="errline">' + a + '</div>').join('');
   document.getElementById('coll').innerHTML = h;
 }
@@ -1390,14 +1600,20 @@ function tabelaPecas() {
   return Object.keys(agg).map(k => agg[k]).sort((a, b) =>
     a.sub === b.sub ? a.nome.localeCompare(b.nome) : a.sub.localeCompare(b.sub));
 }
+// dentro de um iframe com sandbox o navegador engole o download sem erro: nesse
+// caso o conteudo vai para a caixa de texto, que e copiavel
+function entrega(nome, txt, mime) {
+  if (window.self !== window.top) U.showText(nome, txt);
+  else U.download(nome, txt, mime);
+}
 function exportaCSV() {
   const rows = [['subsistema', 'nome', 'dimensoes', 'procedencia', 'quantidade']];
   tabelaPecas().forEach(p => rows.push([p.sub, p.nome, p.dims, p.src === CAT ? 'CATALOGO' : 'ESTIMADO', p.qtd]));
-  U.download('picbox-pecas-' + P.hash() + '.csv', U.toCSV(rows), 'text/csv');
+  entrega('picbox-pecas-' + P.hash() + '.csv', U.toCSV(rows), 'text/csv');
 }
 function exportaGLTF() {
   new GLTFExporter().parse(root, r => {
-    U.download('picbox-modelo3d-' + P.hash() + '.gltf', JSON.stringify(r), 'model/gltf+json');
+    entrega('picbox-modelo3d-' + P.hash() + '.gltf', JSON.stringify(r), 'model/gltf+json');
   }, e => U.showText('erro no export GLTF', String(e)), { onlyVisible: true });
 }
 
