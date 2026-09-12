@@ -199,7 +199,9 @@ const GEOM = {
     carroAlt:    mm(13, CAT),
     vigaZ:       mm(40, EST),            // perfil de aluminio que carrega o trilho
     suporteX:    mm(15, EST),            // suporte de extremidade
-    suporteY:    mm(40, EST),
+    suporteY:    mm(32, EST),         // baixo de proposito: acima disto o mancal
+                                      // fecha a janela por onde o tubo de carga
+                                      // atravessa o plano dos trilhos
     placaE:      mm(3, EST),             // placa do carro montado
     placaXY:     mm(64, EST),
     recuoSup:    mm(60, EST),            // eixo do trilho superior -> centro da bola no berco
@@ -231,6 +233,7 @@ const GEOM = {
     borda:       mm(26, EST)             // aba que impede a bola de saltar para fora
   },
   soltura: {
+    tAssento:    un(0.14, EST, 's'),     // a bola rola da aba para o fundo do copo
     bercoParede: mm(2.5, EST),
     bercoAbraco: un(150, EST, 'graus'),  // arco do copo que retem a bola
     bracoE:      mm(4, EST),             // braco que desce da placa ate o berco
@@ -250,12 +253,14 @@ const GEOM = {
                                          // magazine entra pelo lado do elevador (+X) e
                                          // tem que terminar do lado do berco (-X), senao
                                          // a ultima calha atravessa a maquina inteira
-    z:           mm(-87, EST),           // a frente da coluna do elevador; acima do
-                                         // motor do eixo superior nao ha mais nada aqui
-    y:           mm(1570, EST),          // base do primeiro passe, na altura em que
-                                         // o elevador entrega (GEOM.elevador.y1)
-    dy:          mm(34, EST),            // desnivel entre passes: acima disso o ultimo
-                                         // passe encosta no teto do gabinete
+    z:           mm(-63, EST),           // entre a coluna do elevador (atras) e o plano
+                                         // da correia do eixo A (a frente). Os dois
+                                         // limites sao verificados em checkCoerencia.
+    y:           mm(1485, EST),          // altura do passe de SAIDA, logo acima do
+                                         // berco. Os outros passes ficam acima deste,
+                                         // e o elevador entrega no mais alto de todos.
+    dy:          mm(42, EST),            // desnivel entre passes: menos que isto e as
+                                         // paredes de dois passes se cruzam
     incl:        un(6, EST, 'graus'),    // inclinacao de escoamento por gravidade
     tuboParede:  mm(2.5, EST),
     servoC:      mm(23, CAT),            // SG90 do escapement
@@ -264,31 +269,42 @@ const GEOM = {
     cameR:       mm(11, EST),
     cameE:       mm(4, EST),
     sensorNivel: mm(10, EST),
-    vFila:       un(140, EST, 'mm/s')    // a fila avanca rolando, nao pulando um passo
+    vFila:       un(140, EST, 'mm/s'),   // a fila avanca rolando, nao pulando um passo
+    tCame:       un(0.30, EST, 's'),     // meia volta da came: libera UMA bola
+    comportaE:   mm(2.5, EST),           // chapa da comporta de carga
+    comportaAlt: mm(19, EST),            // altura da lamina: quanto ela desce para abrir
+    tComporta:   un(0.16, EST, 's'),     // tempo de abertura/fechamento
+    rampaQueda:  mm(16, EST),            // desnivel do tubo ao entrar no plano de jogo
+    rampaCarga:  mm(5, EST),             // desnivel do ultimo trecho: e ele que faz a
+                                         // bola ROLAR para dentro do berco
+    tolCarga:    mm(8, EST),             // janela de alinhamento carro/comporta
+    vCarga:      un(80, EST, 'mm/s')     // o carro tem que estar praticamente parado:
+                                         // a comporta abre na inversao do curso
   },
   elevador: {
-    colunaX:     mm(70, EST),
-    colunaZ:     mm(90, EST),            // os dois ramos da esteira com a cacamba
-                                         // aberta para fora cabem aqui dentro
+    colunaX:     mm(70, EST),            // a profundidade da coluna (Z) NAO e escolhida:
+                                         // sai de D.elevZ, porque tem que caber dois
+                                         // ramos da esteira + cacamba com a bola dentro
     y0:          mm(150, EST),           // fundo, onde as calhas entregam
-    y1:          mm(1570, EST),          // topo: acima do motor do eixo superior,
-                                         // que e o que libera o plano do magazine
     esteiraL:    mm(50, EST),
     esteiraE:    mm(2, EST),
-    taliscaL:    mm(24, EST),            // altura da parede da cacamba
+    taliscaL:    mm(24, EST),            // altura da parede de tras da cacamba
     taliscaE:    mm(3, EST),             // chapa da cacamba
-    poliaD:      mm(40, EST),
+    labio:       mm(13, EST),            // aba na ponta da cacamba: retem a bola na
+                                         // subida e a libera quando o copo tomba
+    poliaD:      mm(28, EST),
     motorD:      mm(37, EST),
     motorC:      mm(62, EST),
-    raioCapta:   mm(26, EST),            // distancia em que a cacamba pega a bola do bolsao
-    tCapta:      un(0.22, EST, 's'),     // tempo do assentamento da bola na cacamba
-    rpm:         un(60, EST, 'rpm')      // motor DC 12 V com redutor. A 30 rpm a
-                                         // subida leva 22 s e a demonstracao morre
-                                         // de tedio; 60 rpm da ~11 s.
+    conchaIni:   un(-20, EST, 'graus'),  // a concha do fundo comeca aqui (0 = ramo que
+                                         // desce) e termina no ramo que sobe
+    despejoAng:  un(45, EST, 'graus'),   // angulo, depois do topo, em que a capa acaba
+                                         // e a bola rola para fora do copo
+    rpm:         un(90, EST, 'rpm')      // motor DC 12 V com redutor: com polia de 28 mm
+                                         // da ~132 mm/s, e a subida leva ~11 s
   },
   calha: {
     parede:      mm(2.5, EST),
-    folgaLat:    mm(8, EST),             // largura = diametro da bola + 2x esta folga
+    folgaLat:    mm(6, EST),             // largura = diametro da bola + 2x esta folga
     vBola:       un(300, EST, 'mm/s'),   // velocidade de entrada da bola numa calha
     vMax:        un(1400, EST, 'mm/s'),  // teto de velocidade nas calhas (atrito de rolagem)
     atrito:      un(0.06, EST, '—'),     // resistencia de rolagem equivalente (aco/acrilico)
@@ -311,7 +327,7 @@ const GEOM = {
     campoAtivaA: mm(194, CAT),
     campoRecuo:  mm(30, EST),            // atras do plano dos trilhos
     acrilicoE:   mm(3, EST),
-    acrilicoFolga: mm(20, EST),          // sobra em volta da moldura
+    acrilicoFolga: mm(20, EST),          // sobra lateral em volta da moldura
     barraAtivaC: mm(310, CAT),           // testeira 12,6" 1920x515
     barraAtivaA: mm(85, CAT),
     barraMoldC:  mm(340, EST),
@@ -355,9 +371,8 @@ const GEOM = {
     abaSensor:    mm(12, EST),           // aba no carro que corta a barreira do fim de curso
     abaE:         mm(2, EST),
     eixoPolia:    mm(8, EST),            // eixo das polias do elevador
-    labioLarg:    mm(38, EST),           // largura da lingueta de descarga do elevador
     dedoEscape:   mm(3, EST),            // dedos do escapement, defasados
-    bercoLabio:   mm(2.5, EST)           // aba que retem a bola no berco
+    bercoLabio:   mm(2.5, EST)           // chapa do piso do berco
   },
   vista: {
     explodeMax:  mm(300, EST),
@@ -401,6 +416,51 @@ function derive() {
     + Math.max(d.bolaR, P.num('geo.depth') / 2 + GEOM.boca.parede.v) + g.folga.v;
   d.trnZ = id => -(fundoDoCarro(id) + g.folga.v + trnRaio());
   d.xRail    = e.trilhoComp.v / 2;
+
+  /* ---- elevador: a coluna nao tem cota propria em Z. A bola tem 35 mm e tem que
+     caber DENTRO da cacamba, encostada na tampa externa. Dai sai todo o resto. */
+  const el = GEOM.elevador, m = GEOM.magazine, pw = GEOM.calha.parede.v;
+  d.elevR     = el.poliaD.v / 2 + el.esteiraE.v / 2;       // linha da esteira
+  d.baldeOff  = d.bolaR + g.folga.v;                       // esteira -> centro da bola
+  d.bolaRaio  = d.elevR + d.baldeOff;                      // raio do centro da bola
+  d.baldeProf = d.baldeOff + d.bolaR;                      // fundo do copo: contem a bola
+  d.tampaRaio = d.elevR + d.baldeProf;                      // face interna da tampa externa
+  d.elevZ     = 2 * (d.tampaRaio + pw + g.folga.v);        // profundidade da coluna
+  d.elevX     = P.num('geo.floor') / 2 - g.parede.v - el.colunaX.v / 2;
+  d.elevZc    = -(P.num('geo.floor') / 2 - g.parede.v - d.elevZ / 2);
+  d.elevV     = el.rpm.v / 60 * Math.PI * el.poliaD.v;     // velocidade linear da esteira
+
+  /* ---- estacao de carga: e o BERCO que manda. Nada fixo pode entrar no volume que
+     ele varre, e a bola entra rolando pelo lado aberto do copo, que e o lado -X. */
+  d.rBerco = d.bolaR + g.folga.v + GEOM.soltura.bercoParede.v;
+  d.xLoad  = -d.curso / 2;                                 // o carro A inverte aqui
+  d.xComporta = d.xLoad - d.rBerco - g.folga.v;            // limite do que pode ser fixo
+  d.magLargCarga = P.num('ball.d') + g.folga.v;            // tubo mais justo no ramo de
+                                                           // carga: a parede de +X dele
+                                                           // tem que morrer no limite
+  d.xQueda = d.xComporta - (d.magLargCarga / 2 + m.tuboParede.v);
+  d.yCarga = d.ySoltura + m.rampaCarga.v;                  // bola parada na comporta
+  d.yMagSai = d.yCarga + m.rampaQueda.v;                   // saida do magazine
+
+  /* ---- magazine: passo, passe e desnivel de escoamento saem da bola e da fila.
+     O ultimo passe e mais longo que os outros: ele vai ate a vertical da comporta,
+     e e esse comprimento que da o caimento para a bola rolar ate lá. */
+  d.magPasso   = P.num('ball.d') + g.folga.v;
+  d.magPorPasse = Math.ceil(m.bolas.v / m.passos.v);
+  d.magPasseL  = d.magPorPasse * d.magPasso;
+  d.magDh      = L => L * Math.tan(m.incl.v * Math.PI / 180);
+  d.magLarg    = P.num('ball.d') + 2 * GEOM.calha.folgaLat.v;   // vao interno do tubo
+  // o +X do magazine para antes do motor do eixo A: os passes de baixo passam na
+  // altura dele
+  const md = CT.geom('motor').d;
+  d.xMag = Math.min(d.elevX, d.xRail - (md.flange ? md.flange.v : md.corpoD.v) / 2 - g.folga.v
+    - (P.num('ball.d') / 2 + m.tuboParede.v));
+  d.magPasse0 = d.xMag - d.xQueda;                              // ultimo passe, mais longo
+  d.yMagEntra = d.yMagSai + m.dy.v * (m.passos.v - 1) + d.magDh(d.magPasseL);
+  /* o copo tomba em despejoAng e a bola sai um raio ACIMA do eixo da polia: e por isso
+     que o topo do elevador pode ficar mais baixo que a entrada do tubo. */
+  const aD = el.despejoAng.v * Math.PI / 180;
+  d.yElevTopo = d.yMagEntra + P.num('ball.d') * 0.6 - d.bolaRaio * Math.sin(aD);
   return d;
 }
 // meia-altura da transmissao selecionada: a correia, o fuso e a cremalheira
@@ -549,9 +609,6 @@ const FICHA = {
   'Parede frontal da boca': { f: 'Fecha a garganta na profundidade geo.depth.', o: 'params.js · geo.depth' },
   'Chapa-alvo do buraco': { f: 'A peça que o jogador tem que acertar. O furo é passante e tem a largura geo.L, que é a mesma tolerância que o simulador usa para decidir acerto.', o: 'params.js · geo.L e geo.depth + GEOM.boca' },
   'Anel indicador do alvo': { f: 'Marca a área de acerto e acende quando a bola passa pelo furo.', o: 'GEOM.boca.anelFio' },
-  'Parede do bolsão de captação': { f: 'Segura a bola no fundo do elevador até a próxima caçamba chegar.', o: 'derivada de ball.d' },
-  'Fundo do bolsão de captação': { f: 'Piso do bolsão, na altura em que a caçamba recolhe.', o: 'derivada de ball.d' },
-  'Língua de descarga do elevador': { f: 'Recebe a bola que a caçamba despeja no alto e entrega no magazine.', o: 'derivada do vão até o tubo' },
   'Borda da bandeja': { f: 'Impede a bola de saltar para fora da bandeja na queda.', o: 'GEOM.tremonha.borda' },
   'Rampa de saída da boca': { f: 'Joga a bola capturada para trás, na bandeja. Dimensionada para caber na altura da garganta.', o: 'derivada de geo.depth e da garganta' },
   'Barreira óptica da boca': { f: 'Registra a passagem da bola pelo buraco. Não afeta a trajetória: afeta a capacidade de provar o resultado.', o: 'catalog.js · deteccao' },
@@ -564,12 +621,22 @@ const FICHA = {
   'Came do escapement': { f: 'Dois dedos defasados: um segura a fila enquanto o outro solta uma bola só.', o: 'GEOM.magazine.cameR / cameE' },
   'Sensor de nível do magazine': { f: 'Avisa quando a fila está acabando, antes da máquina travar sem bola.', o: 'GEOM.magazine.sensorNivel' },
 
-  'Parede da coluna do elevador': { f: 'Fecha a coluna por onde as bolas sobem.', o: 'GEOM.elevador.colunaX / colunaZ' },
-  'Esteira do elevador': { f: 'Ramo da esteira. Sobe na frente, desce atrás.', o: 'GEOM.elevador.esteiraL / esteiraE' },
-  'Talisca do elevador': { f: 'Caçamba em U presa à esteira. Recolhe a bola no bolsão, carrega na subida e despeja sozinha ao virar na polia de cima. A profundidade dela não é escolhida: é o que sobra dentro da coluna depois dos dois ramos da esteira.', o: 'GEOM.elevador.taliscaL / taliscaE + largura derivada da coluna' },
+  'Lateral da coluna do elevador': { f: 'Fecha a coluna dos dois lados e sustenta os eixos das duas polias.', o: 'GEOM.elevador.colunaX + profundidade derivada' },
+  'Esteira do elevador': { f: 'Ramo da esteira. Sobe ATRÁS e desce na frente: é o único sentido em que o copo tomba do lado do magazine.', o: 'GEOM.elevador.esteiraL / esteiraE' },
+  'Caçamba do elevador': { f: 'Copo em U com aba na ponta. A profundidade não é escolhida: é o que a bola exige para caber dentro dele encostada na tampa externa. A aba é o que a retém na subida e o que a libera quando o copo passa da horizontal.', o: 'GEOM.elevador.taliscaL / taliscaE / labio + profundidade derivada de ball.d' },
+  'Concha de captação do elevador': { f: 'Chapa curva no fundo: recebe a bola da calha, guarda ela no ponto mais baixo e obriga o copo a varrê-la. Sem ela a bola não tem onde esperar.', o: 'derivada de ball.d + GEOM.elevador.conchaIni' },
+  'Lateral da concha de captação': { f: 'Fecha a concha dos lados para a bola não sair de lado ao ser varrida.', o: 'derivada do raio da tampa' },
+  'Tampa de retenção do elevador': { f: 'Chapa reta ao longo da subida. É contra ela que a bola se apoia: é o que impede a bola de cair do copo durante todo o trajeto.', o: 'derivada de ball.d + raio da polia' },
+  'Capa do topo do elevador': { f: 'Continua a tampa em volta da polia de cima e ACABA no ângulo de despejo. Onde ela acaba, a bola rola para fora do copo: a soltura é geométrica, não temporizada.', o: 'GEOM.elevador.despejoAng' },
+  'Calha de entrega do magazine': { f: 'Recebe a bola que o copo despeja e conduz até a boca do tubo do magazine.', o: 'derivada do ponto de despejo e da entrada do tubo' },
   'Polia superior do elevador': { f: 'Tambor de acionamento. A velocidade linear da esteira sai do diâmetro dela e da rotação do motor.', o: 'GEOM.elevador.poliaD' },
-  'Polia inferior do elevador': { f: 'Tambor de retorno, no fundo, onde as calhas entregam a bola.', o: 'GEOM.elevador.poliaD' },
-  'Motor DC 12 V 30 rpm do elevador': { f: 'Aciona a esteira. 30 rpm em polia Ø40 dá ~63 mm/s de subida.', o: 'GEOM.elevador.motorD / motorC / rpm' },
+  'Polia inferior do elevador': { f: 'Tambor de retorno, no fundo, dentro da concha de captação.', o: 'GEOM.elevador.poliaD' },
+  'Motor DC 12 V do elevador': { f: 'Aciona a esteira. 90 rpm em polia Ø28 dá ~132 mm/s de subida.', o: 'GEOM.elevador.motorD / motorC / rpm' },
+  'Tubo de carga': { f: 'Último trecho do tubo, mais justo que o resto: a parede de +X dele morre exatamente no limite do volume varrido pelo berço.', o: 'derivada de ball.d + D.xComporta' },
+  'Rampa de carga': { f: 'Face por onde a bola rola do fim do tubo até a aba do berço. Termina 2 mm antes do berço: esse vão é o único trecho em que a bola não está apoiada.', o: 'GEOM.magazine.rampaCarga + D.xComporta' },
+  'Guia lateral da rampa de carga': { f: 'Mantém a bola alinhada com a boca do berço enquanto ela rola.', o: 'derivada de ball.d' },
+  'Comporta de carga': { f: 'Lâmina que segura a bola no fim da rampa. DESCE para abrir — girando, a chapa aberta entraria no volume varrido pelo berço. Só abre quando o carro A inverte o curso ao lado: é por isso que a máquina carrega no fim do curso, e não em qualquer ponto.', o: 'GEOM.magazine.comportaAlt / tolCarga / vCarga' },
+  'Solenoide da comporta de carga': { f: 'Deita a comporta no instante em que o carro A chega alinhado. Mesmo componente do berço, do catálogo.', o: 'catalog.js · soltura' },
   'Calha de retorno': { f: 'Leva a bola da bandeja até o fundo do elevador, pelo corredor livre em +X.', o: 'derivada de ball.d + GEOM.calha' },
   'Bandeja de captura (fundo inclinado)': { f: 'Recebe tanto a bola que entrou no buraco quanto a que errou, e concentra as duas na boca da calha. O caimento é a banda de 50 mm inteira, do lado oposto até a saída.', o: 'GEOM.gabinete.bandaBandeja + GEOM.tremonha' },
   'Suporte da chapa-alvo': { f: 'Leva a chapa-alvo do trilho até o plano de jogo, passando por fora do carro — é por isso que a bola atravessa o furo sem bater em nada.', o: 'derivada do plano de jogo' },
@@ -760,7 +827,7 @@ function buildGabinete() {
 let TREM = null;
 function buildTremonha() {
   const t = GEOM.tremonha, g = GEOM.gabinete;
-  const xIni = -D.interna / 2 + t.parede.v, xSai = D.lado / 2 - g.parede.v - GEOM.elevador.colunaX.v / 2;
+  const xIni = -D.interna / 2 + t.parede.v, xSai = D.elevX;
   const yAlto = D.yBandeja1, yBaixo = D.yBandeja0 + t.parede.v;
   const prof = D.lado / 2, comp = Math.hypot(xSai - xIni, yAlto - yBaixo);
   const zc = D.zJogo;                              // linha em que a bola chega
@@ -970,9 +1037,10 @@ function buildSoltura(carro, yPlaca) {
     matFor(EST));
   const bercoM = add(at(berco, 0, yBola - D.bolaR / 2, 0), 'Berço da bola', EST,
     dimsOf(2 * rExt, 2 * rExt, D.bolaR));
-  // aba inferior: sem ela a bola escorreria do copo antes do pino soltar
-  det(bercoM, at(new THREE.Mesh(new THREE.RingGeometry(rExt - dt.bercoLabio.v, rExt, 24,
-    1, Math.PI / 2 - arco / 2, arco), matFor(EST)), 0, -D.bolaR / 2, 0)).rotation.x = Math.PI / 2;
+  /* ABA INFERIOR — e o piso do copo, nao um anel decorativo: um anel de raio interno
+     maior que a bola deixaria ela cair. Ela e um disco, e a face de cima dele fica na
+     MESMA altura da rampa de carga: a bola rola de uma para a outra. */
+  det(bercoM, at(cyl(2 * rExt, dt.bercoLabio.v, EST, 'y'), 0, -(D.bolaR + dt.bercoLabio.v) / 2, 0));
 
   const corpoC = (d.corpoC || d.motorC).v;
   const zCorpo = D.bolaR + g.folga.v + corpoC / 2;
@@ -1001,9 +1069,12 @@ function buildSoltura(carro, yPlaca) {
   SOL.pino = pino; SOL.pinoZ0 = pino.position.z;
   SOL.pinoCurso = d.cursoPino ? d.cursoPino.v : d.pinoD.v;
 
-  // barreira optica na boca do lancador: emissor e receptor, mesmo encapsulamento
+  /* barreira optica: ABAIXO do piso do copo, onde a bola passa quando o pino solta.
+     Ali ela mede a saida de verdade — e fica fora da faixa da rampa de carga, que
+     ocupa a altura do piso. */
   [-1, 1].forEach(sx => add(at(box(e.sensorOptL.v, e.sensorOptA.v, e.sensorOptC.v, EST),
-    sx * (rExt + e.sensorOptL.v / 2), yBola - D.bolaR, 0),
+    sx * (rExt + e.sensorOptL.v / 2),
+    yBola - D.bolaR - dt.bercoLabio.v - e.sensorOptA.v / 2 - g.folga.v, 0),
     'Barreira óptica do lançador', EST, dimsOf(e.sensorOptC.v, e.sensorOptL.v, e.sensorOptA.v)));
 
   // eletronica embarcada no carro
@@ -1123,8 +1194,8 @@ function segCanal(a, b, larg, alt, src, p) {
   grp.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), b.clone().sub(a).normalize());
   return grp;
 }
-function canalSobre(path, larg, alt, src, grupo, nome, sub, parede, vaosFinais) {
-  for (let i = 0; i < path.pts.length - 1 - (vaosFinais || 0); i++) {
+function canalSobre(path, larg, alt, src, grupo, nome, sub, parede, vaosFinais, vaosIniciais) {
+  for (let i = (vaosIniciais || 0); i < path.pts.length - 1 - (vaosFinais || 0); i++) {
     const a = path.pts[i], b = path.pts[i + 1];
     grupo.add(reg(segCanal(a, b, larg, alt, src, parede), nome, sub, src,
       dimsOf(a.distanceTo(b), larg + 2 * parede, alt)));
@@ -1136,38 +1207,42 @@ function canalSobre(path, larg, alt, src, grupo, nome, sub, parede, vaosFinais) 
    ========================================================================== */
 let MAG = null;
 function buildMagazine() {
-  const m = GEOM.magazine, g = GEOM.gabinete, e = GEOM.elevador, s2 = GEOM.soltura;
-  const passo = P.num('ball.d') + g.folga.v;                 // passo entre bolas na fila
-  const porPasse = Math.ceil(m.bolas.v / m.passos.v);
-  const passeL = porPasse * passo;
-  const xElev = D.lado / 2 - g.parede.v - e.colunaX.v / 2;   // coluna do elevador, canto +X
-  const dh = passeL * Math.tan(m.incl.v * Math.PI / 180);    // desnivel de escoamento
-  const rBerco = D.bolaR + g.folga.v + s2.bercoParede.v;     // raio externo do berco
-  const xLoad = -D.curso / 2;                                // carro A estaciona aqui
-  // o tubo tem que morrer FORA do volume que o berco varre; o ultimo trecho e vao
-  // livre, a bola atravessa em queda — e por isso nao leva calha desenhada
-  const xFim = xLoad - rBerco - g.folga.v;
-  const zFim = -(rBerco + P.num('ball.d') / 2 + g.folga.v);
+  const m = GEOM.magazine, g = GEOM.gabinete;
+  const bolaD = P.num('ball.d'), pw = m.tuboParede.v;
+  const passo = D.magPasso, passeL = D.magPasseL;
 
-  // serpentina de N passes, entrando pelo lado do elevador. N impar termina do
-  // lado do berco, que e o unico jeito da ultima calha nao cruzar a maquina.
+  /* serpentina de N passes, entrando em cima do elevador. N impar termina do lado do
+     berco. O ULTIMO passe e mais longo: vai ate a vertical da comporta de carga, e e
+     o comprimento dele que da o caimento para a bola chegar lá rolando. */
   const pts = [];
   for (let i = m.passos.v - 1; i >= 0; i--) {
     const dir = (m.passos.v - 1 - i) % 2 === 0 ? -1 : 1;     // alterna o sentido
-    const xa = dir < 0 ? xElev : xElev - passeL;
-    const y0 = m.y.v + m.dy.v * i;
-    pts.push(new THREE.Vector3(xa, y0 + dh, m.z.v));
-    pts.push(new THREE.Vector3(xa + dir * passeL, y0, m.z.v));
+    const L = i === 0 ? D.magPasse0 : passeL;
+    const xa = dir < 0 ? D.xMag : D.xMag - L;
+    const y0 = D.yMagSai + m.dy.v * i;
+    pts.push(new THREE.Vector3(xa, y0 + D.magDh(L), m.z.v));
+    pts.push(new THREE.Vector3(xa + dir * L, y0, m.z.v));
   }
-  const saida = pts[pts.length - 1];
-  pts.push(new THREE.Vector3(xFim, saida.y, m.z.v));                        // ate a vertical de carga
-  pts.push(new THREE.Vector3(xFim, D.ySoltura + D.bolaR / 2, m.z.v));       // desce fora do curso
-  pts.push(new THREE.Vector3(xFim, D.ySoltura + D.bolaR / 2, zFim));        // avanca e para antes do berco
-  pts.push(new THREE.Vector3(xLoad, D.ySoltura, g.planoTrilhoZ.v));         // vao livre ate o berco
-
+  const iSaida = pts.length - 1, saida = pts[iSaida];
+  /* RAMO DE CARGA — dois trechos e nada mais:
+     1) cai os poucos milimetros que separam a saida do magazine da altura de carga;
+     2) atravessa o plano dos trilhos na horizontal, pela janela que existe entre o topo
+        do acrilico da tela e a base do mancal do trilho A — a bola entra com a
+        velocidade da queda e vence os 120 mm rolando;
+     3) rola a rampa por dentro do berco. Este ultimo nao leva calha: e a rampa e a
+        aba do berco que sustentam a bola, com 2 mm de vao entre as duas. */
+  pts.push(new THREE.Vector3(D.xQueda, D.yCarga, m.z.v));         // queda curta
+  pts.push(new THREE.Vector3(D.xQueda, D.yCarga, D.zJogo));       // <- comporta
+  pts.push(new THREE.Vector3(D.xLoad, D.ySoltura, D.zJogo));      // <- fundo do berco
   const path = polyPath(pts);
-  canalSobre(path, P.num('ball.d') + 2 * GEOM.calha.folgaLat.v, P.num('ball.d'), EST,
-    G.magazine, 'Tubo do magazine', 'Magazine', m.tuboParede.v, 1);
+  const iComporta = pts.length - 2;
+
+  canalSobre(path, D.magLarg, bolaD, EST, G.magazine, 'Tubo do magazine', 'Magazine',
+    pw, pts.length - 1 - iSaida);
+  // o ramo de carga usa um tubo mais justo: a parede de +X dele tem que morrer no
+  // limite do volume varrido pelo berco
+  canalSobre(path, D.magLargCarga, bolaD, EST, G.magazine, 'Tubo de carga', 'Magazine',
+    pw, 1, iSaida);
 
   // escapement: micro-servo + came, na saida do ultimo passe
   G.magazine.add(reg(at(box(m.servoC.v, m.servoA.v, m.servoL.v, m.servoC.s),
@@ -1186,11 +1261,41 @@ function buildMagazine() {
     pts[0].x - passo, pts[0].y + m.sensorNivel.v, m.z.v), 'Sensor de nível do magazine', 'Magazine',
     EST, dimsOf(m.sensorNivel.v, m.sensorNivel.v, m.sensorNivel.v)));
 
-  // sSaida = fim do ultimo passe, onde o escapement segura a fila.
-  // Dali ate o fim do caminho e o trajeto de carga do berco.
+  /* ESTACAO DE CARGA — a bola NAO aparece no berco. Ela para aqui, visivel, apoiada na
+     rampa e encostada na lamina da comporta, e so entra quando o carro A inverte o
+     curso logo ao lado. Todas as pecas daqui morrem em D.xComporta: um milimetro a
+     mais e a estacao seria varrida pelo berco. */
+  const yRampa = D.yCarga - D.bolaR;                       // face de rolamento
+  const xIni = D.xQueda - D.magLargCarga / 2;
+  const compR = D.xComporta - xIni;
+  const rampa = at(box(compR, GEOM.calha.parede.v, D.magLargCarga, EST),
+    (xIni + D.xComporta) / 2, yRampa - GEOM.calha.parede.v / 2 + m.rampaCarga.v / 2, D.zJogo);
+  rampa.rotation.z = -Math.atan2(m.rampaCarga.v, compR);   // caimento para o berco
+  G.magazine.add(reg(rampa, 'Rampa de carga', 'Magazine', EST,
+    dimsOf(compR, D.magLargCarga, GEOM.calha.parede.v)));
+  [-1, 1].forEach(sz => G.magazine.add(reg(at(box(compR, bolaD * 0.6, pw,  EST),
+    (xIni + D.xComporta) / 2, yRampa + bolaD * 0.3, D.zJogo + sz * (D.magLargCarga + pw) / 2),
+    'Guia lateral da rampa de carga', 'Magazine', EST, dimsOf(compR, bolaD * 0.6, pw))));
+
+  // lamina da comporta: desce para abrir. Girar seria pior — a chapa aberta entraria
+  // no volume do berco.
+  const lam = at(box(m.comportaE.v, m.comportaAlt.v, D.magLargCarga, EST),
+    D.xComporta - m.comportaE.v / 2, yRampa + m.comportaAlt.v / 2, D.zJogo);
+  G.magazine.add(reg(lam, 'Comporta de carga', 'Magazine', EST,
+    dimsOf(m.comportaE.v, D.magLargCarga, m.comportaAlt.v)));
+  const so = CT.geom('soltura'), sd = so.d, solA = sd.corpoA ? sd.corpoA.v : 20;
+  G.magazine.add(reg(at(box((sd.corpoC || sd.motorC).v, solA, sd.corpoL ? sd.corpoL.v : 20, EST),
+    D.xComporta - (sd.corpoC || sd.motorC).v / 2,
+    yRampa - solA / 2 - GEOM.calha.parede.v - GEOM.eixo.sensorOptA.v - 5 * g.folga.v,
+    D.zJogo), 'Solenoide da comporta de carga', 'Magazine', EST,
+    dimsOf((sd.corpoC || sd.motorC).v, sd.corpoL ? sd.corpoL.v : 20, solA)));
+
   MAG = {
-    path, passo, capacidade: porPasse * m.passos.v, came, xLoad, passeL,
-    iSaida: 2 * m.passos.v - 1, sSaida: path.acc[2 * m.passos.v - 1]
+    path, passo, capacidade: D.magPorPasse * m.passos.v, came, lamina: lam,
+    xLoad: D.xLoad, passeL, pComporta: path.at(path.acc[iComporta]),
+    iSaida, sSaida: path.acc[iSaida],
+    iComporta, sComporta: path.acc[iComporta],
+    gate: 0, cmd: 0, libera: -1e9, yLamina: lam.position.y
   };
   return MAG;
 }
@@ -1199,83 +1304,111 @@ function buildMagazine() {
    ELEVADOR DE ESTEIRA COM TALISCAS
    ========================================================================== */
 let ELEV = null;
+/* chapa curva com o eixo em X: usada na concha, na tampa e na capa do elevador.
+   Feita de segmentos planos porque e assim que ela seria dobrada. */
+function arcoChapa(raio, larg, esp, aIni, aFim, src) {
+  const grp = new THREE.Group(), n = Math.max(4, Math.round(Math.abs(aFim - aIni) / 0.22));
+  const seg = Math.abs(aFim - aIni) / n * (raio + esp / 2) * 1.04;
+  for (let i = 0; i < n; i++) {
+    const am = aIni + (aFim - aIni) * (i + 0.5) / n, r = raio + esp / 2;
+    const b = at(box(larg, esp, seg, src), 0, r * Math.sin(am), r * Math.cos(am));
+    b.rotation.x = Math.PI / 2 - am;
+    grp.add(b);
+  }
+  return grp;
+}
 function buildElevador() {
   const e = GEOM.elevador, g = GEOM.gabinete, dt = GEOM.detalhe;
-  const x = D.lado / 2 - g.parede.v - e.colunaX.v / 2;
-  const z = -(D.lado / 2 - g.parede.v - e.colunaZ.v / 2);
+  const x = D.elevX, z = D.elevZc, y0 = e.y0.v, y1 = D.yElevTopo;
+  const R = D.elevR, rb = D.bolaRaio, rt = D.tampaRaio, pw = GEOM.calha.parede.v;
+  const bolaD = P.num('ball.d');
   const add = (m, nome, src, dims) => { G.elevador.add(reg(m, nome, 'Elevador', src, dims)); return m; };
-  const pw = GEOM.calha.parede.v;
+  const aDesp = e.despejoAng.v * Math.PI / 180, aConcha = e.conchaIni.v * Math.PI / 180;
 
-  [-1, 1].forEach(sz => add(at(box(e.colunaX.v, e.y1.v - e.y0.v, pw, EST),
-    x, (e.y1.v + e.y0.v) / 2, z + sz * (e.colunaZ.v - pw) / 2), 'Parede da coluna do elevador', EST,
-    dimsOf(e.colunaX.v, e.y1.v - e.y0.v, pw)));
+  // laterais: fecham a coluna e sustentam os eixos das duas polias
+  [-1, 1].forEach(sx => add(at(box(pw, y1 - y0 + 2 * rt, D.elevZ, EST),
+    x + sx * (e.colunaX.v - pw) / 2, (y1 + y0) / 2, z), 'Lateral da coluna do elevador', EST,
+    dimsOf(pw, D.elevZ, y1 - y0 + 2 * rt)));
 
-  // laco da esteira com as curvas nas polias: e na curva de cima que a cacamba
-  // vira e entrega a bola. Sem o arco, a entrega vira corte seco.
-  const R = e.poliaD.v / 2 + e.esteiraE.v / 2, N = 10, pts = [];
-  const pt = (y, a) => new THREE.Vector3(x, y + R * Math.sin(a), z + R * Math.cos(a));
-  pts.push(pt(e.y0.v, 0), pt(e.y1.v, 0));
-  for (let i = 1; i <= N; i++) pts.push(pt(e.y1.v, i / N * Math.PI));
-  pts.push(pt(e.y0.v, Math.PI));
-  for (let i = 1; i <= N; i++) pts.push(pt(e.y0.v, Math.PI + i / N * Math.PI));
+  /* LACO DA ESTEIRA — sobe pelo ramo de TRAS e desce pela frente. E o unico sentido
+     que entrega a bola do lado do magazine: o copo tomba depois do topo, para a
+     frente, onde esta a boca do tubo. */
+  const N = 30, pts = [];   // resolucao das curvas: com pouco segmento o copo gira aos saltos
+  const pt = (y, a, r) => new THREE.Vector3(x, y + (r || R) * Math.sin(a), z + (r || R) * Math.cos(a));
+  pts.push(pt(y0, Math.PI), pt(y1, Math.PI));                       // sobe atras
+  for (let i = 1; i <= N; i++) pts.push(pt(y1, Math.PI * (1 - i / N)));   // curva de cima
+  pts.push(pt(y0, 0));                                              // desce na frente
+  for (let i = 1; i <= N; i++) pts.push(pt(y0, -Math.PI * i / N));  // curva de baixo
   const loop = polyPath(pts);
+  const sTopo0 = loop.acc[1], sTopo1 = loop.acc[N + 1], sFundo0 = loop.acc[N + 2];
 
-  [e.y0.v, e.y1.v].forEach((y, i) => {
-    const pol = add(at(cyl(e.poliaD.v, e.esteiraL.v, EST, 'x'), x, y, z),
-      i ? 'Polia superior do elevador' : 'Polia inferior do elevador', EST,
+  [[y0, 'Polia inferior do elevador'], [y1, 'Polia superior do elevador']].forEach(pr => {
+    const pol = add(at(cyl(e.poliaD.v, e.esteiraL.v, EST, 'x'), x, pr[0], z), pr[1], EST,
       dimsOf(e.poliaD.v, e.poliaD.v, e.esteiraL.v));
     det(pol, cyl(dt.eixoPolia.v, e.colunaX.v, EST, 'x'));
   });
-  [-1, 1].forEach(sz => add(at(box(e.esteiraL.v, e.y1.v - e.y0.v, e.esteiraE.v, EST),
-    x, (e.y1.v + e.y0.v) / 2, z + sz * R), 'Esteira do elevador', EST,
-    dimsOf(e.esteiraL.v, e.y1.v - e.y0.v, e.esteiraE.v)));
+  [-1, 1].forEach(sz => add(at(box(e.esteiraL.v, y1 - y0, e.esteiraE.v, EST),
+    x, (y1 + y0) / 2, z + sz * R), 'Esteira do elevador', EST,
+    dimsOf(e.esteiraL.v, y1 - y0, e.esteiraE.v)));
 
-  // BOLSAO: a bola espera aqui ate a proxima cacamba passar e recolher
-  const bolaD = P.num('ball.d');
-  const bolsao = { x, y: e.y0.v + R * 0.6, z: z + R + bolaD / 2 };
-  [-1, 1].forEach(sx => add(at(box(pw, bolaD, bolaD + 2 * pw, EST),
-    x + sx * (bolaD / 2 + pw / 2), bolsao.y, bolsao.z), 'Parede do bolsão de captação', EST,
-    dimsOf(pw, bolaD + 2 * pw, bolaD)));
-  add(at(box(bolaD + 2 * pw, pw, bolaD + 2 * pw, EST), x, bolsao.y - bolaD / 2, bolsao.z),
-    'Fundo do bolsão de captação', EST, dimsOf(bolaD + 2 * pw, bolaD + 2 * pw, pw));
-
-  // CACAMBAS: chapa dobrada em U. A bola fica visivelmente dentro de uma delas.
-  const bProf = (e.colunaZ.v - 2 * pw) / 2 - R, bAlt = e.taliscaL.v, bLarg = e.esteiraL.v;
-  const passo = bolaD * 2.4;
-  const n = Math.max(4, Math.round(loop.total / passo));
+  /* CACAMBAS — copo em U fundo o bastante para CONTER a bola (não é prateleira):
+     fundo, costas, duas laterais e uma aba na ponta. A aba é o que retém a bola na
+     subida e o que a libera quando o copo passa da horizontal. */
+  const bProf = D.baldeProf, bLarg = e.esteiraL.v, bAlt = e.taliscaL.v;
+  const passo = bolaD * 2.4, n = Math.max(4, Math.round(loop.total / passo));
   const cacambas = [];
   for (let i = 0; i < n; i++) {
     const c = new THREE.Group();
-    c.add(at(box(bLarg, e.taliscaE.v, bProf, EST), 0, 0, bProf / 2));            // fundo
-    c.add(at(box(bLarg, bAlt, e.taliscaE.v, EST), 0, bAlt / 2, 0));              // costas
+    c.add(at(box(bLarg, e.taliscaE.v, bProf, EST), 0, 0, bProf / 2));                 // fundo
+    c.add(at(box(bLarg, bAlt, e.taliscaE.v, EST), 0, bAlt / 2, 0));                   // costas
     [-1, 1].forEach(sx => c.add(at(box(e.taliscaE.v, bAlt, bProf, EST),
-      sx * (bLarg / 2 - e.taliscaE.v / 2), bAlt / 2, bProf / 2)));               // laterais
-    reg(c, 'Talisca do elevador', 'Elevador', EST, dimsOf(bLarg, bProf, bAlt));
+      sx * (bLarg / 2 - e.taliscaE.v / 2), bAlt / 2, bProf / 2)));                    // laterais
+    det(c, at(box(bLarg, e.labio.v, e.taliscaE.v, EST), 0, e.labio.v / 2, bProf));    // aba
+    reg(c, 'Caçamba do elevador', 'Elevador', EST, dimsOf(bLarg, bProf, bAlt));
     G.elevador.add(c); cacambas.push(c);
   }
 
-  add(at(cyl(e.motorD.v, e.motorC.v, EST, 'z'), x, e.y0.v, z + e.colunaZ.v / 2 + e.motorC.v / 2),
-    'Motor DC 12 V 30 rpm do elevador', EST, dimsOf(e.motorD.v, e.motorD.v, e.motorC.v));
+  /* CASCA EXTERNA — é ela que impede a bola de cair do copo. Três trechos contínuos:
+     concha no fundo (recebe e guarda a bola), tampa reta na subida, capa no topo que
+     acaba no ângulo de despejo. Onde a capa acaba, a bola sai: a soltura é mecânica. */
+  const concha = at(arcoChapa(rt, bolaD + 2 * pw, pw, -Math.PI, aConcha, EST), x, y0, z);
+  add(concha, 'Concha de captação do elevador', EST,
+    dimsOf(bolaD + 2 * pw, rt * (Math.PI + aConcha), pw));
+  [-1, 1].forEach(sx => add(at(box(pw, rt, rt, EST),
+    x + sx * (bolaD / 2 + pw / 2 + g.folga.v), y0 - rt / 2, z - rt / 2),
+    'Lateral da concha de captação', EST, dimsOf(pw, rt, rt)));
+  add(at(box(bolaD + 2 * pw, y1 - y0, pw, EST), x, (y1 + y0) / 2, z - rt - pw / 2),
+    'Tampa de retenção do elevador', EST, dimsOf(bolaD + 2 * pw, y1 - y0, pw));
+  const capa = at(arcoChapa(rt, bolaD + 2 * pw, pw, aDesp, Math.PI, EST), x, y1, z);
+  add(capa, 'Capa do topo do elevador', EST, dimsOf(bolaD + 2 * pw, rt * (Math.PI - aDesp), pw));
 
-  // lingueta de descarga: recebe a bola que a cacamba despeja no alto
-  const faceTubo = GEOM.magazine.z.v - (bolaD + 2 * GEOM.calha.folgaLat.v) / 2 - GEOM.magazine.tuboParede.v;
-  const compLab = faceTubo - (z + e.poliaD.v / 2) - g.folga.v;
-  let entrega = new THREE.Vector3(x, e.y1.v + R, z);
-  if (compLab > 0) {
-    const lab = at(box(dt.labioLarg.v, GEOM.calha.parede.v, compLab, EST),
-      x, e.y1.v + R - GEOM.calha.parede.v, z + e.poliaD.v / 2 + compLab / 2);
-    lab.rotation.x = -Math.PI / 8;
-    add(lab, 'Língua de descarga do elevador', EST, dimsOf(dt.labioLarg.v, compLab, GEOM.calha.parede.v));
-    entrega = new THREE.Vector3(x, e.y1.v + R, z + e.poliaD.v / 2 + compLab);
-  }
+  // motor na polia MOTORA, que e a de cima: no fundo ele bateria na prateleira da
+  // eletronica e no corredor da calha de retorno
+  add(at(cyl(e.motorD.v, e.motorC.v, EST, 'x'),
+    x - e.colunaX.v / 2 - e.motorC.v / 2, y1, z), 'Motor DC 12 V do elevador', EST,
+    dimsOf(e.motorC.v, e.motorD.v, e.motorD.v));
 
-  const vLinear = e.rpm.v / 60 * Math.PI * e.poliaD.v;
+  /* PONTO DE ESPERA — fundo da concha, exatamente sobre a trajetória do copo:
+     a bola não é "capturada", ela é varrida pelo copo que passa por ali. */
+  const pEspera = pt(y0, -Math.PI / 2, rb);
+  // rota curta dentro da concha: a bola entra pela boca da concha e ROLA até o fundo
+  const rotaConcha = polyPath([pt(y0, aConcha - 0.25, rb), pt(y0, -Math.PI / 4, rb), pEspera]);
+
+  /* CALHA DE ENTREGA — o copo tomba em aDesp e a bola cai nesta calha, que a conduz
+     até a boca do tubo do magazine. Sem ela a bola sairia no ar. */
+  const pDesp = new THREE.Vector3(x, y1 + rb * Math.sin(aDesp), z + rb * Math.cos(aDesp));
+  const pEnt = MAG.path.at(0);
+  const pBoca = new THREE.Vector3(x, pDesp.y - bolaD / 2 - pw, pDesp.z + bolaD * 0.45);
+  const pFim = pEnt.clone().lerp(pBoca, 0.5);
+  const rotaEntrega = polyPath([pDesp, pBoca, pFim, pEnt]);
+  canalSobre(rotaEntrega, D.magLarg, bolaD, EST, G.elevador,
+    'Calha de entrega do magazine', 'Elevador', pw, 1, 1);
+
   ELEV = {
-    loop, v: vLinear, cacambas, n, passo: loop.total / n, x, z, R, bolsao, entrega,
-    bProf,
-    sPega: loop.acc[0] + (bolsao.y - (e.y0.v - 0)) * 0,   // inicio da subida
-    sSubida: loop.acc[1],                                 // topo da subida reta
-    sDespejo: loop.acc[1] + Math.PI * R * 0.55            // meio da curva de cima
+    loop, v: D.elevV, cacambas, n, passo: loop.total / n, x, z, R, rb, rt, y0, y1,
+    bProf, pEspera, rotaConcha, rotaEntrega, entrega: pBoca, aEspera: -Math.PI / 2,
+    sTopo0, sTopo1, sFundo0,
+    sDespejo: sTopo0 + R * (Math.PI - aDesp)
   };
   return ELEV;
 }
@@ -1285,20 +1418,20 @@ function buildElevador() {
    ========================================================================== */
 let CAL = null;
 function buildCalhas() {
-  const g = GEOM.gabinete, e = GEOM.elevador;
-  const x = D.lado / 2 - g.parede.v - e.colunaX.v / 2;
-  const z = -(D.lado / 2 - g.parede.v - e.colunaZ.v / 2);
-  // comeca na saida da tremonha e termina no bolsao de captacao do elevador:
-  // o percurso da bola fica continuo, sem trecho invisivel
-  const bolsao = ELEV.bolsao;
+  const g = GEOM.gabinete, bolaD = P.num('ball.d');
+  // comeca na saida da tremonha, desce pelo corredor livre em +X e entrega na BOCA
+  // DA CONCHA do elevador. Dali a bola rola dentro da concha ate o fundo: nao ha
+  // trecho invisivel e nao ha ponto em que ela troque de lugar sem percorrer.
+  const boca = ELEV.rotaConcha.pts[0];
   const pts = [
     TREM.saida(),
-    new THREE.Vector3(x, TREM.yBaixo - GEOM.calha.parede.v, TREM.zc),
-    new THREE.Vector3(bolsao.x, bolsao.y + P.num('ball.d'), (bolsao.z + TREM.zc) / 2),
-    new THREE.Vector3(bolsao.x, bolsao.y, bolsao.z)
+    new THREE.Vector3(ELEV.x, TREM.yBaixo - GEOM.calha.parede.v, TREM.zc),
+    new THREE.Vector3(ELEV.x, boca.y + bolaD * 2.2, TREM.zc),
+    new THREE.Vector3(ELEV.x, boca.y + bolaD * 0.9, (boca.z + TREM.zc) / 2),
+    new THREE.Vector3(boca.x, boca.y, boca.z)
   ];
   const path = polyPath(pts);
-  canalSobre(path, P.num('ball.d') + 2 * GEOM.calha.folgaLat.v, P.num('ball.d'), EST,
+  canalSobre(path, bolaD + 2 * GEOM.calha.folgaLat.v, bolaD, EST,
     G.calhas, 'Calha de retorno', 'Retorno de bolas', GEOM.calha.parede.v, 1);
   CAL = { path, v: GEOM.calha.vBola.v };
   return CAL;
@@ -1349,7 +1482,7 @@ function buildTelas(orient) {
   const ac = ret ? t.campoAtivaA.v : t.campoAtivaC.v, aa = ret ? t.campoAtivaC.v : t.campoAtivaA.v;
   // centrada na zona de queda, mas presa dentro do campo: o acrilico e maior que a
   // moldura e, solto, desce abaixo do plano da boca e bate no bocal do buraco
-  const meia = ma / 2 + t.acrilicoFolga.v + g.folga.v;
+  const meia = ma / 2 + g.folga.v;
   const yc = U.clamp((D.ySoltura + D.yBoca) / 2,
     D.yBoca + GEOM.boca.parede.v + meia, D.yCampo1 - meia);
   const zFrente = g.planoTrilhoZ.v - t.campoRecuo.v;
@@ -1357,9 +1490,11 @@ function buildTelas(orient) {
     'LCD 15,6" do campo (moldura)', 'Telas', CAT, dimsOf(mc, ma, t.campoMoldE.v)));
   G.telas.add(reg(at(planoTela(ac, aa), 0, yc, zFrente + 0.2),
     'LCD 15,6" do campo (área ativa)', 'Telas', CAT, dimsOf(ac, aa, 0)));
-  G.telas.add(reg(at(box(mc + 2 * t.acrilicoFolga.v, ma + 2 * t.acrilicoFolga.v, t.acrilicoE.v, EST),
+  // sobra lateral so na largura: em altura ele acompanha a moldura, senao o topo dele
+  // fecha a janela por onde o tubo de carga atravessa o plano dos trilhos
+  G.telas.add(reg(at(box(mc + 2 * t.acrilicoFolga.v, ma, t.acrilicoE.v, EST),
     0, yc, zFrente + t.acrilicoE.v / 2 + g.folga.v), 'Acrílico de proteção da tela', 'Telas', EST,
-    dimsOf(mc + 2 * t.acrilicoFolga.v, ma + 2 * t.acrilicoFolga.v, t.acrilicoE.v)));
+    dimsOf(mc + 2 * t.acrilicoFolga.v, ma, t.acrilicoE.v)));
 
   const yBarra = (D.alturaExt + D.yCampo1) / 2, zBarra = D.lado / 2 - g.parede.v - t.barraMoldE.v / 2;
   G.telas.add(reg(at(box(t.barraMoldC.v, t.barraMoldA.v, t.barraMoldE.v, EST), 0, yBarra, zBarra),
@@ -1558,6 +1693,37 @@ function checkCoerencia() {
       ' mm) excede a largura interna útil de ' + U.fmt(D.interna, 0) + ' mm.');
   if (MAG && MAG.passeL > D.interna)
     av.push('Passe do magazine (' + U.fmt(MAG.passeL, 0) + ' mm) excede a largura interna útil.');
+  // o tubo do magazine disputa profundidade com a coluna do elevador (atras) e com
+  // o plano da correia do eixo A (a frente). As duas folgas sao verificadas aqui.
+  const m = GEOM.magazine, meiaT = D.magLarg / 2 + m.tuboParede.v;
+  const frenteColuna = D.elevZc + D.elevZ / 2;
+  if (m.z.v - meiaT < frenteColuna + g.folga.v)
+    av.push('Tubo do magazine invade a coluna do elevador: mova GEOM.magazine.z para ' +
+      U.fmt(frenteColuna + g.folga.v + meiaT, 0) + ' mm ou mais.');
+  if (m.z.v + meiaT > D.trnZ('A') + trnRaio() - g.folga.v)
+    av.push('Tubo do magazine invade o plano da correia do eixo A: reduza GEOM.magazine.z.');
+  if (m.dy.v < P.num('ball.d') + GEOM.calha.parede.v + g.folga.v)
+    av.push('Desnível entre passes do magazine (' + U.fmt(m.dy.v, 0) +
+      ' mm) menor que a altura do tubo: as paredes de dois passes se cruzam.');
+  if (D.yElevTopo + D.tampaRaio + GEOM.calha.parede.v > D.alturaExt - g.parede.v)
+    av.push('Topo do elevador (' + U.fmt(D.yElevTopo, 0) + ' mm) mais a capa não cabem sob ' +
+      'o teto: reduza GEOM.magazine.passos ou dy.');
+  if (D.xQueda - (D.magLargCarga / 2 + m.tuboParede.v) < -D.interna / 2)
+    av.push('Estação de carga fica fora da largura interna útil.');
+  /* janela por onde o ramo de carga atravessa o plano dos trilhos: entre o topo do
+     acrílico da tela e a base do mancal do trilho A. E a cota mais apertada do modelo. */
+  if (TELA) {
+    const topoAcr = TELA.yc + TELA.ma / 2;
+    const baseMancal = D.yTrilhoA - e.suporteY.v / 2;
+    const pisoTubo = D.yCarga - D.bolaR - GEOM.calha.parede.v;
+    const tetoTubo = D.yCarga + D.bolaR;
+    if (pisoTubo < topoAcr + g.folga.v)
+      av.push('Ramo de carga (piso em ' + U.fmt(pisoTubo, 0) + ' mm) encosta no acrílico ' +
+        'da tela (' + U.fmt(topoAcr, 0) + ' mm).');
+    if (tetoTubo > baseMancal - g.folga.v)
+      av.push('Ramo de carga (teto em ' + U.fmt(tetoTubo, 0) + ' mm) encosta no mancal do ' +
+        'trilho A (' + U.fmt(baseMancal, 0) + ' mm): reduza GEOM.magazine.rampaQueda.');
+  }
   return av;
 }
 
@@ -1672,7 +1838,7 @@ function filaMag() { return BOLAS.filter(b => b.st === 'mag').sort((a, b) => a.s
 
 function passoBolas(dt) {
   const xCarroA = EIXO_A.carro.position.x, xCarroB = EIXO_B.carro.position.x;
-  const zJogo = D.zJogo, bolaD = P.num('ball.d');
+  const zJogo = D.zJogo, bolaD = P.num('ball.d'), m = GEOM.magazine;
   const fila = filaMag();
   fila.forEach((b, i) => { b.slot = i; });
   const bercoPos = new THREE.Vector3(xCarroA, D.ySoltura, zJogo);
@@ -1684,34 +1850,67 @@ function passoBolas(dt) {
       case 'mag': {
         const alvoS = MAG.sSaida - MAG.passo * (b.slot + 1.5);
         if (b.sFila === undefined) b.sFila = alvoS;
-        const passo2 = GEOM.magazine.vFila.v * dt;
+        const passo2 = m.vFila.v * dt;
         b.sFila += U.clamp(alvoS - b.sFila, -passo2, passo2);
         b.mesh.position.copy(MAG.path.at(b.sFila));
         break;
       }
 
-      // espera no escapement: so desce quando o carro A chega na ponta do curso,
-      // que e onde ele para (velocidade zero) e da para receber a bola
-      // no batente do escapement, esperando o carro A chegar na ponta do curso
+      // a came do escapement gira meia volta: um dedo solta ESTA bola e o outro
+      // segura a fila. A bola so anda depois que o dedo saiu da frente dela.
       case 'pronta': {
         if (b.sFila === undefined) b.sFila = MAG.sSaida - MAG.passo;
-        const passo3 = GEOM.magazine.vFila.v * dt;
+        if (tMaq - MAG.libera < m.tCame.v * 0.45) break;
+        const passo3 = m.vFila.v * dt;
         b.sFila += U.clamp(MAG.sSaida - b.sFila, -passo3, passo3);
         b.mesh.position.copy(MAG.path.at(b.sFila));
-        if (b.sFila >= MAG.sSaida - 0.5 && Math.abs(xCarroA - MAG.xLoad) < bolaD) {
-          b.st = 'carga'; b.s = 0; b.v = GEOM.calha.vBola.v;
-          b.rota = polyPath(MAG.path.pts.slice(MAG.iSaida));
+        if (b.sFila >= MAG.sSaida - 0.5) {
+          b.st = 'desce'; b.s = MAG.sSaida; b.v = 0; b.rota = MAG.path;
         }
         break;
       }
 
+      // desce o tubo de carga por gravidade e PARA na comporta fechada
+      case 'desce': {
+        avancaEmRota(b, dt);
+        if (b.s >= MAG.sComporta) {
+          b.s = MAG.sComporta; b.v = 0; b.st = 'retido';
+          b.mesh.position.copy(MAG.path.at(b.s));
+        }
+        break;
+      }
+
+      /* ESPERA NA COMPORTA — a bola fica visivel, encostada na chapa, ate o carro A
+         inverter o curso logo abaixo dela. E o unico instante em que o berco esta
+         parado o bastante para receber: e por isso que a maquina carrega no fim do
+         curso, e nao em qualquer lugar. */
+      case 'retido': {
+        b.mesh.position.copy(MAG.pComporta);
+        const alinhado = Math.abs(xCarroA - MAG.xLoad) <= m.tolCarga.v &&
+                         Math.abs(velCarroA()) <= m.vCarga.v;
+        if (alinhado && !bolaNoBerco() && !BOLAS.some(o => o.st === 'assento')) MAG.cmd = 1;
+        if (MAG.gate > 0.7) { b.st = 'carga'; b.v = 0; }
+        break;
+      }
+
+      /* CARGA — a comporta deitada e a rampa. A bola rola por cima dela, atravessa
+         2 mm de vao e cai na aba do berco. Ninguem a move para lugar nenhum. */
       case 'carga': {
         const fim = avancaEmRota(b, dt);
-        // no fim do trajeto a bola mira o berco ONDE ELE ESTA: o ultimo trecho e
-        // vao livre, e o berco e um alvo movel
-        const f = U.clamp(b.s / b.rota.total, 0, 1);
-        b.mesh.position.lerp(bercoPos, U.clamp((f - 0.75) / 0.25, 0, 1));
-        if (fim) { b.st = 'berco'; b.s = 0; SOL.travaEm = tMaq; }
+        if (b.mesh.position.x >= xCarroA - D.bolaR || fim) {
+          b.st = 'assento'; b.t0 = tMaq;
+          b.off = b.mesh.position.clone().sub(bercoPos);
+          SOL.travaEm = tMaq; MAG.cmd = 0;
+        }
+        break;
+      }
+
+      // assentamento: a bola rola da aba para o fundo do copo, que e o unico
+      // deslocamento curto que sobra. Ela segue o carro desde o primeiro instante.
+      case 'assento': {
+        const f = U.clamp((tMaq - b.t0) / GEOM.soltura.tAssento.v, 0, 1);
+        b.mesh.position.copy(bercoPos).addScaledVector(b.off, 1 - f * f * (3 - 2 * f));
+        if (f >= 1) b.st = 'berco';
         break;
       }
 
@@ -1737,37 +1936,38 @@ function passoBolas(dt) {
         break;
       }
 
-
       case 'trem':
         if (avancaEmRota(b, dt)) { b.st = 'calha'; b.s = 0; b.rota = CAL.path; }
         break;
 
       case 'calha':
-        if (avancaEmRota(b, dt)) { b.st = 'espera'; b.s = 0; b.v = 0; }
+        if (avancaEmRota(b, dt)) { b.st = 'concha'; b.s = 0; b.rota = ELEV.rotaConcha; }
         break;
 
-      // no bolsao, encostada no fundo, esperando a cacamba varrer por ali
+      // dentro da concha: rola pela chapa curva ate o fundo dela
+      case 'concha':
+        if (avancaEmRota(b, dt)) { b.st = 'espera'; b.v = 0; }
+        break;
+
+      // fundo da concha, exatamente na linha que o copo varre
       case 'espera':
-        b.mesh.position.set(ELEV.bolsao.x, ELEV.bolsao.y, ELEV.bolsao.z);
+        b.mesh.position.copy(ELEV.pEspera);
         break;
 
-      // assentando na cacamba: a bola escorrega para dentro do copo, nao salta
-      case 'captura': {
-        const c = ELEV.cacambas[b.balde];
-        const f = U.clamp((tMaq - b.t0) / GEOM.elevador.tCapta.v, 0, 1);
-        b.mesh.position.copy(b.pIni).lerp(pontoNaCacamba(c), f * f * (3 - 2 * f));
-        if (f >= 1) b.st = 'balde';
-        break;
-      }
-
+      /* VARRIDA E SUBIDA — a bola encosta na chapa de tras do copo e na capa
+         externa. Nas curvas ela gira no mesmo angulo do copo, num raio maior:
+         por isso ela nao atravessa a capa nem flutua dentro do copo. */
+      case 'captura':
       case 'balde': {
         const c = ELEV.cacambas[b.balde];
         b.mesh.position.copy(pontoNaCacamba(c));
-        // a bola so sai quando a cacamba passa da horizontal na curva de cima:
-        // quem despeja e a propria inclinacao do copo, como no elevador de canecas
-        if (c.userData.s >= ELEV.sDespejo && c.userData.s < ELEV.sDespejo + ELEV.passo * 2) {
-          b.st = 'descarga'; b.s = 0; b.v = GEOM.calha.vBola.v;
-          b.rota = polyPath([b.mesh.position.clone(), ELEV.entrega.clone(), MAG.path.at(0)]);
+        const sc = c.userData.s;
+        if (b.st === 'captura' && sc < ELEV.sTopo0) b.st = 'balde';
+        // despejo: a capa do topo acaba, a aba do copo passa da horizontal e a bola
+        // rola para fora. Quem solta e a geometria, nao um cronometro.
+        if (b.st === 'balde' && sc >= ELEV.sDespejo && sc <= ELEV.sTopo1) {
+          b.st = 'descarga'; b.s = 0; b.v = GEOM.calha.vBola.v * 0.3;
+          b.rota = ELEV.rotaEntrega; b.balde = -1;
         }
         break;
       }
@@ -1778,26 +1978,40 @@ function passoBolas(dt) {
     }
   });
 
-  // a cacamba recolhe a bola do bolsao quando passa perto o suficiente dela:
-  // quem decide e a distancia entre o copo e a bola, nao um contador de tempo
+  /* a bola do fundo da concha e recolhida pelo copo que PASSA por ela: o gatilho e
+     o assento do copo cruzar o angulo em que ela esta parada, e nesse instante os
+     dois pontos coincidem. Nao ha salto porque nao ha troca de posicao. */
   const esperando = BOLAS.filter(b => b.st === 'espera')[0];
   if (esperando) {
     for (let i = 0; i < ELEV.cacambas.length; i++) {
       const c = ELEV.cacambas[i];
-      if (BOLAS.some(b => (b.st === 'balde' || b.st === 'captura') && b.balde === i)) continue;
-      if (pontoNaCacamba(c).distanceTo(esperando.mesh.position) < GEOM.elevador.raioCapta.v) {
-        esperando.st = 'captura'; esperando.balde = i;
-        esperando.t0 = tMaq; esperando.pIni = esperando.mesh.position.clone();
-        break;
+      if (BOLAS.some(b => b.balde === i && (b.st === 'balde' || b.st === 'captura'))) continue;
+      const a = anguloDoAssento(c);
+      if (a !== null && a <= ELEV.aEspera && a > ELEV.aEspera - 0.45) {
+        esperando.st = 'captura'; esperando.balde = i; break;
       }
     }
   }
 
-  // escapement: prepara a proxima bola quando o berco esvazia
-  if (!bolaNoBerco() && !BOLAS.some(b => b.st === 'carga' || b.st === 'pronta')) {
+  // escapement: libera UMA bola quando nao ha nenhuma no ramo de carga
+  const noRamo = b => b.st === 'pronta' || b.st === 'desce' || b.st === 'retido' ||
+                      b.st === 'carga' || b.st === 'assento';
+  if (!bolaNoBerco() && !BOLAS.some(noRamo)) {
     const prox = filaMag()[0];
-    if (prox) { prox.st = 'pronta'; prox.s = 0; }
+    if (prox) { prox.st = 'pronta'; prox.s = 0; MAG.libera = tMaq; }
   }
+}
+
+// velocidade instantanea do carro A, do MESMO perfil que o simulador usa
+function velCarroA() {
+  const h = 0.004;
+  return (W.axA.pos(tMaq + h) - W.axA.pos(tMaq - h)) / (2 * h);
+}
+// angulo do assento do copo em torno da polia de baixo; null fora da curva de baixo
+function anguloDoAssento(c) {
+  if (c.userData.s === undefined || c.userData.s < ELEV.sFundo0) return null;
+  const p = pontoNaCacamba(c);
+  return Math.atan2(p.y - ELEV.y0, p.z - ELEV.z);
 }
 
 /* Percurso sobre uma rota: a velocidade NAO e constante. Ela sai da inclinacao
@@ -1817,9 +2031,28 @@ function avancaEmRota(b, dt) {
 
 // rota da bola ate a saida da tremonha. Se errou, ela primeiro escorrega pela
 // chapa-alvo ate a borda — quem assiste ve a bola BATER, nao atravessar.
-// onde a bola se apoia dentro do copo da cacamba
+/* Onde a bola fica quando o copo a carrega. Dois regimes, porque sao duas
+   restricoes fisicas diferentes:
+   - nos trechos retos ela encosta na chapa de tras do copo e na tampa externa;
+   - nas curvas a tampa e um arco, e a bola nao pode atravessa-la: a defasagem em
+     relacao ao copo passa a ser ANGULAR, no raio dela.
+   A troca entre os dois e gradual ao longo de 40 mm, que e a bola rolando para tras
+   dentro do copo conforme ele entra na curva. */
 function pontoNaCacamba(c) {
-  return c.localToWorld(new THREE.Vector3(0, D.bolaR * 0.55, ELEV.bProf * 0.5));
+  const u = c.userData, dT = D.bolaR + GEOM.gabinete.folga.v, dR = D.bolaRaio - D.elevR;
+  const reta = c.position.clone().addScaledVector(u.t, dT).addScaledVector(u.out, dR);
+  if (!u.cen || !u.kArc) return reta;
+  // A direcao radial sai da POSICAO do copo, nao da tangente da poligonal: a poligonal
+  // tem canto a cada segmento, e usar a tangente dela faria a bola pular de canto em
+  // canto. E o angulo vem do seno, porque o que vale bolaR e a distancia da bola ao
+  // plano do fundo do copo, nao o arco.
+  const rad = c.position.clone().sub(u.cen).normalize();
+  const tang = new THREE.Vector3(0, -rad.z, rad.y);
+  const da = Math.asin(U.clamp(dT / D.bolaRaio, -1, 1));
+  const curva = u.cen.clone()
+    .addScaledVector(rad, D.bolaRaio * Math.cos(da))
+    .addScaledVector(tang, D.bolaRaio * Math.sin(da));
+  return reta.lerp(curva, u.kArc);
 }
 function iniciaTremonha(b, xChapa) {
   const p0 = b.mesh.position.clone(), pts = [p0];
@@ -1870,9 +2103,7 @@ function camerasPreset() {
   const meio = D.alturaExt / 2;
   const R = Math.hypot(D.lado / 2, D.lado / 2, meio);      // esfera do envelope
   const d = distParaEnquadrar(R);
-  const xE = D.lado / 2 - GEOM.gabinete.parede.v - GEOM.elevador.colunaX.v / 2;
-  const zE = -(D.lado / 2 - GEOM.gabinete.parede.v - GEOM.elevador.colunaZ.v / 2);
-  const yE = (GEOM.elevador.y1.v + GEOM.elevador.y0.v) / 2;
+  const xE = D.elevX, zE = D.elevZc, yE = (D.yElevTopo + GEOM.elevador.y0.v) / 2;
   const dir = (v, t) => ({ p: [t[0] + v[0] * d, t[1] + v[1] * d, t[2] + v[2] * d], t });
   const n = (a, b, c) => { const m = Math.hypot(a, b, c); return [a / m, b / m, c / m]; };
   return {
@@ -1889,7 +2120,7 @@ function camerasPreset() {
     // quando o carro passa por acaso na frente da camera
     DETALHE_SOLTURA: { p: [95, D.ySoltura + 25, D.zJogo + 265], t: [0, D.ySoltura - 15, D.zJogo], segue: 'A' },
     DETALHE_ELEVADOR: (() => {
-      const t = [xE, yE, zE], dE = distParaEnquadrar((GEOM.elevador.y1.v - GEOM.elevador.y0.v) * 0.38);
+      const t = [xE, yE, zE], dE = distParaEnquadrar((D.yElevTopo - GEOM.elevador.y0.v) * 0.38);
       const u = n(0.55, 0.18, 0.82);
       return { p: [t[0] + u[0] * dE, t[1] + u[1] * dE, t[2] + u[2] * dE], t };
     })()
@@ -2029,16 +2260,20 @@ function depoisDeParam(geometria) {
    roteiro paralelo. Se a maquina fizer outra coisa, a barra mostra outra coisa.
    ========================================================================== */
 const ETAPAS = [
-  { id: 'pronta', t: 'Bola liberada pelo escapement', sub: 'Magazine' },
-  { id: 'carga', t: 'Desce até o berço', sub: 'Magazine' },
-  { id: 'berco', t: 'Carro A carrega a bola', sub: 'Soltura' },
+  { id: 'pronta', t: 'Escapement libera uma bola', sub: 'Magazine' },
+  { id: 'desce', t: 'Desce o tubo de carga', sub: 'Magazine' },
+  { id: 'retido', t: 'Espera o carro A na comporta', sub: 'Magazine' },
+  { id: 'carga', t: 'Comporta abre e a bola rola para o berço', sub: 'Soltura' },
+  { id: 'berco', t: 'Pino trava a bola e o carro A a carrega', sub: 'Soltura' },
   { id: 'voo', t: 'Voo livre até o eixo B', sub: 'Soltura' },
   { id: 'alvo', t: 'Passa pelo furo do alvo', sub: 'Buraco' },
   { id: 'trem', t: 'Cai na bandeja', sub: 'Retorno de bolas' },
   { id: 'calha', t: 'Percorre a calha', sub: 'Retorno de bolas' },
-  { id: 'espera', t: 'Aguarda no bolsão', sub: 'Elevador' },
-  { id: 'balde', t: 'Sobe na caçamba', sub: 'Elevador' },
-  { id: 'descarga', t: 'Entregue no magazine', sub: 'Magazine' },
+  { id: 'concha', t: 'Entra na concha do elevador', sub: 'Elevador' },
+  { id: 'espera', t: 'Aguarda o copo no fundo da concha', sub: 'Elevador' },
+  { id: 'captura', t: 'O copo varre a bola da concha', sub: 'Elevador' },
+  { id: 'balde', t: 'Sobe presa entre o copo e a tampa', sub: 'Elevador' },
+  { id: 'descarga', t: 'Copo tomba e entrega no magazine', sub: 'Magazine' },
   { id: 'mag', t: 'Volta para a fila', sub: 'Magazine' }
 ];
 const DEMO = { on: false, bola: null, tPress: -1, etapa: '' };
@@ -2071,17 +2306,20 @@ function focoDaEtapa(et, bola) {
   const meioCampo = (D.ySoltura + D.yBoca) / 2;
   switch (et) {
     case 'mag': return { p: MAG.path.at(MAG.sSaida - MAG.passo * 2), r: 300 };
-    case 'pronta': return { p: MAG.path.at(MAG.sSaida), r: 220 };
-    case 'carga': return { p: pb, r: 240 };
+    case 'pronta': return { p: MAG.path.at(MAG.sSaida), r: 200 };
+    case 'desce': return { p: pb, r: 260 };
+    case 'retido': return { p: MAG.pComporta, r: 150 };
+    case 'carga': return { p: pb.clone().lerp(V(MAG.xLoad, D.ySoltura, D.zJogo), 0.5), r: 150 };
     case 'berco': return { p: V(pb.x, D.ySoltura, D.zJogo), r: 260 };
     case 'voo': return { p: V(pb.x, meioCampo, D.zJogo), r: 300 };
     case 'alvo': return { p: V(pb.x, D.yBoca - GEOM.boca.gargantaAlt.v / 2, D.zJogo), r: 190 };
     case 'trem': return { p: pb, r: 300 };
     case 'calha': return { p: pb, r: 320 };
-    case 'espera': return { p: ELEV.bolsao, r: 200 };
-    case 'captura': return { p: ELEV.bolsao, r: 190 };
-    case 'balde': return { p: V(ELEV.x, pb.y, ELEV.z + ELEV.R), r: 340 };
-    case 'descarga': return { p: ELEV.entrega, r: 260 };
+    case 'concha': return { p: ELEV.pEspera, r: 200 };
+    case 'espera': return { p: ELEV.pEspera, r: 170 };
+    case 'captura': return { p: ELEV.pEspera, r: 170 };
+    case 'balde': return { p: V(ELEV.x, pb.y, ELEV.z - ELEV.R), r: 320 };
+    case 'descarga': return { p: ELEV.entrega, r: 220 };
     default: return { p: V(0, D.alturaExt / 2, 0), r: D.alturaExt / 2 };
   }
 }
@@ -2130,6 +2368,7 @@ function etapaDaBola(b) {
   // a saida da garganta. Termina quando ela de fato sai da passagem interna.
   if (b.st === 'trem' && ALVO && tMaq - ALVO.aceso < 4 &&
       b.mesh.position.y > ALVO.yGarganta) return 'alvo';
+  if (b.st === 'assento') return 'carga';       // o assentamento e o fim da carga
   return b.st;
 }
 function passoDemo(dt) {
@@ -2384,17 +2623,29 @@ function giraTransmissao(dt) {
 }
 function moveCacambas() {
   if (!ELEV) return;
-  const eixoX = new THREE.Vector3(1, 0, 0), T = new THREE.Vector3(), OUT = new THREE.Vector3();
-  const m4 = new THREE.Matrix4();
+  const T = new THREE.Vector3(), OUT = new THREE.Vector3(), XL = new THREE.Vector3();
+  const m4 = new THREE.Matrix4(), zona = 40;
   ELEV.cacambas.forEach((c, i) => {
     const s = U.frac((i * ELEV.passo + ELEV.v * tMaq) / ELEV.loop.total) * ELEV.loop.total;
     c.userData.s = s;
     c.position.copy(ELEV.loop.at(s));
-    // a boca da cacamba aponta para fora do laco: subindo ela fica para cima,
-    // e na curva do topo ela vira e despeja sozinha
+    // a boca do copo aponta para FORA do laco: subindo fica para cima, e depois do
+    // topo ela vira para a frente, que e o lado do magazine
     T.copy(ELEV.loop.tangente(s));
-    OUT.set(0, -T.z, T.y).normalize();
-    c.quaternion.setFromRotationMatrix(m4.makeBasis(eixoX, T, OUT));
+    OUT.set(0, T.z, -T.y).normalize();
+    XL.crossVectors(T, OUT).normalize();
+    c.quaternion.setFromRotationMatrix(m4.makeBasis(XL, T, OUT));
+    c.userData.t = T.clone(); c.userData.out = OUT.clone();
+    // em qual polia o copo esta, e quanto da curva ja entrou
+    let cen = null, k = 0;
+    if (s >= ELEV.sTopo0 - zona && s <= ELEV.sTopo1) {
+      cen = new THREE.Vector3(ELEV.x, ELEV.y1, ELEV.z);
+      k = U.clamp((s - (ELEV.sTopo0 - zona)) / zona, 0, 1);
+    } else if (s >= ELEV.sFundo0 - zona || s <= zona) {
+      cen = new THREE.Vector3(ELEV.x, ELEV.y0, ELEV.z);
+      k = s <= zona ? 1 - s / zona : U.clamp((s - (ELEV.sFundo0 - zona)) / zona, 0, 1);
+    }
+    c.userData.cen = cen; c.userData.kArc = k;
   });
 }
 // alvo: anel aceso e portinhola aberta logo depois do acerto. E a confirmacao
@@ -2411,12 +2662,32 @@ function animaAlvo() {
   ALVO.anel.scale.y = (P.num('geo.depth') / Math.max(P.num('geo.L'), P.num('geo.depth'))) * (1 + 0.25 * f);
 }
 
+/* Came do escapement: meia volta por bola liberada. Um dedo sai da frente da bola
+   enquanto o outro entra na frente da seguinte — e isso que faz sair UMA. */
+function animaEscape() {
+  if (!MAG || !MAG.came) return;
+  const f = U.clamp((tMaq - MAG.libera) / GEOM.magazine.tCame.v, 0, 1);
+  MAG.came.rotation.z = (MAG.voltas || 0) + Math.PI * f * f * (3 - 2 * f);
+  if (f >= 1 && MAG.liberaFeita !== MAG.libera) {
+    MAG.liberaFeita = MAG.libera; MAG.voltas = MAG.came.rotation.z;
+  }
+}
+/* Comporta de carga: chapa articulada na soleira do tubo. Fechada, e o batente da
+   bola; aberta, deita e vira a rampa por onde ela rola para o berco. O comando vem
+   da posicao do carro A, nao de um cronometro. */
+function animaComporta(dt) {
+  if (!MAG || !MAG.lamina) return;
+  const m = GEOM.magazine, passo = dt / Math.max(1e-3, m.tComporta.v);
+  MAG.gate = U.clamp(MAG.gate + U.clamp((MAG.cmd || 0) - MAG.gate, -passo, passo), 0, 1);
+  MAG.lamina.position.y = MAG.yLamina - MAG.gate * m.comportaAlt.v;
+}
+
 /* Pino do berco: recolhido enquanto a bola nao chegou (senao ela nao entra),
    avancado assim que ela assenta, e recolhido de novo no instante da soltura.
    E esse pino que segura a bola durante todo o percurso do carro A. */
 function animaPino() {
   if (!SOL.pino) return;
-  const carregando = BOLAS.some(b => b.st === 'carga' || b.st === 'pronta');
+  const carregando = BOLAS.some(b => b.st === 'carga' || b.st === 'retido' || b.st === 'desce');
   const soltando = TIRO && tMaq - TIRO.ev.tRel > 0;
   const temBola = !!bolaNoBerco();
   // 0 = recolhido (passagem livre), 1 = avancado (bola travada)
@@ -2448,7 +2719,7 @@ function laco() {
   }
   passoBolas(dt); giraTransmissao(dt); moveCacambas(); piscaOfensores(); animaAlvo();
   passoDemo(dt); passoCamera(dt);
-  animaPino();
+  animaPino(); animaComporta(dt); animaEscape();
   controls.update();
   renderer.render(scene, camera); labelRenderer.render(scene, camera);
   if (tMaq - tHud > 0.12) { tHud = tMaq; pintaHud(); if (SEL) pintaFicha(); }
