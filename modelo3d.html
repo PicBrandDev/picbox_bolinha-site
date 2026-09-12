@@ -37,6 +37,17 @@ canvas{display:block}
 #legend{left:10px;bottom:10px;width:284px;max-height:46%;overflow-y:auto;z-index:11}
 #legend .kv{font-size:11px}
 #coll{right:10px;bottom:10px;width:268px;max-height:36%;overflow-y:auto;z-index:10}
+#ficha{left:304px;right:288px;bottom:10px;max-height:40%;overflow-y:auto;z-index:12}
+#ficha h4{margin-top:0}
+#ficha .cab{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+#ficha .nome{font-size:14px;font-weight:600}
+#ficha .chip{font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:4px;padding:1px 6px;color:var(--fg2)}
+#ficha .chip.cat{color:#0e1113;background:var(--cat);border-color:var(--cat)}
+#ficha .chip.est{color:#06232a;background:var(--acc);border-color:var(--acc)}
+#ficha .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px 18px}
+#ficha .fechar{position:absolute;top:6px;right:8px}
+#ficha .fn{margin-top:6px;line-height:1.45}
 h4{margin:2px 0 7px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2);
   font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px}
 h4:not(:first-child){margin-top:12px}
@@ -62,6 +73,7 @@ h4:not(:first-child){margin-top:12px}
 #textOverlay.open{display:flex}
 #wrap.sempaineis .panel{display:none}
 @media (max-width:860px){
+  #ficha{left:10px;right:10px;max-height:46%}
   #left,#legend{width:min(46vw,260px)}
   #right,#coll{width:min(46vw,240px)}
   .panel{padding:7px 8px;font-size:11.5px}
@@ -94,6 +106,7 @@ h4:not(:first-child){margin-top:12px}
   <div class="panel" id="right"></div>
   <div class="panel" id="legend"></div>
   <div class="panel" id="coll"></div>
+  <div class="panel" id="ficha" hidden></div>
 </div>
 
 <div id="textOverlay">
@@ -208,7 +221,8 @@ const GEOM = {
                                          // magazine entra pelo lado do elevador (+X) e
                                          // tem que terminar do lado do berco (-X), senao
                                          // a ultima calha atravessa a maquina inteira
-    z:           mm(-100, EST),          // atras do plano dos trilhos, na frente do elevador
+    z:           mm(-105, EST),          // faixa livre entre a traseira do motor do eixo
+                                         // superior e a parede da coluna do elevador
     y:           mm(1520, EST),          // base do primeiro passe, na altura em que
                                          // o elevador entrega (GEOM.elevador.y1)
     dy:          mm(42, EST),            // desnivel entre passes
@@ -244,6 +258,8 @@ const GEOM = {
     dGrande:     mm(60, EST),
     dPequeno:    mm(30, EST),
     corpoA:      mm(32, EST),
+    aro:         mm(6, EST),             // anel entre a capa e o corpo roscado
+    capaE:       mm(8, EST),             // altura da capa translucida
     incl:        un(12, EST, 'graus'),
     nPequenos:   un(4, EST, 'botoes')
   },
@@ -283,6 +299,25 @@ const GEOM = {
     yPotencia:   mm(660, EST),
     yFalante:    mm(880, EST),
     chicoteD:    mm(12, EST)
+  },
+  // Detalhe construtivo das pecas que JA existem na lista. Nao entra peca nova:
+  // cada malha daqui e filha da peca que ela detalha, nao vira linha no CSV.
+  detalhe: {
+    trilhoSulco:  mm(2.2, EST),          // canal das esferas na lateral do trilho
+    carroTampa:   mm(4, EST),            // tampa de vedacao nas duas pontas do carro
+    poliaCubo:    mm(6, EST),            // cubo da polia, entre os flanges
+    correiaArco:  un(150, EST, 'graus'), // abraco da correia em cada polia
+    motorBoss:    mm(22, CAT),           // ressalto de centragem do NEMA 17
+    motorBossE:   mm(2, CAT),
+    motorTampa:   mm(3, EST),            // tampa traseira do motor
+    molaFio:      mm(1.2, EST),          // mola de retorno do solenoide
+    molaVoltas:   un(7, EST, 'voltas'),
+    abaSensor:    mm(12, EST),           // aba no carro que corta a barreira do fim de curso
+    abaE:         mm(2, EST),
+    eixoPolia:    mm(8, EST),            // eixo das polias do elevador
+    labioLarg:    mm(38, EST),           // largura da lingueta de descarga do elevador
+    dedoEscape:   mm(3, EST),            // dedos do escapement, defasados
+    bercoLabio:   mm(2.5, EST)           // aba que retem a bola no berco
   },
   vista: {
     explodeMax:  mm(300, EST),
@@ -339,7 +374,7 @@ let D = derive();
 /* --------------------------------------------------------------------------
    Materiais: CINZA = catalogo, CIANO = estimado. Sem textura, sem PBR.
    -------------------------------------------------------------------------- */
-const COR = { cat: 0x9aa3ab, est: 0x2ad3d3, err: 0xff3b3b, vidro: 0x7fb6c4 };
+const COR = { cat: 0x9aa3ab, est: 0x2ad3d3, err: 0xff3b3b, vidro: 0x7fb6c4, sel: 0xffb020 };
 const matCache = {};
 function matFor(src, opts) {
   const key = src + '|' + JSON.stringify(opts || {});
@@ -418,8 +453,101 @@ function aplicaModo() {
   const mb = matDaPeca({ nome: 'Bola acrílica', sub: 'Bolas', src: EST });
   BOLAS.forEach(b => { b.mesh.material = mb; b.mesh.userData.matBase = mb; });
   matEdge.opacity = modoCor === 'apresentacao' ? 0.18 : 0.35;
+  aplicaDestaque();
   pintaLegenda();
 }
+
+/* ============================================================================
+   FICHA DAS PECAS — o que a geometria nao diz.
+   f = funcao da peca na maquina; o = de onde saiu a cota (params.js, catalog.js
+   ou o bloco GEOM aqui de cima). Peca sem ficha cai no basico: nome, subsistema,
+   procedencia, dimensoes e caixa envolvente, que saem da propria malha.
+   ========================================================================== */
+const FICHA = {
+  'Trilho linear MGN12 350 mm': { f: 'Guia linear do carro. O comprimento de 350 mm é o que limita o curso útil: curso + comprimento do carro tem que caber nele.', o: 'GEOM.eixo.trilhoComp / trilhoLarg / trilhoAlt' },
+  'Carro MGN12H': { f: 'Patim de esferas recirculantes. Carrega o berço no eixo A e o bocal do buraco no eixo B.', o: 'GEOM.eixo.carroComp / carroLarg / carroAlt' },
+  'Viga de fixação do trilho': { f: 'Perfil que prende o trilho à estrutura e fecha a banda vertical do eixo. A altura é derivada: é o que sobra da banda depois do trilho.', o: 'GEOM.eixo.vigaZ + altura derivada' },
+  'Suporte de extremidade': { f: 'Mancal de ponta: sustenta a polia e dá o batente mecânico do curso.', o: 'GEOM.eixo.suporteX / suporteY' },
+  'Sensor óptico de fim de curso': { f: 'Referencia o zero do eixo no ligar e protege o fim de curso. Dois por eixo, logo depois do curso útil.', o: 'GEOM.eixo.sensorOptC / L / A' },
+  'Polia GT2 20T (motora)': { f: 'Converte volta do motor em curso: 20 dentes × 2 mm = 40 mm por volta. É esse número que define a resolução de posição junto com o micropasso.', o: 'catalog.js · transmissao' },
+  'Polia tensora GT2 20T': { f: 'Fecha o laço da correia e tensiona. Carrega o ímã lido pelo encoder AS5600.', o: 'catalog.js · transmissao' },
+  'Correia GT2 6 mm': { f: 'Transmite o movimento do motor ao carro. Alonga com o tempo: item de manutenção, e a folga dela entra no σ da máquina.', o: 'catalog.js · transmissao' },
+  'Garra de correia do carro': { f: 'Prende os dois ramos da correia ao carro. É aqui que a folga da transmissão vira erro de posição.', o: 'derivada do carro e do plano da correia' },
+  'Fuso trapezoidal T8': { f: 'Alternativa de transmissão: rígido, mas lento e com folga axial na castanha.', o: 'catalog.js · transmissao' },
+  'Castanha do fuso': { f: 'Porca que converte rotação em avanço. A folga axial dela aparece só na inversão.', o: 'catalog.js · transmissao' },
+  'Mancal do fuso': { f: 'Apoio do fuso nas duas pontas.', o: 'catalog.js · transmissao' },
+  'Cremalheira': { f: 'Alternativa de transmissão: curso ilimitado, folga entre dentes alta sem pré-carga.', o: 'catalog.js · transmissao' },
+  'Pinhão do carro': { f: 'Engrena na cremalheira e puxa o carro.', o: 'catalog.js · transmissao' },
+  'Motor de passo NEMA 17': { f: 'Aciona o eixo. Com encoder em malha fechada, perda de passo é detectada e corrigida — é o que segura o erro de posição em 0,05 mm.', o: 'catalog.js · motor' },
+  'Motor BLDC 42 mm': { f: 'Alternativa silenciosa e eficiente; o ripple de comutação aparece no perfil de movimento.', o: 'catalog.js · motor' },
+  'Motor DC 12 V do eixo': { f: 'Alternativa barata. A realimentação por potenciômetro é ruidosa e costuma derrubar a razão de sigmas.', o: 'catalog.js · motor' },
+  'Potenciômetro linear de realimentação': { f: 'Realimentação de posição do motor DC. Analógica, não linear e ruidosa.', o: 'catalog.js · motor' },
+  'Eixo do motor': { f: 'Ponta de eixo onde a polia é fixada.', o: 'catalog.js · motor' },
+  'Encoder AS5600 (PCB)': { f: 'Encoder magnético absoluto na polia tensora: lê a posição real do eixo, independente do que o driver mandou.', o: 'GEOM.eixo.as5600' },
+  'Placa do carro montado': { f: 'Base que carrega o que o carro transporta. A largura não é escolhida: cobre o que está em cima dela.', o: 'derivada da carga do carro' },
+
+  'Berço da bola': { f: 'Copo aberto embaixo: quem segura a bola é o pino lateral, não o fundo. Soltar = recolher o pino.', o: 'derivada de ball.d + GEOM.soltura.bercoParede' },
+  'Braço do berço': { f: 'Desce da placa do carro até o berço. O comprimento dele é o recuo entre o eixo do trilho e o plano de soltura.', o: 'GEOM.soltura.bracoL / bracoE + recuo derivado' },
+  'Solenoide de tração 12 V': { f: 'Recolhe o pino e solta a bola. É o último elo antes da bola sair, logo domina o jitter da cadeia (0,3 ms).', o: 'catalog.js · soltura' },
+  'Servo de soltura': { f: 'Alternativa barata; o laço interno do servo é assíncrono ao MCU e o jitter sobe uma ordem de grandeza.', o: 'catalog.js · soltura' },
+  'Braço do servo': { f: 'Converte o giro do servo em recuo do pino.', o: 'catalog.js · soltura' },
+  'Motor DC da came': { f: 'Alternativa com soltura em fase fixa da came; impõe spin residual alto.', o: 'catalog.js · soltura' },
+  'Came de soltura': { f: 'Perfil que recolhe o pino uma vez por volta.', o: 'catalog.js · soltura' },
+  'Pino retrátil do berço': { f: 'O único componente entre a bola e a queda. O instante em que ele sai é o instante t=0 do voo.', o: 'catalog.js · soltura (curso do pino)' },
+  'Barreira óptica do lançador': { f: 'Marca o instante real da saída da bola. Serve para PROVAR quando a bola saiu, não para decidir o lançamento.', o: 'GEOM.eixo.sensorOpt*' },
+  'PCB do carro (MOSFET + capacitor)': { f: 'Aciona o solenoide junto dele, com energia local: fio longo derruba a corrente de pico e atrasa a soltura.', o: 'GEOM.soltura.pcbC / pcbL / pcbE' },
+  'Capacitor 2200 µF': { f: 'Reservatório de energia para o pulso do solenoide. Sem ele a fonte afunda e o jitter cresce.', o: 'GEOM.soltura.capD / capA' },
+  'MOSFET de potência': { f: 'Chaveia o solenoide. Precisa de diodo de roda-livre; o tempo de comutação dele entra na latência.', o: 'GEOM.soltura.mosfetC / L / A' },
+
+  'Parede lateral da boca': { f: 'Forma a abertura do buraco. A distância entre as duas é geo.L, que define a tolerância de acerto.', o: 'params.js · geo.L + GEOM.boca.parede' },
+  'Parede frontal da boca': { f: 'Fecha a garganta na profundidade geo.depth.', o: 'params.js · geo.depth' },
+  'Flange da boca': { f: 'Aba de fixação do bocal na placa do carro.', o: 'GEOM.boca.flange' },
+  'Rampa de saída da boca': { f: 'Joga a bola capturada para trás, na bandeja. Dimensionada para caber na altura da garganta.', o: 'derivada de geo.depth e da garganta' },
+  'Barreira óptica da boca': { f: 'Registra a passagem da bola pelo buraco. Não afeta a trajetória: afeta a capacidade de provar o resultado.', o: 'catalog.js · deteccao' },
+  'Sensor indutivo da boca': { f: 'Alternativa robusta a sujeira, mas só funciona com bola metálica.', o: 'catalog.js · deteccao' },
+  'Microswitch da boca': { f: 'Alternativa barata, sujeita a bounce; pode não registrar bola leve que passa raspando.', o: 'catalog.js · deteccao' },
+  'Alavanca do microswitch': { f: 'Aciona o microswitch na passagem da bola.', o: 'catalog.js · deteccao' },
+
+  'Tubo do magazine': { f: 'Fila de bolas por gravidade. O último trecho é vão livre: a bola cai no berço, não é empurrada.', o: 'derivada de ball.d + GEOM.calha.folgaLat' },
+  'Micro-servo SG90 (escapement)': { f: 'Libera uma bola por vez para o berço. Segura a fila inteira entre um ciclo e outro.', o: 'GEOM.magazine.servoC / L / A' },
+  'Came do escapement': { f: 'Dois dedos defasados: um segura a fila enquanto o outro solta uma bola só.', o: 'GEOM.magazine.cameR / cameE' },
+  'Sensor de nível do magazine': { f: 'Avisa quando a fila está acabando, antes da máquina travar sem bola.', o: 'GEOM.magazine.sensorNivel' },
+
+  'Parede da coluna do elevador': { f: 'Fecha a coluna por onde as bolas sobem.', o: 'GEOM.elevador.colunaX / colunaZ' },
+  'Esteira do elevador': { f: 'Ramo da esteira. Sobe na frente, desce atrás.', o: 'GEOM.elevador.esteiraL / esteiraE' },
+  'Talisca do elevador': { f: 'Degrau que carrega uma bola por vez. O espaçamento define quantas bolas sobem por minuto.', o: 'GEOM.elevador.taliscaL / taliscaE' },
+  'Polia superior do elevador': { f: 'Tambor de acionamento. A velocidade linear da esteira sai do diâmetro dela e da rotação do motor.', o: 'GEOM.elevador.poliaD' },
+  'Polia inferior do elevador': { f: 'Tambor de retorno, no fundo, onde as calhas entregam a bola.', o: 'GEOM.elevador.poliaD' },
+  'Motor DC 12 V 30 rpm do elevador': { f: 'Aciona a esteira. 30 rpm em polia Ø40 dá ~63 mm/s de subida.', o: 'GEOM.elevador.motorD / motorC / rpm' },
+  'Calha de retorno': { f: 'Leva a bola da bandeja até o fundo do elevador, pelo corredor livre em +X.', o: 'derivada de ball.d + GEOM.calha' },
+  'Bandeja de captura (fundo inclinado)': { f: 'Recebe tanto a bola que entrou no buraco quanto a que errou. Fundo inclinado para a boca da calha.', o: 'GEOM.gabinete.bandaBandeja' },
+  'Bola acrílica Ø35': { f: 'O projétil. Diâmetro e massa saem de params.js e mudam voo, berço, magazine e calhas ao mesmo tempo.', o: 'params.js · ball.d / ball.m' },
+
+  'Botão arcade Ø60 iluminado (SOLTAR)': { f: 'O botão que o jogador aperta. Da borda dele até a bola sair passam ~29 ms de latência de cadeia.', o: 'GEOM.botoes.dGrande / corpoA' },
+  'Botão arcade Ø30 iluminado': { f: 'Botões laterais: navegação e confirmação.', o: 'GEOM.botoes.dPequeno / corpoA' },
+  'Painel de botões': { f: 'Faixa de 1050 a 1100 mm. O recuo dele sai da meia-diagonal do maior botão inclinado.', o: 'GEOM.botoes.incl + recuo derivado' },
+
+  'LCD 15,6" do campo (moldura)': { f: 'Tela do campo, recuada 30 mm atrás do plano dos trilhos. A orientação é parâmetro.', o: 'GEOM.telas.campoMold* / campoRecuo' },
+  'LCD 15,6" do campo (área ativa)': { f: 'Área de imagem útil, 345 × 194 mm.', o: 'GEOM.telas.campoAtiva*' },
+  'Barra 12,6" da testeira (moldura)': { f: 'Barra da testeira, 1920 × 515 px.', o: 'GEOM.telas.barraMold*' },
+  'Barra 12,6" da testeira (área ativa)': { f: 'Área de imagem útil da testeira.', o: 'GEOM.telas.barraAtiva*' },
+  'Acrílico de proteção da tela': { f: 'Protege a tela da bola. Fica na frente dela e atrás dos trilhos.', o: 'GEOM.telas.acrilicoE / acrilicoFolga' },
+  'Vidro do campo de jogo': { f: 'Fecha o campo para o jogador. Tudo que está atrás dele é inacessível em operação.', o: 'GEOM.gabinete.vidroE' },
+  'Fita WS2812B': { f: 'Contorna o campo. Endereçável: cada LED responde a um evento do jogo.', o: 'GEOM.gabinete.ledFitaL / ledFitaE' },
+
+  'Raspberry Pi 4': { f: 'Cérebro: jogo, telas, som e log. Não fecha malha de tempo real — isso é do Pico.', o: 'GEOM.eletronica.rpi*' },
+  'Pico RP2040': { f: 'Tempo real: lê botão e sensores e comanda a soltura. É aqui que o jitter da cadeia é ganho ou perdido.', o: 'GEOM.eletronica.pico*' },
+  'Driver TMC2209': { f: 'Driver de passo com micropasso. Um por eixo.', o: 'GEOM.eletronica.tmc*' },
+  'Fonte Meanwell LRS-150': { f: 'Fonte principal. Firmeza dela no pulso do solenoide afeta direto o jitter de soltura.', o: 'GEOM.eletronica.fonte*' },
+  'Conversor DC-DC': { f: 'Deriva 12 V e 5 V do barramento.', o: 'GEOM.eletronica.dcdc*' },
+  'PCB de interface': { f: 'Concentra sensores, botões e drivers. É o ponto onde o chicote nasce.', o: 'GEOM.eletronica.pcb*' },
+  'Trilho DIN (disjuntor, fusíveis, filtro de linha)': { f: 'Proteção e filtragem da entrada de rede.', o: 'GEOM.eletronica.din*' },
+  'Falante Ø50': { f: 'Áudio do jogo. Dois, na frente da coluna.', o: 'GEOM.eletronica.falante*' },
+  'Amplificador classe D': { f: 'Amplifica o áudio do Raspberry.', o: 'GEOM.eletronica.amp*' },
+  'Prateleira da coluna': { f: 'Bandeja de montagem da eletrônica. Para antes do corredor da calha e do corredor de cabo.', o: 'GEOM.eletronica.prateleiraE + corredores' },
+  'Tronco de chicote': { f: 'Rota indicativa do chicote. Flexível: não entra na verificação de interferência.', o: 'GEOM.eletronica.chicoteD' },
+  'Divisória campo/coluna': { f: 'Separa o campo de jogo da coluna. Aberta no corredor por onde a calha desce.', o: 'GEOM.gabinete.parede + corredor' }
+};
 
 /* ============================================================================
    CENA
@@ -499,6 +627,24 @@ function cyl(dia, len, src, axis, mat, seg) {
 function ball(dia) { return new THREE.Mesh(new THREE.SphereGeometry(dia / 2, 22, 16), matFor(EST)); }
 function planoTela(c, a) { return new THREE.Mesh(new THREE.PlaneGeometry(c, a), matFor(CAT)); }
 function at(m, x, y, z) { m.position.set(x || 0, y || 0, z || 0); return m; }
+// detalhe: malha filha da peca que ela detalha. Nao passa por reg(), logo nao vira
+// linha no CSV nem peca nova — e o mesmo componente, desenhado com mais fidelidade.
+function det(pai, filho) { pai.add(filho); return filho; }
+// banda curva (abraco de correia numa polia); eixo local Y, como o cilindro
+function banda(raio, larg, grausIni, graus, src) {
+  const g = new THREE.CylinderGeometry(raio, raio, larg, 24, 1, true,
+    grausIni * Math.PI / 180, graus * Math.PI / 180);
+  return new THREE.Mesh(g, new THREE.MeshLambertMaterial({ color: COR.est, side: THREE.DoubleSide }));
+}
+// mola helicoidal ao longo do eixo local Z
+function mola(dia, comp, voltas, fio, src) {
+  const n = Math.max(12, Math.round(voltas * 14)), pts = [];
+  for (let i = 0; i <= n; i++) {
+    const a = i / n * voltas * Math.PI * 2;
+    pts.push(new THREE.Vector3(Math.cos(a) * dia / 2, Math.sin(a) * dia / 2, -comp / 2 + comp * i / n));
+  }
+  return new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), n, fio / 2, 6, false), matFor(src));
+}
 
 /* ============================================================================
    GABINETE
@@ -551,15 +697,17 @@ function buildVidro() {
    id 'B' = eixo do buraco (carro sobre o trilho)
    ========================================================================== */
 function buildEixo(id) {
-  const e = GEOM.eixo, g = GEOM.gabinete, grp = G['eixo' + id];
+  const e = GEOM.eixo, g = GEOM.gabinete, dt = GEOM.detalhe, grp = G['eixo' + id];
   const sup = id === 'A';
   const yRail = sup ? D.yTrilhoA : D.yTrilhoB;
   const sgn = sup ? -1 : 1;                       // lado do carro em relacao ao trilho
   const vigaAlt = sup ? D.vigaAltSup : D.vigaAltInf;
   const add = (m, nome, src, dims) => { grp.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
 
-  add(at(box(e.trilhoComp.v, e.trilhoAlt.v, e.trilhoLarg.v, CAT), 0, yRail, g.planoTrilhoZ.v),
+  const trilho = add(at(box(e.trilhoComp.v, e.trilhoAlt.v, e.trilhoLarg.v, CAT), 0, yRail, g.planoTrilhoZ.v),
     'Trilho linear MGN12 350 mm', CAT, dimsOf(e.trilhoComp.v, e.trilhoLarg.v, e.trilhoAlt.v));
+  [-1, 1].forEach(sz => det(trilho, at(box(e.trilhoComp.v, dt.trilhoSulco.v, dt.trilhoSulco.v / 2, CAT),
+    0, 0, sz * e.trilhoLarg.v / 2)));                       // canais das esferas
   if (vigaAlt > 0) add(at(box(e.trilhoComp.v, vigaAlt, e.vigaZ.v, EST),
     0, yRail - sgn * (e.trilhoAlt.v / 2 + vigaAlt / 2), g.planoTrilhoZ.v),
     'Viga de fixação do trilho', EST, dimsOf(e.trilhoComp.v, vigaAlt, e.vigaZ.v));
@@ -575,8 +723,10 @@ function buildEixo(id) {
   carro.position.set(0, yRail, g.planoTrilhoZ.v);
   grp.add(carro);
   const addc = (m, nome, src, dims) => { carro.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
-  addc(at(box(e.carroComp.v, e.carroAlt.v, e.carroLarg.v, CAT), 0, sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v / 2), 0),
+  const carroM = addc(at(box(e.carroComp.v, e.carroAlt.v, e.carroLarg.v, CAT), 0, sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v / 2), 0),
     'Carro MGN12H', CAT, dimsOf(e.carroComp.v, e.carroLarg.v, e.carroAlt.v));
+  [-1, 1].forEach(sx => det(carroM, at(box(dt.carroTampa.v, e.carroAlt.v, e.carroLarg.v, CAT),
+    sx * (e.carroComp.v / 2 - dt.carroTampa.v / 2), 0, 0)));   // tampas de vedacao
 
   const yPlaca = sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v + e.placaE.v / 2);
   const paySrc = sup ? CT.geom('soltura') : null;
@@ -584,9 +734,12 @@ function buildEixo(id) {
   const payZ = sup ? (D.bolaR + g.folga.v + (paySrc.d.corpoC || paySrc.d.motorC).v + g.folga.v)
                    : (P.num('geo.depth') / 2 + GEOM.boca.parede.v + GEOM.boca.flange.v);
   const placaZ = payZ + e.carroLarg.v / 2;
-  addc(at(box(e.carroComp.v + 2 * g.folga.v, e.placaE.v, placaZ, EST),
+  const placaM = addc(at(box(e.carroComp.v + 2 * g.folga.v, e.placaE.v, placaZ, EST),
     0, yPlaca, (payZ - e.carroLarg.v / 2) / 2),
     'Placa do carro montado', EST, dimsOf(e.carroComp.v + 2 * g.folga.v, placaZ, e.placaE.v));
+  // aba que corta o feixe do fim de curso; e o que transforma o sensor em referencia
+  det(placaM, at(box(dt.abaE.v, dt.abaSensor.v, dt.abaSensor.v, EST),
+    -(e.carroComp.v / 2), -sgn * dt.abaSensor.v / 2, e.vigaZ.v / 2 - (payZ - e.carroLarg.v / 2) / 2));
 
   const trn = buildTransmissao(grp, carro, yRail, sgn, id, D.trnZ(id));
   if (sup) buildSoltura(carro, yPlaca); else buildBoca(carro, yPlaca);
@@ -595,7 +748,7 @@ function buildEixo(id) {
 
 /* Transmissao: a peca vem do catalogo, logo a malha tambem. */
 function buildTransmissao(grp, carro, yRail, sgn, id, zT) {
-  const e = GEOM.eixo, g = GEOM.gabinete, t = CT.geom('transmissao'), d = t.d;
+  const e = GEOM.eixo, g = GEOM.gabinete, dt = GEOM.detalhe, t = CT.geom('transmissao'), d = t.d;
   const mot = CT.geom('motor'), md = mot.d;
   const add = (m, nome, src, dims) => { grp.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
   const addc = (m, nome, src, dims) => { carro.add(reg(m, nome, 'Eixo ' + id, src, dims)); return m; };
@@ -603,14 +756,26 @@ function buildTransmissao(grp, carro, yRail, sgn, id, zT) {
 
   if (t.kind === 'correia') {
     [-1, 1].forEach(sx => {
-      const pol = at(cyl(d.poliaFlange.v, d.poliaL.v, CAT, 'z'), sx * D.xRail, yRail, zT);
+      // a polia e cubo no diametro primitivo entre dois flanges: e o flange que
+      // segura a correia no lugar, e o cubo que define o avanco por volta
+      const pol = at(cyl(d.poliaDp.v, dt.poliaCubo.v, CAT, 'z'), sx * D.xRail, yRail, zT);
+      [-1, 1].forEach(sf => det(pol, at(cyl(d.poliaFlange.v, (d.poliaL.v - dt.poliaCubo.v) / 2, CAT, 'y'),
+        0, sf * (d.poliaL.v - (d.poliaL.v - dt.poliaCubo.v) / 2) / 2, 0)));
       add(pol, sx > 0 ? 'Polia GT2 20T (motora)' : 'Polia tensora GT2 20T', CAT,
         dimsOf(d.poliaDp.v, d.poliaFlange.v, d.poliaL.v));
       out.girantes.push(pol);
     });
-    [-1, 1].forEach(sy => add(at(box(2 * D.xRail, d.correiaL.v, d.correiaE.v, CAT),
-      0, yRail + sy * d.poliaDp.v / 2, zT), 'Correia GT2 6 mm', CAT,
-      dimsOf(2 * D.xRail, d.correiaL.v, d.correiaE.v)));
+    [-1, 1].forEach(sy => {
+      const ramo = at(box(2 * D.xRail, d.correiaL.v, d.correiaE.v, CAT),
+        0, yRail + sy * d.poliaDp.v / 2, zT);
+      add(ramo, 'Correia GT2 6 mm', CAT, dimsOf(2 * D.xRail, d.correiaL.v, d.correiaE.v));
+      if (sy > 0) [-1, 1].forEach(sx => {           // abraco fechando o laco nas polias
+        const arc = banda(d.poliaDp.v / 2 + d.correiaE.v / 2, d.correiaL.v,
+          sx > 0 ? -90 : 90, dt.correiaArco.v, CAT);
+        arc.rotation.x = Math.PI / 2;
+        det(ramo, at(arc, sx * D.xRail, -d.poliaDp.v / 2, 0));
+      });
+    });
     const garraZ = Math.abs(zT) - e.carroLarg.v / 2;   // do fundo do carro ate a correia
     addc(at(box(e.carroComp.v / 2, d.correiaL.v + 2 * g.folga.v, garraZ, EST),
       0, sgn * (e.trilhoAlt.v / 2 + e.carroAlt.v / 2), (zT - e.carroLarg.v / 2) / 2),
@@ -642,9 +807,13 @@ function buildTransmissao(grp, carro, yRail, sgn, id, zT) {
       'Potenciômetro linear de realimentação', EST, dimsOf(md.corpoD.v, md.corpoD.v, md.potC.v));
   } else {
     const src = md.flange.s;
-    add(at(box(md.flange.v, md.flange.v, corpoC, src), D.xRail, yRail, zMot - corpoC / 2),
-      mot.kind === 'nema' ? 'Motor de passo NEMA 17' : 'Motor BLDC 42 mm', src,
+    const corpo = at(box(md.flange.v, md.flange.v, corpoC, src), D.xRail, yRail, zMot - corpoC / 2);
+    add(corpo, mot.kind === 'nema' ? 'Motor de passo NEMA 17' : 'Motor BLDC 42 mm', src,
       dimsOf(md.flange.v, md.flange.v, corpoC));
+    det(corpo, at(cyl(dt.motorBoss.v, dt.motorBossE.v, dt.motorBoss.s, 'z'),
+      0, 0, corpoC / 2 + dt.motorBossE.v / 2));                   // ressalto de centragem
+    det(corpo, at(box(md.flange.v, md.flange.v, dt.motorTampa.v, EST),
+      0, 0, -(corpoC / 2 + dt.motorTampa.v / 2)));                // tampa traseira
     add(at(cyl(md.eixoD.v, md.eixoC.v, src, 'z'), D.xRail, yRail, zMot + md.eixoC.v / 2),
       'Eixo do motor', src, dimsOf(md.eixoD.v, md.eixoD.v, md.eixoC.v));
   }
@@ -659,7 +828,8 @@ function buildTransmissao(grp, carro, yRail, sgn, id, zT) {
    Filho do carro do eixo A: viaja com ele, como na maquina.
    ========================================================================== */
 function buildSoltura(carro, yPlaca) {
-  const s = GEOM.soltura, e = GEOM.eixo, g = GEOM.gabinete, so = CT.geom('soltura'), d = so.d;
+  const s = GEOM.soltura, e = GEOM.eixo, g = GEOM.gabinete, dt = GEOM.detalhe,
+        so = CT.geom('soltura'), d = so.d;
   const yBola = -D.recuoSupReal;                       // centro da bola, relativo ao trilho
   const rExt = D.bolaR + g.folga.v + s.bercoParede.v;
   const add = (m, nome, src, dims) => { carro.add(reg(m, nome, 'Soltura', src, dims)); return m; };
@@ -672,14 +842,21 @@ function buildSoltura(carro, yPlaca) {
   const berco = new THREE.Mesh(
     new THREE.CylinderGeometry(rExt, rExt, D.bolaR, 28, 1, true, Math.PI / 2 - arco / 2, arco),
     matFor(EST));
-  add(at(berco, 0, yBola - D.bolaR / 2, 0), 'Berço da bola', EST,
+  const bercoM = add(at(berco, 0, yBola - D.bolaR / 2, 0), 'Berço da bola', EST,
     dimsOf(2 * rExt, 2 * rExt, D.bolaR));
+  // aba inferior: sem ela a bola escorreria do copo antes do pino soltar
+  det(bercoM, at(new THREE.Mesh(new THREE.RingGeometry(rExt - dt.bercoLabio.v, rExt, 24,
+    1, Math.PI / 2 - arco / 2, arco), matFor(EST)), 0, -D.bolaR / 2, 0)).rotation.x = Math.PI / 2;
 
   const corpoC = (d.corpoC || d.motorC).v;
   const zCorpo = D.bolaR + g.folga.v + corpoC / 2;
   if (so.kind === 'solenoide') {
-    add(at(box(corpoC, d.corpoA.v, d.corpoL.v, d.corpoC.s), 0, yBola, zCorpo),
-      'Solenoide de tração 12 V', d.corpoC.s, dimsOf(corpoC, d.corpoL.v, d.corpoA.v));
+    const sol = at(box(corpoC, d.corpoA.v, d.corpoL.v, d.corpoC.s), 0, yBola, zCorpo);
+    add(sol, 'Solenoide de tração 12 V', d.corpoC.s, dimsOf(corpoC, d.corpoL.v, d.corpoA.v));
+    // haste e mola de retorno: e a mola que devolve o pino, o solenoide so puxa
+    det(sol, at(cyl(d.pinoD.v, d.cursoPino.v * 2, EST, 'z'), 0, 0, -(d.corpoL.v / 2 + d.cursoPino.v)));
+    const mo = mola(d.pinoD.v * 2.2, d.cursoPino.v * 1.6, dt.molaVoltas.v, dt.molaFio.v, EST);
+    det(sol, at(mo, 0, 0, -(d.corpoL.v / 2 + d.cursoPino.v * 0.8)));
   } else if (so.kind === 'servo') {
     add(at(box(d.corpoC.v, d.corpoA.v, d.corpoL.v, d.corpoC.s), 0, yBola, zCorpo),
       'Servo de soltura', d.corpoC.s, dimsOf(d.corpoC.v, d.corpoL.v, d.corpoA.v));
@@ -835,6 +1012,12 @@ function buildMagazine() {
     m.servoC.s, dimsOf(m.servoC.v, m.servoL.v, m.servoA.v)));
   const came = at(cyl(2 * m.cameR.v, m.cameE.v, EST, 'z'), saida.x + m.servoC.v, saida.y,
     m.z.v + m.servoL.v);
+  // dois dedos defasados: um segura a fila enquanto o outro deixa passar uma bola
+  [0, Math.PI].forEach(a => {
+    const dedo = at(box(GEOM.detalhe.dedoEscape.v, passo, m.cameE.v, EST),
+      Math.cos(a) * m.cameR.v, Math.sin(a) * m.cameR.v - passo / 2, 0);
+    det(came, dedo);
+  });
   G.magazine.add(reg(came, 'Came do escapement', 'Magazine', EST, dimsOf(2 * m.cameR.v, 2 * m.cameR.v, m.cameE.v)));
   G.magazine.add(reg(at(box(m.sensorNivel.v, m.sensorNivel.v, m.sensorNivel.v, EST),
     pts[0].x - passo, pts[0].y + m.sensorNivel.v, m.z.v), 'Sensor de nível do magazine', 'Magazine',
@@ -865,9 +1048,25 @@ function buildElevador() {
   [-1, 1].forEach(sz => add(at(box(e.colunaX.v, e.y1.v - e.y0.v, pw, EST),
     x, (e.y1.v + e.y0.v) / 2, z + sz * (e.colunaZ.v - pw) / 2), 'Parede da coluna do elevador', EST,
     dimsOf(e.colunaX.v, e.y1.v - e.y0.v, pw)));
-  [e.y0.v, e.y1.v].forEach((y, i) => add(at(cyl(e.poliaD.v, e.esteiraL.v, EST, 'x'), x, y, z),
-    i ? 'Polia superior do elevador' : 'Polia inferior do elevador', EST,
-    dimsOf(e.poliaD.v, e.poliaD.v, e.esteiraL.v)));
+  [e.y0.v, e.y1.v].forEach((y, i) => {
+    const pol = add(at(cyl(e.poliaD.v, e.esteiraL.v, EST, 'x'), x, y, z),
+      i ? 'Polia superior do elevador' : 'Polia inferior do elevador', EST,
+      dimsOf(e.poliaD.v, e.poliaD.v, e.esteiraL.v));
+    det(pol, cyl(GEOM.detalhe.eixoPolia.v, e.colunaX.v, EST, 'x'));
+    if (i) {
+      // lingueta que tira a bola da talisca e entrega ao magazine. O comprimento nao
+      // e escolhido: e o vao que sobra ate a boca do tubo, menos a folga.
+      const faceTubo = GEOM.magazine.z.v - (P.num('ball.d') + 2 * GEOM.calha.folgaLat.v) / 2
+        - GEOM.magazine.tuboParede.v;
+      const comp = faceTubo - (z + e.poliaD.v / 2) - g.folga.v;
+      if (comp > 0) {
+        const lab = at(box(GEOM.detalhe.labioLarg.v, GEOM.calha.parede.v, comp, EST),
+          0, e.poliaD.v / 2, e.poliaD.v / 2 + comp / 2);
+        lab.rotation.x = -Math.PI / 8;
+        det(pol, lab);
+      }
+    }
+  });
   // a esteira e larga em X (a largura da polia) e fina em Z: invertido, ela varria
   // meia coluna e batia no fundo do gabinete
   [-1, 1].forEach(sz => add(at(box(e.esteiraL.v, e.y1.v - e.y0.v, e.esteiraE.v, EST),
@@ -943,9 +1142,12 @@ function buildBotoes() {
   // o corpo do botao fica ABAIXO do painel, dentro da coluna: para cima so vai o
   // cabecote. Com o corpo para cima ele atravessa a divisoria e o vidro do campo.
   const cosI = Math.cos(b.incl.v * Math.PI / 180);
+  // botao arcade = capa translucida sobre aro, e corpo roscado descendo no painel
   const bt = (dia, nome, x) => {
-    const m = at(cyl(dia, b.corpoA.v, EST, 'y'), x, y - b.corpoA.v / 2 * cosI, z);
-    m.rotation.x = -b.incl.v * Math.PI / 180;
+    const m = at(cyl(dia, b.capaE.v, EST, 'y'), x, y - b.capaE.v / 2 * cosI, z);
+    m.rotation.x = -ri;
+    det(m, at(cyl(dia - 2 * b.aro.v, b.corpoA.v - b.capaE.v, EST, 'y'),
+      0, -(b.corpoA.v - b.capaE.v) / 2 - b.capaE.v / 2, 0));
     G.botoes.add(reg(m, nome, 'Botões', EST, dimsOf(dia, dia, b.corpoA.v)));
   };
   bt(b.dGrande.v, 'Botão arcade Ø60 iluminado (SOLTAR)', 0);
@@ -1231,7 +1433,7 @@ function buildCotas() {
    (a prova esta na aba Engenharia do simulador); o parametro sim.drag decide.
    ========================================================================== */
 const SOL = {};
-let W = null, EIXO_A = null, EIXO_B = null;
+let W = null, EIXO_A = null, EIXO_B = null, SEL = null, selNome = null;
 let tMaq = 0, TIRO = null, ULTIMO = null, BOLAS = [], rodando = true;
 let orientTela = 'paisagem', explode = 0, mostraCotas = false;
 const rnd = U.rng(P.num('sim.seed'));
@@ -1263,7 +1465,8 @@ function rebuild() {
   passoBolas(0); moveTaliscas();          // sem isto a verificacao mede a pose zero
   checkEnvelope(); checkInterferencia();
   setCarros(0, 0);
-  aplicaModo(); pintaColisao();
+  SEL = selNome ? PARTS.filter(p => p.nome === selNome)[0] || null : null;
+  aplicaModo(); pintaColisao(); pintaFicha();
 }
 
 /* ---- bolas em circulacao ---------------------------------------------------
@@ -1277,6 +1480,7 @@ function criarBolas() {
     const mesh = ball(P.num('ball.d'));
     root.add(mesh);
     BOLAS.push({ mesh, st: i === 0 ? 'berco' : 'mag', slot: i - 1, s: 0, t0: 0 });
+    if (i) mesh.userData.p = BOLAS[0].mesh.userData.p;   // clicar em qualquer bola abre a mesma ficha
   }
   reg(BOLAS[0].mesh, 'Bola acrílica Ø' + U.fmt(P.num('ball.d'), 0), 'Bolas', EST,
     'Ø' + U.fmt(P.num('ball.d'), 0) + ' mm, ' + U.fmt(P.num('ball.m'), 0) + ' g', n);
@@ -1519,6 +1723,87 @@ function depoisDeParam(geometria) {
 }
 
 /* ============================================================================
+   SELECAO — clicar numa peca abre a ficha dela; clicar no vazio solta a bola
+   ========================================================================== */
+const rayc = new THREE.Raycaster(), ptr = new THREE.Vector2();
+const destaqueCache = {};
+function matDestaque(base) {
+  if (!destaqueCache[base.uuid]) {
+    const m = base.clone();
+    // destaque em cor quente: em modo procedencia quase tudo ja e ciano
+    m.emissive = new THREE.Color(COR.sel).multiplyScalar(0.5);
+    destaqueCache[base.uuid] = m;
+  }
+  return destaqueCache[base.uuid];
+}
+function pecaDoObjeto(o) {
+  while (o) { if (o.userData && o.userData.p) return o.userData.p; o = o.parent; }
+  return null;
+}
+function aplicaDestaque() {
+  PARTS.forEach(p => p.obj.traverse(m => {
+    if (!m.isMesh || !m.userData.matBase) return;
+    m.material = (p === SEL) ? matDestaque(m.userData.matBase) : m.userData.matBase;
+  }));
+  BOLAS.forEach(b => {
+    if (!b.mesh.userData.matBase) return;
+    b.mesh.material = (SEL && SEL.sub === 'Bolas') ? matDestaque(b.mesh.userData.matBase) : b.mesh.userData.matBase;
+  });
+}
+function selecionar(p) {
+  SEL = p || null; selNome = p ? p.nome : null;
+  aplicaDestaque(); pintaFicha();
+}
+function clicouEm(ev) {
+  const r = renderer.domElement.getBoundingClientRect();
+  ptr.x = ((ev.clientX - r.left) / r.width) * 2 - 1;
+  ptr.y = -((ev.clientY - r.top) / r.height) * 2 + 1;
+  rayc.setFromCamera(ptr, camera);
+  const hits = rayc.intersectObject(root, true).filter(h => h.object.isMesh);
+  // vidro e acrílico ficam na frente de tudo: o clique atravessa e pega o mecanismo.
+  // Se não houver nada opaco atrás, aí sim a peça transparente é a escolhida.
+  const opaco = hits.filter(h => !h.object.material.transparent)[0];
+  const alvo = opaco || hits[0];
+  return alvo ? pecaDoObjeto(alvo.object) : null;
+}
+
+function pintaFicha() {
+  const el2 = document.getElementById('ficha');
+  if (!SEL) { el2.hidden = true; return; }
+  el2.hidden = false;
+  const cat = SEL.src === CAT;
+  const cx = new THREE.Box3().setFromObject(SEL.obj), tam = cx.getSize(new THREE.Vector3()),
+        mid = cx.getCenter(new THREE.Vector3());
+  const iguais = PARTS.filter(p => p.nome === SEL.nome && p.sub === SEL.sub)
+    .reduce((a, p) => a + p.qtd, 0);
+  const fi = FICHA[SEL.nome];
+  const mm3 = v => U.fmt(v, 1) + ' mm';
+  let h = '<button class="btn sm fechar" id="btnFecharFicha">fechar</button>';
+  h += '<div class="cab"><span class="nome">' + SEL.nome + '</span>' +
+    '<span class="chip ' + (cat ? 'cat' : 'est') + '">' + (cat ? 'catálogo' : 'estimado') + '</span>' +
+    '<span class="chip">' + SEL.sub + '</span></div>';
+  h += '<div class="cols">';
+  h += kv('dimensões declaradas', SEL.dims);
+  h += kv('quantidade no conjunto', iguais);
+  h += kv('caixa no modelo', mm3(tam.x) + ' × ' + mm3(tam.y) + ' × ' + mm3(tam.z));
+  h += kv('centro (x, y, z)', mm3(mid.x) + ', ' + mm3(mid.y) + ', ' + mm3(mid.z));
+  if (fi) h += kv('cota vem de', fi.o);
+  const eixo = SEL.sub === 'Eixo A' || SEL.sub === 'Soltura' ? 'A'
+    : SEL.sub === 'Eixo B' || SEL.sub === 'Buraco' ? 'B' : null;
+  if (eixo) {
+    const ax = W['ax' + eixo];
+    h += kv('posição do carro ' + eixo, mm3(ax.pos(tMaq) - D.curso / 2));
+    h += kv('velocidade do carro ' + eixo, U.fmt(ax.vel(tMaq) / 1000, 3) + ' m/s');
+  }
+  const fora = OFENSORES.filter(o => o.p.nome === SEL.nome)[0];
+  if (fora) h += kv('envelope', '<span style="color:var(--err)">ultrapassa ' + mm3(fora.over) + '</span>');
+  h += '</div>';
+  if (fi) h += '<div class="fn">' + fi.f + '</div>';
+  el2.innerHTML = h;
+  document.getElementById('btnFecharFicha').addEventListener('click', () => selecionar(null));
+}
+
+/* ============================================================================
    HUD, LEGENDA, LISTA DE COLISAO
    ========================================================================== */
 const kv = (k, v) => '<div class="kv"><span class="u">' + k + '</span><b>' + v + '</b></div>';
@@ -1542,7 +1827,7 @@ function pintaHud() {
     h += kv('v na soltura', U.fmt(ULTIMO.v0 / 1000, 3) + ' m/s');
     h += kv('voo', U.fmt(1000 * ULTIMO.tf, 1) + ' ms');
     h += kv('avanço', U.fmt(ULTIMO.dx, 1) + ' mm');
-  } else h += '<div class="note">clique na cena ou ESPAÇO para soltar · P pausa os eixos · H esconde os painéis</div>';
+  } else h += '<div class="note">clique numa peça para abrir a ficha · clique no vazio ou ESPAÇO para soltar · P pausa · H esconde os painéis</div>';
   h += '<h4>Máquina</h4>';
   h += kv('tolerância (' + W.crit + ')', '± ' + U.fmt(W.tol, 1) + ' mm');
   h += kv('latência da cadeia', U.fmt(1000 * W.latMean, 1) + ' ms');
@@ -1606,7 +1891,7 @@ function pintaColisao() {
 function tabelaPecas() {
   const agg = {};
   PARTS.forEach(p => {
-    const k = p.nome + '|' + p.dims + '|' + p.src;
+    const k = p.sub + '|' + p.nome + '|' + p.dims + '|' + p.src;
     if (!agg[k]) agg[k] = { nome: p.nome, sub: p.sub, dims: p.dims, src: p.src, qtd: 0 };
     agg[k].qtd += p.qtd;
   });
@@ -1656,7 +1941,7 @@ function piscaOfensores() {
   if (tMaq - tPisca < 0.4) return;
   tPisca = tMaq; piscaOn = !piscaOn;
   OFENSORES.forEach(o => o.p.obj.traverse(m => {
-    if (!m.isMesh) return;
+    if (!m.isMesh || o.p === SEL) return;
     if (!m.userData.matBase) m.userData.matBase = m.material;
     m.material = piscaOn ? matErr : m.userData.matBase;
   }));
@@ -1674,7 +1959,7 @@ function laco() {
   if (SOL.pino) SOL.pino.position.z = SOL.pinoZ0 + (TIRO && tMaq - TIRO.ev.tRel > 0 ? SOL.pinoCurso : 0);
   controls.update();
   renderer.render(scene, camera); labelRenderer.render(scene, camera);
-  if (tMaq - tHud > 0.12) { tHud = tMaq; pintaHud(); }
+  if (tMaq - tHud > 0.12) { tHud = tMaq; pintaHud(); if (SEL) pintaFicha(); }
 }
 
 /* ============================================================================
@@ -1692,11 +1977,22 @@ window.addEventListener('keydown', ev => {
   if (ev.code === 'Space') { ev.preventDefault(); soltar(); }
   if (ev.code === 'KeyP') rodando = !rodando;
   if (ev.code === 'KeyH') wrap.classList.toggle('sempaineis');
+  if (ev.code === 'Escape') selecionar(null);
 });
-let down = null;
+let down = null, tHover = 0;
 renderer.domElement.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; });
+// cursor muda sobre peca clicavel: sem isso ninguem descobre que da para clicar
+renderer.domElement.addEventListener('pointermove', e => {
+  const ag = performance.now();
+  if (down || ag - tHover < 70) return;
+  tHover = ag;
+  renderer.domElement.style.cursor = clicouEm(e) ? 'pointer' : 'default';
+});
 renderer.domElement.addEventListener('pointerup', e => {
-  if (down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 4) soltar();
+  if (down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 4) {
+    const p = clicouEm(e);
+    if (p) selecionar(p); else { selecionar(null); soltar(); }
+  }
   down = null;
 });
 document.getElementById('btnPaineis').addEventListener('click', () => wrap.classList.toggle('sempaineis'));
