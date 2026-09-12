@@ -878,7 +878,14 @@
     $('#chkLog').addEventListener('change', function () { PB.game.setLogging(this.checked); });
 
     // monte carlo
-    $('#mcN').value = P.num('sim.mcN'); $('#mcSeed').value = P.num('sim.seed');
+    // limites e valor vem do conjunto de parametros, nunca do HTML
+    ['sim.mcN:#mcN', 'sim.seed:#mcSeed'].forEach(function (pair) {
+      var k = pair.split(':')[0], d = P.def(k), el = $(pair.split(':')[1]);
+      if (d.min !== undefined) el.min = d.min;
+      if (d.max !== undefined) el.max = d.max;
+      if (d.step !== undefined) el.step = d.step;
+      el.value = P.num(k);
+    });
     $('#mcJit').checked = !!P.num('sim.mcjit');
     $('#btnRunMC').addEventListener('click', runMC);
     $('#btnMcCSV').addEventListener('click', function () {
