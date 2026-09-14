@@ -22,12 +22,37 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
 .xlink{color:var(--acc);text-decoration:none;font-size:12px;white-space:nowrap;
   padding:4px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--bg3)}
 .xlink:hover{color:var(--fg);border-color:var(--acc)}
-#camBar{display:flex;gap:2px;flex-wrap:nowrap}
+/* a barra de cima e feita de GRUPOS: cada um e um assunto. Sem isso vira uma fila
+   de dez botoes iguais em que nada indica o que faz o que. */
+.grp{display:flex;align-items:center;gap:2px;padding:3px 4px;
+  border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.grp .lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg2);
+  padding:0 5px 0 3px;white-space:nowrap}
 .btn{font:inherit;font-size:12px;color:var(--fg2);background:var(--bg3);
   border:1px solid var(--line2);border-radius:6px;padding:5px 9px;cursor:pointer;white-space:nowrap}
 .btn:hover{color:var(--fg);border-color:var(--acc)}
 .btn.on{color:#06232a;background:var(--acc);border-color:var(--acc);font-weight:600}
 .btn.sm{padding:3px 7px;font-size:11px}
+.btn.pri{color:var(--fg);border-color:var(--acc)}
+.btn.pri.on{color:#06232a}
+.grp .btn{border-color:transparent;background:transparent}
+.grp .btn:hover{background:var(--bg3);border-color:var(--line2)}
+.grp .btn.on{background:var(--acc);border-color:var(--acc)}
+
+/* botao flutuante de soltura: a acao principal da pagina nao pode depender de saber
+   que a barra de espaco solta a bola. Some na demonstracao, que solta sozinha. */
+#btnSoltar{position:absolute;left:50%;transform:translateX(-50%);bottom:18px;z-index:14;
+  font:inherit;font-weight:700;letter-spacing:.1em;font-size:13px;
+  color:#06232a;background:var(--acc);border:1px solid var(--acc);border-radius:999px;
+  padding:11px 26px;cursor:pointer;box-shadow:0 6px 22px rgba(0,0,0,.45)}
+#btnSoltar:hover:not(:disabled){filter:brightness(1.12)}
+#btnSoltar:active:not(:disabled){transform:translateX(-50%) translateY(1px)}
+#btnSoltar:disabled{color:var(--fg2);background:var(--bg3);border-color:var(--line2);
+  cursor:default;font-weight:600;letter-spacing:.06em;box-shadow:none}
+#btnSoltar small{display:block;font-weight:400;letter-spacing:0;font-size:10px;opacity:.75}
+body.demo #btnSoltar{display:none}
+/* a ficha ocupa o mesmo canto de baixo: abre espaco para o botao flutuar sobre ela */
+#ficha{padding-bottom:62px}
 #wrap{position:absolute;inset:46px 0 0 0}
 canvas{display:block}
 .panel{position:absolute;background:rgba(21,25,28,.94);border:1px solid var(--line);
@@ -102,15 +127,17 @@ h4:not(:first-child){margin-top:12px}
 
 <div id="top">
   <div id="brand">PIC<span>BOX</span> &nbsp;<span style="font-weight:400;font-size:11px;color:var(--fg2);letter-spacing:0">modelo 3D</span></div>
-  <div id="camBar"></div>
-  <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
-    <button class="btn" id="btnDemo" title="roda o ciclo inteiro da bola, do lançamento até o carro A pegar a próxima">demonstração</button>
-    <button class="btn" id="btnCam" hidden title="a câmera volta a acompanhar a etapa corrente">câmera auto</button>
-    <button class="btn" id="btnPaineis" title="esconder os painéis (tecla H)">painéis</button>
-    <button class="btn" id="btnGltf">GLTF</button>
-    <button class="btn" id="btnCsv">CSV peças</button>
-    <a class="xlink" href="index.html">simulador &#8599;</a>
+  <div class="grp" id="camBar"><span class="lbl">vista</span></div>
+  <div class="grp" id="altBar"><span class="lbl">altura</span></div>
+  <span style="margin-left:auto"></span>
+  <button class="btn pri" id="btnDemo" title="roda o ciclo inteiro da bola, do lançamento até o carro A pegar a próxima">demonstração</button>
+  <button class="btn" id="btnCam" hidden title="a câmera volta a acompanhar a etapa corrente">câmera auto</button>
+  <button class="btn" id="btnPaineis" title="esconder os painéis (tecla H)">painéis</button>
+  <div class="grp"><span class="lbl">exportar</span>
+    <button class="btn sm" id="btnGltf" title="malha 3D em glTF">GLTF</button>
+    <button class="btn sm" id="btnCsv" title="lista de peças em CSV">CSV</button>
   </div>
+  <a class="xlink" href="index.html">simulador &#8599;</a>
 </div>
 
 <div id="wrap">
@@ -121,6 +148,7 @@ h4:not(:first-child){margin-top:12px}
   <div class="panel" id="coll"></div>
   <div class="panel" id="ficha" hidden></div>
   <div id="etapas" hidden></div>
+  <button id="btnSoltar" title="solta a bola do berço (barra de espaço)">SOLTAR</button>
 </div>
 
 <div id="textOverlay">
@@ -2982,7 +3010,7 @@ function laco() {
   animaPino(); animaComporta(dt); animaEscape();
   controls.update();
   renderer.render(scene, camera); labelRenderer.render(scene, camera);
-  if (tMaq - tHud > 0.12) { tHud = tMaq; pintaHud(); if (SEL) pintaFicha(); }
+  if (tMaq - tHud > 0.12) { tHud = tMaq; pintaHud(); pintaSoltar(); if (SEL) pintaFicha(); }
 }
 
 /* ============================================================================
@@ -3034,21 +3062,44 @@ document.getElementById('btnGltf').addEventListener('click', exportaGLTF);
 document.getElementById('btnCloseText').addEventListener('click', () => document.getElementById('textOverlay').classList.remove('open'));
 document.getElementById('btnCopyText').addEventListener('click', () => U.copyText(document.getElementById('textOverlayBody').value));
 
+/* nome curto e dica longa: o rotulo do botao nao precisa explicar a vista, o title sim */
+const VISTAS = {
+  APRESENTACAO:     ['geral',     'a máquina inteira, de três quartos'],
+  FRONTAL_JOGADOR:  ['jogador',   'o que o jogador vê pelo vidro'],
+  ISOMETRICA:       ['isométrica','vista técnica, sem perspectiva forçada'],
+  TOPO:             ['topo',      'de cima: mostra a profundidade dos planos'],
+  CORTE_LATERAL:    ['corte',     'de lado: mostra o orçamento de altura'],
+  DETALHE_SOLTURA:  ['soltura',   'berço, pino e comporta — a câmera segue o carro A'],
+  DETALHE_ELEVADOR: ['elevador',  'coluna, caçambas e a entrega no magazine']
+};
 const camBar = document.getElementById('camBar');
 Object.keys(camerasPreset()).forEach(k => {
   const b = document.createElement('button');
-  b.className = 'btn sm'; b.dataset.cam = k; b.textContent = k.replace(/_/g, ' ').toLowerCase();
+  const n = VISTAS[k] || [k.replace(/_/g, ' ').toLowerCase(), ''];
+  b.className = 'btn sm'; b.dataset.cam = k; b.textContent = n[0]; b.title = n[1];
   b.addEventListener('click', () => irPara(k));
   camBar.appendChild(b);
 });
 // subir/descer a vista sem girar: e o gesto que falta num objeto de 1,7 m de altura
+const altBar = document.getElementById('altBar');
 [['▲', 1, 'subir a vista (Shift+roda ou seta ↑)'], ['▼', -1, 'descer a vista (Shift+roda ou seta ↓)']]
   .forEach(([txt, sinal, dica]) => {
     const b = document.createElement('button');
     b.className = 'btn sm'; b.textContent = txt; b.title = dica;
     b.addEventListener('click', () => sobeVista(sinal * D.alturaExt * 0.08));
-    camBar.appendChild(b);
+    altBar.appendChild(b);
   });
+/* O botao flutuante mostra POR QUE nao da para soltar: sem bola no berco ou bola no ar.
+   E a mesma condicao que soltar() aplica — nao ha estado duplicado. */
+const btnSoltar = document.getElementById('btnSoltar');
+btnSoltar.addEventListener('click', () => { soltar(); pintaSoltar(); });
+function pintaSoltar() {
+  const noAr = !!TIRO, pronta = !noAr && !!bolaNoBerco();
+  btnSoltar.disabled = !pronta;
+  btnSoltar.innerHTML = pronta ? 'SOLTAR<small>barra de espaço</small>'
+    : noAr ? 'bola no ar<small>aguarde o pouso</small>'
+           : 'carregando<small>o carro A busca a próxima bola</small>';
+}
 
 document.getElementById('boot').remove();
 // tela estreita: os paineis cobrem a cena, entao a maquina aparece primeiro e os
