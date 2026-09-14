@@ -732,6 +732,55 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; controls.dampingFactor = 0.09;
 controls.screenSpacePanning = true;
 
+/* ---- controle de camera para uma maquina de 1,7 m -------------------------------
+   O padrao do OrbitControls e feito para dar a volta num objeto pequeno, e aqui ele
+   atrapalhava de tres jeitos:
+   1. sem limite de angulo, um arrasto de 200 px levava a camera de 72 para 165 graus,
+      ou seja, 1,4 m ABAIXO do piso, olhando o fundo do gabinete. Na tela isso parece
+      zoom, nao rotacao;
+   2. a volta inteira cabia em uma altura de tela (2*pi por clientHeight), o que torna
+      impossivel ajustar a vista com precisao;
+   3. o arrasto vertical e invertido em relacao ao que se espera de um visualizador de
+      maquina: arrastar para CIMA baixava a camera.
+   Os dois primeiros sao opcao do proprio controle. O terceiro nao tem opcao: o evento
+   e espelhado na vertical antes de o controle ve-lo. */
+controls.minPolarAngle = 0.12;                 // 7 graus: nunca olhando de cima a pino
+controls.maxPolarAngle = 1.52;                 // 87 graus: nunca por baixo do piso
+controls.rotateSpeed = 0.5;
+controls.zoomSpeed = 0.8;
+controls.panSpeed = 0.9;
+controls.minDistance = P.num('geo.height') * 0.10;
+controls.maxDistance = P.num('geo.height') * 4;
+(function inverteArrastoVertical() {
+  const el = renderer.domElement, meus = new WeakSet();
+  let y0 = null;
+  el.addEventListener('pointerdown', e => { if (e.button === 0) y0 = e.clientY; }, true);
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(t =>
+    el.addEventListener(t, () => { y0 = null; }, true));
+  el.addEventListener('pointermove', e => {
+    if (meus.has(e) || y0 === null || e.buttons !== 1) return;
+    e.stopImmediatePropagation();              // o controle nao ve o original
+    const espelhado = new PointerEvent('pointermove', {
+      pointerId: e.pointerId, pointerType: e.pointerType, isPrimary: e.isPrimary,
+      clientX: e.clientX, clientY: 2 * y0 - e.clientY, buttons: e.buttons,
+      bubbles: true, cancelable: true
+    });
+    meus.add(espelhado);
+    el.dispatchEvent(espelhado);
+  }, true);
+})();
+/* A maquina e alta e o que interessa muda de altura: girar nao substitui subir a vista.
+   Shift + roda e as setas deslocam camera e alvo juntos, sem mexer no angulo. */
+function sobeVista(passo) {
+  camera.position.y += passo; controls.target.y += passo;
+  camManual(); controls.update();
+}
+renderer.domElement.addEventListener('wheel', e => {
+  if (!e.shiftKey) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  sobeVista((e.deltaY > 0 ? -1 : 1) * D.alturaExt * 0.05);
+}, { capture: true, passive: false });
+
 scene.add(new THREE.HemisphereLight(0xdfefff, 0x202a30, 0.85));
 const dl1 = new THREE.DirectionalLight(0xffffff, 0.55); dl1.position.set(700, 1800, 1400); scene.add(dl1);
 const dl2 = new THREE.DirectionalLight(0xffffff, 0.30); dl2.position.set(-900, 900, -800); scene.add(dl2);
@@ -2729,7 +2778,7 @@ function pintaHud() {
     h += kv('v na soltura', U.fmt(ULTIMO.v0 / 1000, 3) + ' m/s');
     h += kv('voo', U.fmt(1000 * ULTIMO.tf, 1) + ' ms');
     h += kv('avanço', U.fmt(ULTIMO.dx, 1) + ' mm');
-  } else h += '<div class="note">clique numa peça para abrir a ficha · clique no vazio ou ESPAÇO para soltar · P pausa · H esconde os painéis</div>';
+  } else h += '<div class="note">clique numa peça para abrir a ficha · clique no vazio ou ESPAÇO para soltar · P pausa · H esconde os painéis<br>arraste = girar · roda = zoom · <b>Shift+roda ou ↑↓ = subir/descer a vista</b> · botão direito = deslocar</div>';
   h += '<h4>Máquina</h4>';
   h += kv('tolerância (' + W.crit + ')', '± ' + U.fmt(W.tol, 1) + ' mm');
   h += kv('latência da cadeia', U.fmt(1000 * W.latMean, 1) + ' ms');
@@ -2953,6 +3002,10 @@ window.addEventListener('keydown', ev => {
   if (ev.code === 'KeyH') wrap.classList.toggle('sempaineis');
   if (ev.code === 'Escape') { selecionar(null); if (DEMO.on) demo(false); }
   if (ev.code === 'KeyD') demo(!DEMO.on);
+  if (ev.code === 'ArrowUp' || ev.code === 'ArrowDown') {
+    ev.preventDefault();
+    sobeVista((ev.code === 'ArrowUp' ? 1 : -1) * D.alturaExt * 0.05);
+  }
 });
 let down = null, tHover = 0;
 renderer.domElement.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; });
@@ -2988,6 +3041,14 @@ Object.keys(camerasPreset()).forEach(k => {
   b.addEventListener('click', () => irPara(k));
   camBar.appendChild(b);
 });
+// subir/descer a vista sem girar: e o gesto que falta num objeto de 1,7 m de altura
+[['▲', 1, 'subir a vista (Shift+roda ou seta ↑)'], ['▼', -1, 'descer a vista (Shift+roda ou seta ↓)']]
+  .forEach(([txt, sinal, dica]) => {
+    const b = document.createElement('button');
+    b.className = 'btn sm'; b.textContent = txt; b.title = dica;
+    b.addEventListener('click', () => sobeVista(sinal * D.alturaExt * 0.08));
+    camBar.appendChild(b);
+  });
 
 document.getElementById('boot').remove();
 // tela estreita: os paineis cobrem a cena, entao a maquina aparece primeiro e os
