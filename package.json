@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "PICBOX — simulador de engenharia para projeto de máquina física",
   "scripts": {
-    "start": "serve -s . -l $PORT"
+    "start": "serve . -l $PORT"
   },
   "dependencies": {
     "serve": "^14.2.4"
