@@ -51,12 +51,12 @@ jogador, e o jogo vira loteria disfarçada. `[D]`
 4. Voo de 226 ms (queda de 250 mm), integrado com arrasto.
 5. Cruza o plano da chapa-alvo: **acerto** se passar pelo furo, **erro** se bater na chapa.
 6. Nos dois casos a bola termina na **bandeja**, que a conduz à calha de retorno.
-7. Calha → concha do elevador → caçamba → topo → **magazine** (5,4 s medidos).
+7. Calha → concha do elevador → caçamba → topo → **magazine** (4,85 s medidos).
 8. O magazine solta uma bola para a estação de carga, que recarrega o berço quando o carro A
    inverte o curso ao lado dela.
 
 **Intervalo entre tentativas: ~2,4 s** — definido pelo carro A + comporta + berço, não pelo
-elevador. Com 15 bolas em circulação e retorno de 5,4 s, o magazine não esvazia. `[D]`
+elevador. Com 15 bolas em circulação e retorno de 4,85 s, o magazine não esvazia. `[D]`
 
 ---
 
@@ -161,8 +161,10 @@ Sem donos: agrupado por categoria, para atribuir quando o time estiver definido.
 - `[H]` Bola Ø 35 mm, 30 g, acrílico/ABS.
 - `[H]` Curso útil dos dois eixos: 280 mm. Abertura da boca: 78 mm. Queda: 250 mm.
 - `[H]` Magazine de 15 bolas em serpentina de 3 passes.
-- `[D]` Elevador de esteira com caçambas, curso 542 mm, pé logo abaixo da bandeja.
-- `[A]` O que ocupa o vão de ~450 × 450 × 930 mm sob a bandeja (fonte? eletrônica? lastro? nada?).
+- `[D]` Elevador de esteira com caçambas, curso 475 mm, pé no nível da bandeja.
+- `[D]` Bandeja com caimento composto, drenando no canto traseiro direito: a bola sai dela já
+  andando na direção do elevador, e o retorno vira um trecho reto de 66 mm.
+- `[A]` O que ocupa o vão de ~450 × 450 × 1000 mm sob a bandeja (fonte? eletrônica? lastro? nada?).
 - `[A]` Material do gabinete (hoje modelado como MDF 18 mm) e acabamento.
 - `[A]` Transporte: "cabe em todo lugar" exige passar por porta de 800 mm e caber em veículo —
   precisa virar requisito com número.

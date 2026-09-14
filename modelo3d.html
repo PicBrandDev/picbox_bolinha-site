@@ -229,7 +229,13 @@ const GEOM = {
   },
   tremonha: {
     parede:      mm(2.5, EST),
-    incl:        un(14, EST, 'graus'),   // caimento do fundo ate a boca da calha
+    incl:        un(4.5, EST, 'graus'),  // caimento PRINCIPAL: leva a bola ate a parede
+                                         // de +X da bandeja. Os dois caimentos somados
+                                         // tem que caber na banda de 50 mm da bandeja,
+                                         // senao a chapa desce dentro da divisoria do campo
+    inclZ:       un(3, EST, 'graus'),    // caimento SECUNDARIO: ao longo daquela parede,
+                                         // ate o canto de tras. E ele que faz a bola sair
+                                         // da bandeja ja andando na direcao do elevador
     borda:       mm(26, EST)             // aba que impede a bola de saltar para fora
   },
   soltura: {
@@ -312,10 +318,10 @@ const GEOM = {
     restImpacto: un(0.45, EST, '—'),     // fracao da velocidade que sobrevive ao impacto
                                          // na chapa/bandeja e vira marcha na calha. O
                                          // que se perde e o componente normal.
-    quedaRetorno: mm(42, EST)            // caimento da calha de retorno DEPOIS de ela ja
-                                         // ter descido o necessario para passar por baixo
-                                         // da bandeja. E so isto que o retorno gasta de
-                                         // altura: o resto e curso de elevador.
+    quedaRetorno: mm(22, EST)            // queda da calha de retorno, do canto da bandeja
+                                         // ate o labio da concha. E so isto que o retorno
+                                         // gasta de altura: o resto e curso de elevador.
+                                         // Sobre 67 mm de percurso da ~18 graus.
   },
   botoes: {
     dGrande:     mm(60, EST),
@@ -437,19 +443,33 @@ function derive() {
   d.elevZc    = -(P.num('geo.floor') / 2 - g.parede.v - d.elevZ / 2);
   d.elevV     = el.rpm.v / 60 * Math.PI * el.poliaD.v;     // velocidade linear da esteira
 
-  /* ---- retorno e PE do elevador. A bola sai da bandeja em d.ySaiBandeja; descer
-     dali ate o piso do gabinete so para ser reerguida era curso morto (~950 mm de
-     descida + 950 mm de subida). O retorno gasta agora exatamente o que precisa:
-     passar por BAIXO da chapa da bandeja (2R + parede + folga) e ter caimento para
-     rolar ate a boca da concha (calha.quedaRetorno). O pe do elevador e o que sobra. */
+  /* ---- bandeja, retorno e PE do elevador.
+     A bandeja escoa em DOIS caimentos: o principal (tremonha.incl) leva a bola ate a
+     parede de +X; o secundario (tremonha.inclZ) a leva, ao longo dessa parede, ate o
+     canto de tras. Ela sai do canto ja andando em -Z, que e a direcao da concha: e por
+     isso que a calha de retorno e um trecho reto e curto, sem curva fechada e sem
+     queda livre. O pe do elevador e o que sobra depois dessa queda. */
   const tr = GEOM.tremonha;
-  d.ySaiBandeja  = g.campoY0.v + tr.parede.v * 1.5 + d.bolaR;   // centro da bola na saida
-  // mergulho: 2R + chapa + folga poe a bola inteira sob a face de baixo da bandeja.
-  // A concordancia de ~100 graus entre a descida e o trecho sob a bandeja ainda avanca
-  // r·(1/sen(ang/2) − 1) ≈ 0,3·r para dentro do canto, e isso tambem entra no mergulho.
-  d.mergulhoBand = 2 * d.bolaR + tr.parede.v + g.folga.v + 0.6 * d.bolaR;
-  d.yBocaConcha  = d.ySaiBandeja - d.mergulhoBand - GEOM.calha.quedaRetorno.v;
-  d.aBocaConcha  = el.conchaIni.v * Math.PI / 180 - 0.25;       // onde a concha recebe
+  d.zBandeja     = d.zJogo;                                // centro da bandeja em Z
+  d.profBandeja  = d.lado / 2;
+  d.xIniBandeja  = -d.interna / 2 + tr.parede.v;           // ponta alta
+  d.xSaiBandeja  = d.elevX;                                // linha que a bola segue
+  d.xBandejaFim  = d.xSaiBandeja + d.bolaR + g.folga.v;    // parede de +X: e ela que
+                                                           // alinha a bola com a coluna
+  d.zSaiBandeja  = d.zBandeja - d.profBandeja / 2;         // borda de tras = a saida
+  d.kxBandeja    = Math.tan(tr.incl.v * Math.PI / 180);
+  d.kzBandeja    = Math.tan(tr.inclZ.v * Math.PI / 180);
+  d.nyBandeja    = 1 / Math.sqrt(1 + d.kxBandeja * d.kxBandeja + d.kzBandeja * d.kzBandeja);
+  // superficie da chapa em qualquer ponto, medida da ponta alta
+  d.ySupBandeja  = (x, z) => d.yBandeja1
+    - d.kxBandeja * (x - d.xIniBandeja)
+    - d.kzBandeja * (d.zBandeja + d.profBandeja / 2 - z);
+  d.yBolaBandeja = (x, z) => d.ySupBandeja(x, z) + d.bolaR / d.nyBandeja;
+  d.ySaiBandeja  = d.yBolaBandeja(d.xSaiBandeja, d.zSaiBandeja);   // centro da bola ao sair
+  // a bola entra na concha exatamente no LABIO dela: nao ha trecho sem apoio entre a
+  // calha e a chapa curva do elevador.
+  d.aBocaConcha  = el.conchaIni.v * Math.PI / 180;
+  d.yBocaConcha  = d.ySaiBandeja - GEOM.calha.quedaRetorno.v;
   d.yElevPe      = d.yBocaConcha - d.bolaRaio * Math.sin(d.aBocaConcha);
 
   /* ---- estacao de carga: e o BERCO que manda. Nada fixo pode entrar no volume que
@@ -663,7 +683,8 @@ const FICHA = {
   'Comporta de carga': { f: 'Lâmina que segura a bola no fim da rampa. DESCE para abrir — girando, a chapa aberta entraria no volume varrido pelo berço. Só abre quando o carro A inverte o curso ao lado: é por isso que a máquina carrega no fim do curso, e não em qualquer ponto.', o: 'GEOM.magazine.comportaAlt / tolCarga / vCarga' },
   'Solenoide da comporta de carga': { f: 'Deita a comporta no instante em que o carro A chega alinhado. Mesmo componente do berço, do catálogo.', o: 'catalog.js · soltura' },
   'Calha de retorno': { f: 'Liga a saída da bandeja à boca da concha. Desce rente à borda da bandeja só o que basta para a bola passar por baixo da chapa e corre em -Z até o elevador. Não desce até o piso: descer para subir de novo era curso morto.', o: 'derivada de ball.d + GEOM.calha.quedaRetorno' },
-  'Bandeja de captura (fundo inclinado)': { f: 'Recebe tanto a bola que entrou no buraco quanto a que errou, e concentra as duas na boca da calha. O caimento é a banda de 50 mm inteira, do lado oposto até a saída.', o: 'GEOM.gabinete.bandaBandeja + GEOM.tremonha' },
+  'Bandeja de captura (fundo inclinado)': { f: 'Recebe tanto a bola que entrou no buraco quanto a que errou. Cai em DUAS direções: o caimento principal joga a bola contra a guia de +X, o secundário a leva ao longo dessa guia até o canto de trás. Ela sai do canto já andando na direção do elevador — é isso que dispensa curva fechada na calha de retorno.', o: 'GEOM.tremonha.incl / inclZ' },
+  'Guia de saída da bandeja': { f: 'Parede de +X da bandeja. Não é acabamento: é ela que alinha a bola com a linha da coluna do elevador antes de a bandeja virar para trás.', o: 'derivada de ball.d + D.elevX' },
   'Suporte da chapa-alvo': { f: 'Leva a chapa-alvo do trilho até o plano de jogo, passando por fora do carro — é por isso que a bola atravessa o furo sem bater em nada.', o: 'derivada do plano de jogo' },
   'Portinhola do buraco': { f: 'Dobradiça logo abaixo do furo. A bola empurra ao atravessar: é a confirmação mecânica, visível, de que ela passou e não raspou na chapa.', o: 'GEOM.boca.portaE / portaGiro' },
   'Bola acrílica Ø35': { f: 'O projétil. Diâmetro e massa saem de params.js e mudam voo, berço, magazine e calhas ao mesmo tempo.', o: 'params.js · ball.d / ball.m' },
@@ -852,30 +873,53 @@ function buildGabinete() {
 let TREM = null;
 function buildTremonha() {
   const t = GEOM.tremonha, g = GEOM.gabinete;
-  const xIni = -D.interna / 2 + t.parede.v, xSai = D.elevX;
-  const yAlto = D.yBandeja1, yBaixo = D.yBandeja0 + t.parede.v;
-  const prof = D.lado / 2, comp = Math.hypot(xSai - xIni, yAlto - yBaixo);
-  const zc = D.zJogo;                              // linha em que a bola chega
+  const xIni = D.xIniBandeja, xFim = D.xBandejaFim;
+  const zc = D.zBandeja, prof = D.profBandeja;
+  const zFrente = zc + prof / 2, zTras = D.zSaiBandeja;
+  const comp = (xFim - xIni) * Math.sqrt(1 + D.kxBandeja * D.kxBandeja);
+  const profL = prof * Math.sqrt(1 + D.kzBandeja * D.kzBandeja);
   const add = (m, nome, dims) => { G.bandeja.add(reg(m, nome, 'Retorno de bolas', EST, dims)); return m; };
 
-  const fundo = at(box(comp, t.parede.v, prof, EST), (xIni + xSai) / 2, (yAlto + yBaixo) / 2, zc);
-  fundo.rotation.z = -Math.atan2(yAlto - yBaixo, xSai - xIni);
-  add(fundo, 'Bandeja de captura (fundo inclinado)', dimsOf(comp, prof, t.parede.v));
-  [-1, 1].forEach(sz => add(at(box(comp, t.borda.v, t.parede.v, EST),
-    (xIni + xSai) / 2, (yAlto + yBaixo) / 2 + t.borda.v / 2, zc + sz * prof / 2),
-    'Borda da bandeja', dimsOf(comp, t.borda.v, t.parede.v)));
-  add(at(box(t.parede.v, t.borda.v, prof, EST), xIni, yAlto + t.borda.v / 2, zc),
-    'Borda da bandeja', dimsOf(t.parede.v, prof, t.borda.v));
+  /* A chapa cai em duas direcoes ao mesmo tempo. A orientacao nao e montada com dois
+     angulos de Euler (a ordem mudaria o plano): sai da NORMAL do plano que D.ySupBandeja
+     descreve, que e a mesma superficie em que a bola anda. Modelo e trajetoria nao podem
+     divergir aqui — e nesta chapa que a bola rola. */
+  const n = new THREE.Vector3(D.kxBandeja, 1, -D.kzBandeja).normalize();
+  const gira = m => { m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), n); return m; };
+  const naChapa = (x, z, dy) => new THREE.Vector3(x, D.ySupBandeja(x, z) + (dy || 0), z);
 
-  // caminho da bola dentro da tremonha: ela escorrega o fundo ate a saida
+  const pc = naChapa((xIni + xFim) / 2, zc, -t.parede.v / 2);
+  add(gira(at(box(comp, t.parede.v, profL, EST), pc.x, pc.y, pc.z)),
+    'Bandeja de captura (fundo inclinado)', dimsOf(comp, profL, t.parede.v));
+
+  // borda da frente: inteira. Borda de tras: PARA antes do canto de +X, e aquela
+  // abertura e a saida da bandeja para a calha de retorno.
+  const abertura = D.magLarg + 2 * GEOM.calha.parede.v + g.folga.v;
+  const compTras = (xFim - abertura) - xIni;
+  [[zFrente, comp, (xIni + xFim) / 2], [zTras, compTras * Math.sqrt(1 + D.kxBandeja * D.kxBandeja),
+    xIni + compTras / 2]].forEach(b => {
+    const p = naChapa(b[2], b[0], t.borda.v / 2);
+    add(gira(at(box(b[1], t.borda.v, t.parede.v, EST), p.x, p.y, p.z)),
+      'Borda da bandeja', dimsOf(b[1], t.borda.v, t.parede.v));
+  });
+  // ponta alta e parede de +X. A de +X e funcional, nao e acabamento: e ela que poe a
+  // bola na linha da coluna do elevador antes de a bandeja virar para tras.
+  [[xIni, 'Borda da bandeja'], [xFim, 'Guia de saída da bandeja']].forEach(b => {
+    const p = naChapa(b[0], zc, t.borda.v / 2);
+    add(gira(at(box(t.parede.v, t.borda.v, profL, EST), p.x, p.y, p.z)),
+      b[1], dimsOf(t.parede.v, profL, t.borda.v));
+  });
+
+  /* caminho da bola: ela cai em qualquer x, atravessa ate a parede de +X e desce por
+     ela ate o canto de tras. Tudo sobre a mesma chapa — nao ha degrau em lugar nenhum. */
   TREM = {
-    yAlto, yBaixo, xIni, xSai, prof, zc,
-    ponto(x) {
-      const f = U.clamp((x - xIni) / (xSai - xIni), 0, 1);
-      return new THREE.Vector3(U.clamp(x, xIni, xSai),
-        U.lerp(yAlto, yBaixo, f) + t.parede.v / 2 + D.bolaR, zc);
+    xIni, xFim, zc, prof, zTras, zFrente, yAlto: D.yBandeja1,
+    ponto(x, z) {
+      const zz = U.clamp(z === undefined ? zc : z, zTras, zFrente);
+      const xx = U.clamp(x, xIni, D.xSaiBandeja);
+      return new THREE.Vector3(xx, D.yBolaBandeja(xx, zz), zz);
     },
-    saida() { return this.ponto(xSai); }
+    saida() { return this.ponto(D.xSaiBandeja, zTras); }
   };
 }
 
@@ -1488,22 +1532,17 @@ function buildElevador() {
 let CAL = null;
 function buildCalhas() {
   const g = GEOM.gabinete, bolaD = P.num('ball.d');
-  // comeca na saida da tremonha, desce pelo corredor livre em +X e entrega na BOCA
-  // DA CONCHA do elevador. Dali a bola rola dentro da concha ate o fundo: nao ha
-  // trecho invisivel e nao ha ponto em que ela troque de lugar sem percorrer.
-  const boca = ELEV.rotaConcha.pts[0];
-  // a bandeja entrega na vertical do elevador. O unico obstaculo entre ela e a concha
-  // e a propria chapa da bandeja: a bola desce rente a borda de saida ate limpar a face
-  // de baixo dela e so entao corre em -Z, por baixo da bandeja, ate a boca da concha.
-  const pts = [
-    TREM.saida(),
-    new THREE.Vector3(ELEV.x, D.ySaiBandeja - D.mergulhoBand, TREM.zc),
-    new THREE.Vector3(boca.x, boca.y, boca.z)
-  ];
-  // arredonda() nao move extremos: concorda o joelho e mantem saida e boca no lugar.
-  // O raio nao pode ser menor que a bola, senao a parede interna da curva fecha sobre ela.
-  const path = polyPath(arredonda(pts, D.rCurva, 12));
-  canalSobre(path, bolaD + 2 * GEOM.calha.folgaLat.v, bolaD, EST,
+  /* A bandeja entrega no canto de tras com a bola ja andando em -Z. Dai ate o LABIO da
+     concha e um trecho reto e curto: nenhuma curva fechada, nenhuma queda livre, nenhum
+     ponto em que a bola troque de lugar sem percorrer. Onde a calha acaba, a chapa curva
+     do elevador ja esta sob a bola. */
+  const labio = ELEV.rotaConcha.pts[0], ini = TREM.saida();
+  const dir = labio.clone().sub(ini).normalize();
+  // ultimo pedaco fica sem calha: e a junta com a chapa da concha, que ocupa o mesmo
+  // lugar. A bola nao fica sem apoio ali — quem a sustenta ja e a concha.
+  const pFim = labio.clone().addScaledVector(dir, -D.bolaR);
+  const path = polyPath([ini, pFim, labio]);
+  canalSobre(path, D.magLarg, bolaD, EST,
     G.calhas, 'Calha de retorno', 'Retorno de bolas', GEOM.calha.parede.v, 1);
   /* FILA DE ESPERA — a concha sozinha tem menos de um diametro de comprimento. Quem
      chega e nao e varrido na hora encosta na bola anterior, e a fila cresce PARA TRAS,
@@ -2228,10 +2267,11 @@ function iniciaTremonha(b, xChapa, vChegada) {
     }
   }
   const ult = pts[pts.length - 1];
-  const p1 = TREM.ponto(ult.x);
-  pts.push(new THREE.Vector3(p1.x, p1.y, ult.z), p1, TREM.saida());
+  // pousa na bandeja onde caiu, atravessa ate a guia de +X e desce por ela ate o canto
+  pts.push(TREM.ponto(ult.x, ult.z), TREM.ponto(D.xSaiBandeja, ult.z), TREM.saida());
   // concordancia tambem aqui: a bola nao vira de direcao num ponto ao deixar a chapa
-  b.rota = polyPath(arredonda(pts, Math.min(D.rCurva, D.bolaR * 1.2), 8));
+  const limpos = pts.filter((q, i) => i === 0 || q.distanceTo(pts[i - 1]) > 0.5);
+  b.rota = polyPath(arredonda(limpos, Math.min(D.rCurva, D.bolaR * 1.2), 8));
   b.s = 0;
   // a bola CHEGA com a velocidade que a queda deu. Zerar aqui apagaria 97 % dela num
   // quadro; o que se perde no impacto e o componente normal, nao tudo.

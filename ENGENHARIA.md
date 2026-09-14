@@ -7,7 +7,7 @@ Tudo aqui é extraído do código, não de memória:
 
 | arquivo | o que é |
 |---|---|
-| `modelo3d.html` | modelo 3D paramétrico da máquina inteira (196 peças) + verificações automáticas |
+| `modelo3d.html` | modelo 3D paramétrico da máquina inteira (183 peças) + verificações automáticas |
 | `js/physics.js` | perfis de movimento dos eixos e integração do voo (RK4) |
 | `js/model.js` | mundo, oportunidades de acerto, janelas, sigmas e probabilidades |
 | `js/game.js` | modo Jogar: partida, escada, log de sessão, replay |
@@ -18,7 +18,7 @@ Tudo aqui é extraído do código, não de memória:
 | `js/params.js` | registro único de parâmetros, com **procedência** por cota |
 
 **Procedência** é regra do projeto, não enfeite: cada cota é `cat` (dimensão publicada em catálogo
-do fabricante) ou `est` (dimensão de projeto, estimada). No modelo 3D atual: **31 de catálogo, 165
+do fabricante) ou `est` (dimensão de projeto, estimada). No modelo 3D atual: **31 de catálogo, 152
 estimadas**. Uma cota nunca mistura as duas.
 
 ---
@@ -33,8 +33,8 @@ Envelope externo **450 × 450 × 1700 mm**, largura interna útil 415 mm, parede
 |---|---|
 | 0 – 1050 | vão livre: pedestal. **Nada ocupa hoje** `[A]` |
 | 1050 – 1100 | painel de botões |
-| **1048,7** | **pé do elevador** (concha de captação) |
-| 1100 – 1150 | bandeja de captura, com caimento até a saída |
+| **1115,9** | **pé do elevador** (lábio da concha de captação) |
+| 1107 – 1150 | bandeja de captura: cai 4,5° em +X e 3° em −Z, drenando no canto traseiro |
 | 1150 – 1220 | banda do eixo B (trilho + carro + boca) |
 | **1220** | plano da boca do buraco |
 | 1220 – 1470 | **queda útil: 250 mm** |
@@ -78,12 +78,12 @@ mag ──► desce ──► retido ──► carga ──► assento ──►
 | comporta → berço | gravidade, desnível de 5 mm, **só quando o carro A inverte ao lado** | 0,16 s |
 | berço → voo | solenoide recolhe o pino | 29 ms de cadeia |
 | voo | RK4 com arrasto | **225,9 ms** |
-| bandeja → calha | escorrega o fundo inclinado | ~0,1 s |
-| calha → boca da concha | queda de 92 mm, concordada | ~0,1 s |
+| bandeja → calha | atravessa até a guia de +X e desce por ela até o canto | ~0,16 s |
+| calha → lábio da concha | trecho reto de 66 mm, queda de 22 mm (18°) | ~0,05 s |
 | espera → caçamba | o copo **varre** a bola parada | ≤ 0,64 s |
-| subida (542 mm a 131,9 mm/s) | esteira com 14 caçambas | **4,1 s** |
+| subida (475 mm a 131,9 mm/s) | esteira com 12 caçambas | **3,6 s** |
 | despejo → magazine | o copo tomba a 45° depois do topo; calha de entrega | 0,2 s |
-| **bandeja → magazine (total)** | | **5,4 s** |
+| **bandeja → magazine (total)** | | **4,85 s** |
 | **intervalo entre tentativas** | carro A + comporta + berço | **~2,4 s** |
 
 Regras de coerência que o modelo respeita e verifica:
@@ -109,9 +109,9 @@ Regras de coerência que o modelo respeita e verifica:
 | **Berço + pino** | copo aberto embaixo; quem segura a bola é o **pino lateral**, não o fundo | arco de abraço 150°; o pino recolhe e a bola cai livre |
 | **Eixos A e B** | trilho linear MGN12 + carro, curso 280 mm, perfil senoidal, períodos 2,40 s e 3,10 s, defasagem 90° | velocidade de pico 367 mm/s (A) e 284 mm/s (B) |
 | **Boca / chapa-alvo** | abertura de 78 mm numa chapa de 60 mm de profundidade, com portinhola e barreira óptica | a portinhola é a confirmação **mecânica e visível** de que a bola passou e não raspou |
-| **Bandeja** | recebe tanto a bola que entrou quanto a que errou e concentra as duas na saída | banda inteira de 50 mm de caimento |
-| **Calha de retorno** | liga a saída da bandeja à boca da concha | desce só o necessário para passar **sob** a chapa da bandeja (2R + parede + folga + flecha da curva) mais o caimento de rolagem |
-| **Elevador** | esteira com 14 caçambas, curso 542 mm, 90 rpm em polia Ø28 = 131,9 mm/s | o pé é **derivado** do retorno; a profundidade do copo é o que a bola exige para caber encostada na tampa; o despejo é **geométrico** (a capa do topo acaba a 45° e a bola rola para fora), não temporizado |
+| **Bandeja** | recebe a bola que entrou e a que errou e entrega no canto traseiro direito | dois caimentos: 4,5° em +X joga a bola contra a guia de saída, 3° em −Z a leva por essa guia até o canto. Ela sai **já andando na direção do elevador** |
+| **Calha de retorno** | liga o canto da bandeja ao lábio da concha | trecho reto de 66 mm: como a bola já sai andando em −Z, não há curva fechada, queda livre nem trecho sem apoio. Só o último raio fica sem calha — ali quem sustenta a bola já é a chapa da concha |
+| **Elevador** | esteira com 12 caçambas, curso 475 mm, 90 rpm em polia Ø28 = 131,9 mm/s | o pé é **derivado** do retorno; a profundidade do copo é o que a bola exige para caber encostada na tampa; o despejo é **geométrico** (a capa do topo acaba a 45° e a bola rola para fora), não temporizado |
 | **Concha + fila** | recebe a bola e a guarda no ponto que o copo varre | só a **primeira** bola espera dentro do volume varrido; as demais param antes da boca, na própria calha |
 
 ---
