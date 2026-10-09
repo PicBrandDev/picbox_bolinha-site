@@ -251,3 +251,35 @@ export const TUBO = { de: 40, di: 36 };
     notas: ['Corte com serra de dentes finos e fita crepe em volta (não lasca). Lixe a rebarba de dentro: a bola não pode enganchar.',
       'Os 3 trechos somam 571 mm: a planilha tem 1 tubo de 500 mm — falta comprar mais 1.'] },
   () => [{ forma: tubo(TUBO.de, TUBO.di, L, [0, 0, 0], 'x'), cor: 'acrilico' }]));
+
+/* ============================================================== MOTOR DO ELEVADOR */
+// JGA25-370: caixa Ø25 (comprimento depende da reducao: 27 na 1:377, 23 na 1:46,8), motor Ø24,4 x 30,8,
+// ressalto Ø7 x 2,5, eixo Ø4 com chato (3,5) saindo 12,1 da face, 2 x M3 a 17 mm na face
+export const JGA = { cx: 25, cxL: 27, mot: 24.4, motL: 30.8, boss: 7, bossH: 2.5, eixo: 4, eixoL: 12.1, furos: 17 };
+peca('jga25', { nome: 'Motor JGA25-370 12 V com redução', src: 'medir', link: LINK.jga25, linha: 19,
+  dims: 'Ø25 × 58 mm + eixo Ø4 × 12 (D)',
+  conferir: ['comprimento da caixa de redução (varia com a redução)', 'eixo: Ø4 com chato?'],
+  notas: ['O comprado (15 rpm, 1:377) é lento demais: troque pelo de 128 rpm (1:46,8) — mesma carcaça e furos, caixa 4 mm mais curta.',
+    'Origem: face da caixa em z=0, eixo para +z.'] },
+() => {
+  const J = JGA;
+  let cx = cil(J.cx, J.cxL, [0, 0, -J.cxL], 'z');
+  [-1, 1].forEach(s => { cx = cx.cut(cil(2.5, 4.6, [s * J.furos / 2, 0, -4.5], 'z')); });
+  const mot = cil(J.mot, J.motL, [0, 0, -J.cxL - J.motL], 'z');
+  const tampa = cil(J.mot - 4, 2, [0, 0, -J.cxL - J.motL - 2], 'z');
+  const term = uniao([caixaC(5, 0, -J.cxL - J.motL - 4, 1, 3, 4), caixaC(-5, 0, -J.cxL - J.motL - 4, 1, 3, 4)]);
+  let eixo = cil(J.boss, J.bossH, [0, 0, 0], 'z').fuse(cil(J.eixo, J.eixoL, [0, 0, 0], 'z'));
+  eixo = eixo.cut(caixa(-3, 1.5, J.bossH + 1, 3, 3, J.eixoL + 1));
+  return [{ forma: cx, cor: 'zincado' }, { forma: mot.fuse(tampa), cor: 'aco' }, { forma: term, cor: 'latao' }, { forma: eixo, cor: 'aco' }];
+});
+peca('acoplador_4x5', { nome: 'Acoplador rígido 4 × 5 mm', tipo: 'falta', src: 'cat', dims: 'Ø12 × 20 mm, furos 4 e 5',
+  link: 'https://lista.mercadolivre.com.br/acoplador-rigido-4mm-5mm',
+  notas: ['Liga o eixo de 4 mm do motor ao eixo de 5 mm da polia de cima. 4 parafusinhos sem cabeça M3.'] },
+() => {
+  let a = cil(12, 20, [0, 0, 0], 'z').cut(cil(4, 10.5, [0, 0, -0.5], 'z')).cut(cil(5, 10.5, [0, 0, 10], 'z'));
+  [5, 15].forEach(z => [0, 90].forEach(g => { a = a.cut(cil(2.5, 7, [0, 0, z], 'x').rotate(g, [0, 0, 0], [0, 0, 1])); }));
+  return [{ forma: a, cor: 'aluminio' }];
+});
+peca('eixo_5x70', { nome: 'Eixo retificado Ø5 × 70 mm', tipo: 'falta', dims: 'Ø5 h6 × 70 mm', link: 'https://lista.mercadolivre.com.br/eixo-retificado-5mm',
+  notas: ['Eixo da polia de cima do elevador. Corte de uma barra de 5 mm e lixe as pontas.'] },
+() => [{ forma: cil(5, 70, [0, 0, 0], 'z').chamfer(0.3), cor: 'aco' }]);

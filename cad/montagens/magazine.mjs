@@ -89,7 +89,7 @@ const curvaEsq = () => curvaU(MG.xL, MG.zL, -1, MG.zP2(MG.xL), MG.zP1(MG.xL), [-
 
 /* ---------------------------------------------------------------- canal aberto (U) */
 // trecho reto: centro da bola de a ate b (pontos 3D). Parede 3, piso 3, abas ate 8,5 acima do centro.
-function retaU(a, b, interno) {
+export function retaU(a, b, interno) {
   const dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2];
   const L = Math.hypot(dx, dy), ang = Math.atan2(dy, dx) * 180 / Math.PI, inc = Math.atan2(dz, L) * 180 / Math.PI;
   const w = DCAN / 2 + 0.3;
@@ -97,7 +97,7 @@ function retaU(a, b, interno) {
   return s.rotate(-inc, [0, 0, 0], [0, 1, 0]).rotate(ang, [0, 0, 0], [0, 0, 1]).translate(...a);
 }
 // curva no plano: centro (cx,cy), raio r, de a0 a a1 graus, na altura z (centro da bola)
-function arcoU(cx, cy, r, a0, a1, z, interno) {
+export function arcoU(cx, cy, r, a0, a1, z, interno) {
   const w = DCAN / 2 + 0.3;
   const perfil = interno ? R.drawRectangle(2 * w, RB + 30).translate(r, (30 - RB) / 2)
     : R.drawRectangle(2 * (w + PARU), RB + PARU + 8.5).translate(r, (8.5 - RB - PARU) / 2);
@@ -190,12 +190,14 @@ function comporta() {
 
 /* ---------------------------------------------------------------- entrada, sensor, presilhas */
 function entrada() {
-  const z = MG.zP1(MG.xIn), re = DCAN / 2 + PAR;
-  let e = caixa(MG.xIn - 15, MG.y - re - 1, z - re - 1, MG.xIn + 40, MG.y + re + 1, z + 45);
-  e = e.cut(cil(TUBO.de + 0.4, 16, [MG.xIn - 16, MG.y, z], 'x'));
-  e = e.cut(cil(DCAN, 22, [MG.xIn - 0.5, MG.y, z], 'x'));
-  e = e.cut(cil(DCAN + 1.5, 70, [MG.xIn + 20, MG.y, z - 2], 'z'));
-  return e.fillet(3, f => f.inDirection('Z'));
+  // encaixe da ponta do P1 + um trecho de canal aberto onde a calha de entrega do elevador apoia
+  const z = MG.zP1(MG.xIn), w = DCAN / 2 + 0.3;
+  let e = caixa(MG.xIn - 15, MG.y - 23, z - 23, MG.xIn + 1, MG.y + 23, z + 23);
+  e = e.fuse(caixa(MG.xIn, MG.y - w - PARU, z - RB - PARU, MG.xIn + 35, MG.y + w + PARU, z + 8.5));
+  e = e.cut(cil(TUBO.de + 0.8, 16, [MG.xIn - 16, MG.y, z], 'x'));
+  e = e.cut(caixa(MG.xIn - 0.5, MG.y - w, z - RB, MG.xIn + 36, MG.y + w, z + 30));
+  e = e.cut(cil(DCAN, 3, [MG.xIn - 1.5, MG.y, z], 'x'));
+  return e;
 }
 function sensorNivel() {
   const x = 20, z = MG.zP1(x);
@@ -237,9 +239,9 @@ regImp('mag_comporta', { nome: 'Lâmina da comporta', cor: 'impresso2', dims: '3
   impressao: { preenchimento: '100 %', paredes: 4, suportes: 'não', tempo: '15 min' },
   notas: ['Fechada (solenoide desligado), sobe 9,5 mm acima do piso: a bola não passa. Ligado, o solenoide puxa 10 mm e ela some no piso.'] },
 comporta, [MG.xCruz, yComp, zCruz(yComp)], [['x', 90]]);
-regImp('mag_entrada', { nome: 'Entrada do magazine (funil)', dims: '55 × 45 × 87 mm',
+regImp('mag_entrada', { nome: 'Entrada do magazine', dims: '50 × 46 × 46 mm',
   impressao: { preenchimento: '30 %', paredes: 4, suportes: 'não', tempo: '≈ 2 h' },
-  notas: ['A bola cai do elevador no funil, desce pelo poço e entra rolando no tubo P1.'] }, entrada, REF_ENT);
+  notas: ['A calha de entrega do elevador apoia neste trecho de canal aberto e a bola entra rolando no tubo P1.'] }, entrada, REF_ENT);
 regImp('mag_sensor_nivel', { nome: 'Abraçadeira do sensor de nível', cor: 'impresso2', dims: 'Ø52 × 14 mm',
   impressao: { preenchimento: '40 %', paredes: 4, suportes: 'não', tempo: '40 min' },
   notas: ['LED na frente, fototransistor atrás: o infravermelho atravessa o acrílico sem furar o tubo.',
@@ -308,7 +310,7 @@ function instancias() {
   });
   [-12, 12].forEach((dy, i) => add('mad_carga_' + i, 'madeira_3_5x16', r.ry(-90).t(-EX.parede + (MG.xCruz - DCAN / 2 - PARU + 0.3 + EX.parede), dy, zCruz(0) - RB - PARU - 11)));
   add('painel', 'mag_painel', r.t(0, MG.yPainel, 0));
-  [[-190, -80], [-190, 80], [110, -80], [110, 80]].forEach(([x, z], i) => add('esp_' + i, 'mag_espacador', r.t(x, MG.yPainel + 6, z)));
+  [[-190, -80], [-190, 80], [-20, -80], [-20, 80]].forEach(([x, z], i) => add('esp_' + i, 'mag_espacador', r.t(x, MG.yPainel + 6, z)));
   // bolas na fila
   const fila = [];
   for (let i = 0; i < 3; i++) fila.push([MG.xE + 1 + RB + i * 36, MG.zP3(MG.xE + 1 + RB + i * 36)]);
@@ -331,7 +333,7 @@ export function moduloMagazine() {
       ignora: ['ctx_trilho', 'ctx_perfil', 'ctx_tensor', 'ctx_motor', 'ctx_nema'] }],
     passos: [
       { titulo: 'Conheça as peças', mostra: 'tudo', explode: 0.8, vista: 'iso',
-        texto: 'O magazine fica atrás do eixo A (em cinza claro, com o berço parado na posição de carga, à esquerda). A bola entra pelo funil da direita, desce em zigue-zague pelos 3 tubos, passa pelo escapement, atravessa para a frente por baixo do bloco tensor do eixo A e cai nos trilhos dentro do berço.',
+        texto: 'O magazine fica atrás do eixo A (em cinza claro, com o berço parado na posição de carga, à esquerda). A bola chega do elevador pela direita, desce em zigue-zague pelos 3 tubos, passa pelo escapement, atravessa para a frente por baixo do bloco tensor do eixo A e cai nos trilhos dentro do berço.',
         atencao: ['Inclinação de 4° em vez dos 6° do modelo antigo, para o elevador caber embaixo do teto. Antes de cortar o painel, teste: tubo inclinado 4° com uma bola — ela tem que rolar sozinha de ponta a ponta.'] },
       { titulo: 'Painel e espaçadores', novos: ['painel', ...ids('esp_')], vista: 'tras',
         texto: 'Corte o painel de MDF 6 mm (338 × 200). Parafuse os 4 espaçadores impressos na parede do fundo do gabinete e o painel na frente deles, com parafusos de madeira 3,5×16. O painel fica a 104 mm do trilho A.',
@@ -347,7 +349,7 @@ export function moduloMagazine() {
         texto: 'Parafuse as 6 selas no painel (2 por tubo) e prenda cada tubo na sua sela com uma abraçadeira de nylon. Confira a inclinação com um nível digital ou app de celular: 4° em cada tubo, descendo no sentido da bola.',
         ferramentas: ['chave Phillips nº 2', 'abraçadeiras de nylon 3,6 mm', 'nível (app de celular)'] },
       { titulo: 'Entrada e sensor de nível', novos: ['entrada', 'nivel', 'nivel_led', 'nivel_foto'], vista: 'iso',
-        texto: 'Encaixe o funil na ponta direita do P1. Feche a abraçadeira do sensor de nível em volta do P1, perto da entrada, com 1 parafuso M3. LED na frente, fototransistor atrás: a luz infravermelha atravessa o acrílico.',
+        texto: 'Encaixe a entrada na ponta direita do P1 (é onde a calha do elevador vai apoiar). Feche a abraçadeira do sensor de nível em volta do P1, perto da entrada, com 1 parafuso M3. LED na frente, fototransistor atrás: a luz infravermelha atravessa o acrílico.',
         ferramentas: ['chave allen 2,5 mm'] },
       { titulo: 'Saída e escapement', novos: ['saida', 'servo', 'balancim', ...ids('bola_')], vista: 'iso', zoom: ['saida', 'balancim'],
         texto: 'Apoie a ponta esquerda do P3 na meia-cana da saída e prenda com abraçadeira. Antes de montar o balancim, ligue o servo no ESP32 e mande para 90° (centro). Encaixe o balancim no eixo do servo com os dois dedos na mesma altura e prenda o servo no suporte com os 2 parafusinhos que vêm com ele.',

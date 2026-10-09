@@ -13,7 +13,8 @@ export const CONTEUDO = {
         '<li><b>Polia GT2 20 dentes com furo de 5 mm</b> (2 unid.): a da planilha tem furo de 6,35 mm e fica torta no eixo de 5 mm do NEMA 17.</li>' +
         '<li><b>Polia tensora GT2 20 dentes com rolamento</b> (2 unid.).</li>' +
         '<li><b>Mais 1 tubo acrílico 40 × 36 de 50 cm</b>: os 3 passes do magazine somam 571 mm.</li>' +
-        '<li><b>MDF 6 mm</b> para o painel do magazine (338 × 200).</li>' +
+        '<li><b>MDF 6 mm</b> para o painel do magazine (338 × 200) e as 2 laterais do elevador (111 × 614).</li>' +
+        '<li><b>Elevador:</b> correia GT2 10 mm <b>fechada</b> de 1056 mm, acoplador rígido 4 × 5 mm, eixo retificado Ø5 × 70, 3 rolamentos 625ZZ.</li>' +
         '<li><b>Kit de ferragens</b>: parafusos M3, M5 e de madeira, porcas M3/M5, porcas martelo para perfil 2020 (quantidades exatas na lista).</li></ul>' },
     { titulo: 'Motor do elevador: 15 rpm é lento demais',
       texto: '<p>O JGA25-370 de 15 rpm é a versão 1:377 (≈13 rpm com carga). Com a polia de Ø28 a esteira anda 19 mm/s: ' +
@@ -50,7 +51,6 @@ export const CONTEUDO = {
     'Peças do eixo A são as do eixo B espelhadas: use o arquivo "STL A". STEP para quem quiser editar.</p>',
 
   proximos: [
-    { nome: 'Elevador', resumo: 'Coluna, polias GT2 impressas, esteira GT2 10 mm, caçambas e motor JGA25-370.' },
     { nome: 'Eletrônica e fiação', resumo: 'ESP32, 2× TMC2209, drivers dos solenoides, comparadores, fonte e botão.' },
   ],
 };

@@ -20,7 +20,7 @@ await import('./pecas/fixadores.mjs');
 await import('./pecas/comprados.mjs');
 await import('./pecas/eletronicos.mjs');
 const MODULOS = [];
-for (const m of ['eixo', 'soltura', 'boca', 'magazine']) {
+for (const m of ['eixo', 'soltura', 'boca', 'magazine', 'elevador']) {
   const mod = await import('./montagens/' + m + '.mjs');
   const fn = Object.values(mod).find(v => typeof v === 'function' && v.name.startsWith('modulo'));
   MODULOS.push(fn());
@@ -113,6 +113,21 @@ if (!semColisao) {
           if (vol > 5 || vol < 0) achados.push({ a: mv.i.id + ' @x' + (d[0] >= 0 ? '+' : '') + d[0], b: fx.i.id, mm3: +vol.toFixed(1) });
         });
       }));
+    });
+    // trajetoria: uma peca levada por uma sequencia de posicoes (ex.: cacamba dando a volta no elevador)
+    (m.trajetoria || []).forEach(tr => {
+      const base = formas(tr.peca).map(c => c.forma.clone()).reduce((x, y) => x.fuse(y));
+      const contra = lista.filter(o => tr.contra.includes(o.i.id));
+      tr.Ts.forEach((t, n) => {
+        const sh = t.aplica(base.clone()), b = sh.boundingBox.bounds;
+        contra.forEach(fx => {
+          const B = fx.b;
+          if ([0, 1, 2].some(q => b[1][q] < B[0][q] - 0.01 || B[1][q] < b[0][q] - 0.01)) return;
+          let vol = 0;
+          try { const x = sh.clone().intersect(fx.s.clone()); vol = x ? Math.abs(R.measureVolume(x)) : 0; } catch (e) { vol = -1; }
+          if (vol > 5 || vol < 0) achados.push({ a: tr.peca + ' @' + (tr.rotulos ? tr.rotulos[n] : n), b: fx.i.id, mm3: +vol.toFixed(1) });
+        });
+      });
     });
     colisoes[m.id] = achados;
     console.log(`colisao ${m.id}: ${lista.length} pecas, ${achados.length} interferencias (${((Date.now() - t1) / 1000).toFixed(1)} s)`);

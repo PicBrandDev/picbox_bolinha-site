@@ -38,7 +38,7 @@ function porca(M, nylon) {
   return out;
 }
 function arruela(M) {
-  const de = { 3: 7, 5: 10 }[M], e = { 3: 0.5, 5: 1 }[M];
+  const de = { 2: 5, 3: 7, 5: 10 }[M], e = { 2: 0.3, 3: 0.5, 5: 1 }[M];
   return [{ forma: cil(de, e, [0, 0, 0], 'z').cut(cil(M + 0.3, e + 1, [0, 0, -0.5], 'z')), cor: 'zincado' }];
 }
 /* porca martelo (T) para perfil 20x20 fenda 6: entra de lado na fenda e gira 90 graus.
@@ -68,7 +68,7 @@ function madeira(L) {
 }
 
 const FIX = { tipo: 'fixador', src: 'cat' };
-[[3, 6], [3, 8], [3, 10], [3, 12], [3, 16], [3, 20], [3, 25], [3, 30], [3, 40], [5, 10], [5, 12], [5, 30], [2, 8], [2, 10]].forEach(([M, L]) =>
+[[3, 6], [3, 8], [3, 10], [3, 12], [3, 16], [3, 20], [3, 25], [3, 30], [3, 40], [5, 10], [5, 12], [5, 30], [5, 60], [2, 8], [2, 10]].forEach(([M, L]) =>
   peca(`din912_m${M}x${L}`, Object.assign({ nome: `Parafuso M${M}×${L} (DIN 912, cabeça cilíndrica allen)`,
     dims: `M${M} × ${L} mm, cabeça Ø${D912[M].dk} × ${D912[M].k}`, ferramenta: `chave allen ${D912[M].s} mm` }, FIX),
   () => din912(M, L)));
@@ -78,7 +78,7 @@ const FIX = { tipo: 'fixador', src: 'cat' };
   () => iso7380(M, L)));
 [2, 3, 5].forEach(M => peca(`porca_m${M}`, Object.assign({ nome: `Porca sextavada M${M}`, dims: `chave ${PORCA[M].s} mm, altura ${PORCA[M].m} mm` }, FIX), () => porca(M)));
 peca('porca_nylon_m5', Object.assign({ nome: 'Porca autotravante M5 (com anel de nylon)', dims: 'chave 8 mm' }, FIX), () => porca(5, true));
-[3, 5].forEach(M => peca(`arruela_m${M}`, Object.assign({ nome: `Arruela lisa M${M}`, dims: M === 3 ? 'Ø7 × 0,5' : 'Ø10 × 1' }, FIX), () => arruela(M)));
+[2, 3, 5].forEach(M => peca(`arruela_m${M}`, Object.assign({ nome: `Arruela lisa M${M}`, dims: { 2: 'Ø5 × 0,3', 3: 'Ø7 × 0,5', 5: 'Ø10 × 1' }[M] }, FIX), () => arruela(M)));
 [3, 5].forEach(M => peca(`porca_martelo_m${M}`, Object.assign({ nome: `Porca martelo M${M} para perfil 2020`,
   dims: 'perfil série 20, fenda 6 mm', notas: ['Entra de lado na fenda do perfil e gira 1/4 de volta ao apertar o parafuso.'] }, FIX),
   () => porcaMartelo(M)));
