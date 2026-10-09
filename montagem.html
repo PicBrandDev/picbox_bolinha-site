@@ -261,7 +261,7 @@ async function montaModulo(m) {
     const proto = await carregaPeca(i.peca);
     if (!proto.userData.caixa) proto.userData.caixa = new THREE.Box3().setFromObject(proto);
     const box = proto.userData.caixa.clone().applyMatrix4(M);
-    objs[i.id] = { obj, i, peca: G.pecas[i.peca], M, mats, centro: box.getCenter(new THREE.Vector3()), box,
+    objs[i.id] = { obj, i, peca: G.pecas[i.peca], M, mats, centro: box.getCenter(new THREE.Vector3()), box, ctx: (m.contexto || []).includes(i.id),
       desl: new THREE.Vector3(), alvo: new THREE.Vector3(), vis: false, op: 1 };
   }
   // centro do modulo (para explodir)
@@ -275,7 +275,7 @@ async function montaModulo(m) {
 function visiveisAte(k) {
   const p = MOD.passos[k];
   if (p.mostra === 'tudo') return new Set(Object.keys(objs).filter(id => !foiRemovido(id, k)));
-  const s = new Set(p.base || []);
+  const s = new Set((p.base || []).concat(MOD.contexto || []));
   for (let j = 0; j <= k; j++) {
     const q = MOD.passos[j];
     if (q.mostra === 'tudo') continue;
@@ -313,7 +313,7 @@ function aplicaPasso(k, animar) {
     o.obj.visible = o.vis;
     // explodido: afasta do centro do modulo
     o.alvo.set(0, 0, 0);
-    if (expl) o.alvo.copy(o.centro).sub(MOD._centro).multiplyScalar(expl * 0.9);
+    if (expl && !o.ctx) o.alvo.copy(o.centro).sub(MOD._centro).multiplyScalar(expl * 0.9);
     o.entrada = direcaoEntrada(o).multiplyScalar(o.peca.tipo === 'fixador' ? 28 : 70);
   });
   limpaRotulos();
@@ -326,7 +326,8 @@ function aplicaPasso(k, animar) {
 function corDe(o, t) {
   // novo: pisca em ciano no fim da entrada; antigo com "destacar": transparente
   const destaque = o.novo ? Math.max(0, Math.sin(Math.min(1, t) * Math.PI)) * 0.55 : 0;
-  const op = (fantasma && !o.novo && MOD.passos[passo].mostra !== 'tudo') ? 0.16 : 1;
+  // contexto (peca de outro modulo, so para situar) fica sempre translucida
+  const op = o.ctx ? 0.22 : (fantasma && !o.novo && MOD.passos[passo].mostra !== 'tudo') ? 0.16 : 1;
   o.mats.forEach(m => {
     if (!m.userData.base) m.userData.base = { e: m.emissive.clone(), o: m.opacity, t: m.transparent };
     m.emissive.setRGB(0.06 * destaque * 4, 0.55 * destaque, 0.55 * destaque);
@@ -360,7 +361,7 @@ function enquadra(suave) {
   const p = MOD.passos[passo];
   const foco = (p.zoom && p.zoom.length) ? p.zoom : (p.mostra === 'tudo' ? null : (p.novos || []));
   const b = new THREE.Box3();
-  const lista = foco && foco.length ? foco.map(id => objs[id]).filter(Boolean) : Object.values(objs).filter(o => o.vis);
+  const lista = foco && foco.length ? foco.map(id => objs[id]).filter(Boolean) : Object.values(objs).filter(o => o.vis && !o.ctx);
   lista.forEach(o => { const bb = o.box.clone(); bb.translate(o.alvo); b.union(bb); });
   if (b.isEmpty()) return;
   // contexto: o foco ocupa ~55 % da tela, mas nunca menos que 140 mm de vista
@@ -434,7 +435,7 @@ function listaItens(ids) {
 }
 function pintaCard() {
   const p = MOD.passos[passo];
-  const ids = p.mostra === 'tudo' ? MOD.instancias.map(i => i.id) : (p.novos || []);
+  const ids = p.mostra === 'tudo' ? MOD.instancias.map(i => i.id).filter(id => !(MOD.contexto || []).includes(id)) : (p.novos || []);
   let h = `<div class="num">${passo === 0 ? 'VISÃO GERAL' : 'PASSO ' + passo + ' DE ' + (MOD.passos.length - 1)}</div>
     <h3>${esc(p.titulo)}</h3><div class="txt">${p.texto || ''}</div>`;
   if (p.ferramentas && p.ferramentas.length) h += `<h4>Ferramentas</h4><div class="ferr">${p.ferramentas.map(f => `<span>${esc(f)}</span>`).join('')}</div>`;
@@ -447,7 +448,7 @@ function pintaCard() {
 }
 function abreFicha(pid) {
   const pc = G.pecas[pid];
-  const qMod = MOD ? MOD.instancias.filter(i => i.peca === pid).length : 0;
+  const qMod = MOD ? MOD.instancias.filter(i => i.peca === pid && !(MOD.contexto || []).includes(i.id)).length : 0;
   let h = `<button class="btn fechar" id="fFecha">✕</button><h3>${esc(pc.nome)}</h3>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"><span class="chip ${pc.tipo}">${TIPO[pc.tipo] || pc.tipo}</span>
     <span class="chip ${pc.src}">${SRC[pc.src] || pc.src}</span></div>`;
@@ -494,7 +495,7 @@ renderer.domElement.addEventListener('pointerup', e => {
 /* ------------------------------------------------------------- paginas de texto */
 function contagemModulo(m) {
   const c = {};
-  m.instancias.forEach(i => { c[i.peca] = (c[i.peca] || 0) + 1; });
+  m.instancias.forEach(i => { if (!(m.contexto || []).includes(i.id)) c[i.peca] = (c[i.peca] || 0) + 1; });
   return c;
 }
 function tabelaPecas(filtro) {
@@ -535,11 +536,13 @@ function paginaPecas(filtro) {
 function paginaImprimir() {
   const lista = Object.keys(G.pecas).filter(p => G.pecas[p].tipo === 'impresso');
   const qtd = {};
-  G.modulos.forEach(m => m.instancias.forEach(i => { if (G.pecas[i.peca].tipo === 'impresso') qtd[i.peca] = (qtd[i.peca] || 0) + 1; }));
+  G.modulos.forEach(m => m.instancias.forEach(i => {
+    if (G.pecas[i.peca].tipo === 'impresso' && !(m.contexto || []).includes(i.id)) qtd[i.peca] = (qtd[i.peca] || 0) + 1;
+  }));
   const C = G.conteudo || {};
   return `<h1>Peças para imprimir</h1>${C.impressao || ''}
     <div class="tbl"><table class="t"><thead><tr><th>qtd</th><th>peça</th><th>na mesa (mm)</th><th>preench.</th><th>suporte</th><th>tempo</th><th>arquivos</th></tr></thead><tbody>
-    ${lista.map(p => { const pc = G.pecas[p], im = pc.impressao || {}, m = G.modulos.find(x => x.instancias.some(i => i.peca === p));
+    ${lista.map(p => { const pc = G.pecas[p], im = pc.impressao || {}, m = G.modulos.find(x => x.instancias.some(i => i.peca === p && !(x.contexto || []).includes(i.id)));
       return `<tr><td class="q">${qtd[p]}${m && m.espelhoA && pc.stlA ? ' + ' + qtd[p] : ''}</td><td>${esc(pc.nome)}</td><td>${(pc.tamanhoMesa || []).join(' × ')}</td>
       <td>${esc(im.preenchimento || '')}</td><td>${esc(im.suportes || '')}</td><td>${esc(im.tempo || '')}</td>
       <td><a href="montagem/${pc.stl}" download>STL B</a>${pc.stlA ? ` · <a href="montagem/${pc.stlA}" download>STL A</a>` : ''} · <a href="montagem/${pc.step}" download>STEP</a></td></tr>`; }).join('')}

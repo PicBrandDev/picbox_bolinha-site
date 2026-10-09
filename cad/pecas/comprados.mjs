@@ -186,3 +186,39 @@ peca('ima_6x2_5', { nome: 'Ímã diametral Ø6 × 2,5 (vem com o AS5600)', src: 
   link: LINK.as5600, notas: ['Diametral: os polos N e S ficam nos LADOS, não nas faces. Ímã comum de geladeira não serve.'] },
 () => [{ forma: caixa(-3.1, 0, 0, 3.1, 3.1, 2.5).intersect(cil(6, 2.5, [0, 0, 0], 'z')), cor: 'vermelho' },
   { forma: caixa(-3.1, -3.1, 0, 3.1, 0, 2.5).intersect(cil(6, 2.5, [0, 0, 0], 'z')), cor: 'ima' }]);
+
+/* ============================================================== SOLENOIDES */
+/* Referencial: eixo do embolo em z. Carcaca de z=0 a z=C. Ponta de PUXAR em +z: em
+   repouso (sem energia) a mola deixa o embolo 'curso' mm para fora; energizado ele recolhe.
+   Ponta de EMPURRAR em -z, com a mola e a trava. Furos M3 na face de cima (+y). */
+export const SOL = {
+  jf0826: { C: 27, L: 22, A: 25, emb: 7.4, curso: 10, tras: 16, furos: [8.5, 18.5] },
+  jf0530: { C: 30, L: 15.5, A: 13, emb: 6, curso: 10, tras: 18, furos: [9, 21] },
+};
+function solenoide(s) {
+  const { C, L, A, emb, curso, tras } = s;
+  // carcaca em U de chapa (1,2 mm) envolvendo a bobina
+  const e = 1.2;
+  let car = caixa(-L / 2, -A / 2, 0, L / 2, A / 2, C).cut(caixa(-L / 2 - 1, -A / 2 + e, e, L / 2 + 1, A / 2 - e, C - e));
+  s.furos.forEach(z => { car = car.cut(cilC(2.5, 4, [0, A / 2 - e / 2, z], 'y')); car = car.cut(cilC(2.5, 4, [0, -A / 2 + e / 2, z], 'y')); });
+  const bob = cil(Math.min(L, A) - 3.5, C - 2 * e - 0.4, [0, 0, e + 0.2], 'z');
+  const puxa = cil(emb, curso + 2, [0, 0, C - 2], 'z').fuse(cil(emb + 2.6, 2.4, [0, 0, C + curso - 2.4], 'z'));
+  const empurra = cil(emb * 0.5, tras, [0, 0, -tras], 'z');
+  const trava = cil(emb * 0.5 + 3, 0.8, [0, 0, -tras + 1.5], 'z');
+  const mola = cil(emb * 0.5 + 2.4, tras - 3, [0, 0, -tras + 2.4], 'z').cut(cil(emb * 0.5 + 1.2, tras, [0, 0, -tras], 'z'));
+  return [{ forma: car, cor: 'zincado' }, { forma: bob, cor: 'cobre' }, { forma: puxa, cor: 'aco' },
+    { forma: empurra.fuse(trava), cor: 'aco' }, { forma: mola, cor: 'mola' },
+    // fios saem pela lateral aberta da carcaca (a face de cima e a de baixo ficam livres para os furos)
+    { forma: caixaC(L / 2 + 2, 3, C / 2, 4, 1.2, 1.2).fuse(caixaC(L / 2 + 2, -3, C / 2, 4, 1.2, 1.2)), cor: 'fio' }];
+}
+peca('sol_jf0826', { nome: 'Solenoide push-pull 12 V (JF-0826B) — soltura', src: 'medir', link: LINK.solenoide, linha: 7,
+  dims: 'carcaça 27 × 22 × 25 mm, êmbolo Ø7,4, curso 10 mm',
+  conferir: ['tamanho da carcaça', 'posição dos 2 furos M3 na carcaça', 'com o solenoide desligado, quanto o êmbolo fica para fora (curso)'],
+  notas: ['≈2 A em 12 V: só pode ficar ligado por pulsos curtos (até ~1 s). Diodo 1N4007 em paralelo, faixa no +12 V.',
+    'O modelo exato do anúncio não traz desenho: a peça impressa tem rasgos para ajustar a posição dos furos.'] },
+() => solenoide(SOL.jf0826));
+peca('sol_jf0530', { nome: 'Mini solenoide 12 V (JF-0530B) — comporta', src: 'medir', link: LINK.sol0530, linha: 8,
+  dims: 'carcaça 30 × 15,5 × 13 mm, êmbolo Ø6, curso 10 mm',
+  conferir: ['tamanho da carcaça', 'posição dos furos (anúncio: Ø2,5 roscado M3)'],
+  notas: ['≈300 mA, força ≈5 N. Diodo 1N4007 em paralelo.'] },
+() => solenoide(SOL.jf0530));
