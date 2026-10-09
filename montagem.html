@@ -27,6 +27,7 @@ a{color:var(--acc)}
   border-radius:6px;padding:5px 10px;cursor:pointer;white-space:nowrap}
 .tab:hover{color:var(--fg);background:var(--bg3)}
 .tab.on{color:#06232a;background:var(--acc);font-weight:600}
+.tsep{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg2);padding:0 4px 0 10px;align-self:center;white-space:nowrap;border-left:1px solid var(--line)}
 .xlink{color:var(--acc);text-decoration:none;font-size:12px;white-space:nowrap;
   padding:5px 9px;border:1px solid var(--line2);border-radius:6px;background:var(--bg3)}
 .xlink:hover{color:var(--fg);border-color:var(--acc)}
@@ -755,8 +756,13 @@ async function abreModulo(id, k) {
   aplicaPasso(k || 0, true);
 }
 function pintaTabs(on) {
-  const t = [['geral', 'visão geral']].concat(G.modulos.map(m => [m.id, m.nome])).concat([['pecas', 'lista de peças'], ['imprimir', 'imprimir']]);
-  $('#tabs').innerHTML = t.map(([id, n]) => `<button class="tab ${id === on ? 'on' : ''}" data-t="${id}">${esc(n)}</button>`).join('');
+  const bt = ([id, n]) => `<button class="tab ${id === on ? 'on' : ''}" data-t="${id}">${esc(n)}</button>`;
+  const ent = G.modulos.filter(m => m.didatico || m.id === 'maquina'), mon = G.modulos.filter(m => !m.didatico && m.id !== 'maquina');
+  const curto = n => n.replace('Como funciona: ', '').replace('Alternativa: ', 'alt.: ');
+  $('#tabs').innerHTML = bt(['geral', 'visão geral']) +
+    `<span class="tsep">entender</span>` + ent.map(m => bt([m.id, curto(m.nome)])).join('') +
+    `<span class="tsep">montar</span>` + mon.map(m => bt([m.id, m.nome])).join('') +
+    `<span class="tsep">listas</span>` + bt(['pecas', 'peças']) + bt(['imprimir', 'imprimir']);
   $('#tabs').querySelectorAll('.tab').forEach(b => b.onclick = () => {
     const id = b.dataset.t;
     if (['geral', 'pecas', 'imprimir'].includes(id)) mostraPagina(id); else abreModulo(id, 0);

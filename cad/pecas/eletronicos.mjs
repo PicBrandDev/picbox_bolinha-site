@@ -171,7 +171,7 @@ peca('botao_arcade', { nome: 'Botão arcade 60 mm iluminado', src: 'medir', link
   const aro = cil(60.8, 4.4, [0, 0, 0], 'z');
   const capa = cil(51.9, 5.6, [0, 0, 4.4], 'z').fuse(R.makeSphere(26).translate(0, 0, -16).intersect(cil(52, 10, [0, 0, 9], 'z')));
   const rosca = cil(24, 30.5, [0, 0, -30.5], 'z');
-  const porca = cil(33, 6, [0, 0, -12], 'z').cut(cil(24.2, 8, [0, 0, -13], 'z'));
+  const porca = cil(33, 6, [0, 0, -24], 'z').cut(cil(24.2, 8, [0, 0, -25], 'z'));   // por tras de um painel de 18 mm
   const chave = caixaC(0, 0, -30.5 - 11, 20, 10, 22);
   return [{ forma: aro, cor: 'preto' }, { forma: capa, cor: 'acrilico' }, { forma: rosca, cor: 'branco' }, { forma: porca, cor: 'branco' }, { forma: chave, cor: 'preto' }];
 });

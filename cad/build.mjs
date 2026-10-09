@@ -21,11 +21,15 @@ await import('./pecas/fixadores.mjs');
 await import('./pecas/comprados.mjs');
 await import('./pecas/eletronicos.mjs');
 const MODULOS = [];
-for (const m of ['maquina', 'funcionamento', 'eixo', 'soltura', 'boca', 'magazine', 'elevador', 'eletronica']) {
+for (const m of ['maquina', 'funcionamento', 'gabinete', 'eixo', 'soltura', 'boca', 'bandeja', 'magazine', 'elevador', 'eletronica']) {
   const mod = await import('./montagens/' + m + '.mjs');
   Object.values(mod).filter(v => typeof v === 'function' && v.name.startsWith('modulo')).forEach(fn => MODULOS.push(fn()));
 }
 
+// ordem das abas: primeiro o que explica, depois a montagem na ordem em que se monta
+const ORDEM = ['maquina', 'func_carga', 'func_elevador', 'ligacoes', 'alt_pistao', 'gabinete', 'eletronica', 'eixo', 'boca', 'bandeja',
+  'elevador', 'soltura', 'magazine'];
+MODULOS.sort((a, b) => (ORDEM.indexOf(a.id) + 1 || 99) - (ORDEM.indexOf(b.id) + 1 || 99));
 const args = process.argv.slice(2);
 const so = args.filter(a => !a.startsWith('--'));
 const semColisao = args.includes('--sem-colisao');

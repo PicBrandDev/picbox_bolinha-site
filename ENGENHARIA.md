@@ -361,5 +361,14 @@ interferência entre peças (> 5 mm³), **varredura** dos carros carregados até
 | magazine | tubo Ø40 a **4°** (não 6°), 571 mm de tubo | a 6° o topo do elevador passaria do teto |
 | elevador | correia GT2 10 mm **fechada** 1056 mm, polias 44 dentes impressas | emenda rígida não passa na polia de 28 |
 | firmware | não soltar com o carro A a menos de 112 mm do centro pela esquerda | ali a bola cairia nos trilhos de carga |
+| elevador | NEMA 17 direto na polia de cima, num 3º TMC2209 | o JGA25 de 15 rpm (1:377) daria 19 mm/s e o magazine esvaziaria |
+| bandeja | MDF 6 mm sobre 4 calços impressos de alturas diferentes | 390 × 225 não cabe na impressora (260 × 260 × 300); os calços dão os dois caimentos |
+| bandeja | borda esquerda rebaixada sob o eixo B | o ponto alto (1150) fica 1 mm abaixo do perfil do B (1151) |
+| botão | centro a 1065 mm | mais alto, a porca (Ø33) bate na divisória do campo (1082) |
+| frente | policarbonato 4 mm | local público: não estilhaça |
+
+**Alternativa estudada — bomba de coluna com pistão** (aba "alt.: pistão"): mais compacta, mas prende 13 bolas
+no tubo (a máquina precisaria de ~28), trava com uma bola ruim e, com atuador linear barato, não aguenta
+~1000 ciclos/dia. Se for testada, que seja com NEMA + manivela.
 
 A lista do que **falta comprar** está na própria página (lista de peças → "falta comprar").

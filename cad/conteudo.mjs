@@ -1,6 +1,8 @@
 /* Textos da visao geral da /montagem. HTML curto: o visualizador so injeta. */
 export const CONTEUDO = {
-  intro: 'Cada módulo da máquina, montado peça por peça, com as peças de verdade da planilha de compras. ' +
+  intro: 'Duas partes. <b>Entender</b>: a máquina inteira, animações de como cada mecanismo funciona (com o "por que" de cada peça) e o mapa de ligações em 3D. ' +
+    '<b>Montar</b>: cada módulo peça por peça, na ordem de montagem. Clique em qualquer peça ou cabo para abrir a explicação completa. ' +
+    'Cada módulo da máquina usa as peças de verdade da planilha de compras. ' +
     'Toda peça impressa foi desenhada em cima das cotas do fabricante das peças compradas e passa por uma verificação ' +
     'automática de interferência (nenhuma peça invade outra). Clique em qualquer peça no 3D para ver a ficha: medidas, ' +
     'de onde vem a cota, o que conferir com o paquímetro e onde comprar ou baixar o arquivo para imprimir.',
@@ -50,6 +52,5 @@ export const CONTEUDO = {
   impressao: '<p>Todas em <b>PETG</b>, camada 0,2 mm, bico 0,4. Os STL já estão deitados na posição certa de imprimir. ' +
     'Peças do eixo A são as do eixo B espelhadas: use o arquivo "STL A". STEP para quem quiser editar.</p>',
 
-  proximos: [
-  ],
+  proximos: [],
 };

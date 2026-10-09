@@ -11,6 +11,11 @@ import { EX } from './eixo.mjs';
 import { MG, zCruz, yComp, F1x, F2x, XPIV, zPiso, zEsc, REF_SAI, REF_CAR } from './magazine.mjs';
 import { SOL } from '../pecas/comprados.mjs';
 
+import { EL, posCacamba, C1, C2, CR, C3, C4, zC, LCAL, XF } from './elevador.mjs';
+import { caixa, cil, cilC, tubo, uniao, FOLGA } from '../lib/base.mjs';
+import { peca } from '../lib/registro.mjs';
+import { R } from '../lib/base.mjs';
+
 const RB = PROJ.bolaD / 2, k4 = Math.tan(4 * Math.PI / 180);
 const r = T.of();
 
@@ -191,6 +196,197 @@ export function moduloFuncCarga() {
         texto: 'Olhe o êmbolo (atrás da bola) e o V (na frente): desligado, a mola empurra o êmbolo e a bola fica espremida contra o V. Ligado, o êmbolo recua 10 mm — e só isso. A bola não tem nada embaixo: ela cai reta.' },
       { titulo: 'O escapement', base: todos, vista: 'tras', zoom: ['saida', 'balancim', 'servo'], anim, porques: [PQ_CARGA[6]],
         texto: 'A gangorra (balancim) no eixo do servo: um dedo sobe enquanto o outro desce. Sai exatamente uma bola por movimento.' },
+    ],
+  };
+}
+
+
+/* ================================================================ 2) ELEVADOR — como funciona
+   Referencial da maquina. Animacao a METADE da velocidade real (NEMA a 50 rpm na tela). */
+
+const VEL = 73.5;                                   // mm/s na animacao (real: 147)
+const DUR_E = +(EL.L / VEL).toFixed(2);             // uma volta da correia
+function chavesCacamba(s0) {
+  const k = [];
+  for (let t = 0; t <= DUR_E + 1e-6; t += 0.12) {
+    const p = posCacamba(s0 + VEL * t);
+    k.push([Math.min(t, DUR_E), r.rx(p.phi).t(EL.x, p.y, p.z)]);
+  }
+  return k;
+}
+function chavesBolaElevador() {
+  const sB = 2 * EL.C + Math.PI * EL.Ro * 1.5;       // fundo da volta de baixo
+  const sD = EL.C + Math.PI * EL.Ro * 0.75;          // 45 graus depois do alto: onde a capa acaba
+  const s0 = sB - VEL * 1.6;                          // a cacamba 0 passa no fundo em t = 1,6 s
+  const naCac = s => { const p = posCacamba(s); return r.t(0, 20, 16.5).em(r.rx(p.phi).t(EL.x, p.y, p.z)); };
+  const k = [];
+  // entra pelo bico da concha e rola ate o fundo
+  const ent = [EL.x, EL.y - 72, 1123.2], fundo = naCac(sB);
+  k.push([0, r.t(...ent)], [0.9, fundo]);
+  // a cacamba passa e leva
+  const tSobe = (EL.L - sB + sD) / VEL;
+  for (let u = 0; u <= 1.0001; u += 0.02) { const t = 1.6 + tSobe * u; k.push([t, naCac(sB + VEL * (t - 1.6))]); }
+  const tD = 1.6 + tSobe;
+  // cai na calha de entrega e rola ate o magazine
+  const pts = [[C1[0], C1[1], zC(0)], [C2[0], C2[1], zC(C1[1] - C2[1])]];
+  for (let i = 1; i <= 8; i++) { const a = -i / 8 * Math.PI / 2; pts.push([EL.x - CR + CR * Math.cos(a), C2[1] + CR * Math.sin(a), zC(C1[1] - C2[1] + CR * Math.PI / 2 * i / 8)]); }
+  pts.push([C4[0], C4[1], zC(LCAL)]);
+  pts.forEach((p, i) => k.push([tD + 0.4 + i * 0.18, r.t(...p)]));
+  k.push([DUR_E - 0.05, r.t(...pts[pts.length - 1])], [DUR_E, r.t(...ent)]);
+  return k;
+}
+export function moduloFuncElevador() {
+  const I = [], add = (id, p, t, x) => I.push(inst(id, p, t, x));
+  add('ctx_entrada', 'mag_entrada', r.ry(-4).t(MG.xIn, MG.y, MG.zP1(MG.xIn)).t(0, 0, 1530), { contexto: true });
+  add('ctx_p1', 'tubo_p1', r.ry(-4).t(MG.xL, MG.y, MG.zP1(MG.xL)).t(0, 0, 1530), { contexto: true });
+  add('lat_e', 'elev_lateral', r.t(EL.xPe, 0, 0));
+  add('lat_d', 'elev_lateral_d', r.t(EL.xPd, 0, 0));
+  add('motor', 'nema17', r.ry(90).t(XF, EL.y, EL.zt));
+  add('polia_cima', 'elev_polia_motora', r.ry(90).t(EL.x - 3, EL.y, EL.zt));
+  add('polia_baixo', 'elev_polia_livre', r.ry(90).t(EL.x - 3, EL.y, EL.zb));
+  add('correia', 'correia_elev', r.ry(-90).rz(90).t(EL.x, EL.y, EL.zb));
+  add('capa', 'elev_capa', r.t(EL.x, EL.y, EL.zt));
+  add('concha', 'elev_concha', r.t(EL.x, EL.y, EL.zb));
+  add('tampa', 'elev_tampa', r.t(EL.x, EL.y + EL.yTampa, EL.zb + 0.5));
+  add('calha', 'elev_calha_entrega', r.t(EL.x, 80, EL.zt));
+  for (let i = 0; i < EL.nCac; i++) add('cac_' + i, 'elev_cacamba', r.t(EL.x, EL.y, EL.zb));
+  add('bola', 'bola35', r.t(EL.x, EL.y, EL.zb));
+  const sB = 2 * EL.C + Math.PI * EL.Ro * 1.5;
+  const trilhas = [];
+  for (let i = 0; i < EL.nCac; i++) trilhas.push({ id: 'cac_' + i, k: chavesCacamba(sB - VEL * 1.6 + i * EL.L / EL.nCac) });
+  trilhas.push({ id: 'bola', k: chavesBolaElevador() });
+  const anim = { dur: DUR_E, trilhas, leg: [
+    [0, 0.9, '1 · A bola chega da bandeja pelo bico da concha e rola até o fundo.'],
+    [0.9, 1.6, '2 · Ela espera parada no fundo, bem no caminho dos copos.'],
+    [1.6, 3.0, '3 · O próximo copo passa por baixo, "varre" a bola e começa a subir com ela (pelo lado de trás).'],
+    [3.0, 1.6 + (EL.L - sB + EL.C + Math.PI * EL.Ro * 0.75) / VEL - 0.8, '4 · Subida: a tampa de acrílico atrás impede a bola de sair do copo.'],
+    [1.6 + (EL.L - sB + EL.C + Math.PI * EL.Ro * 0.75) / VEL - 0.8, 1.6 + (EL.L - sB + EL.C + Math.PI * EL.Ro * 0.75) / VEL + 0.4, '5 · No alto o copo vira; a capa segura a bola até 45° depois do topo — ali ela cai na calha.'],
+    [1.6 + (EL.L - sB + EL.C + Math.PI * EL.Ro * 0.75) / VEL + 0.4, DUR_E, '6 · A calha leva a bola, descendo 4°, até a entrada do magazine.'],
+  ] };
+  const todos = I.filter(i => !i.id.startsWith('ctx_')).map(i => i.id);
+  const PQ = [
+    { alvo: 'concha', titulo: 'Por que a bola ESPERA no fundo', resumo: 'O copo varre a bola; não precisa acertar o tempo.',
+      texto: 'A concha tem o fundo exatamente no caminho dos copos. A bola chega a qualquer hora, rola até lá e fica parada. O próximo copo que passa a empurra para dentro dele. Nenhum sensor ou sincronismo é necessário.' },
+    { alvo: 'tampa', titulo: 'Por que uma tampa na subida', resumo: 'O copo é aberto para fora.',
+      texto: 'O copo só tem fundo e laterais; para fora ele é aberto (é por ali que a bola sai no topo). Na subida, a tira de acrílico a 1 mm da bola fecha esse lado. Transparente para dar para ver.' },
+    { alvo: 'capa', titulo: 'Por que a capa acaba a 45° depois do alto', resumo: 'É ali que a bola sai — o ponto de saída é geométrico.',
+      texto: 'Na curva de cima o copo vira e a bola ficaria solta: a capa a segura. Onde a capa acaba, a bola sai, sempre no mesmo ponto, sem sensor nem tempo. Se na bancada a bola não cair certinho na calha, é a ponta desta peça que se ajusta.' },
+    { alvo: 'cac_3', titulo: 'Por que o copo é preso pela borda da correia', resumo: 'A correia tem alma de aço e não pode ser furada.',
+      texto: 'Dois parafusos M2 passam rente às bordas da correia e uma arruela por dentro segura cada borda. A polia tem só 6 mm de dentes no meio dos 10 mm da correia: as arruelas passam ao lado dela.' },
+  ];
+  return {
+    id: 'func_elevador', nome: 'Como funciona: elevador', didatico: true,
+    subtitulo: 'Animação da bola do fundo até o magazine (metade da velocidade real).',
+    resumo: 'Correia com copos: a bola espera na concha, é varrida, sobe atrás da tampa e sai no ponto onde a capa acaba.',
+    tempo: `animação de ${DUR_E.toFixed(1)} s (real: ${(EL.L / 147).toFixed(1)} s por volta)`,
+    instancias: I,
+    contexto: ['ctx_entrada', 'ctx_p1'],
+    passos: [
+      { titulo: 'O caminho da bola', base: todos, vista: 'direita', anim, porques: PQ, transparentes: ['lat_d', 'capa', 'tampa', 'concha'],
+        texto: 'A lateral direita, a capa, a concha e a tampa estão translúcidas para ver os copos e a bola. Siga a bola: concha → copo → topo → calha → magazine.' },
+      { titulo: 'O topo de perto', base: todos, vista: 'direita', zoom: ['capa', 'calha', 'polia_cima'], anim, porques: [PQ[2]], transparentes: ['lat_d', 'capa'],
+        texto: 'Onde a capa acaba, a bola sai do copo e cai na calha de entrega.' },
+      { titulo: 'O fundo de perto', base: todos, vista: 'direita', zoom: ['concha', 'polia_baixo'], anim, porques: [PQ[0], PQ[3]], transparentes: ['lat_d', 'concha'],
+        texto: 'A bola chega pelo bico, para no fundo da concha e o copo a leva.' },
+    ],
+  };
+}
+
+/* ================================================================ 3) ALTERNATIVA: BOMBA DE COLUNA COM PISTAO
+   Um tubo vertical cheio de bolas; embaixo, um pistao empurra a coluna inteira UMA bola
+   para cima por ciclo. Linguetas de mao unica seguram a coluna quando o pistao desce.
+   A bola de cima transborda para a calha do magazine. Mesmo canto do elevador. */
+const PB = { x: EL.x, y: EL.y, d: 37, n: 13, curso: 40 };
+// a bola de cima (pos(N)) tem que ficar 10 mm acima do comeco da calha de entrega: dai sai a altura da camara
+PB.z0 = zC(0) + 10 + 38 - (PB.n + 1) * PB.d;
+PB.tubo = (PB.n + 1) * PB.d - 38 - 19 - 10;          // o tubo acaba logo abaixo da bola que transborda
+const ALT = { tipo: 'impresso', src: 'est', material: 'PETG', didatico: true };
+peca('alt_tubo', { nome: 'Tubo da coluna (acrílico Ø40 × 36, ~520 mm)', tipo: 'cortar', src: 'est', didatico: true, dims: 'Ø40 × 520 mm',
+  notas: ['Alternativa ao elevador: a coluna de bolas sobe por dentro dele.'] },
+() => [{ forma: tubo(40, 36, PB.tubo, [0, 0, 0], 'z'), cor: 'acrilico' }]);
+peca('alt_camara', Object.assign({}, ALT, { nome: 'Câmara da bomba (entrada lateral + linguetas)', dims: '60 × 60 × 90 mm', imprimir: { rot: [] },
+  impressao: { preenchimento: '40 %', paredes: 4, suportes: 'não', tempo: '≈ 3 h' } }),
+() => {
+  let c = caixa(-30, -30, -60, 30, 30, 30).cut(cil(37, 100, [0, 0, -70], 'z'));
+  c = c.cut(caixa(-19, -60, -58, 19, 0, -18));                     // entrada lateral (vem da bandeja, pela frente)
+  c = c.cut(cil(40.4, 12, [0, 0, 19], 'z'));                      // encaixe do tubo
+  [-1, 1].forEach(s => { c = c.cut(caixa(s * 15, -4, -14, s * 31, 4, 2)); });   // janelas das linguetas
+  return [{ forma: c, cor: 'impresso' }];
+});
+peca('alt_lingueta', Object.assign({}, ALT, { nome: 'Lingueta de mão única', cor: 'impresso2', dims: '14 × 8 × 16 mm', imprimir: { rot: [] },
+  impressao: { preenchimento: '100 %', paredes: 4, suportes: 'não', tempo: '10 min' } }),
+() => [{ forma: caixa(-7, -4, 0, 7, 4, 3).fuse(caixa(-7, -4, 0, -4, 4, 16)), cor: 'impresso2' }]);
+peca('alt_atuador', { nome: 'Pistão elétrico (atuador linear 12 V, curso 50 mm)', tipo: 'falta', src: 'est', didatico: true,
+  dims: '≈ 30 × 50 × 150 mm, haste Ø8', link: 'https://lista.mercadolivre.com.br/atuador-linear-12v-50mm',
+  notas: ['Precisa de ~40 mm/s ou mais para dar conta de 1 bola a cada 2,4 s.', 'Durabilidade: atuadores baratos são feitos para dezenas de milhares de ciclos — aqui seriam ~1000 por dia.'] },
+() => [{ forma: caixa(-15, -25, -150, 15, 25, -20).fuse(cil(18, 20, [0, 0, -20], 'z')), cor: 'acoEsc' },
+  { forma: cil(8, 60, [0, 0, -20], 'z'), cor: 'aco' }]);
+peca('alt_copo', Object.assign({}, ALT, { nome: 'Copo do pistão', cor: 'impresso2', dims: 'Ø35 × 12 mm', imprimir: { rot: [] },
+  impressao: { preenchimento: '100 %', paredes: 4, suportes: 'não', tempo: '15 min' } }),
+() => [{ forma: cil(34, 12, [0, 0, -12], 'z').cut(R.makeSphere(17.5).translate(0, 0, 13.5)), cor: 'impresso2' }]);
+
+export function moduloAltPistao() {
+  const I = [], add = (id, p, t, x) => I.push(inst(id, p, t, x));
+  const zEnt = PB.z0 - 38;                        // centro da bola na posicao de entrada (no copo, embaixo)
+  add('camara', 'alt_camara', r.t(PB.x, PB.y, PB.z0));
+  add('tubo', 'alt_tubo', r.t(PB.x, PB.y, PB.z0 + 19));
+  add('atuador', 'alt_atuador', r.t(PB.x, PB.y, zEnt - 17.5 - 12 - 40));
+  add('copo', 'alt_copo', r.t(PB.x, PB.y, zEnt - 17.5));
+  add('ling_e', 'alt_lingueta', r.t(PB.x - 23, PB.y, PB.z0 - 12));
+  add('ling_d', 'alt_lingueta', r.rz(180).t(PB.x + 23, PB.y, PB.z0 - 12));
+  add('ctx_calha', 'elev_calha_entrega', r.t(EL.x, 80, EL.zt), { contexto: true });
+  /* posicoes: 0 = entrada lateral; 1 = no copo; j >= 1 -> zEnt + (j-1)*d. No inicio do ciclo a coluna
+     (b1..b_{N-1}) esta apoiada nas linguetas, de pos(2) a pos(N). Cada bola termina o ciclo onde a
+     seguinte comecou: como as bolas sao iguais, o laco da animacao nao tem salto. */
+  const N = PB.n + 2;
+  for (let i = 0; i < N; i++) add('b' + i, 'bola35', r.t(PB.x, PB.y, PB.z0));
+  const D = 2.4, d = PB.d;
+  const pos = j => j === 0 ? [PB.x, PB.y - 45, zEnt + 4] : [PB.x, PB.y, zEnt + (j - 1) * d];
+  const trilhas = [{ id: 'b0', k: [[0, r.t(...pos(0))], [0.6, r.t(...pos(1))], [1.4, r.t(...pos(2))], [D, r.t(...pos(2))]] }];
+  for (let i = 1; i < N - 1; i++)
+    trilhas.push({ id: 'b' + i, k: [[0, r.t(...pos(i + 1))], [0.6, r.t(...pos(i + 1))], [1.4, r.t(...pos(i + 2))], [D, r.t(...pos(i + 2))]] });
+  const topo = pos(N), sai = [C1[0], C1[1] - 4, zC(0)];
+  trilhas.push({ id: 'b' + (N - 1), k: [[0, r.t(...topo)], [0.6, r.t(...topo)], [1.4, r.t(topo[0], topo[1] - 20, topo[2] + 14)], [2.0, r.t(...sai)], [D, r.t(...sai)]] });
+  const Cu0 = r.t(PB.x, PB.y, zEnt - 17.5), Cu1 = r.t(PB.x, PB.y, zEnt - 17.5 + d);
+  trilhas.push({ id: 'copo', k: [[0, Cu0], [0.6, Cu0], [1.4, Cu1], [1.6, Cu1], [D, Cu0]] });
+  const Le0 = r.t(PB.x - 23, PB.y, PB.z0 - 12), Le1 = r.ry(-35).t(PB.x - 23, PB.y, PB.z0 - 12);
+  const Ld0 = r.rz(180).t(PB.x + 23, PB.y, PB.z0 - 12), Ld1 = r.rz(180).ry(-35).t(PB.x + 23, PB.y, PB.z0 - 12);
+  trilhas.push({ id: 'ling_e', k: [[0, Le0], [0.8, Le0], [1.0, Le1], [1.3, Le1], [1.5, Le0], [D, Le0]] });
+  trilhas.push({ id: 'ling_d', k: [[0, Ld0], [0.8, Ld0], [1.0, Ld1], [1.3, Ld1], [1.5, Ld0], [D, Ld0]] });
+  const anim = { dur: D, trilhas, leg: [
+    [0, 0.6, '1 · Pistão embaixo: a bola que volta da bandeja entra pela lateral e cai no copo.'],
+    [0.6, 1.4, '2 · O pistão sobe 37 mm e empurra a COLUNA INTEIRA uma bola para cima; as linguetas abrem para deixar passar.'],
+    [1.4, 1.6, '3 · As linguetas fecham por baixo da bola nova: agora são elas que seguram a coluna.'],
+    [1.6, 2.4, '4 · O pistão desce para buscar a próxima. Lá em cima, a bola do topo transbordou para a calha do magazine.'],
+  ] };
+  const todos = I.filter(i => !i.id.startsWith('ctx_')).map(i => i.id);
+  return {
+    id: 'alt_pistao', nome: 'Alternativa: pistão', didatico: true,
+    subtitulo: 'No lugar do elevador de caçambas: uma coluna de bolas empurrada por um pistão elétrico.',
+    resumo: 'Bomba de coluna: tubo vertical cheio de bolas, pistão embaixo e linguetas de mão única. Comparação com o elevador de caçambas.',
+    tempo: 'animação de 1 ciclo (2,4 s)',
+    instancias: I,
+    contexto: ['ctx_calha'],
+    passos: [
+      { titulo: 'Como funciona', base: todos, vista: 'direita', anim, transparentes: ['camara', 'tubo'], zoom: ['camara', 'atuador', 'b3'],
+        texto: 'É uma "bomba de bolas": a cada ciclo o pistão empurra a fila inteira uma bola para cima, e a bola do topo transborda para a calha do magazine. Duas linguetas de mão única, na câmara, deixam a fila subir mas não descer.',
+        porques: [
+          { alvo: 'ling_e', titulo: 'Por que as linguetas', resumo: 'Seguram a coluna enquanto o pistão desce.',
+            texto: 'Sem elas, quando o pistão desce a coluna inteira desceria junto. Elas giram para fora quando a bola sobe (a bola as empurra) e voltam por baixo dela por gravidade ou mola. É a mesma ideia de uma catraca.' },
+          { alvo: 'atuador', titulo: 'O ponto fraco: durabilidade do atuador', resumo: '~1000 ciclos por dia; atuador barato aguenta dezenas de milhares.',
+            texto: 'Cada bola que volta é um ciclo do pistão. Com 120 partidas por dia de até 8 rodadas, são ~1000 ciclos/dia. Atuadores lineares de 12 V baratos são feitos para abrir e fechar coisas algumas vezes por dia (vida de 10–50 mil ciclos): durariam semanas. Se for por esse caminho, o "pistão" deve ser um NEMA 17 com manivela ou came — a mesma bomba, com vida praticamente infinita.' },
+        ] },
+      { titulo: 'Comparação com o elevador de caçambas', base: todos, vista: 'iso', anim, transparentes: ['camara', 'tubo'],
+        tabela: [
+          ['Bolas presas no transporte', 'caçambas: 0–6 (só as que estão subindo)', 'pistão: 13 SEMPRE dentro do tubo → a máquina precisa de ~28 bolas, não 15'],
+          ['Ritmo', 'caçambas: 1 bola a cada 0,6 s (com o NEMA a 100 rpm)', 'pistão: 1 por ciclo; precisa de ≥ 40 mm/s para 2,4 s'],
+          ['Travamento', 'caçambas: uma bola ruim fica no copo e passa', 'pistão: uma bola ovalada ou suja trava a coluna inteira'],
+          ['Durabilidade', 'caçambas: NEMA + correia, anos', 'pistão: atuador barato, semanas (NEMA + manivela resolve)'],
+          ['Espaço', 'caçambas: 56 × 111 mm de coluna', 'pistão: Ø40 de tubo + câmara 60 × 60 — bem menor'],
+          ['Barulho', 'caçambas: baixo', 'pistão: um "toc" por ciclo'],
+          ['Peças', 'caçambas: 12 copos, 2 polias, correia fechada', 'pistão: tubo, câmara, 2 linguetas, atuador'],
+        ],
+        texto: 'Resumo honesto: o pistão é mais compacto e tem menos peças, mas prende 13 bolas no tubo, trava com uma bola ruim e, com atuador barato, não aguenta o ritmo de uma máquina comercial. O elevador de caçambas fica como principal; vale testar a bomba na bancada com um NEMA + manivela se o espaço do canto for problema.' },
     ],
   };
 }

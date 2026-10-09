@@ -310,3 +310,6 @@ export function moduloElevador() {
     ],
   };
 }
+
+// usado pela animacao de funcionamento
+export { posCacamba, C1, C2, CR, C3, C4, zC, LCAL, XF, LARG };

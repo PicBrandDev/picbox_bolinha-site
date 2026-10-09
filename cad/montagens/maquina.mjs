@@ -7,7 +7,6 @@
      elevador              -> ja esta no referencial da maquina
      eletronica            -> prateleira de logica a 430 mm; fonte a 180 mm
    E aqui que a verificacao de interferencia pega problema ENTRE modulos. */
-import { caixa } from '../lib/base.mjs';
 import { peca, inst, PECAS } from '../lib/registro.mjs';
 import { T } from '../lib/mat.mjs';
 import { PROJ } from '../lib/projeto.mjs';
@@ -17,24 +16,11 @@ import { moduloBoca } from './boca.mjs';
 import { moduloMagazine } from './magazine.mjs';
 import { moduloElevador } from './elevador.mjs';
 import { moduloEletronica } from './eletronica.mjs';
+import { instanciasGabinete } from './gabinete.mjs';
+import { instanciasBandeja } from './bandeja.mjs';
 
 const YB = 1175, YA = 1530;
-const L = 450, H = 1700, P = 18, Y_PAINEL = 1050, Y_TESTEIRA = 1550;
-
-/* gabinete (MDF 18): so referencia translucida, as cotas sao as do modelo 3D */
-const GAB = {
-  gab_piso: [-L / 2 + P, -L / 2 + P, 0, L / 2 - P, L / 2 - P, P],
-  gab_lat_e: [-L / 2, -L / 2, 0, -L / 2 + P, L / 2, H],
-  gab_lat_d: [L / 2 - P, -L / 2, 0, L / 2, L / 2, H],
-  gab_fundo: [-L / 2 + P, L / 2 - P, 0, L / 2 - P, L / 2, H],
-  gab_frente: [-L / 2 + P, -L / 2, 0, L / 2 - P, -L / 2 + P, Y_PAINEL],
-  gab_testeira: [-L / 2 + P, -L / 2, Y_TESTEIRA + 50, L / 2 - P, -L / 2 + P, H],
-  gab_teto: [-L / 2 + P, -L / 2 + P, H - P, L / 2 - P, L / 2 - P, H],
-};
-Object.entries(GAB).forEach(([id, b]) => peca(id, { nome: 'Gabinete (MDF 18 mm) — ' + id.slice(4), tipo: 'cortar', src: 'est',
-  dims: `${(b[3] - b[0]).toFixed(0)} × ${(b[4] - b[1]).toFixed(0)} × ${(b[5] - b[2]).toFixed(0)} mm`,
-  notas: ['Gabinete do modelo 3D (450 × 450 × 1700, MDF 18): aparece só como referência. Ainda está em aberto no PROJETO.md.'] },
-() => [{ forma: caixa(...b), cor: 'mdf' }]));
+const L = 450, Y_PAINEL = 1050;
 
 function junta(mod, prefixo, quadro, filtro) {
   const ctx = new Set(mod.contexto || []);
@@ -55,7 +41,8 @@ export function moduloMaquina() {
   const eixoB = Object.assign({}, eixo, { instancias: eixo.instancias.filter(i => !/^gab_/.test(i.id) && !/^mad_/.test(i.id)) });
   const ele = moduloEletronica();
   const I = [
-    ...Object.keys(GAB).map(id => inst(id, id, r, { contexto: true })),
+    ...instanciasGabinete().map(i => inst(i.id, i.peca, i.T, { contexto: true, semColisao: i.semColisao })),
+    ...instanciasBandeja().map(i => inst('bj.' + i.id, i.peca, i.T)),
     ...junta(eixoB, 'B.', B),
     ...junta(eixoA, 'A.', A),
     ...junta(moduloBoca(), 'boca.', B),
@@ -64,7 +51,7 @@ export function moduloMaquina() {
     ...junta(moduloElevador(), 'elev.', r),
     ...junta(ele, 'ele.', r.t(0, 20, 430 + 6), i => i.id !== 'fonte' && i.id !== 'botao'),
     inst('ele.fonte', 'fonte_12v', r.t(0, 40, 180)),
-    inst('ele.botao', 'botao_arcade', r.rx(90).t(0, -L / 2, Y_PAINEL + 25)),
+    inst('ele.botao', 'botao_arcade', r.rx(90).t(0, -L / 2, Y_PAINEL + 15)),
   ];
   const grupo = pre => I.filter(i => i.id.startsWith(pre)).map(i => i.id);
   return {
@@ -73,7 +60,7 @@ export function moduloMaquina() {
     resumo: 'Os 6 módulos nas alturas reais: eixo B a 1175 mm, eixo A a 1530 mm, magazine atrás do A, elevador no canto de trás à direita, eletrônica no pedestal.',
     tempo: 'ordem de montagem sugerida',
     instancias: I,
-    contexto: Object.keys(GAB),
+    contexto: instanciasGabinete().map(i => i.id),
     // os dois carros com a carga indo de ponta a ponta, contra a maquina inteira
     varredura: [
       { ids: [...['patim', 'placa', 'garra', 'presilha_0', 'presilha_1'].map(i => 'B.' + i), ...grupo('boca.')],
@@ -88,6 +75,8 @@ export function moduloMaquina() {
         texto: 'Comece por baixo: fonte a 180 mm e placa de eletrônica a 430 mm do chão. Assim a fiação dos módulos de cima já desce até ela.' },
       { titulo: '2. Eixo B e boca', novos: [...grupo('B.'), ...grupo('boca.')], vista: 'frente',
         texto: 'Eixo B com o trilho a 1175 mm do chão (trilho em cima, patim em cima). A boca vai no carro dele.' },
+      { titulo: '2b. Bandeja', novos: grupo('bj.'), vista: 'iso',
+        texto: 'A bandeja sobre a divisória, logo abaixo do eixo B: junta toda bola que cai e leva até o pé do elevador.' },
       { titulo: '3. Elevador', novos: grupo('elev.'), vista: 'tras',
         texto: 'A coluna do elevador no canto de trás, à direita. Monte antes do eixo A: depois ele fica difícil de alcançar.' },
       { titulo: '4. Eixo A, berço e magazine', novos: [...grupo('A.'), ...grupo('sol.'), ...grupo('mag.')], vista: 'iso',
