@@ -117,3 +117,61 @@ peca('esp32', { nome: 'ESP32 DevKit V1 (30 pinos)', src: 'medir', dims: '51,8 ×
   const bot = { forma: uniao([caixaC(-21, 9, E + 1, 3, 5, 2), caixaC(-21, -9, E + 1, 3, 5, 2)]), cor: 'preto' };
   return [placa, mod, ant, usb, bot, ...pinos(15, 0, 12.7, 0, true), ...pinos(15, 0, -12.7, 0, true)];
 });
+
+/* ---------- itens da eletronica que a planilha nao tem ---------- */
+peca('buck_lm2596', { nome: 'Conversor DC-DC LM2596 (12 V → 5 V)', tipo: 'falta', src: 'medir', dims: '43 × 21 × 14 mm, 2 furos Ø3',
+  link: 'https://lista.mercadolivre.com.br/regulador-tensao-lm2596',
+  conferir: ['posição dos 2 furos (variam entre fabricantes)'],
+  notas: ['Ajuste a saída para 5,0 V com o multímetro ANTES de ligar o ESP32 (trimpot azul).', 'Alimenta ESP32 (VIN), servo e LEDs IR.'] },
+() => {
+  const placa = pcb(43, 21, [[-17.5, 7.5, 3], [17.5, -7.5, 3]], 'pcbAzul');
+  const indutor = { forma: caixaC(4, 0, E + 4, 12, 12, 8), cor: 'ic' };
+  const caps = { forma: cil(8, 11, [-12, 3, E], 'z').fuse(cil(8, 11, [13, 3, E], 'z')), cor: 'ic' };
+  const pot = { forma: caixaC(-5, -7, E + 5, 9.5, 4.8, 10), cor: 'pcbAzul' };
+  return [placa, indutor, caps, pot];
+});
+peca('mosfet_logico', { nome: 'Módulo MOSFET de nível lógico (IRLZ44N ou AOD4184)', tipo: 'falta', src: 'medir', dims: '34 × 17 mm, 2 furos Ø3',
+  link: 'https://lista.mercadolivre.com.br/modulo-mosfet-d4184',
+  conferir: ['tamanho e furos'],
+  notas: ['Conduz totalmente com 3,3 V no gate (o IRF520 da planilha precisa de ~10 V). Use para os 2 solenoides e o motor do elevador.',
+    'Diodo 1N4007 em paralelo com cada carga, faixa no +12 V — protege o MOSFET do pico na hora de desligar.'] },
+() => {
+  const placa = pcb(34, 17, [[-14, 5.5, 3], [-14, -5.5, 3]], 'pcbVerde');
+  const tr = { forma: caixaC(2, 0, E + 1.2, 6.5, 6, 2.4), cor: 'ic' };
+  const borne = { forma: caixaC(11, 0, E + 5, 7.5, 15, 10), cor: 'pcbAzul' };
+  return [placa, tr, borne, ...pinos(3, -9, 0, E, false, 'y')];
+});
+peca('base_driver', { nome: 'Placa base para driver de passo (com bornes e microchaves)', tipo: 'falta', src: 'medir', dims: '41 × 37 mm, 4 furos Ø3',
+  link: 'https://lista.mercadolivre.com.br/placa-expansao-driver-a4988-drv8825',
+  conferir: ['tamanho e furos'],
+  notas: ['O TMC2209 encaixa nela; ela traz borne de 12 V, capacitor de 100 µF e conector do motor. Evita fiação solta no driver.',
+    'Microchaves de passo: deixe todas DESLIGADAS (o TMC2209 fica em 1/8 de passo).'] },
+() => {
+  const placa = pcb(41, 37, [[-17.5, 15.5, 3], [17.5, 15.5, 3], [-17.5, -15.5, 3], [17.5, -15.5, 3]], 'pcbVerde');
+  const soquete = { forma: caixaC(-2, 0, E + 4.25, 17.5, 20.5, 8.5).cut(caixaC(-2, 0, E + 6, 15, 18, 8)), cor: 'preto' };
+  const borne = { forma: caixaC(15, -5, E + 5, 7.5, 20, 10), cor: 'pcbAzul' };
+  const cap = { forma: cil(8, 11, [13, 11, E], 'z'), cor: 'ic' };
+  return [placa, soquete, borne, cap];
+});
+peca('fonte_12v', { nome: 'Fonte chaveada 12 V 10 A (colmeia)', src: 'medir', link: LINK.fonte, linha: 17,
+  dims: '199 × 98 × 38 mm (há versões de 160 e 130 mm)',
+  conferir: ['comprimento (199, 160 ou 130 mm)', 'posição dos furos de baixo'],
+  notas: ['Borne: L e N na tomada, ⏚ no terra do gabinete; V+ e V− saem os 12 V.', 'Desligue da tomada antes de mexer nos bornes: há 220 V expostos.'] },
+() => {
+  let corpo = caixa(-99.5, -49, 0, 99.5, 49, 38);
+  for (let x = -75; x <= 75; x += 15) for (let y = -30; y <= 30; y += 15) corpo = corpo.cut(cilC(5, 3, [x, y, 37.5], "z"));
+  const borne = caixa(-99.5, -45, 2, -88, 45, 20);
+  return [{ forma: corpo, cor: 'aluminio' }, { forma: borne, cor: 'preto' }];
+});
+peca('botao_arcade', { nome: 'Botão arcade 60 mm iluminado', src: 'medir', link: LINK.botao, linha: 16,
+  dims: 'aro Ø60,8, rosca M24 (furo de 24–25 mm no painel), 52 mm de profundidade',
+  conferir: ['diâmetro da rosca: M24 (furo 25) ou Ø28 (furo 30)?', 'espessura máxima de painel que a porca aperta'],
+  notas: ['Microchave: COM no GND, NA no GPIO do botão. LED: 12 V direto (já tem resistor) pelo MOSFET do LED.'] },
+() => {
+  const aro = cil(60.8, 4.4, [0, 0, 0], 'z');
+  const capa = cil(51.9, 5.6, [0, 0, 4.4], 'z').fuse(R.makeSphere(26).translate(0, 0, -16).intersect(cil(52, 10, [0, 0, 9], 'z')));
+  const rosca = cil(24, 30.5, [0, 0, -30.5], 'z');
+  const porca = cil(33, 6, [0, 0, -12], 'z').cut(cil(24.2, 8, [0, 0, -13], 'z'));
+  const chave = caixaC(0, 0, -30.5 - 11, 20, 10, 22);
+  return [{ forma: aro, cor: 'preto' }, { forma: capa, cor: 'acrilico' }, { forma: rosca, cor: 'branco' }, { forma: porca, cor: 'branco' }, { forma: chave, cor: 'preto' }];
+});

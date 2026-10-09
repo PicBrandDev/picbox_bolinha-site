@@ -26,7 +26,7 @@ const th = 4 * Math.PI / 180, k = Math.tan(th);
 const DCAN = 36.4;                         // canal das curvas: um pouco maior que o tubo (36)
 const PAR = 3;                             // parede impressa
 // canal aberto: parede 2,5. O raio da curva tem que passar da meia-largura externa (21,3) e a travessia
-// tem que caber entre a parede do gabinete (-207,5) e o berco na carga (-161): por isso 21,6 e canto em -163
+// tem que caber entre a parede do gabinete (-207) e o berco na carga (-161): por isso 21,6 e canto em -163
 export const MG = { y: 65, xE: -110, xR: 40, xL: -162, xIn: 60, xCanto: -163, rCurva: 21.6, yPainel: 104 };
 MG.xCruz = MG.xCanto - MG.rCurva;
 const PARU = 2.5;

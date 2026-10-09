@@ -5,7 +5,7 @@
    Furo: geo.L x geo.depth = 78 x 60 mm, centrado no plano de jogo (y = -57).
 
    Largura da chapa NAO e livre: com o carro no fim de curso (x = 152) a chapa nao pode
-   passar da parede (207,5). Sobram 13 mm de chapa de cada lado do furo — o modelo 3D
+   passar da parede (207). Sobram 13 mm de chapa de cada lado do furo — o modelo 3D
    antigo usava 26 mm e a chapa saia do gabinete.
 
    Barreira: feixe ao longo de X, no meio da profundidade do furo. Toda bola que passa
@@ -45,7 +45,7 @@ peca('boca_alvo', Object.assign({}, IMP, { nome: 'Boca do buraco (chapa-alvo + g
   impressao: { preenchimento: '30 %', paredes: 4, suportes: 'só sob a aba de fixação', tempo: '≈ 4 h' },
   notas: ['O furo é 78 × 60 mm (geo.L × geo.depth do simulador).',
     'Imprima com a chapa virada para a mesa: o furo e o anel saem perfeitos e as paredes da garganta sobem retas.',
-    'A chapa tem 13 mm de borda de cada lado do furo: no fim de curso ela fica a 3,5 mm da parede do gabinete.'] }),
+    'A chapa tem 13 mm de borda de cada lado do furo: no fim de curso ela fica a 3 mm da parede do gabinete.'] }),
 () => [{ forma: boca().translate(0, 57, -30), cor: 'impresso' }]);
 
 function instancias() {
@@ -94,7 +94,7 @@ export function moduloBoca() {
       { titulo: 'Boca no carro B', novos: ids('p_boca_'), vista: 'iso',
         texto: 'Apoie a aba da boca sobre a frente da placa do carro do eixo B, em cima das 2 porcas encaixadas. Prenda com 2 parafusos M3×10 de cima para baixo.',
         ferramentas: ['chave allen 2,5 mm'],
-        confira: ['A chapa fica na horizontal (nível de bolha).', 'No fim de curso, a borda da chapa fica a uns 3,5 mm da parede do gabinete.'] },
+        confira: ['A chapa fica na horizontal (nível de bolha).', 'No fim de curso, a borda da chapa fica a uns 3 mm da parede do gabinete.'] },
       { titulo: 'Teste do feixe', novos: ['bola'], vista: 'frente', zoom: ['boca'],
         texto: 'Ligue o LED (5 V + 150 Ω) e o fototransistor no comparador LM393 (módulo Eletrônica). Gire o trimpot até o LED do módulo apagar com o feixe livre e volte 1/4 de volta. Solte uma bola pelo furo: o LED do módulo tem que piscar TODAS as vezes, inclusive passando de raspão nos cantos.',
         ferramentas: ['chave de fenda pequena (trimpot)'],

@@ -10,7 +10,7 @@
      - correia no plano y = 23,5: o patim ocupa ate y = 13,5 e a garra tem que passar atras dele
      - polia de 16 mm com o cubo virado para o motor: cubo em y = 35, logo a placa do motor
        comeca em 35,5 e o flange do NEMA fica em 40,5 (eixo de 24 mm alcanca a polia toda)
-     - paredes do gabinete em x = +-207,5 (largura interna 415 de js/params.js)
+     - paredes do gabinete em x = +-207 (450 - 2 x MDF 18; o geo.inner do simulador diz 415)
    O que NAO pode crescer para tras: no eixo A o magazine passa a 43 mm atras do trilho; na
    ponta do motor a coluna do elevador comeca a 94 mm. Por isso nada fica atras da placa de
    ponta do lado tensor, e o tensor trabalha na FRENTE dela. */
@@ -23,7 +23,9 @@ import { TC } from '../pecas/eletronicos.mjs';
 import { correiaLaco } from '../pecas/correia.mjs';
 
 export const EX = {
-  parede: PROJ.interna / 2,         // 207,5
+  // parede: a do gabinete REAL (450 - 2 x MDF 18 = 414), nao o geo.inner do simulador (415):
+  // com 415 os pes dos blocos entrariam 0,5 mm na parede
+  parede: Math.min(PROJ.interna, PROJ.lado - 2 * 18) / 2,   // 207
   xP: 178,                          // centro das polias (+motor, -tensor)
   yC: 23.5,                         // centro da largura da correia
   yCubo: 35,                        // face do cubo da polia motora
@@ -350,7 +352,7 @@ export function moduloEixo() {
         ferramentas: ['chave allen 2,5 mm'] },
       { titulo: 'Blocos nas pontas do perfil', novos: [...ids('pm5_'), ...ids('p_aba_')], vista: 'iso',
         texto: 'Encaixe as pontas do perfil nos dois blocos (motor à direita, tensor à esquerda), encostando o perfil no pé. Coloque as 4 porcas martelo M5 nas fendas da frente e de trás do perfil e prenda com os parafusos M5×10 pelas abas.',
-        ferramentas: ['chave allen 3 mm'], confira: ['Perfil encostado no pé dos dois lados.', 'Os dois pés ficam paralelos (meça 415 mm por fora, em cima e embaixo).'] },
+        ferramentas: ['chave allen 3 mm'], confira: ['Perfil encostado no pé dos dois lados.', 'Os dois pés ficam paralelos (meça 414 mm por fora, em cima e embaixo).'] },
       { titulo: 'Correia', novos: ['correia', ...ids('presilha_'), ...ids('p_pres_')], vista: 'tras', zoom: ['garra'],
         texto: 'Corte 790 mm de correia GT2 6 mm. Prenda uma ponta na garra: dentes para CIMA encostando na nervura dentada da presilha, aperte os 2 parafusos M3×8 da presilha. Passe a correia pela polia do motor, pela polia tensora (dentes sempre para dentro) e prenda a outra ponta na outra presilha.',
         ferramentas: ['chave allen 2,5 mm', 'tesoura'],
@@ -367,7 +369,7 @@ export function moduloEixo() {
         texto: 'O eixo A é este mesmo conjunto montado de cabeça para baixo, com 2 diferenças: (1) as peças impressas são as do arquivo "STL A" (espelhadas); (2) na ESQUERDA use o bloco tensor SEM o braço do fim de curso (à frente, em destaque) e não instale o sensor da esquerda. Por ali passa a calha que leva a bola do magazine até o berço.',
         atencao: ['O eixo A confere os passos só pelo sensor da direita — ele o cruza a cada jogada.'] },
       { titulo: 'Instalação no gabinete', novos: [...ids('mad_')], vista: 'iso', mostra: 'tudo',
-        texto: 'O eixo inteiro mede exatamente a largura interna do gabinete (415 mm). Entre com ele pela frente, encoste os pés nas laterais na altura marcada e prenda cada pé com 4 parafusos de madeira 3,5×20 por dentro. Eixo B: trilho em cima. Eixo A: o mesmo conjunto de cabeça para baixo (patim embaixo).',
+        texto: 'O eixo inteiro mede exatamente a largura interna do gabinete (414 mm). Entre com ele pela frente, encoste os pés nas laterais na altura marcada e prenda cada pé com 4 parafusos de madeira 3,5×20 por dentro. Eixo B: trilho em cima. Eixo A: o mesmo conjunto de cabeça para baixo (patim embaixo).',
         ferramentas: ['chave Phillips nº 2', 'nível de bolha'],
         confira: ['Nível de bolha sobre o perfil: horizontal.', 'Eixo A e eixo B paralelos entre si.'],
         alturas: [{ eixo: 'B', y: 1175, nota: 'centro do trilho B a 1175 mm do chão' }, { eixo: 'A', y: 1530, nota: 'centro do trilho A a 1530 mm do chão' }] },

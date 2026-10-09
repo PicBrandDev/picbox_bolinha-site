@@ -19,6 +19,7 @@ export const PROJ = {
   bolaD: num('ball.d'),
   curso: num('A.stroke'),
   interna: num('geo.inner'),
+  lado: num('geo.floor'),
   abertura: num('geo.L'),
   profBoca: num('geo.depth'),
   queda: num('geo.h'),

@@ -443,6 +443,8 @@ function pintaCard() {
   if (p.confira && p.confira.length) h += `<div class="caixa cf"><b>Confira antes de seguir</b><ul>${p.confira.map(a => `<li>${a}</li>`).join('')}</ul></div>`;
   if (ids.length) h += `<h4>${p.mostra === 'tudo' ? 'Todas as peças deste módulo' : 'Peças deste passo'}</h4>${listaItens(ids)}`;
   if (p.alturas) h += `<h4>Alturas</h4><ul>${p.alturas.map(a => `<li>${esc(a.nota)}</li>`).join('')}</ul>`;
+  if (p.tabela) h += `<h4>Ligações</h4><div class="tbl"><table class="t"><thead><tr><th>de</th><th>para</th><th>obs.</th></tr></thead><tbody>${
+    p.tabela.map(l => `<tr><td style="white-space:nowrap"><b>${esc(l[0])}</b></td><td>${esc(l[1])}</td><td style="color:var(--fg2)">${esc(l[2])}</td></tr>`).join('')}</tbody></table></div>`;
   $('#card').innerHTML = h;
   $('#card').querySelectorAll('.item').forEach(el => el.onclick = () => abreFicha(el.dataset.p));
 }

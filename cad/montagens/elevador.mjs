@@ -26,7 +26,7 @@ const A = 1530;                                   // altura do eixo do trilho A 
 export const EL = {
   x: 172, y: 148, zb: 1125, C: 484, rp: 28.01 / 2, Ro: 14.5,
   placaE: 6, xPe: 144, xPd: 194,                   // faces internas das laterais: 150 e 194
-  rCapa: 55, eCapa: 3, nCac: 12,
+  rCapa: 55, eCapa: 3, nCac: 12, yTampa: 53.5,     // tampa 1 mm alem da bola (200,0); a aba dela cabe antes da parede (207)
 };
 EL.zt = EL.zb + EL.C;
 EL.L = 2 * EL.C + 2 * Math.PI * EL.Ro;
@@ -138,16 +138,16 @@ const LARG = EL.xPd - EL.xPe - EL.placaE - 0.6;                     // 43,4: ent
 function capa() {
   let c = arcoCasca(EL.rCapa, EL.rCapa + EL.eCapa, 0, 135, EL.zt, LARG);
   // aba que prende a ponta de cima da tampa de acrilico
-  c = c.fuse(caixa(EL.x - LARG / 2, EL.y + EL.rCapa, EL.zt - 12, EL.x + LARG / 2, EL.y + EL.rCapa + 6.5, EL.zt));
-  c = c.cut(caixa(EL.x - LARG / 2 - 1, EL.y + EL.rCapa, EL.zt - 13, EL.x + LARG / 2 + 1, EL.y + EL.rCapa + 3.2, EL.zt - 0.5));
+  c = c.fuse(caixa(EL.x - LARG / 2, EL.y + EL.yTampa, EL.zt - 12, EL.x + LARG / 2, EL.y + EL.yTampa + 5, EL.zt));
+  c = c.cut(caixa(EL.x - LARG / 2 - 1, EL.y + EL.yTampa, EL.zt - 13, EL.x + LARG / 2 + 1, EL.y + EL.yTampa + 3.2, EL.zt - 0.5));
   // orelhas para parafusar nas laterais
   [-1, 1].forEach(s => { c = c.fuse(caixa(EL.x + s * LARG / 2, EL.y - 8, EL.zt + EL.rCapa - 10, EL.x + s * (LARG / 2 - 0.01), EL.y + 8, EL.zt + EL.rCapa + 3)); });
   return c;
 }
 function concha() {
   let c = arcoCasca(EL.rCapa, EL.rCapa + EL.eCapa, 200, 360, EL.zb, LARG);
-  c = c.fuse(caixa(EL.x - LARG / 2, EL.y + EL.rCapa, EL.zb, EL.x + LARG / 2, EL.y + EL.rCapa + 6.5, EL.zb + 12));
-  c = c.cut(caixa(EL.x - LARG / 2 - 1, EL.y + EL.rCapa, EL.zb + 0.5, EL.x + LARG / 2 + 1, EL.y + EL.rCapa + 3.2, EL.zb + 13));
+  c = c.fuse(caixa(EL.x - LARG / 2, EL.y + EL.yTampa, EL.zb, EL.x + LARG / 2, EL.y + EL.yTampa + 5, EL.zb + 12));
+  c = c.cut(caixa(EL.x - LARG / 2 - 1, EL.y + EL.yTampa, EL.zb + 0.5, EL.x + LARG / 2 + 1, EL.y + EL.yTampa + 3.2, EL.zb + 13));
   // bico de entrada: a calha de retorno da bandeja chega aqui pela frente
   const a = 200 * Math.PI / 180, ye = EL.y + (EL.rCapa + 1.5) * Math.cos(a), ze = EL.zb + (EL.rCapa + 1.5) * Math.sin(a);
   c = c.fuse(caixa(EL.x - LARG / 2, ye - 30, ze - 3, EL.x + LARG / 2, ye + 2, ze));
@@ -252,7 +252,7 @@ function instancias() {
   // capa, concha, tampa, calha de entrega
   add('capa', 'elev_capa', r.t(EL.x, EL.y, EL.zt));
   add('concha', 'elev_concha', r.t(EL.x, EL.y, EL.zb));
-  add('tampa', 'elev_tampa', r.t(EL.x, EL.y + EL.rCapa, EL.zb + 0.5));
+  add('tampa', 'elev_tampa', r.t(EL.x, EL.y + EL.yTampa, EL.zb + 0.5));
   add('calha', 'elev_calha_entrega', r.t(EL.x, 80, EL.zt));
   // bolas subindo em 3 cacambas
   [1, 2, 3].forEach(i => {

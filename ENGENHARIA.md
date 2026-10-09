@@ -332,3 +332,34 @@ Em ordem de impacto. As três primeiras invalidam números de projeto se derem d
   Peça sem ficha entra na lista, mas ninguém sabe por que ela existe.
 - **Antes de aceitar qualquer mudança de geometria:** as quatro verificações do § 6.2 têm que voltar
   zeradas. Elas são baratas e pegam o que o olho não pega.
+
+---
+
+## 10. Montagem guiada (`/montagem`)
+
+Passo a passo visual de cada módulo, com as peças **compradas** (planilha do Plano 1) e as
+**impressas** desenhadas sobre as cotas do fabricante delas. Fonte: `cad/` (replicad =
+OpenCascade em WebAssembly, roda em Node sem instalar nada nativo).
+
+```
+cd cad && npm install && node build.mjs        # ~15 s: GLB, STL/STEP e montagem/guia.json
+```
+
+O build roda 3 verificações por módulo e para a máquina inteira — hoje **zero** nas três:
+interferência entre peças (> 5 mm³), **varredura** dos carros carregados até ±140 mm e
+**trajetória** de uma caçamba dando a volta no elevador.
+
+### Decisões que a peça real impôs `[H]`
+
+| item | decisão | por quê |
+|---|---|---|
+| largura interna | 414 mm (não 415) | 450 − 2 × MDF 18; com 415 os pés dos eixos entram na parede |
+| soltura | berço de **pinça** (solenoide empurra a bola contra um V) | pino por baixo precisaria de ~22 mm de curso; o JF-0826B tem 10 |
+| fim de curso | dispara a ±136 mm, dentro do curso (±140) | o carro cruza a cada jogada e o firmware confere os passos ali — o AS5600 não cabe atrás de nenhuma polia |
+| eixo A | sem o sensor da esquerda | ali passa a calha do magazine para o berço |
+| boca | 13 mm de borda (não 26) | no fim de curso a chapa sairia do gabinete |
+| magazine | tubo Ø40 a **4°** (não 6°), 571 mm de tubo | a 6° o topo do elevador passaria do teto |
+| elevador | correia GT2 10 mm **fechada** 1056 mm, polias 44 dentes impressas | emenda rígida não passa na polia de 28 |
+| firmware | não soltar com o carro A a menos de 112 mm do centro pela esquerda | ali a bola cairia nos trilhos de carga |
+
+A lista do que **falta comprar** está na própria página (lista de peças → "falta comprar").
