@@ -68,7 +68,7 @@ function madeira(L) {
 }
 
 const FIX = { tipo: 'fixador', src: 'cat' };
-[[3, 6], [3, 8], [3, 10], [3, 12], [3, 16], [3, 20], [3, 25], [3, 30], [5, 10], [5, 12], [5, 30], [2, 8], [2, 10]].forEach(([M, L]) =>
+[[3, 6], [3, 8], [3, 10], [3, 12], [3, 16], [3, 20], [3, 25], [3, 30], [3, 40], [5, 10], [5, 12], [5, 30], [2, 8], [2, 10]].forEach(([M, L]) =>
   peca(`din912_m${M}x${L}`, Object.assign({ nome: `Parafuso M${M}×${L} (DIN 912, cabeça cilíndrica allen)`,
     dims: `M${M} × ${L} mm, cabeça Ø${D912[M].dk} × ${D912[M].k}`, ferramenta: `chave allen ${D912[M].s} mm` }, FIX),
   () => din912(M, L)));

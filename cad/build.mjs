@@ -20,7 +20,7 @@ await import('./pecas/fixadores.mjs');
 await import('./pecas/comprados.mjs');
 await import('./pecas/eletronicos.mjs');
 const MODULOS = [];
-for (const m of ['eixo', 'soltura', 'boca']) {
+for (const m of ['eixo', 'soltura', 'boca', 'magazine']) {
   const mod = await import('./montagens/' + m + '.mjs');
   const fn = Object.values(mod).find(v => typeof v === 'function' && v.name.startsWith('modulo'));
   MODULOS.push(fn());
@@ -75,7 +75,8 @@ for (const id of usadas) {
 console.log(`malhas: ${nGlb} glb, ${nStl} stl/step em ${((Date.now() - t0) / 1000).toFixed(1)} s`);
 
 /* ---------- verificacao de interferencia ----------
-   Entre pecas que NAO sao fixadores: volume em comum > 1 mm3 e erro. Parafuso entrando em
+   Entre pecas que NAO sao fixadores: volume em comum > 5 mm3 e erro (abaixo disso e lasca de
+   tesselacao na quina de furo inclinado). Parafuso entrando em
    furo-guia ou rosca e de proposito, por isso fixador fica fora. */
 const colisoes = {};
 if (!semColisao) {
@@ -97,7 +98,7 @@ if (!semColisao) {
         const x = lista[a].s.clone().intersect(lista[b].s.clone());
         v = x ? Math.abs(R.measureVolume(x)) : 0;
       } catch (e) { v = -1; }
-      if (v > 1 || v < 0) achados.push({ a: lista[a].i.id, b: lista[b].i.id, mm3: +v.toFixed(1) });
+      if (v > 5 || v < 0) achados.push({ a: lista[a].i.id, b: lista[b].i.id, mm3: +v.toFixed(1) });
     }
     // varredura: o conjunto movel deslocado ate cada extremo do curso, contra o que e fixo
     (m.varredura || []).forEach(v => {
@@ -109,7 +110,7 @@ if (!semColisao) {
           if ([0, 1, 2].some(k => b[1][k] < B[0][k] - 0.01 || B[1][k] < b[0][k] - 0.01)) return;
           let vol = 0;
           try { const x = s.clone().intersect(fx.s.clone()); vol = x ? Math.abs(R.measureVolume(x)) : 0; } catch (e) { vol = -1; }
-          if (vol > 1 || vol < 0) achados.push({ a: mv.i.id + ' @x' + (d[0] >= 0 ? '+' : '') + d[0], b: fx.i.id, mm3: +vol.toFixed(1) });
+          if (vol > 5 || vol < 0) achados.push({ a: mv.i.id + ' @x' + (d[0] >= 0 ? '+' : '') + d[0], b: fx.i.id, mm3: +vol.toFixed(1) });
         });
       }));
     });

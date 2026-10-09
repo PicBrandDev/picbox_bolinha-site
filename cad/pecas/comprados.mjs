@@ -222,3 +222,32 @@ peca('sol_jf0530', { nome: 'Mini solenoide 12 V (JF-0530B) — comporta', src: '
   conferir: ['tamanho da carcaça', 'posição dos furos (anúncio: Ø2,5 roscado M3)'],
   notas: ['≈300 mA, força ≈5 N. Diodo 1N4007 em paralelo.'] },
 () => solenoide(SOL.jf0530));
+
+/* ============================================================== SERVO SG90 */
+// TowerPro: corpo 22,2 x 11,8; aba de 32,2 a 16 mm da base; topo ate 31 mm na saida.
+// Origem: base do corpo em z=0, centro do corpo em x,y. Eixo de saida em x = -5,2.
+export const SG90 = { C: 22.2, L: 11.8, A: 22.7, abas: 32.2, zAba: 16, eAba: 2.5, furos: 27.8, xEixo: -5.2, topo: 31 };
+peca('sg90', { nome: 'Micro servo SG90', src: 'medir', link: LINK.sg90, linha: 9,
+  dims: '22,2 × 11,8 × 31 mm, abas 32,2 com furos Ø2 a 27,8',
+  conferir: ['distância entre os furos das abas (27,5–28 conforme o lote)', 'altura da aba até a base (16 mm)'],
+  notas: ['Fio marrom = GND, vermelho = +5 V, laranja = sinal (GPIO do ESP32).',
+    'Os parafusos que vêm no saquinho são autoatarraxantes M2: rosqueiam direto no plástico.'] },
+() => {
+  const S = SG90;
+  const corpo = caixaC(0, 0, S.A / 2, S.C, S.L, S.A);
+  let abas = caixaC(0, 0, S.zAba + S.eAba / 2, S.abas, S.L, S.eAba);
+  [-1, 1].forEach(s => { abas = abas.cut(cilC(2, 6, [s * S.furos / 2, 0, S.zAba], 'z')); });
+  const domo = cil(11.8, S.topo - S.A - 4, [S.xEixo, 0, S.A], 'z').fuse(cil(7, 2, [S.xEixo + 7, 0, S.A], 'z'));
+  const eixo = cil(4.8, 4, [S.xEixo, 0, S.topo - 4], 'z');
+  const fios = caixaC(S.C / 2 + 3, 0, 4, 6, 3.6, 1.2);
+  return [{ forma: corpo.fuse(abas).fuse(domo), cor: 'pcbAzul' }, { forma: eixo, cor: 'branco' }, { forma: fios, cor: 'fio' }];
+});
+
+/* ============================================================== TUBO ACRILICO */
+export const TUBO = { de: 40, di: 36 };
+[['tubo_p1', 221], ['tubo_p2', 201], ['tubo_p3', 149]].forEach(([id, L]) =>
+  peca(id, { nome: `Tubo acrílico Ø40 × 36, cortado com ${L} mm`, tipo: 'cortar', src: 'cat', link: LINK.tubo, linha: 24,
+    dims: `Ø40 externo, Ø36 interno, ${L} mm`,
+    notas: ['Corte com serra de dentes finos e fita crepe em volta (não lasca). Lixe a rebarba de dentro: a bola não pode enganchar.',
+      'Os 3 trechos somam 571 mm: a planilha tem 1 tubo de 500 mm — falta comprar mais 1.'] },
+  () => [{ forma: tubo(TUBO.de, TUBO.di, L, [0, 0, 0], 'x'), cor: 'acrilico' }]));
