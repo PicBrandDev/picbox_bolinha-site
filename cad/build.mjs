@@ -20,7 +20,7 @@ await import('./pecas/fixadores.mjs');
 await import('./pecas/comprados.mjs');
 await import('./pecas/eletronicos.mjs');
 const MODULOS = [];
-for (const m of ['eixo', 'soltura']) {
+for (const m of ['eixo', 'soltura', 'boca']) {
   const mod = await import('./montagens/' + m + '.mjs');
   const fn = Object.values(mod).find(v => typeof v === 'function' && v.name.startsWith('modulo'));
   MODULOS.push(fn());

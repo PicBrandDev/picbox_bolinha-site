@@ -48,7 +48,6 @@ export const CONTEUDO = {
     'Peças do eixo A são as do eixo B espelhadas: use o arquivo "STL A". STEP para quem quiser editar.</p>',
 
   proximos: [
-    { nome: 'Boca e detecção', resumo: 'Chapa-alvo com furo, garganta, portinhola e a barreira IR (IR333C + TIL78 + LM393).' },
     { nome: 'Magazine', resumo: 'Tubo acrílico Ø40 em 3 passes com curvas impressas, escapement com SG90 e comporta com solenoide 0530.' },
     { nome: 'Elevador', resumo: 'Coluna, polias GT2 impressas, esteira GT2 10 mm, caçambas e motor JGA25-370.' },
     { nome: 'Eletrônica e fiação', resumo: 'ESP32, 2× TMC2209, drivers dos solenoides, comparadores, fonte e botão.' },

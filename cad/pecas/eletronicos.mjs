@@ -58,7 +58,8 @@ peca('tcst2103', { nome: 'Fim de curso óptico TCST2103 (placa)', src: 'medir', 
 
 /* ---------- LED IR e fototransistor 5 mm ---------- */
 function led5(cor) {
-  const corpo = cil(5, 7.6, [0, 0, 1], 'z').fuse(R.makeSphere(2.5).translate(0, 0, 8.6));
+  // Everlight: 8,6 mm da face de baixo da aba ate o topo da cupula
+  const corpo = cil(5, 5.1, [0, 0, 1], 'z').fuse(R.makeSphere(2.5).translate(0, 0, 6.1));
   const aba = cil(5.8, 1, [0, 0, 0], 'z').cut(caixa(2.4, -4, -1, 4, 4, 2));
   const pernas = uniao([caixaC(-1.27, 0, -10, 0.5, 0.5, 20), caixaC(1.27, 0, -12, 0.5, 0.5, 24)]);
   return [{ forma: corpo.fuse(aba), cor }, { forma: pernas, cor: 'zincado' }];
