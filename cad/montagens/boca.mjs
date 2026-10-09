@@ -14,6 +14,7 @@
 import { caixa, cil, cilC, uniao, FOLGA, R } from '../lib/base.mjs';
 import { peca, inst } from '../lib/registro.mjs';
 import { T } from '../lib/mat.mjs';
+import { EX } from './eixo.mjs';
 import { PROJ } from '../lib/projeto.mjs';
 
 export const BO = { zb: 45, yb: -57, L: PROJ.abertura, P: PROJ.profBoca, sobra: 13, parede: 3, chapa: 4,
@@ -54,6 +55,11 @@ function instancias() {
   add('ctx_trilho', 'mgn12_trilho_400', r.t(0, 0, -4), { contexto: true });
   add('ctx_patim', 'mgn12h_patim', r.t(0, 0, -4), { contexto: true });
   add('ctx_placa', 'eixo_placa_carro', r.t(0, 0, 9), { contexto: true });
+  // pecas FIXAS do eixo, invisiveis: so para a varredura do carro com a carga ate os extremos
+  add('fx_motor', 'eixo_bloco_motor', (r.t(EX.xPe, 0, 0)), { contexto: true, oculta: true });
+  add('fx_tensor', 'eixo_bloco_tensor', (r.t(-EX.xPe, 0, 0)), { contexto: true, oculta: true });
+  add('fx_fc_m', 'tcst2103', (r.ry(-90).t(EX.xPlacaFC, 0, EX.zFC)), { contexto: true, oculta: true });
+  add('fx_fc_t', 'tcst2103', r.ry(90).t(-EX.xPlacaFC, 0, EX.zFC), { contexto: true, oculta: true });
   add('boca', 'boca_alvo', r.t(0, -57, 30));
   [-15, 15].forEach((x, k) => add('p_boca_' + k, 'din912_m3x10', r.t(x, -17, BO.zGarg + 4)));
   const xL = BO.L / 2 + BO.parede + 6.5;     // aba do LED encostada por fora da bucha
@@ -72,7 +78,8 @@ export function moduloBoca() {
     resumo: 'Chapa-alvo impressa com o furo de 78 × 60 mm, garganta e barreira IR (LED IR333C de um lado, fototransistor TIL78 do outro).',
     tempo: '≈ 40 min (com as soldas)',
     instancias: I,
-    contexto: ids('ctx_'),
+    contexto: ids('ctx_').concat(ids('fx_')),
+    varredura: [{ ids: ['boca', 'emissor', 'receptor', 'ctx_patim', 'ctx_placa'], desloc: [[EX.curso / 2, 0, 0], [-EX.curso / 2, 0, 0]], ignora: ['ctx_trilho', 'ctx_perfil'] }],
     passos: [
       { titulo: 'Conheça as peças', mostra: 'tudo', explode: 1, vista: 'iso',
         texto: 'A boca é uma peça só: a chapa com o furo, a garganta embaixo dela e a aba que prende no carro do eixo B (em cinza claro). O feixe infravermelho atravessa a garganta de um lado ao outro, no meio da profundidade do furo.' },

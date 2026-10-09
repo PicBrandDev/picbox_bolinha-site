@@ -274,8 +274,8 @@ async function montaModulo(m) {
 /* ------------------------------------------------------------- passos */
 function visiveisAte(k) {
   const p = MOD.passos[k];
-  if (p.mostra === 'tudo') return new Set(Object.keys(objs).filter(id => !foiRemovido(id, k)));
-  const s = new Set((p.base || []).concat(MOD.contexto || []));
+  if (p.mostra === 'tudo') return new Set(Object.keys(objs).filter(id => !foiRemovido(id, k) && !objs[id].i.oculta));
+  const s = new Set((p.base || []).concat((MOD.contexto || []).filter(id => !objs[id].i.oculta)));
   for (let j = 0; j <= k; j++) {
     const q = MOD.passos[j];
     if (q.mostra === 'tudo') continue;
@@ -435,7 +435,7 @@ function listaItens(ids) {
 }
 function pintaCard() {
   const p = MOD.passos[passo];
-  const ids = p.mostra === 'tudo' ? MOD.instancias.map(i => i.id).filter(id => !(MOD.contexto || []).includes(id)) : (p.novos || []);
+  const ids = p.mostra === 'tudo' ? MOD.instancias.filter(i => !i.oculta && !(MOD.contexto || []).includes(i.id)).map(i => i.id) : (p.novos || []);
   let h = `<div class="num">${passo === 0 ? 'VISÃO GERAL' : 'PASSO ' + passo + ' DE ' + (MOD.passos.length - 1)}</div>
     <h3>${esc(p.titulo)}</h3><div class="txt">${p.texto || ''}</div>`;
   if (p.ferramentas && p.ferramentas.length) h += `<h4>Ferramentas</h4><div class="ferr">${p.ferramentas.map(f => `<span>${esc(f)}</span>`).join('')}</div>`;

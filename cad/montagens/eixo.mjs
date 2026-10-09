@@ -36,7 +36,14 @@ export const EX = {
   curso: PROJ.curso,                // 280
   zFC: 31.5,                        // altura da bandeira/fenda do fim de curso
 };
-EX.xHome = EX.curso / 2 + 12;       // 152: centro do patim quando a bandeira corta o feixe
+/* o feixe e cortado DENTRO do curso (x = +-136, curso +-140): o carro passa pelo sensor a cada
+   vai-e-volta e o firmware confere a contagem de passos toda vez — e isso que substitui o
+   encoder. A aleta entra mais 4 mm (a fenda tem 7,4 de fundo). */
+EX.xHome = EX.curso / 2 - 4;        // 136
+EX.aleta = 31;                       // ponta da aleta, a partir do centro do patim
+EX.xSensor = EX.xHome + EX.aleta - 2.6;          // face aberta do TCST2103 (eixo optico 2,6 para dentro)
+EX.xPlacaFC = EX.xSensor + TC.alt + 1.6;         // costas da placa do sensor
+EX.espFC = EX.xPe - EX.xPlacaFC;                 // espacador ate o pe
 const IMP = { tipo: 'impresso', src: 'est', material: 'PETG' };
 const YG = [EX.yC - 6.45, EX.yC + 6.45];   // furos da garra e das presilhas (simetricos)
 
@@ -60,12 +67,12 @@ peca('polia_gt2_20t_tensora', { nome: 'Polia tensora GT2 20 dentes, furo 5 mm (c
 /* ================================================================= PECAS IMPRESSAS */
 // BLOCO DE PONTA: pe (parafusado na lateral do gabinete) + placa (motor ou tensor) +
 // abas que prendem o perfil + braco do fim de curso. sx = +1 motor, -1 tensor.
-function blocoPonta(sx) {
+function blocoPonta(sx, comFC) {
   const X = v => sx * v;
   const xa = EX.xPe, xb = EX.parede;
   // pe: 7,5 mm contra a parede. Sobe ate z=50 na faixa do fim de curso.
   let pe = caixa(X(xa), -14, -34, X(xb), EX.yPl1, 24);
-  pe = pe.fuse(caixa(X(xa), -9, 24, X(xb), 9, 50));
+  if (comFC !== false) pe = pe.fuse(caixa(X(xa), -9, 24, X(xb), 9, 50));
   // abas do perfil (frente e tras), cada uma com um furo M5
   const abaF = caixa(X(180), -14, -24, X(xa), -10, -4);
   const abaT = caixa(X(180), 10, -24, X(xa), 14, -4);
@@ -75,15 +82,15 @@ function blocoPonta(sx) {
   const mf = z0 => extrudaPoli([[X(xa), 26], [X(xa), EX.yPl0], [X(188), EX.yPl0]], 8, z0);
   let b = uniao([pe, abaF, abaT, placa, mf(16), mf(-24)]);
   // espacadores do fim de curso: a placa do TCST2103 fica 7,2 mm a frente do pe
-  [EX.zFC - TC.fx, EX.zFC + TC.fx].forEach(z => { b = b.fuse(cil(6.5, 7.2, [X(xa), 0, z], sx > 0 ? '-x' : 'x')); });
+  if (comFC !== false) [EX.zFC - TC.fx, EX.zFC + TC.fx].forEach(z => { b = b.fuse(cil(7, EX.espFC, [X(xa), 0, z], sx > 0 ? '-x' : 'x')); });
   // furos M5 das abas (eixo y)
   b = b.cut(cilC(FOLGA.m5, 40, [X(190), 0, EX.zPerfil], 'y'));
   // 4 parafusos de madeira para a parede, cabeca do lado de dentro (face x = 200)
   [[-7, 17], [22, 18], [-7, -29], [22, -29]].forEach(([y, z]) => {
     b = b.cut(escareado([X(xa), y, z], 'x', -sx, 20));
   });
-  // espera do fim de curso: 2 furos-guia de 2,8 (o parafuso M3 rosqueia no plastico)
-  [EX.zFC - TC.fx, EX.zFC + TC.fx].forEach(z => { b = b.cut(cilC(2.8, 16, [X(xa), 0, z], 'x')); });
+  // espera do fim de curso: furo-guia de 2,8 no espacador (o parafuso M3 rosqueia no plastico)
+  if (comFC !== false) [EX.zFC - TC.fx, EX.zFC + TC.fx].forEach(z => { b = b.cut(cilC(2.8, 28, [X(EX.xPlacaFC), 0, z], 'x')); });
   return b;
 }
 function blocoMotor() {
@@ -96,8 +103,8 @@ function blocoMotor() {
 }
 // o tensor trabalha na FRENTE da placa: deslizador entre a polia e a placa
 const TENS = { x0: -185, x1: -171, y0: 28.75, y1: EX.yPl0 - 0.1, z: 14, curso: 4 };
-function blocoTensor() {
-  let b = blocoPonta(-1);
+function blocoTensor(comFC) {
+  let b = blocoPonta(-1, comFC);
   const xc = -EX.xP;
   // rasgo para a ponta do parafuso M5 do eixo da polia
   b = b.cut(caixa(xc - TENS.curso - 2.8, EX.yPl0 - 1, -2.8, xc + TENS.curso + 2.8, EX.yPl1 + 1, 2.8));
@@ -130,8 +137,8 @@ function placaCarro() {
   let p = caixa(-25, -29, z0, 25, 34, z1).fillet(3, e => e.inDirection('Z'));
   // bandeiras: torre na ponta + aleta horizontal que entra na fenda do TCST2103
   [-1, 1].forEach(s => {
-    const torre = caixa(s * 19, -3, z1 - 0.5, s * 24, 3, EX.zFC + 0.8);
-    const aleta = caixa(s * 23.5, -3, EX.zFC - 0.8, s * 31, 3, EX.zFC + 0.8);
+    const torre = caixa(s * 14, -3, z1 - 0.5, s * 19, 3, EX.zFC + 0.8);
+    const aleta = caixa(s * 18.5, -3, EX.zFC - 0.8, s * EX.aleta, 3, EX.zFC + 0.8);
     p = p.fuse(torre).fuse(aleta);
   });
   [[-1, -1], [-1, 1], [1, -1], [1, 1]].forEach(([a, c]) => {
@@ -180,6 +187,11 @@ reg('eixo_bloco_tensor', { nome: 'Bloco de ponta do TENSOR', dims: '54 × 55 × 
   impressao: { preenchimento: '40 %', paredes: 4, suportes: 'não', tempo: '≈ 3 h' },
   notas: ['A polia tensora fica num deslizador NA FRENTE desta placa: atrás dela não pode sobrar nada (no eixo A o magazine passa ali).'] },
 blocoTensor, [-EX.xPe, 0, 0], { rot: [['y', 90]] });
+reg('eixo_bloco_tensor_semfc', { nome: 'Bloco de ponta do TENSOR, sem fim de curso (só eixo A)', dims: '54 × 55 × 58 mm',
+  impressao: { preenchimento: '40 %', paredes: 4, suportes: 'não', tempo: '≈ 2 h 30' },
+  notas: ['No eixo A, à esquerda, passa a calha que leva a bola do magazine até o berço: ali não cabe o sensor.',
+    'O eixo A confere os passos só pelo sensor da direita, que ele cruza a cada vai-e-volta.'] },
+() => blocoTensor(false), [-EX.xPe, 0, 0], { rot: [['y', 90]] });
 reg('eixo_deslizador', { nome: 'Deslizador do tensor', dims: '14 × 6,7 × 28 mm', cor: 'impresso2',
   impressao: { preenchimento: '60 %', paredes: 4, suportes: 'não', tempo: '20 min' },
   notas: ['Leva a porca M5 da polia e 2 porcas M3 das travas, todas viradas para a placa: não caem depois de montado.'] },
@@ -267,10 +279,12 @@ function instancias() {
   // fins de curso: placa de pe, sensor virado para o centro
   [1, -1].forEach(sx => {
     const k = sx > 0 ? 'm' : 't';
-    add('fc_' + k, 'tcst2103', r.ry(-90 * sx).t(sx * (EX.xPe - 7.2), 0, EX.zFC));
+    add('fc_' + k, 'tcst2103', r.ry(-90 * sx).t(sx * EX.xPlacaFC, 0, EX.zFC));
     // o parafuso apoia na ABA do sensor (3,1 mm acima da placa)
-    [-1, 1].forEach((s, j) => add(`p_fc_${k}_${j}`, 'din912_m3x16', r.ry(-90 * sx).t(sx * (EX.xPe - 7.2 - 1.6 - 3.1), 0, EX.zFC + s * TC.fx)));
+    [-1, 1].forEach((s, j) => add(`p_fc_${k}_${j}`, 'din912_m3x16', r.ry(-90 * sx).t(sx * (EX.xPlacaFC - 1.6 - 3.1), 0, EX.zFC + s * TC.fx)));
   });
+  // variante do eixo A, mostrada ao lado (so no ultimo passo)
+  add('bloco_tensor_A', 'eixo_bloco_tensor_semfc', r.t(-EX.xPe, -150, 0), { semColisao: true, oculta: true });
   return I;
 }
 
@@ -293,6 +307,9 @@ export function moduloEixo() {
     resumo: 'Trilho MGN12 sobre perfil de alumínio, patim com placa impressa, motor NEMA 17 numa ponta e polia tensora na outra, correia GT2 presa na garra do carro e dois fins de curso ópticos.',
     tempo: '≈ 1 h 30 por eixo (sem contar a impressão)',
     instancias: I,
+    // o carro inteiro nos dois extremos do curso, contra tudo o que e fixo
+    varredura: [{ ids: ['patim', 'placa', 'garra', 'presilha_0', 'presilha_1'], desloc: [[EX.curso / 2, 0, 0], [-EX.curso / 2, 0, 0]],
+      ignora: ['trilho', 'perfil', 'gab_0', 'gab_1', 'gab_2'] }],
     passos: [
       { titulo: 'Conheça as peças', vista: 'iso', mostra: 'tudo', explode: 1,
         texto: 'Este é o eixo B completo, com as peças afastadas. O eixo A é idêntico, só que montado de cabeça para baixo (o patim fica pendurado embaixo do trilho). Cores: <b>cinza</b> = comprado, <b>laranja</b> = impresso fixo, <b>azul</b> = impresso que se move.',
@@ -307,8 +324,8 @@ export function moduloEixo() {
         texto: 'Passe um parafuso M3×8 em cada furo que tem porca embaixo (um sim, um não). Gire cada um até a porca martelo virar e travar na fenda. Aperte do CENTRO para as pontas, primeiro leve, depois firme.',
         confira: ['O trilho não mexe de lado.', 'Passe o dedo na emenda trilho/perfil: nenhum degrau nas pontas.'],
         atencao: ['M3×8 é o comprimento certo: um M3×10 bate no fundo do perfil e entorta o trilho.'] },
-      { titulo: 'Placa do carro', novos: ['patim', 'placa', ...ids('p_placa_'), ...ids('porca_carga_')], vista: 'iso',
-        texto: 'Coloque as 2 porcas M3 nos encaixes sextavados de baixo da placa do carro (as da frente). Apoie a placa sobre o patim com as bandeiras para cima e prenda com 4 parafusos M3×8.',
+      { titulo: 'Placa do carro', novos: ['patim', 'placa', ...ids('p_placa_'), ...ids('porca_carga_')], remove: ids('gab_'), vista: 'iso',
+        texto: 'Tire os 3 gabaritos (já cumpriram a função). Coloque as 2 porcas M3 nos encaixes sextavados de baixo da placa do carro (as da frente). Apoie a placa sobre o patim com as bandeiras para cima e prenda com 4 parafusos M3×8.',
         ferramentas: ['chave allen 2,5 mm'],
         atencao: ['O patim só tem 3,5 mm de rosca. Parafuso maior que M3×8 trava as esferas.'],
         confira: ['O carro corre de ponta a ponta sem ponto duro.'] },
@@ -343,9 +360,12 @@ export function moduloEixo() {
         ferramentas: ['chave allen 2,5 mm'],
         atencao: ['Correia esticada demais gasta o rolamento do motor; frouxa demais pula dente na inversão — é a folga que o PROJETO.md chama de risco.'] },
       { titulo: 'Fins de curso', novos: [...ids('fc_'), ...ids('p_fc_')], vista: 'frente',
-        texto: 'Parafuse cada placa TCST2103 no braço alto do bloco de ponta com 2 parafusos M3×16, sensor virado para o centro, fenda na horizontal. Leve o carro devagar até a ponta: a aleta da placa do carro tem que entrar no meio da fenda sem encostar.',
+        texto: 'Parafuse cada placa TCST2103 nos 2 espaçadores altos do bloco de ponta com parafusos M3×16 (rosqueiam no plástico), sensor virado para o centro, fenda na horizontal. Leve o carro devagar até a ponta: a aleta da placa do carro entra no meio da fenda e corta o feixe com o carro a 136 mm do centro — 4 mm ANTES do fim do curso (140). É de propósito: o carro cruza o sensor a cada vai-e-volta e o firmware confere ali se nenhum passo foi perdido.',
         ferramentas: ['chave allen 2,5 mm'],
-        confira: ['Com a placa ligada, o LED do sensor muda quando a aleta entra.', 'A aleta para 4 mm antes de bater no fundo da fenda.'] },
+        confira: ['Com a placa ligada, o LED do sensor muda quando a aleta entra.', 'No fim do curso (140 mm) a aleta ainda não encostou no fundo da fenda.'] },
+      { titulo: 'Eixo A: o que muda', novos: ['bloco_tensor_A'], vista: 'iso', zoom: ['bloco_tensor_A', 'bloco_tensor'],
+        texto: 'O eixo A é este mesmo conjunto montado de cabeça para baixo, com 2 diferenças: (1) as peças impressas são as do arquivo "STL A" (espelhadas); (2) na ESQUERDA use o bloco tensor SEM o braço do fim de curso (à frente, em destaque) e não instale o sensor da esquerda. Por ali passa a calha que leva a bola do magazine até o berço.',
+        atencao: ['O eixo A confere os passos só pelo sensor da direita — ele o cruza a cada jogada.'] },
       { titulo: 'Instalação no gabinete', novos: [...ids('mad_')], vista: 'iso', mostra: 'tudo',
         texto: 'O eixo inteiro mede exatamente a largura interna do gabinete (415 mm). Entre com ele pela frente, encoste os pés nas laterais na altura marcada e prenda cada pé com 4 parafusos de madeira 3,5×20 por dentro. Eixo B: trilho em cima. Eixo A: o mesmo conjunto de cabeça para baixo (patim embaixo).',
         ferramentas: ['chave Phillips nº 2', 'nível de bolha'],

@@ -26,8 +26,8 @@ export const CONTEUDO = {
     { titulo: 'O encoder AS5600 não entra no eixo',
       texto: '<p>No eixo A, atrás da polia tensora passa o magazine (43 mm atrás do trilho); atrás do motor, a coluna do elevador (94 mm). ' +
         'O conjunto ímã + chip + placa precisa de ~25 mm a mais em qualquer um dos dois. A detecção de passo perdido passa a ser feita pelo ' +
-        '<b>fim de curso óptico</b>: o carro A inverte na estação de carga a cada 2,4 s e cruza o sensor; o firmware compara a contagem de passos ' +
-        'no instante do corte do feixe com a esperada. Os AS5600 ficam guardados para uma revisão do magazine.</p>' },
+        '<b>fim de curso óptico</b>: o sensor foi colocado 4 mm para DENTRO do curso (corta o feixe a 136 mm do centro, o curso vai a 140), então ' +
+        'cada eixo cruza o feixe a cada vai-e-volta e o firmware compara a contagem de passos naquele instante com a esperada. Os AS5600 ficam guardados.</p>' },
     { titulo: 'Bola: só Ø35',
       texto: '<p>O tubo do magazine tem 36 mm por dentro. A bola de 38 mm (conjunto de bilhar da planilha) não entra; a de 35 mm passa com 0,5 mm de folga por lado. ' +
         'Antes de comprar 15 bolas, passe UMA pelo tubo inteiro, inclusive pelas curvas impressas.</p>' },

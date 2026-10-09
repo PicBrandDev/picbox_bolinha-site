@@ -99,6 +99,20 @@ if (!semColisao) {
       } catch (e) { v = -1; }
       if (v > 1 || v < 0) achados.push({ a: lista[a].i.id, b: lista[b].i.id, mm3: +v.toFixed(1) });
     }
+    // varredura: o conjunto movel deslocado ate cada extremo do curso, contra o que e fixo
+    (m.varredura || []).forEach(v => {
+      const moveis = lista.filter(o => v.ids.includes(o.i.id)), fixos = lista.filter(o => !v.ids.includes(o.i.id) && !(v.ignora || []).includes(o.i.id));
+      v.desloc.forEach(d => moveis.forEach(mv => {
+        const s = mv.s.clone().translate(...d), b = s.boundingBox.bounds;
+        fixos.forEach(fx => {
+          const B = fx.b;
+          if ([0, 1, 2].some(k => b[1][k] < B[0][k] - 0.01 || B[1][k] < b[0][k] - 0.01)) return;
+          let vol = 0;
+          try { const x = s.clone().intersect(fx.s.clone()); vol = x ? Math.abs(R.measureVolume(x)) : 0; } catch (e) { vol = -1; }
+          if (vol > 1 || vol < 0) achados.push({ a: mv.i.id + ' @x' + (d[0] >= 0 ? '+' : '') + d[0], b: fx.i.id, mm3: +vol.toFixed(1) });
+        });
+      }));
+    });
     colisoes[m.id] = achados;
     console.log(`colisao ${m.id}: ${lista.length} pecas, ${achados.length} interferencias (${((Date.now() - t1) / 1000).toFixed(1)} s)`);
     achados.forEach(c => console.log('   ', c.a, '×', c.b, c.mm3 < 0 ? 'ERRO NO CALCULO' : c.mm3 + ' mm³'));
@@ -124,7 +138,7 @@ const guia = {
   conteudo: CONTEUDO,
   pecas: pecasJson,
   modulos: MODULOS.map(m => Object.assign({}, m, {
-    instancias: m.instancias.map(i => ({ id: i.id, peca: i.peca, m: i.T.paraThree(), esp: i.T.espelhado || undefined })),
+    instancias: m.instancias.map(i => ({ id: i.id, peca: i.peca, m: i.T.paraThree(), esp: i.T.espelhado || undefined, oculta: i.oculta || undefined })),
     colisoes: colisoes[m.id],
   })),
 };

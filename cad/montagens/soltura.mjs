@@ -13,6 +13,7 @@
 import { caixa, cil, cilC, uniao, extrudaPoli, FOLGA } from '../lib/base.mjs';
 import { peca, inst } from '../lib/registro.mjs';
 import { T } from '../lib/mat.mjs';
+import { EX } from './eixo.mjs';
 import { PROJ } from '../lib/projeto.mjs';
 import { SOL } from '../pecas/comprados.mjs';
 
@@ -78,6 +79,10 @@ function instancias() {
   add('ctx_trilho', 'mgn12_trilho_400', A(r.t(0, 0, -4)), { contexto: true });
   add('ctx_patim', 'mgn12h_patim', A(r.t(0, 0, -4)), { contexto: true });
   add('ctx_placa', 'eixo_placa_carro', A(r.t(0, 0, 9)), { contexto: true });
+  // pecas FIXAS do eixo, invisiveis: so para a varredura do carro com a carga ate os extremos
+  add('fx_motor', 'eixo_bloco_motor', A(r.t(EX.xPe, 0, 0)), { contexto: true, oculta: true });
+  add('fx_tensor', 'eixo_bloco_tensor_semfc', A(r.t(-EX.xPe, 0, 0)), { contexto: true, oculta: true });
+  add('fx_fc_m', 'tcst2103', A(r.ry(-90).t(EX.xPlacaFC, 0, EX.zFC)), { contexto: true, oculta: true });
   // solenoide: embolo apontando para a bola (-y), furos para cima
   add('solenoide', 'sol_jf0826', r.rx(90).t(0, SO.ySol, SO.zb));
   add('berco', 'soltura_berco', r.t(0, -40, -40));
@@ -98,7 +103,8 @@ export function moduloSoltura() {
     resumo: 'Berço de pinça impresso + solenoide JF-0826B: a mola do solenoide prende a bola contra um V; energizado, o êmbolo recua e a bola cai sem empurrão lateral.',
     tempo: '≈ 30 min',
     instancias: I,
-    contexto: ids('ctx_'),
+    contexto: ids('ctx_').concat(ids('fx_')),
+    varredura: [{ ids: ['berco', 'solenoide', 'batente', 'bola', 'ctx_patim', 'ctx_placa'], desloc: [[EX.curso / 2, 0, 0], [-EX.curso / 2, 0, 0]], ignora: ['ctx_trilho', 'ctx_perfil'] }],
     passos: [
       { titulo: 'Conheça as peças', mostra: 'tudo', explode: 1, vista: 'iso',
         texto: 'O berço fica pendurado embaixo da placa do carro do eixo A (o eixo de cima, montado de cabeça para baixo — em cinza claro, só como referência). A bola é presa pela lateral: atrás pelo êmbolo do solenoide, na frente por um V fixo.',
