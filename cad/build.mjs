@@ -14,21 +14,22 @@ import { malhaDeForma, escreveGLB, escreveSTL } from './lib/glb.mjs';
 import { T } from './lib/mat.mjs';
 import { RAIZ, PROJ } from './lib/projeto.mjs';
 import { CONTEUDO } from './conteudo.mjs';
+import { EXPLICA } from './explicacoes.mjs';
 
 await iniciaOC();
 await import('./pecas/fixadores.mjs');
 await import('./pecas/comprados.mjs');
 await import('./pecas/eletronicos.mjs');
 const MODULOS = [];
-for (const m of ['maquina', 'eixo', 'soltura', 'boca', 'magazine', 'elevador', 'eletronica']) {
+for (const m of ['maquina', 'funcionamento', 'eixo', 'soltura', 'boca', 'magazine', 'elevador', 'eletronica']) {
   const mod = await import('./montagens/' + m + '.mjs');
-  const fn = Object.values(mod).find(v => typeof v === 'function' && v.name.startsWith('modulo'));
-  MODULOS.push(fn());
+  Object.values(mod).filter(v => typeof v === 'function' && v.name.startsWith('modulo')).forEach(fn => MODULOS.push(fn()));
 }
 
 const args = process.argv.slice(2);
 const so = args.filter(a => !a.startsWith('--'));
 const semColisao = args.includes('--sem-colisao');
+const MESA = [260, 260, 300];
 const OUT = path.join(RAIZ, 'montagem');
 const DIR_M = path.join(OUT, 'modelos'), DIR_F = path.join(OUT, 'fabricar');
 [OUT, DIR_M, DIR_F].forEach(d => fs.mkdirSync(d, { recursive: true }));
@@ -68,6 +69,9 @@ for (const id of usadas) {
       fs.writeFileSync(path.join(DIR_F, id + suf + '.step'), step);
       const bb = f.boundingBox.bounds;
       p.tamanhoMesa = [0, 1, 2].map(k => +(bb[1][k] - bb[0][k]).toFixed(1));
+      // impressora do projeto: Creality, mesa 260 x 260, altura 300
+      const t = p.tamanhoMesa, cabe = t[0] <= MESA[0] && t[1] <= MESA[1] && t[2] <= MESA[2];
+      if (!cabe) { p.naoCabe = true; console.log('   NAO CABE NA MESA:', id + suf, t.join(' x ')); }
       nStl++;
     }
   }
@@ -82,6 +86,7 @@ const colisoes = {};
 if (!semColisao) {
   for (const m of MODULOS) {
     if (so.length && !so.includes(m.id)) continue;
+    if (m.didatico) continue;                 // animacao: pecas sobrepostas de proposito (posicoes iniciais)
     const t1 = Date.now();
     const lista = m.instancias.filter(i => PECAS[i.peca].tipo !== 'fixador' && !i.semColisao)
       .map(i => {
@@ -141,6 +146,7 @@ for (const id of usadas) {
   const p = PECAS[id];
   const o = {};
   for (const k of Object.keys(p)) if (!['gera', 'ref', 'imprimir', 'id'].includes(k)) o[k] = p[k];
+  if (EXPLICA[id]) o.explica = EXPLICA[id];
   o.glb = 'modelos/' + id + '.glb';
   if (p.tipo === 'impresso') {
     o.stl = 'fabricar/' + id + '.stl'; o.step = 'fabricar/' + id + '.step';
@@ -150,11 +156,15 @@ for (const id of usadas) {
 }
 const guia = {
   gerado: new Date().toISOString(),
-  projeto: PROJ,
+  projeto: Object.assign({ mesa: MESA }, PROJ),
   conteudo: CONTEUDO,
   pecas: pecasJson,
   modulos: MODULOS.map(m => Object.assign({}, m, {
     instancias: m.instancias.map(i => ({ id: i.id, peca: i.peca, m: i.T.paraThree(), esp: i.T.espelhado || undefined, oculta: i.oculta || undefined })),
+    // animacoes: as chaves vem como T (referencial do CAD) e saem como matriz do three
+    passos: m.passos.map(q => q.anim ? Object.assign({}, q, { anim: Object.assign({}, q.anim, {
+      trilhas: q.anim.trilhas.map(tr => ({ id: tr.id, k: tr.k.map(([t, T]) => [+t.toFixed(3), T.paraThree()]) })) }) }) : q),
+    varredura: undefined, trajetoria: undefined,
     colisoes: colisoes[m.id],
   })),
 };

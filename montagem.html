@@ -123,6 +123,41 @@ table.t tr:hover td{background:var(--bg2)}
 .aviso{border:1px solid rgba(255,176,32,.45);background:rgba(255,176,32,.08);border-radius:10px;padding:12px 14px;margin:12px 0}
 .aviso h3{margin:0 0 4px;font-size:14px;color:var(--warn)}
 .aviso p{margin:4px 0;font-size:13.5px}
+/* pop-up de explicacao */
+#modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(6,8,9,.62);padding:18px}
+#modal.on{display:flex}
+#modal .caixaM{width:min(760px,100%);max-height:calc(100vh - 36px);overflow-y:auto;background:var(--bg2);border:1px solid var(--line2);
+  border-radius:12px;padding:20px 22px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#modal h2{margin:0 30px 4px 0;font-size:20px}
+#modal .sub{color:var(--fg2);font-size:13px;margin-bottom:10px}
+#modal h4{margin:18px 0 6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);font-weight:700}
+#modal p{margin:6px 0;line-height:1.55}
+#modal ul{margin:4px 0;padding-left:20px;line-height:1.55}
+#modal .kv{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:4px 0;border-bottom:1px dashed var(--line)}
+#modal .kv span:first-child{color:var(--fg2)}
+#modal .fechar{position:absolute;right:12px;top:12px}
+#modal .fio{display:inline-block;width:22px;height:8px;border-radius:4px;vertical-align:1px;margin-right:6px;border:1px solid rgba(255,255,255,.25)}
+/* marcadores "por que e assim" */
+.pq{pointer-events:auto;cursor:pointer;width:24px;height:24px;border-radius:50%;background:#ffb020;color:#1a1000;font:700 13px/24px system-ui;
+  text-align:center;box-shadow:0 0 0 3px rgba(255,176,32,.28),0 3px 10px rgba(0,0,0,.5)}
+.pq:hover{transform:scale(1.15)}
+.pqItem{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;border:1px solid var(--line);border-radius:6px;margin-top:5px;cursor:pointer;background:var(--bg)}
+.pqItem:hover{border-color:#ffb020}
+.pqItem b.n{flex:0 0 22px;height:22px;border-radius:50%;background:#ffb020;color:#1a1000;text-align:center;line-height:22px;font-size:12px}
+/* legenda da animacao */
+#legenda{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;max-width:min(680px,calc(100% - 24px));
+  background:rgba(10,14,16,.9);border:1px solid var(--acc);border-radius:10px;padding:9px 14px;font-size:14px;line-height:1.4;display:none;text-align:center}
+#legenda.on{display:block}
+#legenda .bar{height:3px;background:var(--line);border-radius:2px;margin-top:7px;overflow:hidden}
+#legenda .bar i{display:block;height:100%;background:var(--acc);width:0}
+.roteiro{counter-reset:r}
+.roteiro div{padding:5px 8px 5px 30px;position:relative;border-radius:6px;color:var(--fg2);font-size:13px;cursor:pointer}
+.roteiro div:before{counter-increment:r;content:counter(r);position:absolute;left:6px;top:5px;width:18px;height:18px;border-radius:50%;
+  border:1px solid var(--line2);font:11px/18px var(--mono);text-align:center}
+.roteiro div.on{background:var(--bg3);color:var(--fg)}
+.roteiro div.on:before{background:var(--acc);color:#06232a;border-color:var(--acc)}
+.lblCabo{font-family:var(--mono);font-size:10.5px;padding:1px 5px;border-radius:3px;color:#fff;background:rgba(10,14,16,.85);
+  border-left:4px solid;white-space:nowrap;pointer-events:auto;cursor:pointer}
 @media (max-width:980px){
   body{overflow:auto}
   #main{position:static;display:flex;flex-direction:column;height:auto}
@@ -152,8 +187,11 @@ table.t tr:hover td{background:var(--bg2)}
       <button class="btn" id="bExplode" title="afasta as peças já montadas (E)">explodir</button>
       <button class="btn" id="bFantasma" title="deixa as peças antigas transparentes (F)">destacar o passo</button>
       <button class="btn" id="bVista" title="volta a câmera para a vista do passo (V)">câmera do passo</button>
+      <button class="btn" id="bPlay" hidden title="pausa/continua a animação (espaço)">❚❚ pausar</button>
+      <button class="btn" id="bVel" hidden title="velocidade da animação">1×</button>
     </div>
     <div id="ficha"></div>
+    <div id="legenda"><span id="legTxt"></span><div class="bar"><i id="legBar"></i></div></div>
     <div id="nav">
       <button class="btn" id="bAnt">&#9664; anterior</button>
       <span class="pos" id="pos">–</span>
@@ -164,6 +202,7 @@ table.t tr:hover td{background:var(--bg2)}
   <aside id="card"></aside>
 </div>
 <div id="pagina"><div class="col" id="paginaCol"></div></div>
+<div id="modal"><div class="caixaM" id="modalC"></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
@@ -190,7 +229,9 @@ let passo = 0;
 let explodido = false, fantasma = false;
 const glbCache = {};        // peca -> Promise<THREE.Group>
 const objs = {};            // instancia -> { obj, peca, base:Vector3, centro, mats }
-let anim = null;            // animacao do passo
+let anim = null;            // animacao de entrada das pecas novas
+let filme = null;           // animacao de funcionamento do passo (p.anim)
+let cabosGrp = null;        // cabos do modulo (tubos clicaveis)
 let camAnim = null;
 
 /* ------------------------------------------------------------- cena */
@@ -264,6 +305,20 @@ async function montaModulo(m) {
     objs[i.id] = { obj, i, peca: G.pecas[i.peca], M, mats, centro: box.getCenter(new THREE.Vector3()), box, ctx: (m.contexto || []).includes(i.id),
       desl: new THREE.Vector3(), alvo: new THREE.Vector3(), vis: false, op: 1 };
   }
+  // cabos: tubos ao longo dos pontos (referencial do CAD -> three: x, z, -y)
+  cabosGrp = new THREE.Group(); raiz.add(cabosGrp);
+  (m.cabos || []).forEach(c => {
+    const pts = c.pts.map(q => new THREE.Vector3(q[0], q[2], -q[1]));
+    const curva = new THREE.CatmullRomCurve3(pts, false, 'centripetal', 0.3);
+    // cor de capa de fio: fosca, sem reflexo do ambiente (senao o vermelho vira rosa)
+    const mat = new THREE.MeshStandardMaterial({ color: c.cor, roughness: 0.85, metalness: 0, envMapIntensity: 0.15 });
+    const tubo = new THREE.Mesh(new THREE.TubeGeometry(curva, Math.max(24, pts.length * 14), (c.raio || 1.6) * 1.4, 8, false), mat);
+    tubo.userData.cabo = c; cabosGrp.add(tubo);
+    const d = document.createElement('div'); d.className = 'lblCabo'; d.style.borderLeftColor = c.cor; d.textContent = c.rotulo || c.nome;
+    d.onclick = () => abreCabo(c);
+    const l = new THREE.CSS2DObject(d); l.position.copy(curva.getPoint(c.rotuloEm === undefined ? 0.5 : c.rotuloEm)); tubo.add(l);
+    c._tubo = tubo; c._lbl = l;
+  });
   // centro do modulo (para explodir)
   const b = new THREE.Box3(); Object.values(objs).forEach(o => b.union(o.box));
   m._centro = b.getCenter(new THREE.Vector3()); m._raio = b.getSize(new THREE.Vector3()).length() / 2;
@@ -318,7 +373,23 @@ function aplicaPasso(k, animar) {
   });
   limpaRotulos();
   anim = { t0: performance.now(), dur: animar ? 1300 : 0 };
-  pintaCard(); pintaLista(); rotulos();
+  // animacao de funcionamento: as pecas da trilha ficam visiveis e seguem as chaves
+  filme = null;
+  if (p.anim) {
+    filme = { a: p.anim, t0: performance.now(), pausa: null, vel: filme && filme.vel || 1, trilhas: {} };
+    p.anim.trilhas.forEach(tr => {
+      const o = objs[tr.id]; if (!o) return;
+      o.vis = true; o.obj.visible = true; o.novo = false;
+      filme.trilhas[tr.id] = tr.k.map(([t, m]) => { const M = new THREE.Matrix4().fromArray(m), P = new THREE.Vector3(), Q = new THREE.Quaternion(), S = new THREE.Vector3(); M.decompose(P, Q, S); return { t, P, Q, S }; });
+    });
+  }
+  $('#bPlay').hidden = $('#bVel').hidden = !p.anim; $('#bPlay').textContent = '❚❚ pausar';
+  $('#legenda').classList.toggle('on', !!p.anim);
+  // transparencia pedida pelo passo (para ver o mecanismo por dentro)
+  Object.values(objs).forEach(o => { o.transp = (p.transparentes || []).includes(o.i.id); });
+  // cabos
+  (MOD.cabos || []).forEach(c => { const v = p.cabos === true || (Array.isArray(p.cabos) && p.cabos.includes(c.id)); c._tubo.visible = v; c._lbl.visible = v; c._lbl.element.style.display = v ? '' : 'none'; });
+  pintaCard(); pintaLista(); rotulos(); marcadores();
   enquadra(true);
   history.replaceState(null, '', '#' + MOD.id + '/' + (passo + 1));
 }
@@ -327,7 +398,7 @@ function corDe(o, t) {
   // novo: pisca em ciano no fim da entrada; antigo com "destacar": transparente
   const destaque = o.novo ? Math.max(0, Math.sin(Math.min(1, t) * Math.PI)) * 0.55 : 0;
   // contexto (peca de outro modulo, so para situar) fica sempre translucida
-  const op = o.ctx ? 0.22 : (fantasma && !o.novo && MOD.passos[passo].mostra !== 'tudo') ? 0.16 : 1;
+  const op = o.ctx ? 0.22 : o.transp ? 0.28 : (fantasma && !o.novo && MOD.passos[passo].mostra !== 'tudo') ? 0.16 : 1;
   o.mats.forEach(m => {
     if (!m.userData.base) m.userData.base = { e: m.emissive.clone(), o: m.opacity, t: m.transparent };
     m.emissive.setRGB(0.06 * destaque * 4, 0.55 * destaque, 0.55 * destaque);
@@ -336,12 +407,37 @@ function corDe(o, t) {
   });
 }
 
+function quadroDoFilme(agora) {
+  if (!filme) return;
+  const a = filme.a, dur = a.dur * 1000;
+  const tt = filme.pausa !== null ? filme.pausa : (agora - filme.t0) * filme.vel;
+  const t = ((tt % dur) + dur) % dur / 1000;
+  Object.keys(filme.trilhas).forEach(id => {
+    const ks = filme.trilhas[id], o = objs[id];
+    let j = 0; while (j < ks.length - 1 && ks[j + 1].t <= t) j++;
+    const k0 = ks[j], k1 = ks[Math.min(j + 1, ks.length - 1)];
+    const u = k1.t > k0.t ? Math.min(1, Math.max(0, (t - k0.t) / (k1.t - k0.t))) : 0;
+    const P = k0.P.clone().lerp(k1.P, u), Q = k0.Q.clone().slerp(k1.Q, u), S = k0.S.clone().lerp(k1.S, u);
+    o.obj.matrix.compose(P, Q, S); o.obj.matrixWorldNeedsUpdate = true;
+    o.animPos = P;
+  });
+  // legenda corrente
+  const leg = (a.leg || []).find(l => t >= l[0] && t < l[1]);
+  const txt = leg ? leg[2] : '';
+  if ($('#legTxt').textContent !== txt) {
+    $('#legTxt').textContent = txt;
+    document.querySelectorAll('.roteiro div').forEach((d, i) => d.classList.toggle('on', a.leg[i] === leg));
+  }
+  $('#legBar').style.width = (t / a.dur * 100).toFixed(1) + '%';
+}
 function passoAnim(agora) {
+  quadroDoFilme(agora);
   if (!anim) return;
   const t = anim.dur ? (agora - anim.t0) / anim.dur : 1;
   const e = x => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
   Object.values(objs).forEach(o => {
     if (!o.vis) return;
+    if (filme && filme.trilhas[o.i.id]) { corDe(o, 0); return; }
     const d = new THREE.Vector3().copy(o.alvo);
     if (o.novo) d.addScaledVector(o.entrada, 1 - e(t));
     o.desl.lerp(d, o.novo ? 1 : 0.18);
@@ -349,7 +445,7 @@ function passoAnim(agora) {
     o.obj.matrixWorldNeedsUpdate = true;
     corDe(o, o.novo ? t : 0);
   });
-  rotulosPos();
+  rotulosPos(); marcadoresPos();
 }
 
 /* ------------------------------------------------------------- camera */
@@ -405,6 +501,25 @@ function rotulosPos() {
     if (n) l.position.copy(c.multiplyScalar(1 / n));
   });
 }
+let pqs = [];
+function marcadores() {
+  pqs.forEach(l => l.parent && l.parent.remove(l)); pqs = [];
+  (MOD.passos[passo].porques || []).forEach((q, n) => {
+    const o = objs[q.alvo]; if (!o) return;
+    const d = document.createElement('div'); d.className = 'pq'; d.textContent = n + 1; d.title = q.titulo;
+    d.onclick = ev => { ev.stopPropagation(); abrePorque(q, n); };
+    const l = new THREE.CSS2DObject(d); l.userData.o = o; l.userData.off = q.em; cena.add(l); pqs.push(l);
+  });
+  marcadoresPos();
+}
+function marcadoresPos() {
+  pqs.forEach(l => {
+    const o = l.userData.o, off = l.userData.off;
+    const base = o.animPos ? o.box.getCenter(new THREE.Vector3()).sub(new THREE.Vector3().setFromMatrixPosition(o.M)).add(o.animPos) : o.centro.clone().add(o.desl);
+    if (off) base.add(new THREE.Vector3(off[0], off[2], -off[1]));
+    l.position.copy(base);
+  });
+}
 const nomeCurto = s => s.replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
 
 /* ------------------------------------------------------------- UI */
@@ -416,7 +531,7 @@ function contagem(ids) {
 function pintaLista() {
   const m = MOD;
   $('#passos').innerHTML = `<div class="cab"><h2>${esc(m.nome)}</h2><p>${esc(m.subtitulo || '')}</p>
-    <div class="meta"><span class="chip">${esc(m.tempo || '')}</span>${(m.colisoes && m.colisoes.length) ?
+    <div class="meta"><span class="chip">${esc(m.tempo || '')}</span>${m.didatico ? '<span class="chip est">animação</span>' : (m.colisoes && m.colisoes.length) ?
       `<span class="chip medir" title="interferências entre peças achadas pelo build">${m.colisoes.length} interferência(s)</span>` :
       '<span class="chip est" title="nenhuma peça invade outra (verificação automática do build)">0 interferências</span>'}</div></div>
     <ol class="lista">${m.passos.map((p, k) => `<li data-k="${k}" class="${k === passo ? 'on' : (k < passo ? 'feito' : '')}">
@@ -443,10 +558,76 @@ function pintaCard() {
   if (p.confira && p.confira.length) h += `<div class="caixa cf"><b>Confira antes de seguir</b><ul>${p.confira.map(a => `<li>${a}</li>`).join('')}</ul></div>`;
   if (ids.length) h += `<h4>${p.mostra === 'tudo' ? 'Todas as peças deste módulo' : 'Peças deste passo'}</h4>${listaItens(ids)}`;
   if (p.alturas) h += `<h4>Alturas</h4><ul>${p.alturas.map(a => `<li>${esc(a.nota)}</li>`).join('')}</ul>`;
+  if (p.anim && p.anim.leg) h += `<h4>Como funciona — roteiro da animação</h4><div class="roteiro">${p.anim.leg.map(l => `<div data-t="${l[0]}">${esc(l[2])}</div>`).join('')}</div>`;
+  if (p.porques && p.porques.length) h += `<h4>Por que é assim (clique)</h4>${p.porques.map((q, n) => `<div class="pqItem" data-n="${n}"><b class="n">${n + 1}</b><div><b>${esc(q.titulo)}</b><div style="color:var(--fg2);font-size:12.5px">${esc(q.resumo || '')}</div></div></div>`).join('')}`;
   if (p.tabela) h += `<h4>Ligações</h4><div class="tbl"><table class="t"><thead><tr><th>de</th><th>para</th><th>obs.</th></tr></thead><tbody>${
     p.tabela.map(l => `<tr><td style="white-space:nowrap"><b>${esc(l[0])}</b></td><td>${esc(l[1])}</td><td style="color:var(--fg2)">${esc(l[2])}</td></tr>`).join('')}</tbody></table></div>`;
   $('#card').innerHTML = h;
-  $('#card').querySelectorAll('.item').forEach(el => el.onclick = () => abreFicha(el.dataset.p));
+  $('#card').querySelectorAll('.item').forEach(el => el.onclick = () => abrePeca(el.dataset.p));
+  $('#card').querySelectorAll('.pqItem').forEach(el => el.onclick = () => abrePorque(p.porques[+el.dataset.n], +el.dataset.n));
+  $('#card').querySelectorAll('.roteiro div').forEach(el => el.onclick = () => {
+    if (!filme) return; const t = +el.dataset.t * 1000 + 30;
+    if (filme.pausa !== null) filme.pausa = t; else filme.t0 = performance.now() - t / filme.vel;
+  });
+}
+function abreModal(html) {
+  $('#modalC').innerHTML = `<button class="btn fechar" id="mFecha">✕</button>` + html;
+  $('#modal').classList.add('on'); $('#modalC').scrollTop = 0;
+  $('#mFecha').onclick = fechaModal;
+  $('#modalC').querySelectorAll('[data-p]').forEach(el => el.onclick = () => abrePeca(el.dataset.p));
+}
+function fechaModal() { $('#modal').classList.remove('on'); }
+$('#modal').addEventListener('click', e => { if (e.target.id === 'modal') fechaModal(); });
+function secoesExplica(x) {
+  if (!x) return '';
+  const S = [['funcao', 'Para que serve'], ['como', 'Como funciona'], ['porque', 'Por que é assim'], ['liga', 'Ligações'], ['ajuste', 'Ajuste e teste'], ['cuidado', 'Cuidados e falhas comuns']];
+  return S.filter(([k]) => x[k]).map(([k, t]) => `<h4>${t}</h4>${Array.isArray(x[k]) ? `<ul>${x[k].map(i => `<li>${i}</li>`).join('')}</ul>` : `<p>${x[k]}</p>`}`).join('');
+}
+function abrePeca(pid) {
+  const pc = G.pecas[pid];
+  const qMod = MOD ? MOD.instancias.filter(i => i.peca === pid && !(MOD.contexto || []).includes(i.id)).length : 0;
+  let h = `<h2>${esc(pc.nome)}</h2><div class="sub"><span class="chip ${pc.tipo}">${TIPO[pc.tipo] || pc.tipo}</span>
+    <span class="chip ${pc.src}">${SRC[pc.src] || pc.src}</span></div>`;
+  h += secoesExplica(pc.explica);
+  h += `<h4>Ficha</h4>`;
+  if (pc.dims) h += `<div class="kv"><span>medidas</span><span>${esc(pc.dims)}</span></div>`;
+  if (qMod) h += `<div class="kv"><span>quantidade neste módulo</span><span>${qMod}${MOD.espelhoA ? ' × 2 eixos' : ''}</span></div>`;
+  if (pc.linha) h += `<div class="kv"><span>planilha de compras</span><span>linha ${pc.linha}</span></div>`;
+  if (pc.ferramenta) h += `<div class="kv"><span>ferramenta</span><span>${esc(pc.ferramenta)}</span></div>`;
+  if (pc.impressao) {
+    const im = pc.impressao;
+    h += `<div class="kv"><span>material</span><span>${esc(pc.material || 'PETG')}</span></div>
+      <div class="kv"><span>preenchimento / paredes</span><span>${esc(im.preenchimento)} / ${esc(im.paredes)}</span></div>
+      <div class="kv"><span>suportes</span><span>${esc(im.suportes)}</span></div>
+      <div class="kv"><span>tempo estimado</span><span>${esc(im.tempo)}</span></div>`;
+    if (pc.tamanhoMesa) h += `<div class="kv"><span>na mesa (X × Y × Z)</span><span>${pc.tamanhoMesa.join(' × ')} mm ${pc.naoCabe ? '— NÃO CABE na mesa de 260 × 260 × 300' : '— cabe na sua impressora'}</span></div>`;
+  }
+  if (pc.conferir && pc.conferir.length) h += `<div class="caixa at"><b>Meça a sua peça</b><ul>${pc.conferir.map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>`;
+  if (pc.notas && pc.notas.length) h += `<h4>Notas</h4><ul>${pc.notas.map(a => `<li>${esc(a)}</li>`).join('')}</ul>`;
+  const dl = [];
+  if (pc.stl) dl.push(`<a href="montagem/${pc.stl}" download>STL${pc.stlA ? ' (eixo B)' : ''}</a>`);
+  if (pc.stlA) dl.push(`<a href="montagem/${pc.stlA}" download>STL espelhado (eixo A)</a>`);
+  if (pc.step) dl.push(`<a href="montagem/${pc.step}" download>STEP</a>`);
+  if (pc.link) dl.push(`<a href="${esc(pc.link)}" target="_blank" rel="noopener">onde comprar ↗</a>`);
+  if (dl.length) h += `<div class="dl">${dl.join('')}</div>`;
+  abreModal(h);
+}
+function abrePorque(q, n) {
+  let h = `<h2><span class="pq" style="display:inline-block;margin-right:8px">${n + 1}</span>${esc(q.titulo)}</h2>`;
+  h += `<p>${q.texto}</p>`;
+  const o = objs[q.alvo];
+  if (o) h += `<h4>Peça</h4><div class="item" data-p="${esc(o.i.peca)}"><span class="nm">${esc(o.peca.nome)} — ver ficha completa</span></div>`;
+  abreModal(h);
+}
+function abreCabo(c) {
+  let h = `<h2><span class="fio" style="background:${c.cor}"></span>${esc(c.nome)}</h2><div class="sub">${esc(c.de)} → ${esc(c.para)}</div>`;
+  if (c.funcao) h += `<h4>Para que serve</h4><p>${c.funcao}</p>`;
+  if (c.fios && c.fios.length) h += `<h4>Fios, um a um</h4><div class="tbl"><table class="t"><thead><tr><th>fio</th><th>sai de</th><th>chega em</th><th>o que passa</th></tr></thead><tbody>${
+    c.fios.map(f => `<tr><td><span class="fio" style="background:${f[0]}"></span>${esc(f[1])}</td><td>${esc(f[2])}</td><td>${esc(f[3])}</td><td>${esc(f[4])}</td></tr>`).join('')}</tbody></table></div>`;
+  if (c.como) h += `<h4>Como o sinal funciona</h4><p>${c.como}</p>`;
+  if (c.cuidado) h += `<h4>Cuidados</h4><p>${c.cuidado}</p>`;
+  if (c.bitola) h += `<div class="kv"><span>fio</span><span>${esc(c.bitola)}</span></div>`;
+  abreModal(h);
 }
 function abreFicha(pid) {
   const pc = G.pecas[pid];
@@ -485,13 +666,16 @@ renderer.domElement.addEventListener('pointerup', e => {
   const d = renderer.domElement._down; if (!d || Math.hypot(e.clientX - d[0], e.clientY - d[1]) > 5) return;
   const r = renderer.domElement.getBoundingClientRect();
   ray.setFromCamera({ x: (e.clientX - r.left) / r.width * 2 - 1, y: -(e.clientY - r.top) / r.height * 2 + 1 }, cam);
-  const alvos = []; raiz.traverse(o => { if (o.isMesh && o.visible) alvos.push(o); });
-  const hit = ray.intersectObjects(alvos, false).find(h => {
-    let o = h.object; while (o && !o.userData.inst) o = o.parent; return o && o.visible && objs[o.userData.inst].op > 0.5 || o;
-  });
-  if (!hit) return;
-  let o = hit.object; while (o && !o.userData.inst) o = o.parent;
-  if (o) abreFicha(objs[o.userData.inst].i.peca);
+  const alvos = []; raiz.traverse(o => { if (o.isMesh && o.visible && (!o.parent || o.parent.visible)) alvos.push(o); });
+  const hits = ray.intersectObjects(alvos, false);
+  for (const h of hits) {
+    if (h.object.userData.cabo) { if (h.object.visible) return abreCabo(h.object.userData.cabo); continue; }
+    let o = h.object; while (o && !o.userData.inst) o = o.parent;
+    if (!o || !o.visible) continue;
+    const ob = objs[o.userData.inst];
+    if (ob.ctx || ob.transp) continue;                        // clique atravessa o que esta translucido
+    return abrePeca(ob.i.peca);
+  }
 });
 
 /* ------------------------------------------------------------- paginas de texto */
@@ -502,7 +686,7 @@ function contagemModulo(m) {
 }
 function tabelaPecas(filtro) {
   const tot = {};
-  G.modulos.forEach(m => {
+  G.modulos.filter(m => !m.didatico && m.id !== 'maquina').forEach(m => {
     const c = contagemModulo(m), mult = m.espelhoA ? 2 : 1;
     Object.keys(c).forEach(p => {
       tot[p] = tot[p] || { q: 0, mods: [] };
@@ -536,9 +720,9 @@ function paginaPecas(filtro) {
       .map(([f, n]) => `<button class="btn ${f === (filtro || '') ? 'on' : ''}" data-f="${f}">${n}</button>`).join('')}</div>${tabelaPecas(filtro)}`;
 }
 function paginaImprimir() {
-  const lista = Object.keys(G.pecas).filter(p => G.pecas[p].tipo === 'impresso');
+  const lista = Object.keys(G.pecas).filter(p => G.pecas[p].tipo === 'impresso' && !G.pecas[p].didatico);
   const qtd = {};
-  G.modulos.forEach(m => m.instancias.forEach(i => {
+  G.modulos.filter(m => !m.didatico && m.id !== 'maquina').forEach(m => m.instancias.forEach(i => {
     if (G.pecas[i.peca].tipo === 'impresso' && !(m.contexto || []).includes(i.id)) qtd[i.peca] = (qtd[i.peca] || 0) + 1;
   }));
   const C = G.conteudo || {};
@@ -585,7 +769,20 @@ $('#bRepete').onclick = () => aplicaPasso(passo, true);
 $('#bVista').onclick = () => enquadra(true);
 $('#bExplode').onclick = () => { explodido = !explodido; $('#bExplode').classList.toggle('on', explodido); aplicaPasso(passo, false); };
 $('#bFantasma').onclick = () => { fantasma = !fantasma; $('#bFantasma').classList.toggle('on', fantasma); };
+function tocaPausa() {
+  if (!filme) return;
+  if (filme.pausa === null) { filme.pausa = (performance.now() - filme.t0) * filme.vel; $('#bPlay').textContent = '▶ continuar'; }
+  else { filme.t0 = performance.now() - filme.pausa / filme.vel; filme.pausa = null; $('#bPlay').textContent = '❚❚ pausar'; }
+}
+$('#bPlay').onclick = tocaPausa;
+$('#bVel').onclick = () => {
+  if (!filme) return;
+  const agora = performance.now(), tt = filme.pausa !== null ? filme.pausa : (agora - filme.t0) * filme.vel;
+  filme.vel = filme.vel === 1 ? 0.4 : filme.vel === 0.4 ? 2 : 1; $('#bVel').textContent = (filme.vel === 0.4 ? '0,4' : filme.vel) + '×';
+  if (filme.pausa === null) filme.t0 = agora - tt / filme.vel;
+};
 window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') fechaModal();
   if (!MOD || $('#pagina').classList.contains('on') || e.target.tagName === 'INPUT') return;
   if (e.key === 'ArrowRight') aplicaPasso(passo + 1, true);
   else if (e.key === 'ArrowLeft') aplicaPasso(passo - 1, true);
@@ -593,7 +790,8 @@ window.addEventListener('keydown', e => {
   else if (e.key === 'e' || e.key === 'E') $('#bExplode').click();
   else if (e.key === 'f' || e.key === 'F') $('#bFantasma').click();
   else if (e.key === 'v' || e.key === 'V') enquadra(true);
-  else if (e.key === 'Escape') $('#ficha').classList.remove('on');
+  else if (e.key === 'Escape') { fechaModal(); $('#ficha').classList.remove('on'); }
+  else if (e.key === ' ') { e.preventDefault(); tocaPausa(); }
 });
 
 function laco(agora) {

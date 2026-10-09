@@ -82,5 +82,5 @@ peca('porca_nylon_m5', Object.assign({ nome: 'Porca autotravante M5 (com anel de
 [3, 5].forEach(M => peca(`porca_martelo_m${M}`, Object.assign({ nome: `Porca martelo M${M} para perfil 2020`,
   dims: 'perfil série 20, fenda 6 mm', notas: ['Entra de lado na fenda do perfil e gira 1/4 de volta ao apertar o parafuso.'] }, FIX),
   () => porcaMartelo(M)));
-[16, 20, 25].forEach(L => peca(`madeira_3_5x${L}`, Object.assign({ nome: `Parafuso para madeira 3,5×${L} cabeça chata`,
+[12, 16, 20, 25].forEach(L => peca(`madeira_3_5x${L}`, Object.assign({ nome: `Parafuso para madeira 3,5×${L} cabeça chata`,
   dims: `Ø3,5 × ${L} mm, Phillips`, ferramenta: 'chave Phillips nº 2' }, FIX), () => madeira(L)));

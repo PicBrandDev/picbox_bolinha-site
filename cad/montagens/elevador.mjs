@@ -6,6 +6,7 @@
    copo para a calha de entrega, que leva ate a entrada do magazine (y = 65, x = 95).
 
    Cotas que mandam:
+     - motor: NEMA 17 direto na polia de cima (o JGA25 de 15 rpm era lento demais)
      - correia GT2 10 mm FECHADA de 1056 mm -> distancia entre polias 484 (polias 44 dentes,
        primitivo 28,01 — o mesmo Ø28 do modelo)
      - topo: a calha de entrega chega na entrada do magazine a 1612 mm, caindo 4 graus
@@ -17,7 +18,7 @@ import { R, caixa, caixaC, cil, cilC, uniao, sextavado, FOLGA } from '../lib/bas
 import { peca, inst } from '../lib/registro.mjs';
 import { T } from '../lib/mat.mjs';
 import { PROJ } from '../lib/projeto.mjs';
-import { JGA, LINK } from '../pecas/comprados.mjs';
+import { NEMA, LINK } from '../pecas/comprados.mjs';
 import { correiaLaco } from '../pecas/correia.mjs';
 import { retaU, arcoU, MG } from './magazine.mjs';
 
@@ -42,16 +43,17 @@ function polia44(tipo) {
     p = p.cut(cil(1.15, 7, [Math.cos(a) * (de / 2 + 0.1), Math.sin(a) * (de / 2 + 0.1), -0.5], 'z'));
   }
   if (tipo === 'motora') {
-    p = p.fuse(cil(14, 8, [0, 0, -8], 'z'));                                   // cubo virado para o motor
-    p = p.cut(cil(5.1, 20, [0, 0, -9], 'z'));
-    p = p.cut(cil(FOLGA.m3, 8, [0, 0, -4], 'x'));                               // parafuso sem cabeca
-    p = p.cut(caixa(3, -FOLGA.m3PorcaAF / 2, -7.5, 5.6, FOLGA.m3PorcaAF / 2, 0.5)); // porca M3 por cima
+    // cubo comprido: vai da polia ate perto da lateral e abraca a ponta do eixo do NEMA (11,5 mm)
+    p = p.fuse(cil(14, 18.5, [0, 0, -18.5], 'z'));
+    p = p.cut(cil(5.1, 30, [0, 0, -19.5], 'z'));
+    p = p.cut(cil(FOLGA.m3, 8, [0, 0, -12], 'x'));                              // parafuso sem cabeca no chato do eixo
+    p = p.cut(caixa(3, -FOLGA.m3PorcaAF / 2, -15.5, 5.6, FOLGA.m3PorcaAF / 2, -8.5)); // porca M3 encaixada
   } else {
     p = p.cut(cil(16.1, 6.5, [0, 0, -0.25], 'z'));                               // rolamento 625 dentro
   }
   return p;
 }
-peca('elev_polia_motora', Object.assign({}, IMP, { nome: 'Polia GT2 44 dentes motora (topo)', dims: 'Ø27,5 × 6 + cubo Ø14 × 8',
+peca('elev_polia_motora', Object.assign({}, IMP, { nome: 'Polia GT2 44 dentes motora (topo)', dims: 'Ø27,5 × 6 + cubo Ø14 × 18,5',
   imprimir: { rot: [] }, impressao: { preenchimento: '100 %', paredes: 4, suportes: 'não', tempo: '40 min' },
   notas: ['44 dentes: Ø primitivo 28,01 mm, o Ø28 do projeto. Imprima com camada 0,12 mm para os dentes saírem.',
     'Só 6 mm de dentes numa correia de 10: as bordas da correia ficam livres para as arruelas das caçambas.'] }),
@@ -87,7 +89,7 @@ const Z0 = EL.zb - EL.rCapa - EL.eCapa - 8, Z1 = EL.zt + EL.rCapa + EL.eCapa + 6
 function lateral(lado) {
   let p = caixa(0, 94, Z0, EL.placaE, 205, Z1);
   // furo do eixo de cima (so na esquerda) e rasgo do tensor de baixo
-  if (lado < 0) p = p.cut(cilC(5.6, 20, [3, EL.y, EL.zt], 'x'));
+  if (lado < 0) p = p.cut(cilC(9, 20, [3, EL.y, EL.zt], 'x'));        // passagem do eixo do NEMA
   p = p.cut(caixa(-1, EL.y - 2.75, EL.zb - 10, 8, EL.y + 2.75, EL.zb + 10));
   return p;
 }
@@ -99,30 +101,26 @@ peca('elev_lateral', { nome: 'Lateral ESQUERDA da coluna (MDF 6 mm)', tipo: 'cor
   notas: ['2 peças. Na de baixo, um rasgo vertical de 5,5 × 20 mm (3 furos de 5,5 e lima): é por onde o eixo da polia de baixo desce para esticar a correia.',
     'Só a lateral ESQUERDA tem o furo de 5,6 mm do eixo de cima.'] },
 () => [{ forma: lateral(-1), cor: 'mdf' }]);
-function mancalMotor() {
-  // flange contra a lateral esquerda (x 134..144) com 2 rolamentos 625, e bracos ate a face do motor
-  const xf = EL.xPe;
-  let m = caixa(xf - 10, EL.y - 18, EL.zt - 18, xf, EL.y + 18, EL.zt + 18).fuse(cil(24, 6, [xf - 16, EL.y, EL.zt], 'x'));
-  m = m.cut(cil(16.1, 5.2, [xf - 16.2, EL.y, EL.zt], 'x')).cut(cil(16.1, 5.2, [xf - 5.1, EL.y, EL.zt], 'x'));
-  m = m.cut(cil(8, 30, [xf - 20, EL.y, EL.zt], 'x'));
-  // parafusos de madeira 3,5x16: 10 de flange + 6 de MDF = a ponta morre rente por dentro
-  [[-13, -13], [-13, 13], [13, -13], [13, 13]].forEach(([dy, dz]) => {
-    m = m.cut(cilC(FOLGA.madeira, 30, [xf - 5, EL.y + dy, EL.zt + dz], 'x'));
+/* NEMA 17 direto na polia de cima: o eixo de 24 mm atravessa a lateral e entra 11,5 mm no cubo
+   da polia. Sem acoplador, sem eixo extra, sem mancal: o rolamento e o do proprio motor. */
+const XF = EL.xPe - 6;                                   // face do flange do motor (x = 138)
+function suporteNema() {
+  let s = caixa(XF, EL.y - 27, EL.zt - 27, EL.xPe, EL.y + 27, EL.zt + 27).fillet(3, e => e.inDirection('X'));
+  s = s.cut(cilC(NEMA.boss + 0.6, 20, [XF, EL.y, EL.zt], 'x'));
+  [[-1, -1], [-1, 1], [1, -1], [1, 1]].forEach(([a, b]) => {
+    s = s.cut(cilC(FOLGA.m3, 20, [XF, EL.y + a * NEMA.furo / 2, EL.zt + b * NEMA.furo / 2], 'x'));
+    // cabeca do M3 rebaixada do lado da lateral: o motor e preso no suporte ANTES de ir para a coluna
+    s = s.cut(cil(FOLGA.m3Cab, FOLGA.m3CabH, [EL.xPe - FOLGA.m3CabH, EL.y + a * NEMA.furo / 2, EL.zt + b * NEMA.furo / 2], 'x'));
+    // parafuso de madeira 3,5x12 nos cantos: 6 do suporte + 6 do MDF, a ponta morre rente por dentro
+    s = s.cut(cilC(FOLGA.madeira, 20, [XF, EL.y + a * 22.5, EL.zt + b * 22.5], 'x'));
   });
-  // bracos e placa do motor (face do motor em x = 93,9)
-  const xm = EL.xPe - 16 - 22 - 12.1;
-  [-1, 1].forEach(s => { m = m.fuse(caixa(xm + 3, EL.y + s * 14, EL.zt - 4, xf - 16, EL.y + s * 18, EL.zt + 4)); });
-  // a face do motor encosta do lado de FORA (-X) desta placa; o eixo atravessa para o acoplador
-  let pl = caixa(xm, EL.y - 18, EL.zt - 14, xm + 3, EL.y + 18, EL.zt + 14);
-  pl = pl.cut(cilC(8, 10, [xm + 1.5, EL.y, EL.zt], 'x'));
-  [-1, 1].forEach(s => { pl = pl.cut(cilC(FOLGA.m3, 10, [xm + 1.5, EL.y + s * JGA.furos / 2, EL.zt], 'x')); });
-  return m.fuse(pl);
+  return s;
 }
-peca('elev_mancal_motor', Object.assign({}, IMP, { nome: 'Mancal do eixo de cima + suporte do motor', dims: '53 × 36 × 36 mm',
-  imprimir: { rot: [['y', 90]] }, impressao: { preenchimento: '50 %', paredes: 4, suportes: 'não', tempo: '≈ 2 h' },
-  notas: ['2 rolamentos 625 seguram o eixo de 5 mm só deste lado: a polia fica em balanço a 30 mm, a carga é pequena.',
-    'O motor fica afastado 50 mm da lateral: no meio, o acoplador 4 × 5 mm (com acesso aos parafusinhos).'] }),
-() => [{ forma: mancalMotor(), cor: 'impresso' }]);
+peca('elev_suporte_nema', Object.assign({}, IMP, { nome: 'Suporte do NEMA 17 do elevador', dims: '54 × 54 × 6 mm',
+  imprimir: { rot: [['y', 90]] }, impressao: { preenchimento: '60 %', paredes: 4, suportes: 'não', tempo: '50 min' },
+  notas: ['O motor é parafusado no suporte primeiro (4 × M3×6 com a cabeça rebaixada do lado da lateral); depois o conjunto vai na lateral com 4 parafusos de madeira 3,5×12.',
+    'Por que 6 mm: com a lateral de 6 mm, o eixo de 24 mm do NEMA passa e ainda entra 11,5 mm no cubo da polia.'] }),
+() => [{ forma: suporteNema(), cor: 'impresso' }]);
 
 /* ---------------------------------------------------------------- capa, concha, tampa, calha */
 function arcoCasca(r0, r1, a0, a1, zc, larg) {
@@ -216,17 +214,13 @@ function instancias() {
   // laterais
   add('lat_e', 'elev_lateral', r.t(EL.xPe, 0, 0));
   add('lat_d', 'elev_lateral_d', r.t(EL.xPd, 0, 0));
-  // eixo de cima: mancal + 2 rolamentos + eixo + acoplador + motor + polia motora
-  add('mancal', 'elev_mancal_motor', r);
-  add('rol_c1', 'rol_625zz', r.ry(90).t(EL.xPe - 16.1, EL.y, EL.zt));
-  add('rol_c2', 'rol_625zz', r.ry(90).t(EL.xPe - 5.05, EL.y, EL.zt));
-  const xm = EL.xPe - 16 - 22 - 12.1;                        // face do motor
-  add('acoplador', 'acoplador_4x5', r.ry(90).t(xm + 3.1, EL.y, EL.zt));
-  add('eixo_cima', 'eixo_5x70', r.ry(90).t(xm + 13.1, EL.y, EL.zt));
-  add('motor', 'jga25', r.ry(90).t(xm, EL.y, EL.zt));
-  [-1, 1].forEach((s, i) => add('p_motor_' + i, 'din912_m3x6', r.ry(90).t(xm + 3, EL.y + s * JGA.furos / 2, EL.zt)));
-  [[-13, -13], [-13, 13], [13, -13], [13, 13]].forEach(([dy, dz], i) =>
-    add('mad_mancal_' + i, 'madeira_3_5x16', r.ry(-90).t(EL.xPe - 10, EL.y + dy, EL.zt + dz)));
+  // motor do topo: NEMA 17 no suporte, eixo direto na polia
+  add('suporte_motor', 'elev_suporte_nema', r);
+  add('motor', 'nema17', r.ry(90).t(XF, EL.y, EL.zt));
+  [[-1, -1], [-1, 1], [1, -1], [1, 1]].forEach(([a, b], i) => {
+    add('p_motor_' + i, 'din912_m3x6', r.ry(90).t(EL.xPe - FOLGA.m3CabH, EL.y + a * NEMA.furo / 2, EL.zt + b * NEMA.furo / 2));
+    add('mad_motor_' + i, 'madeira_3_5x12', r.ry(-90).t(XF, EL.y + a * 22.5, EL.zt + b * 22.5));
+  });
   add('polia_cima', 'elev_polia_motora', r.ry(90).t(EL.x - 3, EL.y, EL.zt));
   // eixo de baixo: parafuso M5x60 atravessando as laterais, polia livre com 625, espacadores
   add('polia_baixo', 'elev_polia_livre', r.ry(90).t(EL.x - 3, EL.y, EL.zb));
@@ -273,28 +267,29 @@ export function moduloElevador() {
   return {
     id: 'elevador', nome: 'Elevador',
     subtitulo: 'Canto traseiro direito. Leva a bola do fundo (1125 mm) até a entrada do magazine (1612 mm).',
-    resumo: 'Correia GT2 10 mm fechada com 12 caçambas impressas, polias de 44 dentes impressas, motor JGA25-370 no topo, capa, concha e calha de entrega.',
+    resumo: 'Correia GT2 10 mm fechada com 12 caçambas impressas, polias de 44 dentes impressas, NEMA 17 direto na polia de cima, capa, concha e calha de entrega.',
     tempo: '≈ 2 h 30',
     instancias: I,
     contexto: ids('ctx_'),
     // uma cacamba dando a volta inteira, de 15 em 15 mm, contra tudo o que e fixo
-    trajetoria: [{ peca: 'elev_cacamba', contra: ['lat_e', 'lat_d', 'capa', 'concha', 'tampa', 'calha', 'mancal', 'ctx_entrada', 'ctx_p1'],
+    trajetoria: [{ peca: 'elev_cacamba', contra: ['lat_e', 'lat_d', 'capa', 'concha', 'tampa', 'calha', 'suporte_motor', 'ctx_entrada', 'ctx_p1'],
       Ts: Array.from({ length: Math.ceil(EL.L / 15) }, (_, n) => { const p = posCacamba(n * 15); return T.of().rx(p.phi).t(EL.x, p.y, p.z); }),
       rotulos: Array.from({ length: Math.ceil(EL.L / 15) }, (_, n) => 's=' + n * 15) }],
     passos: [
       { titulo: 'Conheça as peças', mostra: 'tudo', explode: 0.5, vista: 'iso',
         texto: 'A coluna são duas laterais de MDF. A correia sobe por trás (com as bolas nas caçambas), passa por cima da polia motora e desce pela frente vazia. No alto, a bola sai da caçamba e cai na calha que leva ao magazine (em cinza claro).',
-        atencao: ['Motor de 15 rpm: a esteira anda 19 mm/s e não dá conta. Troque pelo de 128 rpm (mesma peça, outra redução).',
+        atencao: ['Motor: NEMA 17 (o mesmo dos eixos) num 3º TMC2209 do kit de 4 — a velocidade sai do firmware. A 100 rpm a esteira anda 147 mm/s.',
           'A correia precisa ser FECHADA (sem emenda), 1056 mm. A da planilha (aberta + emenda de alumínio) não passa na polia.'] },
       { titulo: 'Laterais de MDF', novos: ['lat_e', 'lat_d'], vista: 'iso',
         texto: `Corte 2 laterais de MDF 6 mm com 111 × ${(Z1 - Z0).toFixed(0)} mm. Na esquerda, faça o furo de 5,6 mm do eixo de cima (centro a ${(EL.y - 94).toFixed(0)} mm da frente e ${(EL.zt - Z0).toFixed(0)} mm da base). Nas duas, um rasgo vertical de 5,5 × 20 mm para o eixo de baixo (centro a ${(EL.y - 94).toFixed(0)} mm da frente e ${(EL.zb - Z0).toFixed(0)} mm da base). A base das laterais fica a ${Z0.toFixed(0)} mm do chão.`,
         ferramentas: ['serra', 'furadeira', 'broca 5,5 mm', 'lima'] },
-      { titulo: 'Mancal, eixo e motor', novos: ['mancal', 'rol_c1', 'rol_c2', 'eixo_cima', 'acoplador', 'motor', ...ids('p_motor_'), ...ids('mad_mancal_')], vista: 'esquerda',
-        texto: 'Prense os 2 rolamentos 625 no mancal (um de cada lado). Parafuse o mancal por fora da lateral esquerda (4 parafusos de madeira 3,5×16). Passe o eixo de 5 mm pelos rolamentos e pelo furo da lateral. Prenda o motor na placa do suporte (2 M3×8) e una o eixo do motor ao de 5 mm com o acoplador.',
-        ferramentas: ['chave allen 2,5 e 1,5 mm', 'chave Phillips nº 2', 'morsa ou grampo (para prensar)'],
-        confira: ['O eixo gira à mão sem ponto duro.'] },
+      { titulo: 'Motor no topo', novos: ['suporte_motor', 'motor', ...ids('p_motor_'), ...ids('mad_motor_')], vista: 'esquerda',
+        texto: 'Prenda o NEMA 17 no suporte impresso com 4 parafusos M3×6 — as cabeças ficam rebaixadas do lado que encosta na lateral. Depois passe o eixo do motor pelo furo de 9 mm da lateral esquerda e parafuse o suporte nela com 4 parafusos de madeira 3,5×12.',
+        ferramentas: ['chave allen 2,5 mm', 'chave Phillips nº 2'],
+        atencao: ['Parafuso de madeira maior que 12 mm fura a lateral por dentro e as caçambas batem nele.'],
+        confira: ['O eixo do motor aparece 12 mm para dentro da coluna.'] },
       { titulo: 'Polias', novos: ['polia_cima', 'polia_baixo', 'rol_b', 'p_m5_baixo', 'porca_baixo', ...ids('esp_b')], vista: 'esquerda', zoom: ['polia_cima', 'polia_baixo'],
-        texto: 'Polia motora no eixo de cima, centrada entre as laterais, parafusinho M3 apertado no eixo. Na de baixo, prense um rolamento 625 e passe o parafuso M5×60 pelo rasgo da lateral esquerda, espaçador, polia, espaçador, rasgo da lateral direita, porca autotravante — sem apertar ainda.',
+        texto: 'Polia motora direto no eixo do NEMA: o cubo comprido abraça os 11,5 mm de eixo que passam da lateral; aperte o parafusinho M3 sobre a parte chata do eixo. Na de baixo, prense um rolamento 625 e passe o parafuso M5×60 pelo rasgo da lateral esquerda, espaçador, polia, espaçador, rasgo da lateral direita, porca autotravante — sem apertar ainda.',
         ferramentas: ['chave allen 2,5 e 4 mm', 'chave 8 mm'] },
       { titulo: 'Caçambas na correia', novos: ['correia', ...ids('cac_'), ...I.filter(i => fx.some(f => i.id.startsWith(f))).map(i => i.id)], vista: 'iso',
         texto: 'Com a correia FORA da máquina, prenda as 12 caçambas a cada 44 dentes (88 mm). Cada caçamba: base encostada no dorso da correia (lado liso), 2 parafusos M2×8 passando rente às bordas, por dentro uma arruela M2 que segura a borda da correia e a porca. Fundo de cada caçamba para o mesmo lado.',
@@ -310,7 +305,7 @@ export function moduloElevador() {
         ferramentas: ['chave Phillips nº 2'] },
       { titulo: 'Calha de entrega e teste', novos: ['calha', ...ids('bola_')], vista: 'iso', zoom: ['calha', 'capa'],
         texto: 'Parafuse a calha de entrega na frente do topo, com a ponta apoiada na entrada do magazine. Ligue o motor e jogue bolas na concha, uma por vez: cada uma tem que subir, sair no alto e rolar até o tubo P1.',
-        confira: ['50 bolas seguidas sem nenhuma presa.', 'Volta completa da correia em ~7 s com o motor de 128 rpm.'],
+        confira: ['50 bolas seguidas sem nenhuma presa.', 'Volta completa da correia em ~7 s (NEMA a 100 rpm).'],
         atencao: ['Se a bola não cair na calha no topo, ajuste a ponta da capa (é ela que decide onde a bola sai) — isto é [H]: validar na bancada.'] },
     ],
   };

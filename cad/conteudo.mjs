@@ -14,13 +14,12 @@ export const CONTEUDO = {
         '<li><b>Polia tensora GT2 20 dentes com rolamento</b> (2 unid.).</li>' +
         '<li><b>Mais 1 tubo acrílico 40 × 36 de 50 cm</b>: os 3 passes do magazine somam 571 mm.</li>' +
         '<li><b>MDF 6 mm</b> para o painel do magazine (338 × 200) e as 2 laterais do elevador (111 × 614).</li>' +
-        '<li><b>Elevador:</b> correia GT2 10 mm <b>fechada</b> de 1056 mm, acoplador rígido 4 × 5 mm, eixo retificado Ø5 × 70, 3 rolamentos 625ZZ.</li>' +
-        '<li><b>Eletrônica:</b> conversor LM2596 (12→5 V), 3 módulos MOSFET de nível lógico, 2 placas base para driver de passo, diodos 1N4007, resistores de 150 Ω.</li>' +
+        '<li><b>Elevador:</b> 1 NEMA 17 a mais, correia GT2 10 mm <b>fechada</b> de 1056 mm, 1 rolamento 625ZZ.</li>' +
+        '<li><b>Eletrônica:</b> conversor LM2596 (12→5 V), 2 módulos MOSFET de nível lógico, 3 placas base para driver de passo, diodos 1N4007, resistores de 150 Ω.</li>' +
         '<li><b>Kit de ferragens</b>: parafusos M3, M5 e de madeira, porcas M3/M5, porcas martelo para perfil 2020 (quantidades exatas na lista).</li></ul>' },
-    { titulo: 'Motor do elevador: 15 rpm é lento demais',
-      texto: '<p>O JGA25-370 de 15 rpm é a versão 1:377 (≈13 rpm com carga). Com a polia de Ø28 a esteira anda 19 mm/s: ' +
-        'a bola leva 25 s para subir e sai uma caçamba a cada 4,4 s. A máquina dispara uma bola a cada 2,4 s, então o magazine ' +
-        'esvazia. Troque pela versão de <b>128 rpm (1:46,8)</b> — mesma carcaça, mesmos furos; dá ≈100 rpm com carga, perto dos 90 rpm do projeto.</p>' },
+    { titulo: 'Elevador com NEMA 17 (não com o JGA25)',
+      texto: '<p>O JGA25-370 de 15 rpm da planilha é a versão 1:377: a esteira andaria 19 mm/s e o magazine esvaziaria. O elevador usa um ' +
+        '<b>NEMA 17 igual ao dos eixos</b>, direto na polia de cima, num 3º TMC2209 (o kit comprado tem 4). Falta comprar o motor e a placa base do driver.</p>' },
     { titulo: 'O módulo IRF520 não liga direito com o ESP32',
       texto: '<p>O IRF520 precisa de 10 V no gate para conduzir bem; o ESP32 entrega 3,3 V. O solenoide de soltura (≈2 A) fica fraco ' +
         'e o MOSFET esquenta. Use um módulo com MOSFET de nível lógico (<b>IRLZ44N</b> ou AO3400) e um diodo 1N4007 em paralelo com cada solenoide.</p>' },

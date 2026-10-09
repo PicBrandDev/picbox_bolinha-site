@@ -363,3 +363,6 @@ export function moduloMagazine() {
     ],
   };
 }
+
+// usado pelas animacoes de funcionamento
+export { zCruz, yComp, F1x, F2x, XPIV, zPiso, zEsc, REF_SAI, REF_CAR, REF_ENT, DCAN };

@@ -283,3 +283,9 @@ peca('acoplador_4x5', { nome: 'Acoplador rígido 4 × 5 mm', tipo: 'falta', src:
 peca('eixo_5x70', { nome: 'Eixo retificado Ø5 × 70 mm', tipo: 'falta', dims: 'Ø5 h6 × 70 mm', link: 'https://lista.mercadolivre.com.br/eixo-retificado-5mm',
   notas: ['Eixo da polia de cima do elevador. Corte de uma barra de 5 mm e lixe as pontas.'] },
 () => [{ forma: cil(5, 70, [0, 0, 0], 'z').chamfer(0.3), cor: 'aco' }]);
+
+/* corpo e embolo separados: so para as animacoes de funcionamento (o embolo anda) */
+peca('sol_jf0826_corpo', { nome: 'Solenoide JF-0826B (carcaça e bobina)', src: 'medir', link: LINK.solenoide, linha: 7, didatico: true,
+  dims: 'carcaça 27 × 22 × 25 mm' }, () => solenoide(SOL.jf0826).filter((c, i) => i < 2 || i === 5));
+peca('sol_jf0826_embolo', { nome: 'Solenoide JF-0826B (êmbolo e mola)', src: 'medir', link: LINK.solenoide, linha: 7, didatico: true,
+  dims: 'êmbolo Ø7,4, curso 10 mm' }, () => solenoide(SOL.jf0826).filter((c, i) => i >= 2 && i <= 4));
