@@ -9,6 +9,10 @@
     {
       "source": "/modelo3d",
       "destination": "/modelo3d.html"
+    },
+    {
+      "source": "/montagem",
+      "destination": "/montagem.html"
     }
   ],
   "headers": [
