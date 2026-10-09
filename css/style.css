@@ -46,6 +46,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: 4px 8px; border: 1px solid var(--line2); border-radius: 6px; background: var(--bg3);
 }
 .xlink:hover { color: var(--fg); border-color: var(--acc); }
+.xlink.xmontagem { color: #06232a; background: var(--acc); border-color: var(--acc); font-weight: 600; }
+.xlink.xmontagem:hover { filter: brightness(1.1); color: #06232a; }
 
 #topRight { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 
