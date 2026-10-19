@@ -93,9 +93,9 @@ export const EXPLICA = {
     cuidado: 'As roscas só têm 3,5 mm de fundo: parafuso comprido trava as esferas.',
   },
   eixo_placa_carro: {
-    funcao: 'A "mesa" presa em cima do patim: liga o patim à correia (pela garra), à carga (berço ou boca) e aos fins de curso (pelas aletas).',
-    como: '4 parafusos no patim. Na frente, 2 porcas embutidas onde a carga é parafusada. Atrás, a garra da correia. Nas pontas, as aletas que entram na fenda do sensor.',
-    porque: ['As aletas cortam o feixe 4 mm ANTES do fim do curso: o carro passa pelo sensor a cada vai-e-volta, e é assim que o firmware confere se o motor perdeu passo.',
+    funcao: 'A "mesa" presa em cima do patim: liga o patim à correia (pela garra), à carga (berço ou boca) e aos fins de curso (pelos batentes).',
+    como: '4 parafusos no patim. Na frente, 2 porcas embutidas onde a carga é parafusada. Atrás, a garra da correia. Nas pontas, os batentes que apertam a alavanca do fim de curso.',
+    porque: ['Batentes baixos: só alcançam a ponta da alavanca da microchave, nunca o corpo dela — se o carro passar do clique, empurra uma lâmina flexível, não uma caixa rígida.',
       'É azul (impresso que se move) porque é ela que leva a carga.'],
   },
   eixo_garra: {
@@ -132,15 +132,19 @@ export const EXPLICA = {
   nema17: {
     funcao: 'Motor de passo: gira em passos exatos de 1,8° (200 por volta).',
     como: 'Duas bobinas acionadas em sequência pelo driver. A cada pulso de STEP o eixo anda um passo (ou 1/8 de passo com o TMC2209). Ele não precisa de sensor para saber onde está — desde que não perca passo.',
-    porque: 'Precisão e repetição sem encoder. A conferência de "não perdeu passo" é feita pelo fim de curso, que o carro cruza a cada jogada.',
+    porque: 'Precisão e repetição sem encoder. A conferência de "não perdeu passo" é feita no fim de curso, que o carro toca devagar ao ligar e uma vez por partida.',
     liga: ['4 fios no borne da placa base do driver: uma bobina em A1/A2, a outra em B1/B2.', 'Ache os pares com o multímetro: entre os 2 fios de uma mesma bobina dá ~2 Ω; entre bobinas diferentes, aberto.'],
     cuidado: 'Nunca conecte ou desconecte o motor com o driver ligado.',
   },
-  tcst2103: {
-    funcao: 'Fim de curso óptico: avisa quando o carro passa por um ponto exato.',
-    como: 'Um "U" com um LED infravermelho num braço e um fototransistor no outro, 3,1 mm de vão. Quando a aleta do carro entra no vão, corta o feixe e a saída muda de nível.',
-    porque: ['Óptico e não chave mecânica: não tem desgaste e o ponto de corte repete em centésimos de mm.', 'Fica 4 mm DENTRO do curso de propósito: é cruzado a cada jogada e serve de régua para conferir os passos do motor.'],
-    liga: ['VCC no 3,3 V do ESP32 (assim a saída já sai em 3,3 V)', 'GND', 'Sinal: GPIO 34 (eixo A), 35 e 39 (eixo B)'],
+  fc_mecanico: {
+    funcao: 'Fim de curso: diz ao firmware onde fica o zero de cada eixo e serve de régua para conferir se o motor perdeu passo.',
+    como: 'Uma microchave (a mesma das impressoras 3D) numa plaquinha com resistor, LED e conector de 3 pinos. O batente do carro empurra a ponta da alavanca de aço; com ~2 mm de curso o contato muda e a saída S troca de nível. Uma mola interna devolve a alavanca.',
+    porque: ['Mecânico: simples, barato e o mesmo que vocês já conhecem das impressoras.',
+      'Fica FORA do curso de jogo (toca a 141 mm, clica a 143, o jogo vai até 140): depois do clique a alavanca só aguenta ~1,2 mm, então o carro nunca chega nela em velocidade de jogo. O firmware encosta devagar ao ligar e uma vez por partida.',
+      'Com placa (e não microchave solta): o resistor da placa segura o nível da saída — os GPIO 34/35/39 do ESP32 não têm pull-up interno.'],
+    liga: ['+ no 3,3 V do ESP32 (nunca 5 V)', '− no GND', 'S: GPIO 34 (eixo A, direita), 35 (eixo B, esquerda), 39 (eixo B, direita)'],
+    ajuste: 'Meça com o multímetro qual nível o S dá com a chave solta e apertada e configure o firmware de acordo. Com o carro em 140 mm deve sobrar ~1 mm entre o batente e a alavanca.',
+    cuidado: 'Não entorte a alavanca para "ajustar" o ponto: o ponto é corrigido no firmware (deslocamento da referência).',
   },
 
   /* ======================================================= BOCA / DETECCAO */
@@ -242,4 +246,5 @@ EXPLICA.mag_u_esq_f = Object.assign({}, EXPLICA.mag_u_dir_f, { funcao: 'Curva em
 EXPLICA.mag_u_esq_t = EXPLICA.mag_u_esq_f;
 EXPLICA.tubo_p2 = EXPLICA.tubo_p1; EXPLICA.tubo_p3 = EXPLICA.tubo_p1;
 EXPLICA.eixo_bloco_tensor_semfc = EXPLICA.eixo_bloco_tensor;
+EXPLICA.fc_mecanico_base = EXPLICA.fc_mecanico_alav = EXPLICA.fc_mecanico;
 EXPLICA.elev_polia_livre = { funcao: 'Polia de baixo: gira solta num rolamento 625, no eixo do tensor.', como: 'Descendo o eixo pelo rasgo das laterais, a correia estica.' };

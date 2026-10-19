@@ -561,7 +561,7 @@ function pintaCard() {
   if (p.alturas) h += `<h4>Alturas</h4><ul>${p.alturas.map(a => `<li>${esc(a.nota)}</li>`).join('')}</ul>`;
   if (p.anim && p.anim.leg) h += `<h4>Como funciona — roteiro da animação</h4><div class="roteiro">${p.anim.leg.map(l => `<div data-t="${l[0]}">${esc(l[2])}</div>`).join('')}</div>`;
   if (p.porques && p.porques.length) h += `<h4>Por que é assim (clique)</h4>${p.porques.map((q, n) => `<div class="pqItem" data-n="${n}"><b class="n">${n + 1}</b><div><b>${esc(q.titulo)}</b><div style="color:var(--fg2);font-size:12.5px">${esc(q.resumo || '')}</div></div></div>`).join('')}`;
-  if (p.tabela) h += `<h4>Ligações</h4><div class="tbl"><table class="t"><thead><tr><th>de</th><th>para</th><th>obs.</th></tr></thead><tbody>${
+  if (p.tabela) h += `<h4>${esc(p.tabelaTitulo || 'Ligações')}</h4><div class="tbl"><table class="t"><thead><tr>${(p.tabelaCab || ['de', 'para', 'obs.']).map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${
     p.tabela.map(l => `<tr><td style="white-space:nowrap"><b>${esc(l[0])}</b></td><td>${esc(l[1])}</td><td style="color:var(--fg2)">${esc(l[2])}</td></tr>`).join('')}</tbody></table></div>`;
   $('#card').innerHTML = h;
   $('#card').querySelectorAll('.item').forEach(el => el.onclick = () => abrePeca(el.dataset.p));

@@ -62,13 +62,13 @@ export const LIGACOES = [
   ['Fonte V+ (12 V)', 'bornes 12 V das 3 bases de driver, + dos 3 MOSFET, + do LED do botão, entrada IN+ do LM2596', 'fio 1 mm² vermelho'],
   ['Fonte V− (GND)', 'GND de TUDO (bases, MOSFET, LM2596 IN−, ESP32 GND, sensores)', 'fio 1 mm² preto — um só ponto de terra'],
   ['LM2596 OUT+ (5,0 V)', 'ESP32 VIN, servo SG90 (vermelho), LEDs IR (via 150 Ω)', 'ajuste 5,0 V antes de ligar'],
-  ['ESP32 3V3', 'VIO das 3 bases de driver, VCC dos 2 LM393, VCC dos fins de curso TCST2103', 'sensores em 3,3 V = saída já no nível do ESP32'],
+  ['ESP32 3V3', 'VIO das 3 bases de driver, VCC dos 2 LM393, + dos 3 fins de curso mecânicos', 'NUNCA 5 V: os GPIO 34/35/39 não aguentam'],
   ['GPIO 25 / 26', 'STEP / DIR do eixo A (bola)', ''],
   ['GPIO 32 / 33', 'STEP / DIR do eixo B (buraco)', ''],
   ['GPIO 14 / 17', 'STEP / DIR do motor do elevador', 'EN no 27 também: na partida o 14 pisca, mas os motores estão desligados'],
   ['GPIO 27', 'EN das 3 bases (liga/desliga os motores)', 'nível baixo = motores ligados'],
-  ['GPIO 34', 'fim de curso do eixo A (direita)', 'entrada; o A cruza ele a cada jogada'],
-  ['GPIO 35 / 39', 'fins de curso do eixo B (esquerda / direita)', 'entradas'],
+  ['GPIO 34', 'fim de curso do eixo A (direita)', 'entrada sem pull-up interno: o resistor da placa do fim de curso faz esse papel'],
+  ['GPIO 35 / 39', 'fins de curso do eixo B (esquerda / direita)', 'idem: só com a placa (microchave solta precisa de 10 kΩ para 3,3 V)'],
   ['GPIO 36', 'LM393 da boca (OUT)', 'acerto: borda de descida'],
   ['GPIO 21', 'LM393 do nível do magazine (OUT)', 'magazine cheio'],
   ['GPIO 4', 'botão do jogador (NA da microchave; COM no GND)', 'INPUT_PULLUP + RC 10 kΩ/100 nF'],
@@ -255,10 +255,11 @@ function cabos() {
   });
   [['fc_a', 34, 'eixo A (direita)'], ['fc_b1', 35, 'eixo B (esquerda)'], ['fc_b2', 39, 'eixo B (direita)']].forEach(([f, g, n]) => cb({
     id: 'cf_' + f, grupo: 'sensores', nome: `Fim de curso ${n}`, rotulo: `GPIO ${g}`, cor: COR_C.sensor, raio: 1.2,
-    de: `TCST2103 ${n}`, para: `ESP32 GPIO ${g}`, bitola: 'cabo de 3 vias (vai até a ponta do eixo)',
-    funcao: 'Avisa quando a aleta do carro corta o feixe — a 136 mm do centro, a cada vai-e-volta.',
-    como: 'Na hora do corte, o firmware compara a contagem de passos com a esperada. Diferença = passo perdido: ele corrige e registra no log.',
-    fios: [['#e8c81a', 'amarelo', 'ESP32 3V3', 'VCC', '+3,3 V (saída já no nível do ESP32)'], ['#222', 'preto', 'GND', 'GND', 'terra'], ['#9b59d0', 'roxo', `GPIO ${g}`, 'SIG', 'muda quando a aleta entra']],
+    de: `fim de curso mecânico ${n}`, para: `ESP32 GPIO ${g}`, bitola: 'cabo de 3 vias com conector (vem com o módulo; emende se não chegar)',
+    funcao: 'Avisa quando o batente do carro aperta a alavanca da microchave — a 143 mm do centro, 3 mm além do curso de jogo.',
+    como: 'Ao ligar, cada carro vai devagar até o clique: ali é o zero. Depois, na volta para a posição de espera, o carro encosta de novo devagar e o firmware compara a contagem de passos com a esperada. Diferença = passo perdido: ele corrige e registra no log.',
+    cuidado: 'Ligue o + no 3,3 V, nunca no 5 V. Confira com o multímetro qual nível o S dá apertado e solto antes de escrever o firmware (varia entre placas).',
+    fios: [['#e8c81a', 'amarelo', 'ESP32 3V3', '+', '+3,3 V (saída já no nível do ESP32)'], ['#222', 'preto', 'GND', '−', 'terra'], ['#9b59d0', 'roxo', `GPIO ${g}`, 'S', 'muda quando a alavanca clica']],
     pts: rota(S_(f, 6), pino(g), 26) }));
   return C;
 }
@@ -276,7 +277,7 @@ function satelites() {
     add('ir_' + n + '_led', 'ir333c', r.rx(-90).t(SAT['ir_' + n + '_led'][0], SAT['ir_' + n + '_led'][1], 10));
     add('ir_' + n + '_foto', 'til78', r.rx(90).t(SAT['ir_' + n + '_foto'][0], SAT['ir_' + n + '_foto'][1], 10));
   });
-  ['fc_a', 'fc_b1', 'fc_b2'].forEach(f => add(f, 'tcst2103', r.t(SAT[f][0], SAT[f][1], 0)));
+  ['fc_a', 'fc_b1', 'fc_b2'].forEach(f => add(f, 'fc_mecanico', r.t(SAT[f][0], SAT[f][1], 0)));
   return I;
 }
 
@@ -304,7 +305,7 @@ export function moduloLigacoes() {
       { titulo: '4. Solenoides', mostra: 'tudo', cabos: grupo('sol'), vista: 'iso', zoom: ['mos_sol', 'sol_solt', 'sol_comp'],
         texto: 'O ESP32 não aguenta 2 A: ele só "avisa" o MOSFET (fio azul), e o MOSFET liga os 12 V no solenoide (fio vermelho). O diodo fica soldado no próprio solenoide.' },
       { titulo: '5. Sensores', mostra: 'tudo', cabos: grupo('sensores'), vista: 'iso', zoom: ['cmp_boca', 'ir_nivel_led', 'fc_a', 'fc_b2'],
-        texto: 'Barreiras infravermelhas (boca e nível do magazine) passam por um comparador LM393 antes do ESP32. Os fins de curso TCST2103 já saem digitais e vão direto.' },
+        texto: 'Barreiras infravermelhas (boca e nível do magazine) passam por um comparador LM393 antes do ESP32. Os fins de curso mecânicos já saem digitais e vão direto.' },
       { titulo: '6. Botão e servo', mostra: 'tudo', cabos: grupo('outros'), vista: 'iso', zoom: ['botao', 'servo', 'esp32'],
         texto: 'O botão vai num pino com interrupção (GPIO 4): é o caminho mais curto entre o dedo e o solenoide. O servo do escapement recebe 5 V do conversor e o sinal do GPIO 13.' },
     ],

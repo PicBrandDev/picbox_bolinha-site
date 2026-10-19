@@ -1,6 +1,6 @@
 /* Modulos eletronicos e sensores. Origem de toda PCB: centro da placa, face de BAIXO
    em z=0, componentes para +z. Furos e conectores pelas cotas do fabricante/anuncio. */
-import { R, caixa, caixaC, cil, cilC, tubo, uniao, corta } from '../lib/base.mjs';
+import { R, caixa, caixaC, cil, cilC, tubo, uniao, corta, extrudaPoliXZ } from '../lib/base.mjs';
 import { peca } from '../lib/registro.mjs';
 import { LINK } from './comprados.mjs';
 
@@ -38,23 +38,42 @@ peca('as5600', { nome: 'Encoder magnético AS5600 (módulo)', src: 'medir', dims
   return [placa, chip, cap, ...pinos(7, 0, -AS.d / 2 + 1.5, 0, true)];
 });
 
-/* ---------- fim de curso optico TCST2103 (placa de impressora 3D) ---------- */
-export const TC = { w: 33, d: 10.5, furo: 3.2, fx: 9.5, fenda: 3.1, alt: 10.8, corpoC: 24.5, corpoL: 6.3 };
-peca('tcst2103', { nome: 'Fim de curso óptico TCST2103 (placa)', src: 'medir', dims: '33 × 10,5 mm, fenda 3,1 mm, 3 pinos',
-  link: LINK.tcst2103, linha: 27,
-  conferir: ['tamanho da placa e distância entre furos', 'altura do sensor e largura da fenda'],
-  notas: ['A bandeira do carro passa DENTRO da fenda sem encostar: 1 mm de folga para cada lado.'] },
-() => {
-  const placa = pcb(TC.w, TC.d, [[TC.fx, 0, TC.furo], [-TC.fx, 0, TC.furo]], 'pcbPreto');
-  // Vishay doc 81147: bloco central de 11,9 com a fenda; abas de 3,1 com os furos a 19 mm
-  let corpo = caixaC(0, 0, E + TC.alt / 2, 11.9, TC.corpoL, TC.alt);
-  corpo = corpo.cut(caixaC(0, 0, E + TC.alt - 3.7, TC.fenda, TC.corpoL + 1, 7.5));
-  let abas = caixaC(0, 0, E + 1.55, TC.corpoC, TC.corpoL, 3.1);
-  [-1, 1].forEach(s => { abas = abas.cut(cilC(3.2, 5, [s * TC.fx, 0, E + 1.5], 'z')); });
-  corpo = corpo.fuse(abas);
-  const led = { forma: cilC(1.8, 1, [-13.5, 2.5, E + 0.5], 'z'), cor: 'vermelho' };
-  return [placa, { forma: corpo, cor: 'ic' }, led, ...pinos(3, 14.2, 0, E, false, 'y')];
-});
+/* ---------- fim de curso MECANICO (modulo de impressora 3D: microchave KW10 com alavanca) ----------
+   Placa ao longo de X, alavanca na ponta +X. A alavanca e apertada na direcao -Z (contra a placa).
+   Microchave KW10: corpo 12,8 x 5,8 x 6,5. Curso na ponta da alavanca: ~2 mm ate o clique
+   (pre-curso) e ~1,2 mm depois dele ate encostar no corpo (sobrecurso). */
+export const SW = { w: 40, d: 16, furo: 3.2, furos: [-16, 2], corpo: [6, 18.8], dobra: [6.5, 8.1], alav: 15.5, ang: 11,
+  pre: 2, sobre: 1.2 };
+SW.ponta = SW.dobra[0] + SW.alav * Math.cos(SW.ang * Math.PI / 180);                     // 21,7: ponta da alavanca (x)
+SW.h = SW.dobra[1] + SW.alav * Math.sin(SW.ang * Math.PI / 180) + 0.5;                    // 11,5: altura livre da alavanca
+function fimDeCurso() {
+  const placa = pcb(SW.w, SW.d, SW.furos.map(x => [x, 0, SW.furo]), 'pcbVermelho');
+  const [c0, c1] = SW.corpo, cx = (c0 + c1) / 2;
+  let corpo = caixaC(cx, 0, E + 3.25, c1 - c0, 5.8, 6.5);
+  [-1, 1].forEach(s => { corpo = corpo.cut(cilC(2.3, 7, [cx + s * 4.75, 0, E + 3.25], 'y')); });   // furos M2 a 9,5 da chave
+  const botao = caixaC(cx + 1.5, 0, E + 6.5 + 0.4, 2, 2.6, 0.8);
+  const [hx, hz] = SW.dobra, a = SW.ang * Math.PI / 180, L = SW.alav;
+  // alavanca de aco: fita de 0,5 x 4 inclinada; o carro encosta na ponta
+  const c = Math.cos(a), sn = Math.sin(a);
+  const alav = extrudaPoliXZ([[hx, hz], [hx + L * c, hz + L * sn], [hx + L * c - 0.5 * sn, hz + L * sn + 0.5 * c],
+    [hx - 0.5 * sn, hz + 0.5 * c]], 4, -2);
+  const conector = caixaC(-7.5, 0, E + 3.5, 7.5, 5.8, 7);
+  const led = { forma: caixaC(-7.5, 5.5, E + 0.4, 1.6, 0.8, 0.8), cor: 'vermelho' };
+  return [placa, { forma: corpo, cor: 'preto' }, { forma: botao, cor: 'vermelho' }, { forma: conector, cor: 'branco' }, led,
+    { forma: alav, cor: 'zincado' }];
+}
+peca('fc_mecanico', { nome: 'Fim de curso mecânico (módulo de impressora 3D, microchave com alavanca)', tipo: 'falta', src: 'medir',
+  dims: '40 × 16 mm, microchave KW10, conector de 3 pinos', link: 'https://lista.mercadolivre.com.br/fim-de-curso-mecanico-impressora-3d',
+  conferir: ['tamanho da placa e posição dos 2 furos', 'altura da alavanca solta e onde ela clica (aperte devagar com o paquímetro)',
+    'qual pino é S, − e + (vem impresso na placa)'],
+  notas: ['3 unidades: 2 no eixo B, 1 no eixo A (direita). Substitui os TCST2103 ópticos da planilha.',
+    'O suporte impresso tem a face maciça: se os furos da sua placa forem diferentes, use a placa como gabarito e fure com broca de 2,5 mm.'] },
+fimDeCurso);
+// as 2 metades, so para a animacao (a alavanca gira na dobra)
+peca('fc_mecanico_base', { nome: 'Fim de curso mecânico (placa e microchave)', src: 'medir', didatico: true, dims: '40 × 16 mm' },
+  () => fimDeCurso().slice(0, -1));
+peca('fc_mecanico_alav', { nome: 'Fim de curso mecânico (alavanca)', src: 'medir', didatico: true, dims: 'alavanca de 15,5 mm' },
+  () => fimDeCurso().slice(-1));
 
 /* ---------- LED IR e fototransistor 5 mm ---------- */
 function led5(cor) {
@@ -119,7 +138,7 @@ peca('esp32', { nome: 'ESP32 DevKit V1 (30 pinos)', src: 'medir', dims: '51,8 ×
 });
 
 /* ---------- itens da eletronica que a planilha nao tem ---------- */
-peca('buck_lm2596', { nome: 'Conversor DC-DC LM2596 (12 V → 5 V)', tipo: 'falta', src: 'medir', dims: '43 × 21 × 14 mm, 2 furos Ø3',
+peca('buck_lm2596', { nome: 'Conversor DC-DC LM2596 (12 V → 5 V)', src: 'medir', dims: '43 × 21 × 14 mm, 2 furos Ø3',
   link: 'https://lista.mercadolivre.com.br/regulador-tensao-lm2596',
   conferir: ['posição dos 2 furos (variam entre fabricantes)'],
   notas: ['Ajuste a saída para 5,0 V com o multímetro ANTES de ligar o ESP32 (trimpot azul).', 'Alimenta ESP32 (VIN), servo e LEDs IR.'] },
@@ -130,10 +149,10 @@ peca('buck_lm2596', { nome: 'Conversor DC-DC LM2596 (12 V → 5 V)', tipo: 'falt
   const pot = { forma: caixaC(-5, -7, E + 5, 9.5, 4.8, 10), cor: 'pcbAzul' };
   return [placa, indutor, caps, pot];
 });
-peca('mosfet_logico', { nome: 'Módulo MOSFET de nível lógico (IRLZ44N ou AOD4184)', tipo: 'falta', src: 'medir', dims: '34 × 17 mm, 2 furos Ø3',
+peca('mosfet_logico', { nome: 'Módulo MOSFET de nível lógico (IRLZ44N ou AOD4184)', src: 'medir', dims: '34 × 17 mm, 2 furos Ø3',
   link: 'https://lista.mercadolivre.com.br/modulo-mosfet-d4184',
   conferir: ['tamanho e furos'],
-  notas: ['Conduz totalmente com 3,3 V no gate (o IRF520 da planilha precisa de ~10 V). Use para os 2 solenoides e o motor do elevador.',
+  notas: ['Conduz totalmente com 3,3 V no gate (o IRF520 da planilha precisa de ~10 V). Use para os 2 solenoides.',
     'Diodo 1N4007 em paralelo com cada carga, faixa no +12 V — protege o MOSFET do pico na hora de desligar.'] },
 () => {
   const placa = pcb(34, 17, [[-14, 5.5, 3], [-14, -5.5, 3]], 'pcbVerde');
@@ -141,7 +160,7 @@ peca('mosfet_logico', { nome: 'Módulo MOSFET de nível lógico (IRLZ44N ou AOD4
   const borne = { forma: caixaC(11, 0, E + 5, 7.5, 15, 10), cor: 'pcbAzul' };
   return [placa, tr, borne, ...pinos(3, -9, 0, E, false, 'y')];
 });
-peca('base_driver', { nome: 'Placa base para driver de passo (com bornes e microchaves)', tipo: 'falta', src: 'medir', dims: '41 × 37 mm, 4 furos Ø3',
+peca('base_driver', { nome: 'Placa base para driver de passo (com bornes e microchaves)', src: 'medir', dims: '41 × 37 mm, 4 furos Ø3',
   link: 'https://lista.mercadolivre.com.br/placa-expansao-driver-a4988-drv8825',
   conferir: ['tamanho e furos'],
   notas: ['O TMC2209 encaixa nela; ela traz borne de 12 V, capacitor de 100 µF e conector do motor. Evita fiação solta no driver.',

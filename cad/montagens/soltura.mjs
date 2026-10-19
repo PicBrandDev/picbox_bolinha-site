@@ -13,7 +13,7 @@
 import { caixa, cil, cilC, uniao, extrudaPoli, FOLGA } from '../lib/base.mjs';
 import { peca, inst } from '../lib/registro.mjs';
 import { T } from '../lib/mat.mjs';
-import { EX } from './eixo.mjs';
+import { EX, posFC } from './eixo.mjs';
 import { PROJ } from '../lib/projeto.mjs';
 import { SOL } from '../pecas/comprados.mjs';
 
@@ -82,7 +82,7 @@ function instancias() {
   // pecas FIXAS do eixo, invisiveis: so para a varredura do carro com a carga ate os extremos
   add('fx_motor', 'eixo_bloco_motor', A(r.t(EX.xPe, 0, 0)), { contexto: true, oculta: true });
   add('fx_tensor', 'eixo_bloco_tensor_semfc', A(r.t(-EX.xPe, 0, 0)), { contexto: true, oculta: true });
-  add('fx_fc_m', 'tcst2103', A(r.ry(-90).t(EX.xPlacaFC, 0, EX.zFC)), { contexto: true, oculta: true });
+  add('fx_fc_m', 'fc_mecanico', A(posFC(1)), { contexto: true, oculta: true });
   // solenoide: embolo apontando para a bola (-y), furos para cima
   add('solenoide', 'sol_jf0826', r.rx(90).t(0, SO.ySol, SO.zb));
   add('berco', 'soltura_berco', r.t(0, -40, -40));

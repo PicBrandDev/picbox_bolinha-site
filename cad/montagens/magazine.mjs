@@ -250,7 +250,7 @@ peca('mag_presilha', Object.assign({}, IMP, { nome: 'Sela do tubo', dims: '16 ×
   impressao: { preenchimento: '30 %', paredes: 3, suportes: 'não', tempo: '40 min' },
   notas: ['Parafusada no painel por 2 parafusos de madeira; o tubo fica preso por uma abraçadeira de nylon de 3,6 mm.'] }),
 () => [{ forma: presilha(0, 0).translate(0, -MG.y, 0), cor: 'impresso' }]);
-peca('mag_painel', { nome: 'Painel do magazine (MDF 6 mm)', tipo: 'falta', src: 'est', dims: '338 × 6 × 200 mm',
+peca('mag_painel', { nome: 'Painel do magazine (MDF 6 mm)', tipo: 'cortar', src: 'est', dims: '338 × 6 × 200 mm',
   link: 'https://lista.mercadolivre.com.br/mdf-6mm-sob-medida',
   notas: ['Peça cortada. Fica 104 mm atrás do trilho A, preso na parede do fundo por 4 espaçadores impressos.'] },
 () => [{ forma: caixa(-205, 0, -100, 133, 6, 100), cor: 'mdf' }]);

@@ -19,7 +19,7 @@ import { peca, inst } from '../lib/registro.mjs';
 import { T } from '../lib/mat.mjs';
 import { PROJ } from '../lib/projeto.mjs';
 import { MGN, NEMA, GT2P, LINK } from '../pecas/comprados.mjs';
-import { TC } from '../pecas/eletronicos.mjs';
+import { SW } from '../pecas/eletronicos.mjs';
 import { correiaLaco } from '../pecas/correia.mjs';
 
 export const EX = {
@@ -36,24 +36,27 @@ export const EX = {
   zPatim: 9,                        // topo do patim
   zPlaca: 14,                       // topo da placa do carro
   curso: PROJ.curso,                // 280
-  zFC: 31.5,                        // altura da bandeira/fenda do fim de curso
+  zFC: 42,                          // centro da placa do fim de curso (placa em pe, alavanca para baixo)
 };
-/* o feixe e cortado DENTRO do curso (x = +-136, curso +-140): o carro passa pelo sensor a cada
-   vai-e-volta e o firmware confere a contagem de passos toda vez — e isso que substitui o
-   encoder. A aleta entra mais 4 mm (a fenda tem 7,4 de fundo). */
-EX.xHome = EX.curso / 2 - 4;        // 136
-EX.aleta = 31;                       // ponta da aleta, a partir do centro do patim
-EX.xSensor = EX.xHome + EX.aleta - 2.6;          // face aberta do TCST2103 (eixo optico 2,6 para dentro)
-EX.xPlacaFC = EX.xSensor + TC.alt + 1.6;         // costas da placa do sensor
-EX.espFC = EX.xPe - EX.xPlacaFC;                 // espacador ate o pe
+/* fim de curso MECANICO, FORA do curso de jogo: a alavanca de uma microchave so aguenta ~1,2 mm
+   depois do clique, entao o carro nao pode passar por ela em velocidade de jogo. Em jogo (+-140)
+   o batente do carro para 1 mm antes da alavanca; o firmware so encosta nela devagar (referencia
+   ao ligar e conferencia de passos na volta para a espera). */
+EX.xLivre = EX.curso / 2 + 1;                    // 141: batente encosta na alavanca solta
+EX.xHome = EX.xLivre + SW.pre;                   // 143: clique
+EX.xFim = EX.xHome + SW.sobre;                   // 144,2: alavanca encostada no corpo da chave
+EX.batente = 29;                                 // face do batente, a partir do centro do patim
+EX.xPlacaFC = EX.xLivre + EX.batente + SW.h;     // costas da placa do fim de curso
+EX.xSupFC = EX.xPlacaFC + 3;                     // face do braco (3 mm de pezinhos: solda atras da placa)
+EX.zBatente = EX.zFC - SW.ponta + 1.9;           // topo do batente: so a ponta da alavanca e tocada
 const IMP = { tipo: 'impresso', src: 'est', material: 'PETG' };
 const YG = [EX.yC - 6.45, EX.yC + 6.45];   // furos da garra e das presilhas (simetricos)
 
 /* ---------------------------------------------------------------- polia tensora */
-peca('polia_gt2_20t_tensora', { nome: 'Polia tensora GT2 20 dentes, furo 5 mm (com rolamento)', tipo: 'falta', src: 'cat',
+peca('polia_gt2_20t_tensora', { nome: 'Polia tensora GT2 20 dentes, furo 5 mm (com rolamento)', src: 'cat',
   dims: 'Ø18 × 8,5 mm, dentada, furo 5', link: 'https://lista.mercadolivre.com.br/polia-tensora-gt2-20-dentes-5mm',
-  notas: ['Falta comprar 2 (uma por eixo). Já vem com rolamento: gira solta no parafuso M5.',
-    'Não use a polia de furo 6,35 da planilha como tensora: ela não tem rolamento.'] },
+  notas: ['Vocês já têm. 2 unidades (uma por eixo). Tem rolamento: gira solta no parafuso M5.',
+    'Não use a polia de furo 6,35 como tensora: ela não tem rolamento.'] },
 () => {
   const f = (z) => cil(18, 1, [0, 0, z], 'z');
   let d = cil(12.2, 6.5, [0, 0, 1], 'z');
@@ -72,9 +75,9 @@ peca('polia_gt2_20t_tensora', { nome: 'Polia tensora GT2 20 dentes, furo 5 mm (c
 function blocoPonta(sx, comFC) {
   const X = v => sx * v;
   const xa = EX.xPe, xb = EX.parede;
-  // pe: 7,5 mm contra a parede. Sobe ate z=50 na faixa do fim de curso.
+  // pe: 7,5 mm contra a parede. Do lado do fim de curso sobe um braco macico ate a placa da chave.
   let pe = caixa(X(xa), -14, -34, X(xb), EX.yPl1, 24);
-  if (comFC !== false) pe = pe.fuse(caixa(X(xa), -9, 24, X(xb), 9, 50));
+  if (comFC !== false) pe = pe.fuse(caixa(X(EX.xSupFC), -9, 20, X(xb), 9, EX.zFC + SW.w / 2 + 2));
   // abas do perfil (frente e tras), cada uma com um furo M5
   const abaF = caixa(X(180), -14, -24, X(xa), -10, -4);
   const abaT = caixa(X(180), 10, -24, X(xa), 14, -4);
@@ -83,16 +86,17 @@ function blocoPonta(sx, comFC) {
   // mãos-francesas entre o pe e a placa (acima e abaixo da polia)
   const mf = z0 => extrudaPoli([[X(xa), 26], [X(xa), EX.yPl0], [X(188), EX.yPl0]], 8, z0);
   let b = uniao([pe, abaF, abaT, placa, mf(16), mf(-24)]);
-  // espacadores do fim de curso: a placa do TCST2103 fica 7,2 mm a frente do pe
-  if (comFC !== false) [EX.zFC - TC.fx, EX.zFC + TC.fx].forEach(z => { b = b.fuse(cil(7, EX.espFC, [X(xa), 0, z], sx > 0 ? '-x' : 'x')); });
+  // pezinhos da placa do fim de curso (a solda dos pinos fica no vao de 3 mm)
+  const zFuro = SW.furos.map(x => EX.zFC - x);
+  if (comFC !== false) zFuro.forEach(z => { b = b.fuse(cil(7, 3.01, [X(EX.xSupFC + 0.01), 0, z], sx > 0 ? '-x' : 'x')); });
   // furos M5 das abas (eixo y)
   b = b.cut(cilC(FOLGA.m5, 40, [X(190), 0, EX.zPerfil], 'y'));
   // 4 parafusos de madeira para a parede, cabeca do lado de dentro (face x = 200)
   [[-7, 17], [22, 18], [-7, -29], [22, -29]].forEach(([y, z]) => {
     b = b.cut(escareado([X(xa), y, z], 'x', -sx, 20));
   });
-  // espera do fim de curso: furo-guia de 2,8 no espacador (o parafuso M3 rosqueia no plastico)
-  if (comFC !== false) [EX.zFC - TC.fx, EX.zFC + TC.fx].forEach(z => { b = b.cut(cilC(2.8, 28, [X(EX.xPlacaFC), 0, z], 'x')); });
+  // furo-guia de 2,5 (o parafuso M3 rosqueia no plastico), 11 mm de fundo
+  if (comFC !== false) zFuro.forEach(z => { b = b.cut(cilC(2.5, 22, [X(EX.xPlacaFC), 0, z], 'x')); });
   return b;
 }
 function blocoMotor() {
@@ -133,16 +137,12 @@ function deslizador() {
   return s;
 }
 // PLACA DO CARRO: 4 parafusos no patim, 2 esperas para a carga (berco ou boca), 2 para a garra,
-// e as duas bandeiras do fim de curso
+// e os dois batentes que apertam a alavanca do fim de curso
 function placaCarro() {
   const z0 = EX.zPatim, z1 = EX.zPlaca;
   let p = caixa(-25, -29, z0, 25, 34, z1).fillet(3, e => e.inDirection('Z'));
-  // bandeiras: torre na ponta + aleta horizontal que entra na fenda do TCST2103
-  [-1, 1].forEach(s => {
-    const torre = caixa(s * 14, -3, z1 - 0.5, s * 19, 3, EX.zFC + 0.8);
-    const aleta = caixa(s * 18.5, -3, EX.zFC - 0.8, s * EX.aleta, 3, EX.zFC + 0.8);
-    p = p.fuse(torre).fuse(aleta);
-  });
+  // batentes: bloco baixo nas pontas, so alcanca a ponta da alavanca (nunca o corpo da chave)
+  [-1, 1].forEach(s => { p = p.fuse(caixa(s * 17, -4, z1 - 0.5, s * EX.batente, 4, EX.zBatente)); });
   [[-1, -1], [-1, 1], [1, -1], [1, 1]].forEach(([a, c]) => {
     p = p.cut(cilC(FOLGA.m3, 20, [a * MGN.C / 2, c * MGN.B / 2, z0], 'z'));
   });
@@ -191,16 +191,16 @@ reg('eixo_bloco_tensor', { nome: 'Bloco de ponta do TENSOR', dims: '54 × 55 × 
 blocoTensor, [-EX.xPe, 0, 0], { rot: [['y', 90]] });
 reg('eixo_bloco_tensor_semfc', { nome: 'Bloco de ponta do TENSOR, sem fim de curso (só eixo A)', dims: '54 × 55 × 58 mm',
   impressao: { preenchimento: '40 %', paredes: 4, suportes: 'não', tempo: '≈ 2 h 30' },
-  notas: ['No eixo A, à esquerda, passa a calha que leva a bola do magazine até o berço: ali não cabe o sensor.',
+  notas: ['No eixo A, à esquerda, passa a calha que leva a bola do magazine até o berço: ali não cabe o fim de curso.',
     'O eixo A confere os passos só pelo sensor da direita, que ele cruza a cada vai-e-volta.'] },
 () => blocoTensor(false), [-EX.xPe, 0, 0], { rot: [['y', 90]] });
 reg('eixo_deslizador', { nome: 'Deslizador do tensor', dims: '14 × 6,7 × 28 mm', cor: 'impresso2',
   impressao: { preenchimento: '60 %', paredes: 4, suportes: 'não', tempo: '20 min' },
   notas: ['Leva a porca M5 da polia e 2 porcas M3 das travas, todas viradas para a placa: não caem depois de montado.'] },
 deslizador, [-EX.xP, TENS.y0, 0], { rot: [['x', 90]] });
-reg('eixo_placa_carro', { nome: 'Placa do carro', dims: '50 × 63 × 5 mm + bandeiras', cor: 'impresso2',
-  impressao: { preenchimento: '50 %', paredes: 4, suportes: 'não (bandeiras para cima)', tempo: '≈ 1 h 30' },
-  notas: ['As duas aletas nas pontas são as BANDEIRAS dos fins de curso: entram na fenda do sensor quando o carro chega ao fim.',
+reg('eixo_placa_carro', { nome: 'Placa do carro', dims: '58 × 63 × 5 mm + batentes', cor: 'impresso2',
+  impressao: { preenchimento: '50 %', paredes: 4, suportes: 'não (batentes para cima)', tempo: '≈ 1 h 15' },
+  notas: ['Os dois blocos nas pontas são os BATENTES dos fins de curso: só alcançam a ponta da alavanca da microchave.',
     'Os 2 furos da frente (com porca por baixo) prendem o berço (eixo A) ou a boca (eixo B).'] },
 placaCarro, [0, 0, EX.zPatim], null);
 reg('eixo_garra', { nome: 'Garra da correia', dims: '28 × 19,5 × 7 mm', cor: 'impresso2',
@@ -223,6 +223,8 @@ peca('correia_eixo', { nome: 'Correia GT2 6 mm (laço do eixo)', tipo: 'comprado
   .map(f => ({ forma: f, cor: 'correia' })));
 
 /* ================================================================= INSTANCIAS */
+// placa do fim de curso: z local (componentes) para o centro, x local (alavanca) para baixo
+export const posFC = sx => (sx > 0 ? T.of().ry(-90).rx(180) : T.of().ry(90)).t(sx * EX.xPlacaFC, 0, EX.zFC);
 function instancias() {
   const I = [];
   const add = (id, p, t, extra) => I.push(inst(id, p, t, extra));
@@ -278,12 +280,11 @@ function instancias() {
   }));
   // correia
   add('correia', 'correia_eixo', r, { semColisao: true });   // dente com dente na polia: contato de proposito
-  // fins de curso: placa de pe, sensor virado para o centro
+  // fins de curso: placa em pe no braco, alavanca virada para o carro e com a ponta para baixo
   [1, -1].forEach(sx => {
     const k = sx > 0 ? 'm' : 't';
-    add('fc_' + k, 'tcst2103', r.ry(-90 * sx).t(sx * EX.xPlacaFC, 0, EX.zFC));
-    // o parafuso apoia na ABA do sensor (3,1 mm acima da placa)
-    [-1, 1].forEach((s, j) => add(`p_fc_${k}_${j}`, 'din912_m3x16', r.ry(-90 * sx).t(sx * (EX.xPlacaFC - 1.6 - 3.1), 0, EX.zFC + s * TC.fx)));
+    add('fc_' + k, 'fc_mecanico', posFC(sx));
+    SW.furos.forEach((x, j) => add(`p_fc_${k}_${j}`, 'din912_m3x12', r.ry(-90 * sx).t(sx * (EX.xPlacaFC - 1.6), 0, EX.zFC - x)));
   });
   // variante do eixo A, mostrada ao lado (so no ultimo passo)
   add('bloco_tensor_A', 'eixo_bloco_tensor_semfc', r.t(-EX.xPe, -150, 0), { semColisao: true, oculta: true });
@@ -306,12 +307,15 @@ export function moduloEixo() {
     espelhoA: true,
     nome: 'Eixo linear',
     subtitulo: 'Monte 2 iguais: eixo A (bola, de cabeça para baixo) e eixo B (buraco)',
-    resumo: 'Trilho MGN12 sobre perfil de alumínio, patim com placa impressa, motor NEMA 17 numa ponta e polia tensora na outra, correia GT2 presa na garra do carro e dois fins de curso ópticos.',
+    resumo: 'Trilho MGN12 sobre perfil de alumínio, patim com placa impressa, motor NEMA 17 numa ponta e polia tensora na outra, correia GT2 presa na garra do carro e dois fins de curso mecânicos.',
     tempo: '≈ 1 h 30 por eixo (sem contar a impressão)',
     instancias: I,
     // o carro inteiro nos dois extremos do curso, contra tudo o que e fixo
     varredura: [{ ids: ['patim', 'placa', 'garra', 'presilha_0', 'presilha_1'], desloc: [[EX.curso / 2, 0, 0], [-EX.curso / 2, 0, 0]],
-      ignora: ['trilho', 'perfil', 'gab_0', 'gab_1', 'gab_2'] }],
+      ignora: ['trilho', 'perfil', 'gab_0', 'gab_1', 'gab_2'] },
+    // referencia: carro ate a alavanca deitar no corpo da chave (a alavanca cede: fica fora)
+    { ids: ['patim', 'placa', 'garra', 'presilha_0', 'presilha_1'], desloc: [[EX.xFim, 0, 0], [-EX.xFim, 0, 0]],
+      ignora: ['trilho', 'perfil', 'gab_0', 'gab_1', 'gab_2', 'fc_m', 'fc_t'] }],
     passos: [
       { titulo: 'Conheça as peças', vista: 'iso', mostra: 'tudo', explode: 1,
         texto: 'Este é o eixo B completo, com as peças afastadas. O eixo A é idêntico, só que montado de cabeça para baixo (o patim fica pendurado embaixo do trilho). Cores: <b>cinza</b> = comprado, <b>laranja</b> = impresso fixo, <b>azul</b> = impresso que se move.',
@@ -327,7 +331,7 @@ export function moduloEixo() {
         confira: ['O trilho não mexe de lado.', 'Passe o dedo na emenda trilho/perfil: nenhum degrau nas pontas.'],
         atencao: ['M3×8 é o comprimento certo: um M3×10 bate no fundo do perfil e entorta o trilho.'] },
       { titulo: 'Placa do carro', novos: ['patim', 'placa', ...ids('p_placa_'), ...ids('porca_carga_')], remove: ids('gab_'), vista: 'iso',
-        texto: 'Tire os 3 gabaritos (já cumpriram a função). Coloque as 2 porcas M3 nos encaixes sextavados de baixo da placa do carro (as da frente). Apoie a placa sobre o patim com as bandeiras para cima e prenda com 4 parafusos M3×8.',
+        texto: 'Tire os 3 gabaritos (já cumpriram a função). Coloque as 2 porcas M3 nos encaixes sextavados de baixo da placa do carro (as da frente). Apoie a placa sobre o patim com os batentes para cima e prenda com 4 parafusos M3×8.',
         ferramentas: ['chave allen 2,5 mm'],
         atencao: ['O patim só tem 3,5 mm de rosca. Parafuso maior que M3×8 trava as esferas.'],
         confira: ['O carro corre de ponta a ponta sem ponto duro.'] },
@@ -361,13 +365,19 @@ export function moduloEixo() {
         texto: 'Aperte o parafuso tensor M3×16 aos poucos. Pare quando o ramo de cima, apertado no meio com um dedo, afundar uns 3 mm. Toque nele: tem que soar um "tum" grave (≈110 Hz — um app de afinador de violão mede). Então aperte as 2 travas M3 de trás.',
         ferramentas: ['chave allen 2,5 mm'],
         atencao: ['Correia esticada demais gasta o rolamento do motor; frouxa demais pula dente na inversão — é a folga que o PROJETO.md chama de risco.'] },
-      { titulo: 'Fins de curso', novos: [...ids('fc_'), ...ids('p_fc_')], vista: 'frente',
-        texto: 'Parafuse cada placa TCST2103 nos 2 espaçadores altos do bloco de ponta com parafusos M3×16 (rosqueiam no plástico), sensor virado para o centro, fenda na horizontal. Leve o carro devagar até a ponta: a aleta da placa do carro entra no meio da fenda e corta o feixe com o carro a 136 mm do centro — 4 mm ANTES do fim do curso (140). É de propósito: o carro cruza o sensor a cada vai-e-volta e o firmware confere ali se nenhum passo foi perdido.',
+      { titulo: 'Fins de curso', novos: [...ids('fc_'), ...ids('p_fc_')], vista: 'frente', zoom: ['fc_m', 'bloco_motor'],
+        texto: 'Parafuse cada fim de curso mecânico no braço do bloco de ponta com 2 parafusos M3×12 (rosqueiam no plástico): placa em pé sobre os 2 pezinhos, microchave virada para o centro, alavanca com a ponta para BAIXO. Leve o carro à mão até a ponta: o batente da placa do carro encosta na ponta da alavanca com o carro a ' + EX.xLivre + ' mm do centro e a chave clica a ' + EX.xHome + ' mm — fora do curso de jogo (140). A aba "Como funciona: fim de curso" mostra por quê.',
         ferramentas: ['chave allen 2,5 mm'],
-        confira: ['Com a placa ligada, o LED do sensor muda quando a aleta entra.', 'No fim do curso (140 mm) a aleta ainda não encostou no fundo da fenda.'] },
+        porques: [
+          { alvo: 'fc_m', em: [-6, -20, 0], titulo: 'Por que fora do curso de jogo', resumo: 'A alavanca só aguenta ~1,2 mm depois do clique.',
+            texto: 'Em velocidade de jogo o carro precisaria de vários milímetros para frear e entortaria a alavanca. Em jogo ele para em 140 mm, 1 mm antes de tocar; a chave só é apertada devagar, na referência (ao ligar e uma vez por partida).' },
+          { alvo: 'placa', em: [EX.batente - 4, -10, 2], titulo: 'Por que o batente é baixo', resumo: 'Só toca a ponta da alavanca, nunca o corpo da chave.',
+            texto: 'O batente passa por baixo do corpo preto da microchave: mesmo se o carro passar do clique, ele empurra uma lâmina de aço flexível, não uma caixa de plástico.' }],
+        confira: ['Com a placa ligada, o LED do fim de curso acende no clique.', 'Com o carro em 140 mm, sobra uma fresta (~1 mm) entre o batente e a alavanca.', 'Depois do clique, a alavanca ainda cede um pouco antes de deitar no corpo da chave.'],
+        atencao: ['Furação diferente na sua placa? Encoste-a no braço, marque pelos furos dela e fure com broca de 2,5 mm.'] },
       { titulo: 'Eixo A: o que muda', novos: ['bloco_tensor_A'], vista: 'iso', zoom: ['bloco_tensor_A', 'bloco_tensor'],
-        texto: 'O eixo A é este mesmo conjunto montado de cabeça para baixo, com 2 diferenças: (1) as peças impressas são as do arquivo "STL A" (espelhadas); (2) na ESQUERDA use o bloco tensor SEM o braço do fim de curso (à frente, em destaque) e não instale o sensor da esquerda. Por ali passa a calha que leva a bola do magazine até o berço.',
-        atencao: ['O eixo A confere os passos só pelo sensor da direita — ele o cruza a cada jogada.'] },
+        texto: 'O eixo A é este mesmo conjunto montado de cabeça para baixo, com 2 diferenças: (1) as peças impressas são as do arquivo "STL A" (espelhadas); (2) na ESQUERDA use o bloco tensor SEM o braço do fim de curso (à frente, em destaque) e não instale o fim de curso da esquerda. Por ali passa a calha que leva a bola do magazine até o berço.',
+        atencao: ['O eixo A faz a referência só pelo fim de curso da direita.'] },
       { titulo: 'Instalação no gabinete', novos: [...ids('mad_')], vista: 'iso', mostra: 'tudo',
         texto: 'O eixo inteiro mede exatamente a largura interna do gabinete (414 mm). Entre com ele pela frente, encoste os pés nas laterais na altura marcada e prenda cada pé com 4 parafusos de madeira 3,5×20 por dentro. Eixo B: trilho em cima. Eixo A: o mesmo conjunto de cabeça para baixo (patim embaixo).',
         ferramentas: ['chave Phillips nº 2', 'nível de bolha'],

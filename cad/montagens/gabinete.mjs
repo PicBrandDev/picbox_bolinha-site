@@ -15,7 +15,6 @@ import { EL } from './elevador.mjs';
 
 const L = PROJ.lado, H = 1700, P = 18, I2 = L / 2 - P;          // 207: face de dentro
 export const GB = { L, H, P, painel: 1050, campo: 1100, testeira: 1550, div: 1082, fonte: 162, logica: 412 };
-const CORTE = 'cortar';
 
 // cada painel: [id, nome, caixa (x0,y0,z0,x1,y1,z1), notas, furos/recortes?]
 const PAINEIS = [
@@ -38,7 +37,7 @@ function divisoria() {
   d = d.cut(cilC(40, 40, [-170, 170, GB.div + 9], 'z'));
   return d;
 }
-PAINEIS.forEach(([id, nome, b, nota]) => peca(id, { nome: `Gabinete — ${nome} (MDF 18)`, tipo: CORTE, src: 'est',
+PAINEIS.forEach(([id, nome, b, nota]) => peca(id, { nome: `Gabinete — ${nome} (MDF 18)`, tipo: 'comprado', src: 'est',
   dims: [b[3] - b[0], b[4] - b[1], b[5] - b[2]].map(v => v.toFixed(0)).sort((a, c) => c - a).join(' × ') + ' mm',
   link: 'https://lista.mercadolivre.com.br/mdf-18mm-sob-medida', notas: [nota] },
 () => {
@@ -46,19 +45,19 @@ PAINEIS.forEach(([id, nome, b, nota]) => peca(id, { nome: `Gabinete — ${nome} 
   if (id === 'gab_painel') f = f.cut(cilC(25, 60, [0, -L / 2 + 9, GB.painel + 15], 'y'));   // baixo: a microchave nao pode bater na divisoria (1082)
   return [{ forma: f, cor: 'mdf' }];
 }));
-peca('gab_divisoria', { nome: 'Gabinete — Divisória do campo (MDF 18)', tipo: CORTE, src: 'est', dims: '414 × 414 × 18 mm (com recorte)',
+peca('gab_divisoria', { nome: 'Gabinete — Divisória do campo (MDF 18)', tipo: 'comprado', src: 'est', dims: '414 × 414 × 18 mm (com recorte)',
   link: 'https://lista.mercadolivre.com.br/mdf-18mm-sob-medida',
   notas: ['Fecha o campo de jogo por baixo e apoia a bandeja (calços). Recorte de ' + (I2 - EL.xPe + 3).toFixed(0) + ' × ' + (I2 - EL.y + 60).toFixed(0) + ' mm no canto de trás à direita para a coluna do elevador; furo de 40 mm atrás à esquerda para os cabos.'] },
 () => [{ forma: divisoria(), cor: 'mdf' }]);
-peca('gab_frente', { nome: 'Frente do campo (policarbonato 4 mm)', tipo: 'falta', src: 'est', dims: '412 × 448 × 4 mm',
+peca('gab_frente', { nome: 'Frente do campo (acrílico/vidro — já têm)', tipo: 'comprado', src: 'est', dims: '412 × 448 × 4 mm',
   link: 'https://lista.mercadolivre.com.br/policarbonato-compacto-4mm',
-  notas: ['Policarbonato (não vidro, não acrílico): máquina em local público leva soco. Ele não estilhaça.',
+  notas: ['Vocês já têm. Se for vidro, que seja temperado; se for acrílico, 4 mm ou mais (em local público, policarbonato é o mais seguro: não estilhaça).',
     'Encaixa num rebaixo de 5 mm nas laterais, preso por 4 presilhas impressas: sai para manutenção.'] },
 () => [{ forma: caixa(-I2 + 1, -L / 2 + 8, GB.campo + 1, I2 - 1, -L / 2 + 12, GB.testeira - 1), cor: 'acrilico' }]);
-peca('gab_dobradica', { nome: 'Dobradiça 3" (porta do pedestal)', tipo: 'falta', src: 'cat', dims: '76 × 38 mm',
+peca('gab_dobradica', { nome: 'Dobradiça 3" (porta do pedestal)', tipo: 'comprado', src: 'cat', dims: '76 × 38 mm',
   link: 'https://lista.mercadolivre.com.br/dobradica-3-polegadas', notas: ['2 unidades.'] },
 () => [{ forma: caixa(-1, -19, -38, 1, 19, 38), cor: 'zincado' }]);
-peca('gab_fechadura', { nome: 'Fechadura de gaveta (porta do pedestal)', tipo: 'falta', src: 'cat', dims: 'Ø19 × 22 mm',
+peca('gab_fechadura', { nome: 'Fechadura de gaveta (porta do pedestal)', tipo: 'comprado', src: 'cat', dims: 'Ø19 × 22 mm',
   link: 'https://lista.mercadolivre.com.br/fechadura-gaveta-cilindro', notas: ['Máquina com prêmio: a eletrônica e o dinheiro ficam trancados.'] },
 () => [{ forma: cilC(19, 22, [0, 0, 0], 'y'), cor: 'latao' }]);
 
@@ -83,15 +82,15 @@ export function moduloGabinete() {
   const ids = pre => I.filter(i => i.id.startsWith(pre)).map(i => i.id);
   return {
     id: 'gabinete', nome: 'Gabinete',
-    subtitulo: '450 × 450 × 1700, MDF 18 mm. A caixa vai primeiro; a frente e o teto, por último.',
+    subtitulo: 'Vocês já têm o gabinete: use esta aba para CONFERIR as medidas que o projeto assume (450 × 450 × 1700, MDF 18, 414 mm por dentro).',
     resumo: 'Plano de corte do MDF, ordem de montagem da caixa, prateleiras, divisória do campo, porta do pedestal, painel do botão e frente de policarbonato.',
     tempo: '≈ 1 dia (marcenaria) + acabamento',
     instancias: I,
     passos: [
       { titulo: 'Conheça as peças', mostra: 'tudo', explode: 0.25, vista: 'iso',
         texto: 'Uma torre de MDF 18 mm. O campo de jogo fica entre 1100 e 1550 mm, atrás de uma frente transparente; embaixo, o pedestal com a eletrônica, atrás de uma porta com chave.' },
-      { titulo: 'Plano de corte', mostra: 'tudo', vista: 'iso', tabela: PLANO,
-        texto: 'Peça na marcenaria já cortado (madeireira com seccionadora): esquadro perfeito importa mais que tudo aqui — os eixos foram desenhados para exatamente 414 mm por dentro.',
+      { titulo: 'Medidas que o projeto assume', mostra: 'tudo', vista: 'iso', tabela: PLANO, tabelaTitulo: 'Medidas do projeto (confira no seu gabinete)', tabelaCab: ['peça', 'medida (mm)', 'obs.'],
+        texto: 'O gabinete de vocês já existe. Meça e compare com esta tabela — principalmente a <b>largura por dentro (414 mm)</b>, que é o comprimento dos eixos, e as alturas da divisória (1082–1100), do painel do botão (1050–1100) e da testeira (1550). Se alguma medida for diferente, passe para o projeto: as alturas e o comprimento dos eixos são parâmetros e o modelo se ajusta.',
         atencao: ['Confira 414 mm entre as laterais por dentro, em cima e embaixo, ANTES de parafusar o resto. 1 mm a mais e os pés dos eixos ficam soltos; 1 mm a menos e não entram.'] },
       { titulo: 'Caixa: piso, laterais e fundo', novos: ['g_piso', 'g_lat_e', 'g_lat_d', 'g_fundo'], vista: 'iso',
         texto: 'Piso entre as laterais, com cola + parafusos para MDF 4,0×45 (furo-guia de 3 mm, 4 por junta). O fundo vai só parafusado (sem cola): ele é a porta de manutenção do campo.',

@@ -114,6 +114,7 @@ export const COR = {
   pcbRoxo:   { c: '#5b2a86', m: 0.1,  r: 0.5 },
   pcbVerde:  { c: '#1f6b3a', m: 0.1,  r: 0.5 },
   pcbPreto:  { c: '#202428', m: 0.1,  r: 0.5 },
+  pcbVermelho: { c: '#a3201d', m: 0.1, r: 0.5 },
   ic:        { c: '#111111', m: 0.2,  r: 0.5 },
   cobre:     { c: '#c77a3a', m: 0.9,  r: 0.35 },
   branco:    { c: '#e8e8e2', m: 0.0,  r: 0.6 },

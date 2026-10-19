@@ -377,6 +377,7 @@ export function moduloAltPistao() {
             texto: 'Cada bola que volta é um ciclo do pistão. Com 120 partidas por dia de até 8 rodadas, são ~1000 ciclos/dia. Atuadores lineares de 12 V baratos são feitos para abrir e fechar coisas algumas vezes por dia (vida de 10–50 mil ciclos): durariam semanas. Se for por esse caminho, o "pistão" deve ser um NEMA 17 com manivela ou came — a mesma bomba, com vida praticamente infinita.' },
         ] },
       { titulo: 'Comparação com o elevador de caçambas', base: todos, vista: 'iso', anim, transparentes: ['camara', 'tubo'],
+        tabelaTitulo: 'Comparação', tabelaCab: ['', 'caçambas', 'pistão'],
         tabela: [
           ['Bolas presas no transporte', 'caçambas: 0–6 (só as que estão subindo)', 'pistão: 13 SEMPRE dentro do tubo → a máquina precisa de ~28 bolas, não 15'],
           ['Ritmo', 'caçambas: 1 bola a cada 0,6 s (com o NEMA a 100 rpm)', 'pistão: 1 por ciclo; precisa de ≥ 40 mm/s para 2,4 s'],

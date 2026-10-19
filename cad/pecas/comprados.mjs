@@ -103,8 +103,8 @@ function perfil2020(L) {
   s = s.cut(cilC(4.2, L + 2, [0, 0, 0], 'x'));
   return [{ forma: s, cor: 'aluminio' }];
 }
-peca('perfil2020_400', { nome: 'Perfil de alumínio 20×20 V-slot/T-slot, 400 mm', tipo: 'falta', src: 'cat',
-  dims: '20 × 20 × 400 mm, fenda 6 mm', link: 'https://lista.mercadolivre.com.br/perfil-aluminio-20x20',
+peca('perfil2020_400', { nome: 'Perfil de alumínio 20×20 V-slot série 20, 400 mm', tipo: 'falta', src: 'cat',
+  dims: '20 × 20 × 400 mm, canal 6 mm', link: 'https://lista.mercadolivre.com.br/perfil-aluminio-20x20',
   notas: ['NÃO está na planilha. É a viga reta e rígida onde o trilho é parafusado: sem ela o trilho não fica alinhado.',
     'Peça cortado em 400 mm (2 unidades, uma por eixo). Ponta em esquadro: é ela que encosta no bloco de ponta.'] },
 () => perfil2020(400));
@@ -164,9 +164,9 @@ peca('polia_gt2_20t_6_35', { nome: 'Polia GT2 20 dentes, furo 6,35 mm (comprada)
   notas: ['ATENÇÃO: o eixo do NEMA 17 tem 5 mm. Esta polia (furo 6,35) fica folgada no motor e bate fora de centro.',
     'Use-a só no eixo da polia tensora se o eixo for de 6,35 mm; no motor use a de furo 5 mm (linha "falta").'] },
 () => poliaGT2(6.35));
-peca('polia_gt2_20t_5', { nome: 'Polia GT2 20 dentes, furo 5 mm', tipo: 'falta', src: 'cat',
+peca('polia_gt2_20t_5', { nome: 'Polia GT2 20 dentes, furo 5 mm', src: 'cat',
   link: 'https://lista.mercadolivre.com.br/polia-gt2-20-dentes-5mm', dims: 'Ø primitivo 12,73, flange Ø16, largura total 16, furo 5',
-  notas: ['Falta comprar 4 (2 nos motores, 2 nas polias tensoras com encoder). É o mesmo item da planilha com furo de 5 mm, ~R$ 8 cada.'] },
+  notas: ['Vocês já têm. 2 unidades, uma em cada motor dos eixos. Confira o furo: 5 mm (o eixo do NEMA 17).'] },
 () => poliaGT2(5));
 
 /* ============================================================== ROLAMENTO, EIXO, IMA */
@@ -176,8 +176,8 @@ function rolamento(d, D, B) {
   const tampa = tubo(D - (D - d) * 0.42, d + (D - d) * 0.3, B - 0.4, [0, 0, 0.2], 'z');
   return [{ forma: ext.fuse(int), cor: 'aco' }, { forma: tampa, cor: 'acoEsc' }];
 }
-peca('rol_625zz', { nome: 'Rolamento 625ZZ', tipo: 'falta', dims: 'Ø5 × Ø16 × 5 mm', link: 'https://lista.mercadolivre.com.br/rolamento-625zz',
-  notas: ['Origem: face de baixo em z=0.'] }, () => rolamento(5, 16, 5));
+peca('rol_625zz', { nome: 'Rolamento 625ZZ (elevador)', tipo: 'falta', dims: 'Ø5 × Ø16 × 5 mm', link: 'https://lista.mercadolivre.com.br/rolamento-625zz',
+  notas: ['Elevador: vai prensado na polia de baixo. Compre 2 (1 de reserva).'] }, () => rolamento(5, 16, 5));
 peca('eixo_5x40', { nome: 'Eixo retificado Ø5 × 40 mm', tipo: 'falta', dims: 'Ø5 h6 × 40 mm',
   link: 'https://lista.mercadolivre.com.br/eixo-retificado-5mm',
   notas: ['Pode ser cortado de uma barra de eixo retificado de 5 mm com serra de arco. Lixe a ponta.'] },

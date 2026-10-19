@@ -4,8 +4,8 @@
    Plano da boca: z = +45 (recuoInf do modelo: a boca fica 45 mm acima do eixo do trilho).
    Furo: geo.L x geo.depth = 78 x 60 mm, centrado no plano de jogo (y = -57).
 
-   Largura da chapa NAO e livre: com o carro no fim de curso (x = 152) a chapa nao pode
-   passar da parede (207). Sobram 13 mm de chapa de cada lado do furo — o modelo 3D
+   Largura da chapa NAO e livre: com o carro no fim de curso (x = 144) a chapa nao pode
+   passar do pe do bloco de ponta (200). Sobram 13 mm de chapa de cada lado do furo — o modelo 3D
    antigo usava 26 mm e a chapa saia do gabinete.
 
    Barreira: feixe ao longo de X, no meio da profundidade do furo. Toda bola que passa
@@ -14,7 +14,7 @@
 import { caixa, cil, cilC, uniao, FOLGA, R } from '../lib/base.mjs';
 import { peca, inst } from '../lib/registro.mjs';
 import { T } from '../lib/mat.mjs';
-import { EX } from './eixo.mjs';
+import { EX, posFC } from './eixo.mjs';
 import { PROJ } from '../lib/projeto.mjs';
 
 export const BO = { zb: 45, yb: -57, L: PROJ.abertura, P: PROJ.profBoca, sobra: 13, parede: 3, chapa: 4,
@@ -58,8 +58,8 @@ function instancias() {
   // pecas FIXAS do eixo, invisiveis: so para a varredura do carro com a carga ate os extremos
   add('fx_motor', 'eixo_bloco_motor', (r.t(EX.xPe, 0, 0)), { contexto: true, oculta: true });
   add('fx_tensor', 'eixo_bloco_tensor', (r.t(-EX.xPe, 0, 0)), { contexto: true, oculta: true });
-  add('fx_fc_m', 'tcst2103', (r.ry(-90).t(EX.xPlacaFC, 0, EX.zFC)), { contexto: true, oculta: true });
-  add('fx_fc_t', 'tcst2103', r.ry(90).t(-EX.xPlacaFC, 0, EX.zFC), { contexto: true, oculta: true });
+  add('fx_fc_m', 'fc_mecanico', posFC(1), { contexto: true, oculta: true });
+  add('fx_fc_t', 'fc_mecanico', posFC(-1), { contexto: true, oculta: true });
   add('boca', 'boca_alvo', r.t(0, -57, 30));
   [-15, 15].forEach((x, k) => add('p_boca_' + k, 'din912_m3x10', r.t(x, -17, BO.zGarg + 4)));
   const xL = BO.L / 2 + BO.parede + 6.5;     // aba do LED encostada por fora da bucha

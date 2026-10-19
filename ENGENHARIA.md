@@ -355,7 +355,7 @@ interferência entre peças (> 5 mm³), **varredura** dos carros carregados até
 |---|---|---|
 | largura interna | 414 mm (não 415) | 450 − 2 × MDF 18; com 415 os pés dos eixos entram na parede |
 | soltura | berço de **pinça** (solenoide empurra a bola contra um V) | pino por baixo precisaria de ~22 mm de curso; o JF-0826B tem 10 |
-| fim de curso | dispara a ±136 mm, dentro do curso (±140) | o carro cruza a cada jogada e o firmware confere os passos ali — o AS5600 não cabe atrás de nenhuma polia |
+| fim de curso | microchave mecânica (módulo de impressora 3D), toca a ±141 e clica a ±143 mm, FORA do curso de jogo (±140) | a alavanca só aguenta ~1,2 mm depois do clique: o firmware encosta devagar ao ligar e uma vez por partida e confere os passos ali — o AS5600 não cabe atrás de nenhuma polia |
 | eixo A | sem o sensor da esquerda | ali passa a calha do magazine para o berço |
 | boca | 13 mm de borda (não 26) | no fim de curso a chapa sairia do gabinete |
 | magazine | tubo Ø40 a **4°** (não 6°), 571 mm de tubo | a 6° o topo do elevador passaria do teto |
