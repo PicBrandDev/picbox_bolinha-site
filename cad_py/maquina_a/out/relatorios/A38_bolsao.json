@@ -1,0 +1,113 @@
+{
+ "id": "A38",
+ "nome": "bolsao",
+ "variante": "-",
+ "titulo": "Bolsao de coleta",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 168944.3
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 2572,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   126.4,
+   156.4,
+   63.2
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 3.2,
+  "minimo": 1.6,
+  "amostras_abaixo": 0,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 0.1,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "nota": "peca fora dos eixos"
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "nota": "peca fora do caminho da bola"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 2,
+  "sequencia": "parafusar na lateral direita por dentro (2x M4x25), embaixo do tubo da bandeja."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 214.6,
+  "horas": 19.71,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "png/A38_bolsao.png",
+   "png/A38_bolsao_contexto.png",
+   "png/A38_bolsao_mesa.png",
+   "png/A38_bolsao_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 1.2,
+ "fixadores": [
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral direita"
+  },
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral direita"
+  }
+ ]
+}

@@ -1,0 +1,559 @@
+{
+  "_fonte": "js/params.js",
+  "_hash": "401df891",
+  "valores": {
+    "ball.d": {
+      "v": 35,
+      "u": "mm",
+      "s": "est",
+      "g": "Bola",
+      "l": "Diâmetro"
+    },
+    "ball.m": {
+      "v": 30,
+      "u": "g",
+      "s": "est",
+      "g": "Bola",
+      "l": "Massa"
+    },
+    "ball.mat": {
+      "v": "ABS",
+      "u": "—",
+      "s": "est",
+      "g": "Bola",
+      "l": "Material"
+    },
+    "ball.e": {
+      "v": 0.72,
+      "u": "—",
+      "s": "est",
+      "g": "Bola",
+      "l": "Coef. de restituição"
+    },
+    "ball.cd": {
+      "v": 0.47,
+      "u": "—",
+      "s": "est",
+      "g": "Bola",
+      "l": "Coef. de arrasto Cd"
+    },
+    "ball.ki": {
+      "v": 0.4,
+      "u": "—",
+      "s": "est",
+      "g": "Bola",
+      "l": "Fator de inércia k (I = k·m·r²)"
+    },
+    "A.stroke": {
+      "v": 280,
+      "u": "mm",
+      "s": "est",
+      "g": "Eixo A (bola)",
+      "l": "Curso útil"
+    },
+    "A.mass": {
+      "v": 210,
+      "u": "g",
+      "s": "est",
+      "g": "Eixo A (bola)",
+      "l": "Massa do carro"
+    },
+    "A.prof": {
+      "v": "senoidal",
+      "u": "—",
+      "s": "est",
+      "g": "Eixo A (bola)",
+      "l": "Perfil de movimento"
+    },
+    "A.T": {
+      "v": 2.4,
+      "u": "s",
+      "s": "est",
+      "g": "Eixo A (bola)",
+      "l": "Período ida-e-volta"
+    },
+    "A.phase": {
+      "v": 0,
+      "u": "graus",
+      "s": "def",
+      "g": "Eixo A (bola)",
+      "l": "Defasagem"
+    },
+    "A.aPeak": {
+      "v": 4000,
+      "u": "mm/s²",
+      "s": "est",
+      "g": "Eixo A (bola)",
+      "l": "Aceleração de pico (perfil trapezoidal)"
+    },
+    "A.jerk": {
+      "v": 60000,
+      "u": "mm/s³",
+      "s": "est",
+      "g": "Eixo A (bola)",
+      "l": "Jerk admitido"
+    },
+    "B.stroke": {
+      "v": 280,
+      "u": "mm",
+      "s": "est",
+      "g": "Eixo B (buraco)",
+      "l": "Curso útil"
+    },
+    "B.mass": {
+      "v": 320,
+      "u": "g",
+      "s": "est",
+      "g": "Eixo B (buraco)",
+      "l": "Massa do carro"
+    },
+    "B.prof": {
+      "v": "senoidal",
+      "u": "—",
+      "s": "est",
+      "g": "Eixo B (buraco)",
+      "l": "Perfil de movimento"
+    },
+    "B.T": {
+      "v": 3.1,
+      "u": "s",
+      "s": "est",
+      "g": "Eixo B (buraco)",
+      "l": "Período ida-e-volta"
+    },
+    "B.phase": {
+      "v": 90,
+      "u": "graus",
+      "s": "def",
+      "g": "Eixo B (buraco)",
+      "l": "Defasagem em relação ao eixo A"
+    },
+    "B.aPeak": {
+      "v": 3500,
+      "u": "mm/s²",
+      "s": "est",
+      "g": "Eixo B (buraco)",
+      "l": "Aceleração de pico (perfil trapezoidal)"
+    },
+    "B.jerk": {
+      "v": 50000,
+      "u": "mm/s³",
+      "s": "est",
+      "g": "Eixo B (buraco)",
+      "l": "Jerk admitido"
+    },
+    "geo.h": {
+      "v": 250,
+      "u": "mm",
+      "s": "est",
+      "g": "Geometria",
+      "l": "Altura de queda (plano de soltura -> boca do buraco)"
+    },
+    "geo.L": {
+      "v": 78,
+      "u": "mm",
+      "s": "est",
+      "g": "Geometria",
+      "l": "Largura da abertura do buraco"
+    },
+    "geo.depth": {
+      "v": 60,
+      "u": "mm",
+      "s": "est",
+      "g": "Geometria",
+      "l": "Profundidade da boca"
+    },
+    "geo.sep": {
+      "v": 355,
+      "u": "mm",
+      "s": "est",
+      "g": "Geometria",
+      "l": "Separação entre planos dos eixos (mecânica)"
+    },
+    "geo.floor": {
+      "v": 450,
+      "u": "mm",
+      "s": "est",
+      "g": "Geometria",
+      "l": "Área de piso do gabinete (lado)"
+    },
+    "geo.height": {
+      "v": 1700,
+      "u": "mm",
+      "s": "est",
+      "g": "Geometria",
+      "l": "Altura externa do gabinete"
+    },
+    "geo.inner": {
+      "v": 415,
+      "u": "mm",
+      "s": "est",
+      "g": "Geometria",
+      "l": "Largura interna útil"
+    },
+    "rel.type": {
+      "v": "solenoide",
+      "u": "—",
+      "s": "est",
+      "g": "Mecanismo de soltura",
+      "l": "Tipo"
+    },
+    "rel.lat": {
+      "v": 14,
+      "u": "ms",
+      "s": "est",
+      "g": "Mecanismo de soltura",
+      "l": "Latência média de soltura"
+    },
+    "rel.jit": {
+      "v": 0.8,
+      "u": "ms",
+      "s": "est",
+      "g": "Mecanismo de soltura",
+      "l": "Jitter de soltura (1 sigma)"
+    },
+    "rel.spin": {
+      "v": 6,
+      "u": "rad/s",
+      "s": "est",
+      "g": "Mecanismo de soltura",
+      "l": "Spin residual imposto à bola"
+    },
+    "rel.vy0": {
+      "v": 0,
+      "u": "mm/s",
+      "s": "est",
+      "g": "Mecanismo de soltura",
+      "l": "Velocidade vertical inicial (para baixo)"
+    },
+    "in.deb": {
+      "v": 10,
+      "u": "ms",
+      "s": "est",
+      "g": "Cadeia de entrada",
+      "l": "Debounce do botão"
+    },
+    "in.scan": {
+      "v": 4,
+      "u": "ms",
+      "s": "est",
+      "g": "Cadeia de entrada",
+      "l": "Período de varredura do MCU"
+    },
+    "in.lat": {
+      "v": 3,
+      "u": "ms",
+      "s": "est",
+      "g": "Cadeia de entrada",
+      "l": "Latência eletrônica adicional (driver, ISR)"
+    },
+    "in.jit": {
+      "v": 0.4,
+      "u": "ms",
+      "s": "est",
+      "g": "Cadeia de entrada",
+      "l": "Jitter eletrônico (1 sigma)"
+    },
+    "enc.res": {
+      "v": 20,
+      "u": "pulsos/mm",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Encoder: resolução"
+    },
+    "enc.err": {
+      "v": 0.12,
+      "u": "mm",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Encoder: erro de posição (1 sigma)"
+    },
+    "mech.back": {
+      "v": 0.1,
+      "u": "mm",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Folga / backlash da transmissão (1 sigma equivalente)"
+    },
+    "opt.fs": {
+      "v": 2000,
+      "u": "Hz",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Barreira óptica: taxa de amostragem"
+    },
+    "opt.lat": {
+      "v": 0.2,
+      "u": "ms",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Barreira óptica: latência de detecção"
+    },
+    "mot.model": {
+      "v": "NEMA 17",
+      "u": "—",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Motor: modelo"
+    },
+    "mot.torque": {
+      "v": 40,
+      "u": "N·cm",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Motor: torque de retenção"
+    },
+    "mot.ustep": {
+      "v": 16,
+      "u": "x",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Motor: micropasso"
+    },
+    "mot.steps": {
+      "v": 200,
+      "u": "passos",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Motor: passos por volta (inteiro)"
+    },
+    "tr.type": {
+      "v": "correia GT2",
+      "u": "—",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Transmissão"
+    },
+    "tr.teeth": {
+      "v": 20,
+      "u": "dentes",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Dentes da polia"
+    },
+    "tr.pitch": {
+      "v": 2,
+      "u": "mm",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Passo da correia"
+    },
+    "mot.eff": {
+      "v": 0.45,
+      "u": "—",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Rendimento eletromecânico"
+    },
+    "elec.base": {
+      "v": 35,
+      "u": "W",
+      "s": "est",
+      "g": "Sensoriamento e acionamento",
+      "l": "Consumo de base (eletrônica, luz, som)"
+    },
+    "env.g": {
+      "v": 9.80665,
+      "u": "m/s²",
+      "s": "def",
+      "g": "Ambiente",
+      "l": "Gravidade"
+    },
+    "env.rho": {
+      "v": 1.184,
+      "u": "kg/m³",
+      "s": "est",
+      "g": "Ambiente",
+      "l": "Densidade do ar"
+    },
+    "env.mu": {
+      "v": 0.00001849,
+      "u": "Pa·s",
+      "s": "est",
+      "g": "Ambiente",
+      "l": "Viscosidade dinâmica do ar"
+    },
+    "ply.novice": {
+      "v": 130,
+      "u": "ms",
+      "s": "est",
+      "g": "Modelo de jogador",
+      "l": "sigma de timing - iniciante"
+    },
+    "ply.mid": {
+      "v": 65,
+      "u": "ms",
+      "s": "est",
+      "g": "Modelo de jogador",
+      "l": "sigma de timing - médio"
+    },
+    "ply.pro": {
+      "v": 26,
+      "u": "ms",
+      "s": "est",
+      "g": "Modelo de jogador",
+      "l": "sigma de timing - treinado"
+    },
+    "ply.bias": {
+      "v": 0,
+      "u": "ms",
+      "s": "est",
+      "g": "Modelo de jogador",
+      "l": "Viés sistemático de timing (todos os perfis)"
+    },
+    "ply.select": {
+      "v": "próxima oportunidade",
+      "u": "—",
+      "s": "def",
+      "g": "Modelo de jogador",
+      "l": "Estratégia de escolha da oportunidade"
+    },
+    "lad.n": {
+      "v": 8,
+      "u": "rodadas",
+      "s": "def",
+      "g": "Escada e partida",
+      "l": "Número de rodadas"
+    },
+    "lad.spd": {
+      "v": 12,
+      "u": "%",
+      "s": "def",
+      "g": "Escada e partida",
+      "l": "Incremento de velocidade por rodada"
+    },
+    "lad.ap": {
+      "v": 5,
+      "u": "%",
+      "s": "def",
+      "g": "Escada e partida",
+      "l": "Redução de abertura por rodada"
+    },
+    "game.tdec": {
+      "v": 4.5,
+      "u": "s",
+      "s": "est",
+      "g": "Escada e partida",
+      "l": "Tempo de observação do jogador por rodada"
+    },
+    "game.treset": {
+      "v": 2.2,
+      "u": "s",
+      "s": "est",
+      "g": "Escada e partida",
+      "l": "Tempo de recolhimento / reset por rodada"
+    },
+    "game.attract": {
+      "v": 20,
+      "u": "s",
+      "s": "est",
+      "g": "Escada e partida",
+      "l": "Tempo de attract entre partidas"
+    },
+    "eco.price": {
+      "v": 5,
+      "u": "R$",
+      "s": "def",
+      "g": "Economia",
+      "l": "Preço da jogada"
+    },
+    "eco.plays": {
+      "v": 120,
+      "u": "jogadas/dia",
+      "s": "est",
+      "g": "Economia",
+      "l": "Jogadas por dia"
+    },
+    "eco.cap": {
+      "v": 30,
+      "u": "% da receita",
+      "s": "def",
+      "g": "Economia",
+      "l": "Teto de custo de prêmio (perfil TREINADO)"
+    },
+    "eco.mixNov": {
+      "v": 55,
+      "u": "%",
+      "s": "est",
+      "g": "Economia",
+      "l": "Mix de público - iniciante"
+    },
+    "eco.mixMid": {
+      "v": 40,
+      "u": "%",
+      "s": "est",
+      "g": "Economia",
+      "l": "Mix de público - médio"
+    },
+    "eco.mixPro": {
+      "v": 5,
+      "u": "%",
+      "s": "est",
+      "g": "Economia",
+      "l": "Mix de público - treinado"
+    },
+    "eco.kwh": {
+      "v": 0.95,
+      "u": "R$/kWh",
+      "s": "est",
+      "g": "Economia",
+      "l": "Tarifa de energia"
+    },
+    "sim.dt": {
+      "v": 0.25,
+      "u": "ms",
+      "s": "def",
+      "g": "Modelo numérico",
+      "l": "Passo de integração do voo (RK4)"
+    },
+    "sim.drag": {
+      "v": 1,
+      "u": "—",
+      "s": "def",
+      "g": "Modelo numérico",
+      "l": "Incluir arrasto na trajetória"
+    },
+    "sim.magnus": {
+      "v": 0,
+      "u": "—",
+      "s": "def",
+      "g": "Modelo numérico",
+      "l": "Incluir Magnus (spin residual) na trajetória"
+    },
+    "sim.crit": {
+      "v": "conformidade",
+      "u": "—",
+      "s": "def",
+      "g": "Modelo numérico",
+      "l": "Critério de vitória usado no jogo"
+    },
+    "sim.macjit": {
+      "v": 1,
+      "u": "—",
+      "s": "def",
+      "g": "Modelo numérico",
+      "l": "Aplicar jitter da máquina no modo Jogar"
+    },
+    "sim.mcjit": {
+      "v": 0,
+      "u": "—",
+      "s": "def",
+      "g": "Modelo numérico",
+      "l": "Aplicar jitter da máquina no Monte Carlo"
+    },
+    "sim.seed": {
+      "v": 20260909,
+      "u": "—",
+      "s": "def",
+      "g": "Modelo numérico",
+      "l": "Semente do gerador aleatório"
+    },
+    "sim.mcN": {
+      "v": 4000,
+      "u": "partidas",
+      "s": "def",
+      "g": "Modelo numérico",
+      "l": "Partidas por perfil no Monte Carlo"
+    }
+  }
+}

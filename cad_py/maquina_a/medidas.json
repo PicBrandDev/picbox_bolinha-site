@@ -1,0 +1,6 @@
+{
+  "_nota": "Valores informados/medidos pelo usuario que valem por cima do params.json (gerado de js/params.js). O js/params.js so muda na Fase 6. Cada chave registra a fonte.",
+  "ball.d": {"v": 38.0, "u": "mm", "fonte": "usuario 2026-10-21: bola mini de sinuca", "params": 35},
+  "ball.m": {"v": 60.0, "u": "g", "fonte": "usuario 2026-10-21", "params": 30},
+  "boca.d": {"v": 50.0, "u": "mm", "fonte": "usuario 2026-10-21: abertura redonda de no maximo 50", "params": "geo.L 78 x geo.depth 60 retangular"}
+}

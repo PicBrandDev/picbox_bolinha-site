@@ -1,0 +1,108 @@
+{
+ "id": "A13",
+ "nome": "rodape",
+ "variante": "d",
+ "titulo": "Rodape da bandeja",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 18146.4
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 2432,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   194.0,
+   36.7,
+   9.0
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 3.0,
+  "minimo": 1.6,
+  "amostras_abaixo": 11,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 0.2,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "B.patim x A13",
+   Infinity,
+   -144.2
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "fixos": {},
+  "carro_b": {},
+  "pontos": 104,
+  "nota": "bola com 1,5 mm de folga em cada ponto da grade (30 x 20 mm) da bandeja"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 0,
+  "sequencia": "na placa de MDF antes do EVA: 3 parafusos de madeira 3,5x12 pela aba (por metade); EVA encosta na frente."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 23.0,
+  "horas": 2.3,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "png/A13_rodape_d.png",
+   "png/A13_rodape_d_contexto.png",
+   "png/A13_rodape_d_mesa.png",
+   "png/A13_rodape_d_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 16.7,
+ "fixadores": []
+}

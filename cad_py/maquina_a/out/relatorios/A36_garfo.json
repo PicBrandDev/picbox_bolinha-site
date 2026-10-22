@@ -1,0 +1,109 @@
+{
+ "id": "A36",
+ "nome": "garfo",
+ "variante": "A",
+ "titulo": "Garfo do embolo do solenoide",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 1264.2
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 3300,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   12.7,
+   12.7,
+   13.9
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 1.81,
+  "minimo": 1.6,
+  "amostras_abaixo": 17,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 3.2,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "carro": {
+   "ok": true,
+   "colisoes": {}
+  },
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "A05.A x A01.A",
+   1.0,
+   144.0
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "nota": "peca fora do caminho da bola"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 0,
+  "sequencia": "encaixar no embolo e travar com pino M2x12 (ou arame Ø2); rasgo no pino da alavanca."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 1.6,
+  "horas": 0.35,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "png/A36_garfo.png",
+   "png/A36_garfo_contexto.png",
+   "png/A36_garfo_mesa.png",
+   "png/A36_garfo_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 27.1,
+ "fixadores": []
+}

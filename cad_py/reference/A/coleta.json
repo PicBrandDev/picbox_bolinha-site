@@ -1,0 +1,569 @@
+{
+ "arquivos": [
+  {
+   "href": "montagem/fabricar/bj_borda_e.step",
+   "arquivo": "fabricar/bj_borda_e.step",
+   "bytes": 46554,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_e.stl",
+   "arquivo": "fabricar/bj_borda_e.stl",
+   "bytes": 77684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_f1.step",
+   "arquivo": "fabricar/bj_borda_f1.step",
+   "bytes": 38629,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_f1.stl",
+   "arquivo": "fabricar/bj_borda_f1.stl",
+   "bytes": 77284,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_f2.step",
+   "arquivo": "fabricar/bj_borda_f2.step",
+   "bytes": 38634,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_f2.stl",
+   "arquivo": "fabricar/bj_borda_f2.stl",
+   "bytes": 77284,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_t1.step",
+   "arquivo": "fabricar/bj_borda_t1.step",
+   "bytes": 34403,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_t1.stl",
+   "arquivo": "fabricar/bj_borda_t1.stl",
+   "bytes": 51884,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_t2.step",
+   "arquivo": "fabricar/bj_borda_t2.step",
+   "bytes": 34405,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_borda_t2.stl",
+   "arquivo": "fabricar/bj_borda_t2.stl",
+   "bytes": 51884,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calco_0.step",
+   "arquivo": "fabricar/bj_calco_0.step",
+   "bytes": 21662,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calco_0.stl",
+   "arquivo": "fabricar/bj_calco_0.stl",
+   "bytes": 27084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calco_1.step",
+   "arquivo": "fabricar/bj_calco_1.step",
+   "bytes": 21760,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calco_1.stl",
+   "arquivo": "fabricar/bj_calco_1.stl",
+   "bytes": 27084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calco_2.step",
+   "arquivo": "fabricar/bj_calco_2.step",
+   "bytes": 21810,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calco_2.stl",
+   "arquivo": "fabricar/bj_calco_2.stl",
+   "bytes": 27084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calco_3.step",
+   "arquivo": "fabricar/bj_calco_3.step",
+   "bytes": 21746,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calco_3.stl",
+   "arquivo": "fabricar/bj_calco_3.stl",
+   "bytes": 27084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calha_retorno.step",
+   "arquivo": "fabricar/bj_calha_retorno.step",
+   "bytes": 41417,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_calha_retorno.stl",
+   "arquivo": "fabricar/bj_calha_retorno.stl",
+   "bytes": 2084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_guia.step",
+   "arquivo": "fabricar/bj_guia.step",
+   "bytes": 38755,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/bj_guia.stl",
+   "arquivo": "fabricar/bj_guia.stl",
+   "bytes": 77284,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/boca_alvo.step",
+   "arquivo": "fabricar/boca_alvo.step",
+   "bytes": 209285,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/boca_alvo.stl",
+   "arquivo": "fabricar/boca_alvo.stl",
+   "bytes": 260484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_motor.step",
+   "arquivo": "fabricar/eixo_bloco_motor.step",
+   "bytes": 190308,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_motor.stl",
+   "arquivo": "fabricar/eixo_bloco_motor.stl",
+   "bytes": 514584,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_motor_A.stl",
+   "arquivo": "fabricar/eixo_bloco_motor_A.stl",
+   "bytes": 514584,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_tensor.step",
+   "arquivo": "fabricar/eixo_bloco_tensor.step",
+   "bytes": 271357,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_tensor.stl",
+   "arquivo": "fabricar/eixo_bloco_tensor.stl",
+   "bytes": 429484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_tensor_A.stl",
+   "arquivo": "fabricar/eixo_bloco_tensor_A.stl",
+   "bytes": 429484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_tensor_semfc.step",
+   "arquivo": "fabricar/eixo_bloco_tensor_semfc.step",
+   "bytes": 222521,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_tensor_semfc.stl",
+   "arquivo": "fabricar/eixo_bloco_tensor_semfc.stl",
+   "bytes": 326684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_bloco_tensor_semfc_A.stl",
+   "arquivo": "fabricar/eixo_bloco_tensor_semfc_A.stl",
+   "bytes": 326684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_deslizador.step",
+   "arquivo": "fabricar/eixo_deslizador.step",
+   "bytes": 116246,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_deslizador.stl",
+   "arquivo": "fabricar/eixo_deslizador.stl",
+   "bytes": 106084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_deslizador_A.stl",
+   "arquivo": "fabricar/eixo_deslizador_A.stl",
+   "bytes": 106084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_gabarito.step",
+   "arquivo": "fabricar/eixo_gabarito.step",
+   "bytes": 47299,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_gabarito.stl",
+   "arquivo": "fabricar/eixo_gabarito.stl",
+   "bytes": 2084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_gabarito_A.stl",
+   "arquivo": "fabricar/eixo_gabarito_A.stl",
+   "bytes": 2084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_garra.step",
+   "arquivo": "fabricar/eixo_garra.step",
+   "bytes": 70430,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_garra.stl",
+   "arquivo": "fabricar/eixo_garra.stl",
+   "bytes": 178684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_garra_A.stl",
+   "arquivo": "fabricar/eixo_garra_A.stl",
+   "bytes": 178684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_placa_carro.step",
+   "arquivo": "fabricar/eixo_placa_carro.step",
+   "bytes": 149680,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_placa_carro.stl",
+   "arquivo": "fabricar/eixo_placa_carro.stl",
+   "bytes": 234284,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_placa_carro_A.stl",
+   "arquivo": "fabricar/eixo_placa_carro_A.stl",
+   "bytes": 234284,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_presilha.step",
+   "arquivo": "fabricar/eixo_presilha.step",
+   "bytes": 105939,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_presilha.stl",
+   "arquivo": "fabricar/eixo_presilha.stl",
+   "bytes": 56284,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/eixo_presilha_A.stl",
+   "arquivo": "fabricar/eixo_presilha_A.stl",
+   "bytes": 56284,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elet_espacador.step",
+   "arquivo": "fabricar/elet_espacador.step",
+   "bytes": 9350,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elet_espacador.stl",
+   "arquivo": "fabricar/elet_espacador.stl",
+   "bytes": 50484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_cacamba.step",
+   "arquivo": "fabricar/elev_cacamba.step",
+   "bytes": 120660,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_cacamba.stl",
+   "arquivo": "fabricar/elev_cacamba.stl",
+   "bytes": 64684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_calha_entrega.step",
+   "arquivo": "fabricar/elev_calha_entrega.step",
+   "bytes": 142217,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_calha_entrega.stl",
+   "arquivo": "fabricar/elev_calha_entrega.stl",
+   "bytes": 40884,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_capa.step",
+   "arquivo": "fabricar/elev_capa.step",
+   "bytes": 107004,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_capa.stl",
+   "arquivo": "fabricar/elev_capa.stl",
+   "bytes": 39884,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_concha.step",
+   "arquivo": "fabricar/elev_concha.step",
+   "bytes": 61756,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_concha.stl",
+   "arquivo": "fabricar/elev_concha.stl",
+   "bytes": 44684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_espacador.step",
+   "arquivo": "fabricar/elev_espacador.step",
+   "bytes": 9356,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_espacador.stl",
+   "arquivo": "fabricar/elev_espacador.stl",
+   "bytes": 50484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_polia_livre.step",
+   "arquivo": "fabricar/elev_polia_livre.step",
+   "bytes": 355899,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_polia_livre.stl",
+   "arquivo": "fabricar/elev_polia_livre.stl",
+   "bytes": 544484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_polia_motora.step",
+   "arquivo": "fabricar/elev_polia_motora.step",
+   "bytes": 428407,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_polia_motora.stl",
+   "arquivo": "fabricar/elev_polia_motora.stl",
+   "bytes": 633484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_suporte_nema.step",
+   "arquivo": "fabricar/elev_suporte_nema.step",
+   "bytes": 83998,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/elev_suporte_nema.stl",
+   "arquivo": "fabricar/elev_suporte_nema.stl",
+   "bytes": 355684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_balancim.step",
+   "arquivo": "fabricar/mag_balancim.step",
+   "bytes": 52360,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_balancim.stl",
+   "arquivo": "fabricar/mag_balancim.stl",
+   "bytes": 27684,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_carga.step",
+   "arquivo": "fabricar/mag_carga.step",
+   "bytes": 273930,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_carga.stl",
+   "arquivo": "fabricar/mag_carga.stl",
+   "bytes": 198584,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_comporta.step",
+   "arquivo": "fabricar/mag_comporta.step",
+   "bytes": 38447,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_comporta.stl",
+   "arquivo": "fabricar/mag_comporta.stl",
+   "bytes": 26884,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_entrada.step",
+   "arquivo": "fabricar/mag_entrada.step",
+   "bytes": 82107,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_entrada.stl",
+   "arquivo": "fabricar/mag_entrada.stl",
+   "bytes": 34784,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_espacador.step",
+   "arquivo": "fabricar/mag_espacador.step",
+   "bytes": 24092,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_espacador.stl",
+   "arquivo": "fabricar/mag_espacador.stl",
+   "bytes": 51084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_presilha.step",
+   "arquivo": "fabricar/mag_presilha.step",
+   "bytes": 101714,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_presilha.stl",
+   "arquivo": "fabricar/mag_presilha.stl",
+   "bytes": 131084,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_saida.step",
+   "arquivo": "fabricar/mag_saida.step",
+   "bytes": 339641,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_saida.stl",
+   "arquivo": "fabricar/mag_saida.stl",
+   "bytes": 173584,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_sensor_nivel.step",
+   "arquivo": "fabricar/mag_sensor_nivel.step",
+   "bytes": 99874,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_sensor_nivel.stl",
+   "arquivo": "fabricar/mag_sensor_nivel.stl",
+   "bytes": 229284,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_u_dir_f.step",
+   "arquivo": "fabricar/mag_u_dir_f.step",
+   "bytes": 182902,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_u_dir_f.stl",
+   "arquivo": "fabricar/mag_u_dir_f.stl",
+   "bytes": 1173384,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_u_dir_t.step",
+   "arquivo": "fabricar/mag_u_dir_t.step",
+   "bytes": 282022,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_u_dir_t.stl",
+   "arquivo": "fabricar/mag_u_dir_t.stl",
+   "bytes": 1187484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_u_esq_f.step",
+   "arquivo": "fabricar/mag_u_esq_f.step",
+   "bytes": 181733,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_u_esq_f.stl",
+   "arquivo": "fabricar/mag_u_esq_f.stl",
+   "bytes": 1173384,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_u_esq_t.step",
+   "arquivo": "fabricar/mag_u_esq_t.step",
+   "bytes": 280550,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/mag_u_esq_t.stl",
+   "arquivo": "fabricar/mag_u_esq_t.stl",
+   "bytes": 1187484,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/soltura_batente.step",
+   "arquivo": "fabricar/soltura_batente.step",
+   "bytes": 19843,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/soltura_batente.stl",
+   "arquivo": "fabricar/soltura_batente.stl",
+   "bytes": 25884,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/soltura_berco.step",
+   "arquivo": "fabricar/soltura_berco.step",
+   "bytes": 274285,
+   "status": 200
+  },
+  {
+   "href": "montagem/fabricar/soltura_berco.stl",
+   "arquivo": "fabricar/soltura_berco.stl",
+   "bytes": 291084,
+   "status": 200
+  }
+ ],
+ "erros_pagina": []
+}
