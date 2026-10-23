@@ -72,3 +72,17 @@
 - **A26 entrada do berco (nova):** junta com a A16 em y=-34 (2 pinos Ø4), curva, placa na parede (2x M4) com
   enchimento sob a curva, e linguas mais robustas: 8 x 2,8 mm (antes 5 x 2,5) com a ponta chanfrada.
 - Caminho da bola: o trecho final reto deixou de existir (a curva termina na boca do berco).
+
+## 2026-10-23 — Revisao do elevador: cabeca impressa A27 com guia de transferencia
+- Problemas achados na revisao fisica (a verificacao geometrica nao pegava):
+  - saida antiga: a bola tinha de passar por cima da ponta do trilho com ~0,4 mm de margem antes do fim do filete
+    (caia e voltava em ciclo); depois rolava helice abaixo ~12 mm e chegava ao entalhe abaixo da soleira;
+  - a soleira interna ficava no caminho de subida da bola.
+- Solucao (forma classica, a bola nunca fica solta): o acrilico vai so ate z=1467; por cima entra a **A27 cabeca
+  do elevador** (impressa, mesmo Ø100x94): guia helicoidal com o perfil do trilho que continua o trilho de aluminio
+  (250 graus) e gira 130 graus no sentido horario em 110 mm, trazendo a bola do canto (280) para o lado do campo
+  (150); trilho vertical impresso a 120 graus ate o topo; janela de saida 126..175 graus.
+- **A25** sem soleira interna: a borda do piso (r=47,3) faz de parede dentro da janela; a bola sai rolando quando a
+  beira do filete passa da borda (8 mm antes do fim do filete). Fim do filete 1602 (bola mais alta 1,8 mm abaixo da
+  tampa).
+- Trilho de aluminio 1080..1470 (2 parafusos M3); o acrilico nao leva mais o entalhe de cima.

@@ -7,7 +7,7 @@
   "ok": true,
   "valido": true,
   "solidos": 1,
-  "volume_mm3": 130004.9
+  "volume_mm3": 126365.2
  },
  "2_stl": {
   "ok": true,
@@ -25,7 +25,7 @@
   "tamanho": [
    78.0,
    193.7,
-   32.9
+   32.4
   ],
   "mesa": [
    220.0,
@@ -39,9 +39,9 @@
  },
  "5_parede": {
   "ok": true,
-  "percentil1_mm": 2.58,
+  "percentil1_mm": 2.6,
   "minimo": 1.6,
-  "amostras_abaixo": 1,
+  "amostras_abaixo": 0,
   "amostras": 3000
  },
  "6_overhang": {
@@ -87,8 +87,8 @@
  },
  "12_fatiamento": {
   "ok": true,
-  "gramas": 90.2,
-  "horas": 8.4,
+  "gramas": 88.8,
+  "horas": 8.27,
   "metodo": "estimado por volume (sem slicer CLI)"
  },
  "11_visual": {
@@ -102,6 +102,6 @@
   "nota": "avaliar abrindo as imagens"
  },
  "aprovada": true,
- "tempo_verificacao_s": 10.2,
+ "tempo_verificacao_s": 10.0,
  "fixadores": []
 }

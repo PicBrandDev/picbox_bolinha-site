@@ -6,9 +6,11 @@ Conceito (usuario, 2026-10-22): tubo acrilico em pe no canto frente-direita, fus
 - Subida: o fuso gira no sentido HORARIO visto de cima (helice a direita). O filete arrasta a bola ate o trilho-guia
   (barra Ø8 aparafusada na parede do tubo, a 250 graus); segura pelo trilho, a bola sobe 70 mm por volta. O topo do
   filete cai 10 graus para fora: a bola fica sempre apertada contra a parede.
-- Saida: o trilho acaba abaixo do topo do filete; a bola passa por cima da ponta dele e gira junto com o fuso ate o
-  entalhe do tubo (122..175 graus); ali falta a parede e ela rola para fora (pelo caimento do filete) para a soleira
-  da A22, que leva a calha A23 (3 graus) ate o funil do magazine (A18).
+- Transferencia e saida (revisao 2026-10-23): a bola sobe no canto (280 graus, trilho de aluminio a 250) e nunca
+  fica solta. No topo o tubo vira a cabeca impressa A27: uma guia helicoidal continua o trilho e leva a bola, subindo,
+  de 280 para 150 graus (lado do campo); dali um trilho vertical impresso (120 graus) a segura ate a janela de saida
+  (126..175 graus). Quando a beira do filete passa da borda do piso da A25, a bola rola para fora pelo caimento do
+  filete (10 graus), sem pular nada. A25 leva a calha A23 (3 graus) ate o funil do magazine (A18).
 Angulos: em graus, a partir de +x, anti-horario visto de cima, em volta do eixo do tubo C.
 
 Por que Ø100: a bola de 38 precisa caber entre o nucleo do fuso e a parede (num Ø44 sobram 3 mm).
@@ -45,9 +47,11 @@ PINO = (3.0, 3.2, 8.0)                 # CATALOGO pino Ø3 (aco ou filamento 2,8
 # ------------------------------------------------------------------ trilho-guia
 D_TRILHO = 8.0                         # CATALOGO barra Ø8 de aluminio (3 furos roscados M3)
 R_TRILHO = R_TI - D_TRILHO / 2 - 0.5   # 42,5
-ANG_TRILHO = 250.0                     # ESTIMADO fora do furo de entrada (a bola da cunha de 207 graus passa livre)
+ANG_TRILHO = 250.0                     # ESTIMADO trilho de aluminio (embaixo): fora do furo de entrada
 ANG_BOLA = ANG_TRILHO + 30.0           # 280: bola parada no trilho (distancia de centros 23)
-Z_TRILHO_SCREWS = (1200.0, 1400.0, 1575.0)   # ESTIMADO parafusos M3 pela parede do tubo (montagem na bancada)
+ANG_TRILHO_TOPO = 120.0                # ESTIMADO trilho vertical impresso no topo (A27): bola a 150, de frente para o campo
+ANG_BOLA_TOPO = ANG_TRILHO_TOPO + 30.0
+Z_TRILHO_SCREWS = (1200.0, 1400.0)     # ESTIMADO parafusos M3 pela parede do tubo (montagem na bancada)
 
 # ------------------------------------------------------------------ alturas
 Z_BASE0 = 1061.0                       # ESTIMADO fundo da A20
@@ -57,15 +61,17 @@ CONE_PISO = 4.0                        # ESTIMADO o piso sobe 4 mm ate o centro:
 Z_FUSO0 = Z_PISO + CONE_PISO + 0.5     # 1104,5: base plana do fuso
 ARCO_FURO = (35.0, 232.0)              # ESTIMADO furo de entrada (cunhas da bola na bandeja: 63 e 207, +-23 graus)
 Z_FURO = (Z_PISO + 12.0, 1170.0)       # soleira 1112 (abaixo do EVA na borda do tubo, 1118..1122) e topo
-H_FIM = 1606.0                         # ESTIMADO topo do filete (referencia no nucleo) no fim da helice
-Z_TRILHO = (1080.0, H_FIM - 10.0)      # trilho do fundo da A20 ate 10 abaixo do fim do filete (bola passa por cima)
+H_FIM = 1602.0                         # ESTIMADO topo do filete: a bola no fim dele fica 1,8 mm abaixo da tampa
+Z_CABECA0 = 1467.0                     # ESTIMADO fim do acrilico / comeco da cabeca impressa A27
+Z_TRANSF = (Z_CABECA0 + 3.0, 1580.0)   # ESTIMADO guia helicoidal (centro da bola): 280 -> 150 graus em 110 mm
+Z_TRILHO = (1080.0, Z_TRANSF[0])       # trilho de aluminio: do fundo da A20 ate o encaixe na flange da A27 (3 mm)
 Z_NUCLEO1 = H_FIM + 1.0                # topo do nucleo (porca + arruela por cima)
 JUNTAS = (Z_FUSO0, 1272.0, 1440.0, Z_NUCLEO1)   # ESTIMADO 3 segmentos (<= 170 mm, cabem na 220)
-ARCO_ENTALHE = (122.0, 175.0)          # ESTIMADO entalhe de saida no topo do tubo (lado do campo; a bola ocupa +-23 graus)
-Z_SOLEIRA = Z_TRILHO[1] - (R_FILETE - R_APOIO) * math.tan(BETA) - 0.5   # 1593,3: topo da soleira em r=38,5
-Z_SAIDA_FUNDO = 1582.0                 # ESTIMADO fundo plano da A25 (= fundo do entalhe: a soleira apoia no acrilico)
+ARCO_ENTALHE = (ANG_TRILHO_TOPO + 6.0, ANG_BOLA_TOPO + 25.0)   # 126..175: janela de saida na A27 (bola +-24 graus)
+Z_SAIDA_FUNDO = 1582.0                 # ESTIMADO fundo plano da A25 = fundo da janela da A27 (a guia passa abaixo)
 Z_ENTALHE0 = Z_SAIDA_FUNDO
-Z_TUBO1 = H_FIM + 34.0                 # 1640: topo do tubo (a bola carregada vai ate ~1634)
+R_BORDA_SAIDA = R_TI + 0.3             # 47,3: borda de dentro do piso da A25 na janela (faz de parede ate a bola sair)
+Z_TUBO1 = 1640.0                       # topo da A27 (a tampa A22 apoia aqui)
 E_TAMPA = 10.0                         # FAB placa da A22 sobre o tubo
 D_ROLAMENTO = (22.0, 7.0, 8.0)         # CATALOGO 608ZZ (De, largura, di)
 Z_REBAIXO = Z_FUSO0 - 10.0             # 1094,5: fundo do rebaixo do piso (arruela Ø14 + porca M8 embaixo do fuso)
@@ -98,19 +104,55 @@ def z_piso(r):
     return Z_PISO + CONE_PISO * (1.0 - r / R_TI)
 
 
-R_SOLEIRA = R_FILETE + 1.5           # 38,5: borda de dentro da soleira
+def zc_apoio(ref):
+    """Centro da bola encostada na parede, apoiada no filete cuja referencia (no nucleo) esta em 'ref'."""
+    return ref + DZ_APOIO + R_B * math.cos(BETA) - (R_APOIO - R_NUCLEO) * math.tan(BETA)
 
 
-def z_soleira(r):
-    """Topo da soleira dentro do entalhe (cai 10 graus para fora, como o filete)."""
-    return Z_SOLEIRA - (r - R_SOLEIRA) * math.tan(BETA)
+ZC_MAX = zc_apoio(H_FIM)               # bola mais alta possivel (no fim do filete)
+ZC_SAI = ZC_MAX - 8.0                  # centro da bola quando a beira do filete passa da borda do piso (8 mm de sobra)
+BEIRA_FILETE = ZC_MAX - (H_FIM - (R_FILETE - R_NUCLEO) * math.tan(BETA))   # centro da bola - beira do filete (r=37)
+Z_BORDA_SAIDA = ZC_SAI - BEIRA_FILETE  # topo da borda do piso da A25 no angulo da bola (150)
+Z_TRILHO_TOPO1 = ZC_SAI - 11.0         # fim do trilho de cima: na saida a bola ja nao encosta nele (senao ele a empurra para dentro)
 
 
 def z_saida(y):
-    """Topo do piso da saida (A25) fora do tubo, descendo para +y (nunca acima da soleira)."""
-    r1 = TUBO_D / 2 + FOLGA_TUBO
-    y0 = p(r1, ARCO_ENTALHE[1])[1]
-    return z_soleira(r1) - (y - y0) * math.tan(INCL_SAIDA)
+    """Topo do piso da saida (A25), descendo 6 graus para +y; na borda (r=47,3, 150 graus) vale Z_BORDA_SAIDA."""
+    y0 = p(R_BORDA_SAIDA, ANG_BOLA_TOPO)[1]
+    return Z_BORDA_SAIDA - (y - y0) * math.tan(INCL_SAIDA)
+
+
+def ang_guia(z):
+    """Angulo do centro do perfil da guia/trilho na altura z (250 embaixo, gira 130 graus horario, 120 em cima)."""
+    z0, z1 = Z_TRANSF
+    t = min(1.0, max(0.0, (z - z0) / (z1 - z0)))
+    return ANG_TRILHO + (ANG_TRILHO_TOPO - ANG_TRILHO) * t
+
+
+def _tabela_bola():
+    import json
+    from pathlib import Path
+    f = Path(__file__).resolve().parent / "elevador_bola.json"
+    return json.loads(f.read_text(encoding="utf8")) if f.exists() else None
+
+
+_TAB = _tabela_bola()
+
+
+def ang_bola(zc):
+    """Angulo da bola encostada na guia, pela altura do centro. Na guia inclinada a bola encosta abaixo do centro e fica
+    mais para o lado anti-horario que 30 graus: tabela calculada no CAD (tools/tabela_bola.py, esfera tangente a guia)."""
+    if _TAB:
+        zs, angs = _TAB["z"], _TAB["ang"]
+        if zc <= zs[0]:
+            return angs[0]
+        if zc >= zs[-1]:
+            return angs[-1]
+        for k in range(len(zs) - 1):
+            if zs[k] <= zc <= zs[k + 1]:
+                t = (zc - zs[k]) / (zs[k + 1] - zs[k])
+                return angs[k] + (angs[k + 1] - angs[k]) * t
+    return ang_guia(zc) + 30.0
 
 
 Z_RAIA0 = z_saida(Y_RAIA0) + R_B - 1.0  # centro da bola no inicio da A23 (desce 1 mm do piso plano para o V)
@@ -178,8 +220,10 @@ def fuso_maquina(k, giro=0.0):
     return cq.Workplane("XY").add(sh)
 
 
-def giro_para_bola(z_centro, ang=ANG_BOLA):
-    """Giro do fuso que poe o filete embaixo da bola (centro em z_centro, encostada na parede no angulo 'ang')."""
+def giro_para_bola(z_centro, ang=None):
+    """Giro do fuso que poe o filete embaixo da bola (centro em z_centro, encostada na parede no angulo 'ang';
+    sem 'ang', o angulo da guia naquela altura)."""
+    ang = ang_bola(z_centro) if ang is None else ang
     h = z_centro - DZ_APOIO - R_B * math.cos(BETA) + (R_APOIO - R_NUCLEO) * math.tan(BETA)   # referencia no ponto de apoio
     ang_fuso = 360.0 * (h - Z_REF) / PASSO
     return (ang - ang_fuso) % 360.0
@@ -189,10 +233,9 @@ def giro_para_bola(z_centro, ang=ANG_BOLA):
 def tubo_acrilico():
     import cadquery as cq
     from common.features import caixa, cilindro
-    t = cilindro(TUBO_D, Z_TUBO1 - Z_TUBO0, (C[0], C[1], Z_TUBO0), (0, 0, 1))
-    t = t.cut(cilindro(TUBO_DI, Z_TUBO1 - Z_TUBO0 + 2, (C[0], C[1], Z_TUBO0 - 1), (0, 0, 1)))
+    t = cilindro(TUBO_D, Z_CABECA0 - Z_TUBO0, (C[0], C[1], Z_TUBO0), (0, 0, 1))
+    t = t.cut(cilindro(TUBO_DI, Z_CABECA0 - Z_TUBO0 + 2, (C[0], C[1], Z_TUBO0 - 1), (0, 0, 1)))
     t = t.cut(setor(R_TI - 1, TUBO_D / 2 + 1, *ARCO_FURO, *Z_FURO))
-    t = t.cut(setor(R_TI - 1, TUBO_D / 2 + 1, *ARCO_ENTALHE, Z_ENTALHE0, Z_TUBO1 + 1))
     for z in Z_TRILHO_SCREWS:
         t = t.cut(cilindro(3.4, 10, p(R_TI - 2, ANG_TRILHO, z), (math.cos(math.radians(ANG_TRILHO)), math.sin(math.radians(ANG_TRILHO)), 0)))
     return t

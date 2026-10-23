@@ -100,7 +100,7 @@
   "nota": "avaliar abrindo as imagens"
  },
  "aprovada": true,
- "tempo_verificacao_s": 6.0,
+ "tempo_verificacao_s": 5.6,
  "fixadores": [
   {
    "nome": "parede0",

@@ -1,0 +1,108 @@
+{
+ "id": "A27",
+ "nome": "cabeca_elevador",
+ "variante": "-",
+ "titulo": "Cabeca do elevador (guia de transferencia + janela)",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 169095.6
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 18120,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   103.3,
+   103.3,
+   188.0
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 2.99,
+  "minimo": 1.6,
+  "amostras_abaixo": 0,
+  "amostras": 2874
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 100.3,
+  "limite_graus": 45.0,
+  "tolerado": "face de baixo da flange: anel de 3,3 mm em balanco em volta do colar (a medida de ponte usa o diametro do anel, 100 mm); de cabeca para baixo a borda da janela viraria ponte real de 41 mm"
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "A10.A x A27",
+   5.74,
+   124.0
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "colisoes": {},
+  "pontos": 43,
+  "nota": "bola encostada no trilho/guia: 280 graus ate z=1470, gira para 150 ate 1580, sobe a 150 ate sair"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 0,
+  "sequencia": "na bancada: trilho de aluminio aparafusado no acrilico (ponta 3 mm acima do topo do acrilico); encaixar a cabeca por cima (colar por fora, ponta do trilho no encaixe da flange); o fuso entra por cima."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 214.8,
+  "horas": 19.73,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "png/A27_cabeca_elevador.png",
+   "png/A27_cabeca_elevador_contexto.png",
+   "png/A27_cabeca_elevador_mesa.png",
+   "png/A27_cabeca_elevador_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 53.0,
+ "fixadores": []
+}

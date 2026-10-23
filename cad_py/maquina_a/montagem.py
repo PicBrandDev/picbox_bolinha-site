@@ -28,6 +28,7 @@ PECAS = {
     "A20": "A20_base_elevador",
     "A24": "A24_suporte_motor_elevador",
     "A21": "A21_fuso",
+    "A27": "A27_cabeca_elevador",
     "A22": "A22_tampa_elevador",
     "A25": "A25_saida_elevador",
     "A23": "A23_calha_elevador",

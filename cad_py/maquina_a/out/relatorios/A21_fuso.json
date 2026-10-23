@@ -93,7 +93,7 @@
    1277.1,
    1289.1
   ],
-  "nota": "bola parada no trilho (255 graus), fuso girado ate o filete apoiar a bola; folga radial de 2 mm para o nucleo"
+  "nota": "bola presa no trilho/guia (280 graus embaixo, 150 no topo), fuso girado ate o filete apoiar a bola"
  },
  "13_montagem": {
   "ok": true,
@@ -118,6 +118,6 @@
   "nota": "avaliar abrindo as imagens"
  },
  "aprovada": true,
- "tempo_verificacao_s": 26.4,
+ "tempo_verificacao_s": 26.6,
  "fixadores": []
 }

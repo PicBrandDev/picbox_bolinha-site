@@ -92,14 +92,14 @@
 
 ## Elevador de fuso (2026-10-22)
 ### Comprar
-- Tubo acrilico Ø100 x 94 (parede 3), 573 mm. Furo de entrada e entalhe de saida cortados no tubo (gabarito: imprimir a A25 e marcar).
+- Tubo acrilico Ø100 x 94 (parede 3), 400 mm (z 1067..1467). So o furo de entrada no pe e 2 furos Ø3,4 do trilho; o topo e a cabeca impressa A27.
 - Barra roscada M8 x 620 mm, 4 porcas M8, 2 arruelas M8 pequenas (Ø14), 2 rolamentos 608ZZ, acoplamento flexivel 5x8 (Ø19 x 25).
-- Barra Ø8 de aluminio x 516 mm (trilho-guia), com 3 furos roscados M3 (z=1200, 1400, 1575); 3 M3x8 pela parede do tubo.
+- Barra Ø8 de aluminio x 390 mm (trilho-guia, z 1080..1470), com 2 furos roscados M3 (z=1200 e 1400); 2 M3x8 pela parede do tubo.
 - NEMA 17 (17HS4401 ou igual) + driver; 2 pinos Ø3x16 por junta do fuso (4).
 ### A testar (prioridade)
-1. **Topo (saida):** imprimir A21-3 + A22 + A25 e testar so o ultimo segmento num pedaco de tubo: a bola tem que passar por cima do trilho e rolar para fora no entalhe em toda volta. Se ficar girando sem sair, aumentar o caimento do filete (10 -> 15 graus) ou alargar o entalhe.
+1. **Topo (saida):** imprimir A27 + A21-3 + A25 + A22 e testar com um pedaco do acrilico: a bola tem que seguir a guia ate 150 graus e sair rolando pela janela. Se ela ficar presa na borda do piso, baixar a borda 1-2 mm (Z_BORDA_SAIDA).
 2. **Pe (entrada):** bola parada nas duas cunhas (63 e 207 graus) tem que cair para dentro; o filete nao pode prender a bola na borda do furo.
-3. Rotacao: 30-60 rpm (1 bola a cada 1-2 s). Sentido horario visto de cima.
+3. Rotacao: ate 30 rpm. Sentido horario visto de cima (helice a direita).
 ### Riscos conhecidos
 - O caminho da bola dentro do tubo depende de atrito (bola segura pelo trilho e arrastada pelo filete): a checagem do CAD so garante que ha espaco livre.
 - A20 e pesada (~230 g, 21 h): se faltar tempo de impressora, ela pode ser oca (pedir).

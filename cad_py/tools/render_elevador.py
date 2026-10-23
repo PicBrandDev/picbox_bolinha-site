@@ -17,15 +17,16 @@ from maquina_a.parts import A25_saida_elevador as A25  # noqa: E402
 
 pasta = Path(sys.argv[1])
 pasta.mkdir(parents=True, exist_ok=True)
-ELEV = ("A20", "A21", "A22", "A23", "A24", "A25")
-CORES = {"A20": "#e8892b", "A21": "#2a5bd2", "A22": "#d9534f", "A23": "#4ab04a", "A24": "#8e5bd2", "A25": "#f0c419"}
+ELEV = ("A20", "A21", "A22", "A23", "A24", "A25", "A27")
+CORES = {"A20": "#e8892b", "A21": "#2a5bd2", "A22": "#d9534f", "A23": "#4ab04a", "A24": "#8e5bd2", "A25": "#f0c419", "A27": "#9fd3e8"}
 
 # bolas: na bandeja junto do furo, subindo no trilho (2), girando no topo, no piso da saida, na calha
 z_sobe = 1300.0
 g = E.giro_para_bola(z_sobe)
 x, y, _ = E.p(72.0, 135.0)
-bolas = [(x, y, B.z_eva(x, y) + E.R_B), E.p(E.R_BOLA, E.ANG_BOLA, z_sobe), E.p(E.R_BOLA, E.ANG_BOLA, z_sobe + E.PASSO),
-         E.p(E.R_BOLA, 200.0, E.Z_TRILHO[1] + E.R_B + 0.5), A25.caminho()[-3][0], (E.X_RAIA, 0.0, E.z_raia(0.0))]
+z_tr = (E.Z_TRANSF[0] + E.Z_TRANSF[1]) / 2
+bolas = [(x, y, B.z_eva(x, y) + E.R_B), E.p(E.R_BOLA, E.ANG_BOLA, z_sobe), E.p(E.R_BOLA, E.ang_bola(z_tr), z_tr),
+         E.p(E.R_BOLA, E.ANG_BOLA_TOPO, E.ZC_SAI), A25.caminho()[-3][0], (E.X_RAIA, 0.0, E.z_raia(0.0))]
 
 
 def cena(arquivo, direcao, escala, foco, titulo, rotulos, mostrar_resto=True):
@@ -83,10 +84,11 @@ cena("elevador_iso.png", (-0.9, -1.3, 0.7), 330, (60, -60, 1350), "Elevador mode
 cena("elevador_campo.png", (-1.0, 0.9, 0.35), 300, (cx, cy, 1350), "Elevador visto do campo (de tras-esquerda)", [
     ((*E.p(50, 135)[:2], 1140.0), "furo de entrada (35..232 graus)"),
     (E.p(E.R_TRILHO, E.ANG_TRILHO, 1450.0), "trilho-guia Ø8"),
-    ((*E.p(52, 150)[:2], 1600.0), "entalhe de saida (122..175)"),
+    ((*E.p(52, 150)[:2], 1600.0), "janela de saida da A27 (126..175)"),
+    (E.p(E.R_TRILHO, E.ang_bola(z_tr) - 30, z_tr), "guia helicoidal: leva a bola de 280 a 150 graus"),
     (E.p(E.R_BOLA, E.ANG_BOLA, z_sobe), "bola subindo no trilho")], mostrar_resto=False)
 cena("elevador_pe.png", (-1.0, 0.35, 0.45), 130, (cx - 10, cy + 10, 1070), "Pe do elevador: bandeja, furo, piso, motor", [
     (bolas[0], "bola chegando"), ((cx, cy, 1102.0), "piso conico"), ((cx, cy, 995.0), "NEMA 17")], mostrar_resto=False)
-cena("elevador_topo.png", (-1.0, 0.7, 0.8), 120, (cx - 25, cy + 5, 1605), "Topo: a bola passa o trilho, gira e rola para a saida", [
-    (bolas[3], "bola acima do trilho"), (bolas[4], "piso da saida"), ((E.X_RAIA, -80.0, E.z_raia(-80.0)), "calha")])
+cena("elevador_topo.png", (-1.0, 0.7, 0.8), 120, (cx - 25, cy + 5, 1605), "Topo: guia leva a bola ao trilho de cima; ela sai rolando pela janela", [
+    (bolas[3], "bola saindo pela janela"), (bolas[4], "piso da saida"), ((E.X_RAIA, -80.0, E.z_raia(-80.0)), "calha")])
 print("ok")

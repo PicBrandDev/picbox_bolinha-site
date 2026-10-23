@@ -106,6 +106,9 @@ def verificar(pid, var):
     rel["4_intencao"] = C.c4_intencao(peca, ref, getattr(mod, "JUSTIFICATIVA", ""))
     rel["5_parede"] = C.c5_parede(m_mesa, getattr(mod, "PAREDE_MINIMA", fab.PAREDE_MIN))
     rel["6_overhang"] = C.c6_overhang(m_mesa, brep=mesa)
+    tol_pt = getattr(mod, "PONTE_TOLERADA", None)          # (mm, justificativa): anel em balanco curto medido como ponte
+    if tol_pt and not rel["6_overhang"]["ok"] and rel["6_overhang"]["area_overhang_mm2"] < 25.0             and rel["6_overhang"]["ponte_max_mm"] <= tol_pt[0]:
+        rel["6_overhang"].update(ok=True, tolerado=tol_pt[1])
     tol_ov = getattr(mod, "OVERHANG_TOLERADO", None)      # (mm2, justificativa): artefato de malha provado por conta
     if tol_ov and not rel["6_overhang"]["ok"] and rel["6_overhang"]["ponte_max_mm"] <= fab.PONTE_MAX             and rel["6_overhang"]["area_overhang_mm2"] <= tol_ov[0]:
         rel["6_overhang"].update(ok=True, tolerado=tol_ov[1])

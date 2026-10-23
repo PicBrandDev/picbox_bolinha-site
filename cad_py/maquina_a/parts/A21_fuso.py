@@ -54,9 +54,9 @@ def checa_bola(var="1"):
     k = int(var) - 1
     z0, z1 = E.JUNTAS[k], E.JUNTAS[k + 1]
     zc0 = E.z_piso(E.R_BOLA) + E.R_B + 0.5 if k == 0 else z0 + E.R_B
-    zs = list(np.arange(zc0, min(z1, E.Z_TRILHO[1]) + E.R_B, 12.0))
+    zs = list(np.arange(zc0, min(z1 + E.R_B, E.ZC_SAI) + 0.1, 12.0))
     fixos = {kk: v for kk, v in E.hardware().items() if kk in ("elev_acrilico", "elev_trilho", "elev_barra_m8")}
-    for pid in ("A20", "A22", "A25"):
+    for pid in ("A20", "A27", "A22", "A25"):
         if pid in MT.PECAS:
             fixos[pid] = MT.modulo(pid).build(None, "-")
     col = {}
@@ -64,12 +64,12 @@ def checa_bola(var="1"):
         g = E.giro_para_bola(zc)
         corpos = dict(fixos)
         corpos.update({f"A21.{j + 1}": E.fuso_maquina(j, g) for j in range(3)})
-        b = cq.Workplane("XY").sphere(E.R_B - 0.5).translate(E.p(E.R_BOLA, E.ANG_BOLA, zc))
+        b = cq.Workplane("XY").sphere(E.R_B - 0.5).translate(E.p(E.R_BOLA, E.ang_bola(zc), zc))
         r = c7_interferencia(b, corpos)
         if not r["ok"]:
             col[f"{zc:.0f}"] = r["colisoes"]
     return dict(ok=not col, colisoes=col, alturas=[round(z, 1) for z in zs],
-                nota="bola parada no trilho (255 graus), fuso girado ate o filete apoiar a bola; folga radial de 2 mm para o nucleo")
+                nota="bola presa no trilho/guia (280 graus embaixo, 150 no topo), fuso girado ate o filete apoiar a bola")
 
 
 FICHA = dict(orientacao="em pe, junta de baixo na mesa", suporte="nao", perimetros=4, infill="20% gyroid", camada=0.20,

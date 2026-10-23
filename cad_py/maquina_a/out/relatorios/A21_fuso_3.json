@@ -7,7 +7,7 @@
   "ok": true,
   "valido": true,
   "solidos": 1,
-  "volume_mm3": 197802.2
+  "volume_mm3": 192565.7
  },
  "2_stl": {
   "ok": true,
@@ -15,7 +15,7 @@
   "winding": true,
   "degeneradas": 0,
   "corpos": 1,
-  "triangulos": 14756,
+  "triangulos": 14146,
   "tol_linear": 0.02,
   "tol_angular": 0.1
  },
@@ -25,7 +25,7 @@
   "tamanho": [
    74.0,
    74.0,
-   167.0
+   163.0
   ],
   "mesa": [
    220.0,
@@ -41,12 +41,12 @@
   "ok": true,
   "percentil1_mm": 2.79,
   "minimo": 1.0,
-  "amostras_abaixo": 9,
+  "amostras_abaixo": 8,
   "amostras": 3000
  },
  "6_overhang": {
   "ok": true,
-  "area_overhang_mm2": 8.3,
+  "area_overhang_mm2": 12.8,
   "ponte_max_mm": 3.2,
   "limite_graus": 45.0
  },
@@ -91,7 +91,7 @@
    1591.0,
    1603.0
   ],
-  "nota": "bola parada no trilho (255 graus), fuso girado ate o filete apoiar a bola; folga radial de 2 mm para o nucleo"
+  "nota": "bola presa no trilho/guia (280 graus embaixo, 150 no topo), fuso girado ate o filete apoiar a bola"
  },
  "13_montagem": {
   "ok": true,
@@ -101,8 +101,8 @@
  },
  "12_fatiamento": {
   "ok": true,
-  "gramas": 110.6,
-  "horas": 10.25,
+  "gramas": 107.8,
+  "horas": 10.0,
   "metodo": "estimado por volume (sem slicer CLI)"
  },
  "11_visual": {
@@ -116,6 +116,6 @@
   "nota": "avaliar abrindo as imagens"
  },
  "aprovada": true,
- "tempo_verificacao_s": 23.9,
+ "tempo_verificacao_s": 24.7,
  "fixadores": []
 }

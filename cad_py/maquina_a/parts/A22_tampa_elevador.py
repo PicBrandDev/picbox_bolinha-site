@@ -23,7 +23,7 @@ IMPRESSORA = "220"
 REF = None
 NO_EIXO = False
 EIXOS_CONTEXTO = ["A"]
-CONTATO_ESPERADO = ("elev_acrilico", "elev_608", "lateral_dir", "A25")
+CONTATO_ESPERADO = ("A27", "elev_608", "lateral_dir", "A25")
 ESTRUTURAL = True
 VISTA = (-1.0, -1.3, 0.9)
 

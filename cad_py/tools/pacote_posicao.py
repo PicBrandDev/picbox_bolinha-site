@@ -12,7 +12,7 @@ from maquina_a import assembly as AS  # noqa: E402
 from maquina_a import montagem as MT  # noqa: E402
 from maquina_a.parts import A12_calco as A12  # noqa: E402
 
-ELEV = ("A20", "A21", "A22", "A23", "A24", "A25")
+ELEV = ("A20", "A21", "A22", "A23", "A24", "A25", "A27")
 OUT = Path(__file__).resolve().parents[1] / "maquina_a" / "out"
 CALCO = {"0": "frente-esquerda", "1": "tras-esquerda", "2": "frente-centro", "3": "tras-centro",
          "4": "frente-centro-direita", "5": "tras-direita"}
