@@ -165,6 +165,11 @@ def verificar(pid, var):
     else:
         rel["8_movimento"] = dict(ok=True, nota="peca fora dos eixos")
 
+    if hasattr(mod, "checa_giro"):                        # peca que gira no lugar (ex.: balancim): folga no giro todo
+        rg = mod.checa_giro(var)
+        rel["8_movimento"]["giro"] = rg
+        rel["8_movimento"]["ok"] = rel["8_movimento"]["ok"] and rg["ok"]
+
     pares = mod.pares_furos(var) if hasattr(mod, "pares_furos") else []
     rel["9_furos"] = C.c9_furos(pares) if pares else dict(ok=True, nota="sem furacao entre pecas")
     rel["10_bola"] = mod.checa_bola(var) if hasattr(mod, "checa_bola") else dict(ok=True, nota="peca fora do caminho da bola")

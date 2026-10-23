@@ -63,9 +63,9 @@ Checagem 11 (visual): avaliada abrindo as imagens em `out/png/` (ver CHANGELOG).
 - **A36_garfo**: menor folga em movimento 1.0 mm (A05.A x A01.A, carro em 144.0); parede p1 1.81 mm (min 1.6); overhang 0.0 mm2, ponte max 3.2 mm
 - **A08_gabarito**: parede p1 4.0 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
 - **A15_saida_magazine**: menor folga em movimento inf mm (A.patim x A15, carro em -141.0); parede p1 1.56 mm (min 1.6); overhang 0.0 mm2, ponte max 0.1 mm
-- **A16_escapamento**: menor folga em movimento 5.5 mm (A10.A x A16, carro em -141.0); parede p1 2.0 mm (min 1.6); overhang 0.0 mm2, ponte max 9.5 mm
+- **A16_escapamento**: menor folga em movimento 5.5 mm (A10.A x A16, carro em -141.0); parede p1 2.0 mm (min 1.6); overhang 0.0 mm2, ponte max 9.9 mm
 - **A26_entrada_berco**: menor folga em movimento 1.0 mm (A10.A x A26, carro em -141.0); parede p1 2.0 mm (min 1.6); overhang 6.3 mm2, ponte max 0.2 mm
-- **A17_balancim**: menor folga em movimento inf mm (A.patim x A17, carro em -141.0); parede p1 1.8 mm (min 1.5); overhang 0.0 mm2, ponte max 9.2 mm
+- **A17_balancim**: menor folga em movimento inf mm (A.patim x A17, carro em -141.0); parede p1 1.91 mm (min 1.5); overhang 0.0 mm2, ponte max 9.7 mm
 - **A18_entrada_magazine**: menor folga em movimento 3.38 mm (ref:A.garra x A18, carro em 99.0); parede p1 1.59 mm (min 1.6); overhang 0.0 mm2, ponte max 5.9 mm
 - **A19_suporte_entrada**: menor folga em movimento inf mm (A.patim x A19, carro em -141.0); parede p1 5.4 mm (min 1.6); overhang 0.0 mm2, ponte max 0.1 mm
 - **A12_calco**: menor folga em movimento inf mm (B.patim x A12, carro em -144.2); parede p1 9.54 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm

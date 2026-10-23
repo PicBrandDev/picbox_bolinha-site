@@ -1,6 +1,6 @@
 # Maquina A — fila de impressao (P1)
 
-Total: **162.2 h** de impressora e **1694 g** de PETG em 41 pecas. Com as 3 impressoras em paralelo: **54.1 h** de relogio.
+Total: **162.3 h** de impressora e **1694 g** de PETG em 41 pecas. Com as 3 impressoras em paralelo: **54.2 h** de relogio.
 Horas disponiveis: sem limite (usuario). Tempo/massa estimados por volume (sem slicer CLI); conferir no slicer.
 Todas as pecas cabem na mesa 220 x 220 x 250.
 
@@ -41,7 +41,7 @@ Todas as pecas cabem na mesa 220 x 220 x 250.
 | 13 | A07_presilha_A (2/2) | 0.3 | 1 |
 | 14 | A07_presilha_A (1/2) | 0.3 | 1 |
 
-## Impressora 220 #2 — 54.1 h
+## Impressora 220 #2 — 54.2 h
 
 | # | Peca | Tempo (h) | Massa (g) |
 |---|---|---|---|
@@ -57,7 +57,7 @@ Todas as pecas cabem na mesa 220 x 220 x 250.
 | 10 | A12_calco_2 | 0.9 | 8 |
 | 11 | A04_deslizador | 0.8 | 7 |
 | 12 | A08_gabarito (2/2) | 0.7 | 5 |
-| 13 | A17_balancim | 0.4 | 3 |
+| 13 | A17_balancim | 0.5 | 3 |
 | 14 | A07_presilha (1/2) | 0.3 | 1 |
 
 Pecas pequenas iguais (presilhas, garfo) podem ir juntas numa placa so.

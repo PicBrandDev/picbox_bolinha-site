@@ -7,7 +7,7 @@
   "ok": true,
   "valido": true,
   "solidos": 1,
-  "volume_mm3": 34656.8
+  "volume_mm3": 34545.3
  },
  "2_stl": {
   "ok": true,
@@ -15,7 +15,7 @@
   "winding": true,
   "degeneradas": 0,
   "corpos": 1,
-  "triangulos": 4354,
+  "triangulos": 4448,
   "tol_linear": 0.02,
   "tol_angular": 0.1
  },
@@ -41,13 +41,13 @@
   "ok": true,
   "percentil1_mm": 2.0,
   "minimo": 1.6,
-  "amostras_abaixo": 4,
+  "amostras_abaixo": 2,
   "amostras": 3000
  },
  "6_overhang": {
   "ok": true,
   "area_overhang_mm2": 0.0,
-  "ponte_max_mm": 9.5,
+  "ponte_max_mm": 9.9,
   "limite_graus": 45.0
  },
  "7_interferencia": {
@@ -112,7 +112,7 @@
   "nota": "avaliar abrindo as imagens"
  },
  "aprovada": true,
- "tempo_verificacao_s": 24.6,
+ "tempo_verificacao_s": 24.0,
  "fixadores": [
   {
    "nome": "parede",

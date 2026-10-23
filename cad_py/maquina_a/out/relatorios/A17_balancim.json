@@ -7,7 +7,7 @@
   "ok": true,
   "valido": true,
   "solidos": 1,
-  "volume_mm3": 2061.2
+  "volume_mm3": 2154.8
  },
  "2_stl": {
   "ok": true,
@@ -15,7 +15,7 @@
   "winding": true,
   "degeneradas": 0,
   "corpos": 1,
-  "triangulos": 5622,
+  "triangulos": 5504,
   "tol_linear": 0.02,
   "tol_angular": 0.1
  },
@@ -39,15 +39,15 @@
  },
  "5_parede": {
   "ok": true,
-  "percentil1_mm": 1.8,
+  "percentil1_mm": 1.91,
   "minimo": 1.5,
-  "amostras_abaixo": 0,
+  "amostras_abaixo": 1,
   "amostras": 3000
  },
  "6_overhang": {
   "ok": true,
   "area_overhang_mm2": 0.0,
-  "ponte_max_mm": 9.2,
+  "ponte_max_mm": 9.7,
   "limite_graus": 45.0
  },
  "7_interferencia": {
@@ -67,7 +67,25 @@
    Infinity,
    -141.0
   ],
-  "passos": 59
+  "passos": 59,
+  "giro": {
+   "ok": true,
+   "folga_min": {
+    "A16": [
+     0.8,
+     17.0
+    ],
+    "A15": [
+     5.0,
+     -17.0
+    ],
+    "A26": [
+     5.0,
+     -17.0
+    ]
+   },
+   "exigida": 0.5
+  }
  },
  "9_furos": {
   "ok": true,
@@ -85,8 +103,8 @@
  },
  "12_fatiamento": {
   "ok": true,
-  "gramas": 2.6,
-  "horas": 0.44,
+  "gramas": 2.7,
+  "horas": 0.45,
   "metodo": "estimado por volume (sem slicer CLI)"
  },
  "11_visual": {
@@ -100,6 +118,6 @@
   "nota": "avaliar abrindo as imagens"
  },
  "aprovada": true,
- "tempo_verificacao_s": 5.9,
+ "tempo_verificacao_s": 30.3,
  "fixadores": []
 }

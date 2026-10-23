@@ -1,3 +1,6 @@
-__pycache__/
-*.pyc
+# gerados por tools/pacote_posicao.py e assembly.py (grandes, refazer quando precisar)
+maquina_a/out/maquina_a_completa.step
+maquina_a/out/maquina_a_sem_gabinete*.step
+maquina_a/out/step_por_posicao/
+maquina_a/out/stl_por_posicao/
 maquina_a/out/*.zip

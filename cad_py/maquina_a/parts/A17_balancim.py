@@ -29,6 +29,7 @@ PAREDE_MINIMA = 1.5                   # FAB rebaixo do braco do servo (1,8 de fu
 X_BRACO = (M.X_EIXO_SERVO, M.X_EIXO_SERVO + 3.7)     # placa dos bracos, encostada no braco do servo
 CUBO = (12.0, 5.0)                    # ESTIMADO diametro, espessura do cubo
 BRACO_SERVO = (7.4, 5.4, 17.0, 1.8)   # ESTIMADO cubo Ø, largura, comprimento e espessura do braco do SG90 (rebaixo)
+DESCE_BRACO = 2.0                     # FAB braco e ligacoes dos dedos 2 mm abaixo do eixo (folga >= 1,5 do fundo da A16 a +-15)
 
 
 def _rot(obj, ang):
@@ -51,7 +52,8 @@ def dedos(angulo=0.0, folga=0.0):
 def local(var="-", angulo=0.0):
     x0, x1 = X_BRACO
     yp, zp = M.Y_PIVO, M.Z_PIVO
-    braco = (cq.Workplane("YZ", origin=(x0, 0, 0)).center((M.Y_DEDO1 + M.Y_DEDO2) / 2, zp)
+    zb = zp - DESCE_BRACO                 # braco abaixo do eixo: a +-15 graus as pontas nao encostam no fundo da A16
+    braco = (cq.Workplane("YZ", origin=(x0, 0, 0)).center((M.Y_DEDO1 + M.Y_DEDO2) / 2, zb)
              .slot2D(M.Y_DEDO2 - M.Y_DEDO1 + 6.0, 6.0, 0).extrude(x1 - x0))
     # mais alto so no meio, onde fica o braco do servo (nas pontas nao pode subir ate o fundo da calha)
     braco = braco.union(cq.Workplane("YZ", origin=(x0, 0, 0)).center(yp, zp).slot2D(BRACO_SERVO[2] + 6.0, 9.0, 0).extrude(x1 - x0))
@@ -59,7 +61,7 @@ def local(var="-", angulo=0.0):
     b = braco.union(cubo)
     dx, dy = M.DEDO_SEC
     for y in (M.Y_DEDO1, M.Y_DEDO2):
-        b = b.union(caixa(M.X_DEDO - dx / 2, x1, y - dy / 2, y + dy / 2, zp - 3.0, zp + 3.0))
+        b = b.union(caixa(M.X_DEDO - dx / 2, x1, y - dy / 2, y + dy / 2, zb - 3.0, zb + 3.0))
     b = b.union(dedos(0.0))
     try:
         b = b.edges("|X").fillet(fab.R_DETALHE)
@@ -88,6 +90,26 @@ def impressao(var="-"):
 
 def fixadores(var="-"):
     return []
+
+
+def checa_giro(var="-"):
+    """Folga do balancim girando de -17 a +17 graus (servo usa +-15) contra a A16, o SG90 e o resto em volta."""
+    import numpy as np
+    from common.malha import para_trimesh, para_manifold
+    from maquina_a import montagem as MT
+    mf = lambda w: para_manifold(para_trimesh(w, 0.03, 0.15))
+    alvos = {"A16": MT.modulo("A16").build(None, "-"), "A15": MT.modulo("A15").build(None, "-")}
+    if "A26" in MT.PECAS:
+        alvos["A26"] = MT.modulo("A26").build(None, "-")
+    A = {k: mf(v) for k, v in alvos.items()}
+    piores = {}
+    for ang in np.arange(-17.0, 17.01, 1.0):
+        b = mf(local(var, float(ang)))
+        for k, m in A.items():
+            g = b.min_gap(m, 5.0)
+            if k not in piores or g < piores[k][0]:
+                piores[k] = (round(g, 2), float(ang))
+    return dict(ok=all(g >= 0.5 for g, _ in piores.values()), folga_min=piores, exigida=0.5)
 
 
 FICHA = dict(orientacao="deitado na face do cubo", suporte="nao", perimetros=4, infill="100%", camada=0.16,

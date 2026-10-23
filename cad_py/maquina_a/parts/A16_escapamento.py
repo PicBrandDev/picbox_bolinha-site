@@ -62,8 +62,8 @@ def local(var="-"):
     # a parede e a guarda de fora: nada passa de x=-207
     p = p.intersect(caixa(X_PAREDE, 0, -300, 300, 0, 3000))
     # rasgos dos dedos: varredura do dedo de -20 a +20 graus com folga
-    for a in range(-17, 18, 2):
-        p = p.cut(A17.dedos(a, 0.5))
+    for a in range(-17, 18, 1):
+        p = p.cut(A17.dedos(a, 0.8))
     # pinos da junta (furos na face y=40)
     for u in A15.PINOS_U:
         p = p.cut(cilindro(A15.PINO[0] + 2 * fab.ENCAIXE_JUSTO, A15.PINO[1], (M.X_TRAV + u, M.Y_CURVA1 + 0.01, M.Z_CURVA1 + A15.Z_PINO),
