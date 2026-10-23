@@ -1,0 +1,129 @@
+{
+ "id": "A17",
+ "nome": "balancim",
+ "variante": "-",
+ "titulo": "Balancim do escapamento",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 2154.8
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 5504,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   24.0,
+   55.3,
+   10.7
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 1.91,
+  "minimo": 1.5,
+  "amostras_abaixo": 1,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 9.7,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "A.patim x A17",
+   Infinity,
+   -141.0
+  ],
+  "passos": 59,
+  "giro": {
+   "ok": true,
+   "folga_min": {
+    "A16": [
+     0.8,
+     17.0
+    ],
+    "A15": [
+     5.0,
+     -17.0
+    ],
+    "A26": [
+     5.0,
+     -17.0
+    ]
+   },
+   "exigida": 0.5
+  }
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "nota": "peca fora do caminho da bola"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 0,
+  "sequencia": "braco do SG90 no rebaixo; parafuso do braco pelo centro + 2 M2x6 autoatarraxantes; servo em 90 graus = dedos nivelados."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 2.7,
+  "horas": 0.45,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "imagens/pecas/A17_balancim__lateral-esquerda_no-servo.png",
+   "imagens/pecas/A17_balancim__lateral-esquerda_no-servo_contexto.png",
+   "imagens/pecas/A17_balancim__lateral-esquerda_no-servo_mesa.png",
+   "imagens/pecas/A17_balancim__lateral-esquerda_no-servo_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 28.2,
+ "arquivos": {
+  "grupo": "3_magazine_e_carga",
+  "stl": "stl_para_imprimir/3_magazine_e_carga/A17_balancim__lateral-esquerda_no-servo.stl",
+  "step": "step/3_magazine_e_carga/A17_balancim__lateral-esquerda_no-servo.step",
+  "imagem": "imagens/pecas/A17_balancim__lateral-esquerda_no-servo.png"
+ },
+ "fixadores": []
+}

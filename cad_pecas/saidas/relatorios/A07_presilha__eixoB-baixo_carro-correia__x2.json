@@ -1,0 +1,126 @@
+{
+ "id": "A07",
+ "nome": "presilha",
+ "variante": "B",
+ "titulo": "Presilha dentada da correia",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 2,
+  "volume_mm3": 1318.0
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 1636,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   12.0,
+   19.5,
+   3.6
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "delta_min": [
+   -1.5,
+   -1.5,
+   3.0
+  ],
+  "delta_max": [
+   17.5,
+   1.0,
+   1.4
+  ],
+  "delta_abs_max": 17.5,
+  "justificativa": "presilha mais longa (12) e larga"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 0.8,
+  "minimo": 0.7,
+  "amostras_abaixo": 0,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 0.0,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "carro": {
+   "ok": true,
+   "colisoes": {}
+  },
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "A05.B x A01.B",
+   1.0,
+   144.2
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "nota": "peca fora do caminho da bola"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 0,
+  "sequencia": "ponta da correia no canal da garra (dentes para baixo), presilha por baixo, 2x M3x12 (ver A05)."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 0.8,
+  "horas": 0.28,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "imagens/pecas/A07_presilha__eixoB-baixo_carro-correia__x2.png",
+   "imagens/pecas/A07_presilha__eixoB-baixo_carro-correia__x2_contexto.png",
+   "imagens/pecas/A07_presilha__eixoB-baixo_carro-correia__x2_mesa.png",
+   "imagens/pecas/A07_presilha__eixoB-baixo_carro-correia__x2_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 15.9,
+ "arquivos": {
+  "grupo": "1_eixos",
+  "stl": "stl_para_imprimir/1_eixos/A07_presilha__eixoB-baixo_carro-correia__x2.stl",
+  "step": "step/1_eixos/A07_presilha__eixoB-baixo_carro-correia__x2.step",
+  "imagem": "imagens/pecas/A07_presilha__eixoB-baixo_carro-correia__x2.png"
+ },
+ "fixadores": []
+}

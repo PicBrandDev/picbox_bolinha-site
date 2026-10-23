@@ -1,0 +1,218 @@
+{
+ "id": "A02",
+ "nome": "bloco_tensor",
+ "variante": "B",
+ "titulo": "Bloco de ponta do tensor",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 54269.8
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 33100,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   90.0,
+   86.0,
+   47.0
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "delta_min": [
+   0.0,
+   -14.0,
+   2.0
+  ],
+  "delta_max": [
+   -7.0,
+   17.5,
+   -6.0
+  ],
+  "delta_abs_max": 17.5,
+  "justificativa": "pe mais largo (mesmo do A01); tensor redesenhado: deslizador corre numa prateleira abaixo do carro, sem a orelha de parede fina da referencia; nada passa de y=40,5"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 2.57,
+  "minimo": 1.6,
+  "amostras_abaixo": 0,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 16.5,
+  "ponte_max_mm": 9.0,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "B.patim x A02",
+   Infinity,
+   -144.2
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "furos": [
+   {
+    "furo": "perfil lateral",
+    "excentricidade": 0.0,
+    "angulo": 0.0,
+    "ok": true
+   },
+   {
+    "furo": "perfil baixo",
+    "excentricidade": 0.0,
+    "angulo": 0.0,
+    "ok": true
+   },
+   {
+    "furo": "FC 1",
+    "excentricidade": 0.0,
+    "angulo": 0.0,
+    "ok": true
+   },
+   {
+    "furo": "FC 2",
+    "excentricidade": 0.0,
+    "angulo": 0.0,
+    "ok": true
+   }
+  ]
+ },
+ "10_bola": {
+  "ok": true,
+  "nota": "peca fora do caminho da bola"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 10,
+  "sequencia": "1) porcas M3 na orelha e no braco do FC; 2) deslizador A04 com a tensora na prateleira (lingua na canaleta); 4) perfil+trilho (M5 na aba e no piso); 5) eixo na parede, 4x M4x25; 6) correia: M4x40 por fora da lateral ate a porca do deslizador, apertar ate tensionar, travar com o M3x12 por baixo; 7) FC (so eixo B)."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 53.9,
+  "horas": 5.1,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "imagens/pecas/A02_bloco-tensor__eixoB-baixo_ponta-esquerda-tensor.png",
+   "imagens/pecas/A02_bloco-tensor__eixoB-baixo_ponta-esquerda-tensor_contexto.png",
+   "imagens/pecas/A02_bloco-tensor__eixoB-baixo_ponta-esquerda-tensor_mesa.png",
+   "imagens/pecas/A02_bloco-tensor__eixoB-baixo_ponta-esquerda-tensor_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 24.6,
+ "arquivos": {
+  "grupo": "1_eixos",
+  "stl": "stl_para_imprimir/1_eixos/A02_bloco-tensor__eixoB-baixo_ponta-esquerda-tensor.stl",
+  "step": "step/1_eixos/A02_bloco-tensor__eixoB-baixo_ponta-esquerda-tensor.step",
+  "imagem": "imagens/pecas/A02_bloco-tensor__eixoB-baixo_ponta-esquerda-tensor.png"
+ },
+ "fixadores": [
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral"
+  },
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral"
+  },
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral"
+  },
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral"
+  },
+  {
+   "nome": "perfil",
+   "tipo": "ISO7380",
+   "bitola": "M5",
+   "comp": 10,
+   "extra": "porca martelo M5 na fenda lateral do perfil"
+  },
+  {
+   "nome": "perfil",
+   "tipo": "ISO7380",
+   "bitola": "M5",
+   "comp": 10,
+   "extra": "porca martelo M5 na fenda de baixo do perfil"
+  },
+  {
+   "nome": "fim de curso",
+   "tipo": "DIN912",
+   "bitola": "M3",
+   "comp": 12,
+   "extra": "porca M3 no bolsao do braco"
+  },
+  {
+   "nome": "fim de curso",
+   "tipo": "DIN912",
+   "bitola": "M3",
+   "comp": 12,
+   "extra": "porca M3 no bolsao do braco"
+  },
+  {
+   "nome": "tensor",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 40,
+   "extra": "por fora da lateral esquerda (furo Ø4,5 no MDF); puxa a porca M4 embutida no A04"
+  },
+  {
+   "nome": "trava",
+   "tipo": "DIN912",
+   "bitola": "M3",
+   "comp": 12,
+   "extra": "porca M3 no deslizador A04"
+  }
+ ]
+}

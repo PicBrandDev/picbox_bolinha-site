@@ -1,0 +1,183 @@
+{
+ "id": "A09",
+ "nome": "boca",
+ "variante": "B",
+ "titulo": "Boca do buraco",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 49186.0
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 21950,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   76.0,
+   89.0,
+   30.0
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "delta_min": [
+   17.0,
+   8.0,
+   1.0
+  ],
+  "delta_max": [
+   -17.0,
+   2.0,
+   0.0
+  ],
+  "delta_abs_max": 17.0,
+  "justificativa": "abertura redonda Ø50 (usuario) no lugar de 78x60; garganta e costelas para a bola de 60 g; borda redonda"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 2.79,
+  "minimo": 1.6,
+  "amostras_abaixo": 6,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 2.0,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "carro": {
+   "ok": true,
+   "colisoes": {}
+  },
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "A05.B x A01.B",
+   1.0,
+   144.2
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "furos": [
+   {
+    "furo": "carro 1",
+    "excentricidade": 0.0,
+    "angulo": 0.0,
+    "ok": true
+   },
+   {
+    "furo": "carro 2",
+    "excentricidade": 0.0,
+    "angulo": 0.0,
+    "ok": true
+   },
+   {
+    "furo": "carro 3",
+    "excentricidade": 0.0,
+    "angulo": 0.0,
+    "ok": true
+   },
+   {
+    "furo": "carro 4",
+    "excentricidade": 0.0,
+    "angulo": 0.0,
+    "ok": true
+   }
+  ]
+ },
+ "10_bola": {
+  "ok": true,
+  "queda_livre": true,
+  "folga_radial_queda": 6.0,
+  "folga_bola_rolando_mm": 9.5,
+  "nota": "bandeja da cena antiga (A12-A14 ainda nao refeitas)"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 4,
+  "sequencia": "LED IR333C e TIL78 nas buchas (cola quente, fios para a esteira); boca no carro B, 4x M3x12."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 49.1,
+  "horas": 4.66,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "imagens/pecas/A09_boca__eixoB-baixo_carro.png",
+   "imagens/pecas/A09_boca__eixoB-baixo_carro_contexto.png",
+   "imagens/pecas/A09_boca__eixoB-baixo_carro_mesa.png",
+   "imagens/pecas/A09_boca__eixoB-baixo_carro_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 19.9,
+ "arquivos": {
+  "grupo": "2_boca_e_soltura",
+  "stl": "stl_para_imprimir/2_boca_e_soltura/A09_boca__eixoB-baixo_carro.stl",
+  "step": "step/2_boca_e_soltura/A09_boca__eixoB-baixo_carro.step",
+  "imagem": "imagens/pecas/A09_boca__eixoB-baixo_carro.png"
+ },
+ "fixadores": [
+  {
+   "nome": "carro",
+   "tipo": "DIN912",
+   "bitola": "M3",
+   "comp": 12,
+   "extra": "nas porcas embutidas da placa do carro A05"
+  },
+  {
+   "nome": "carro",
+   "tipo": "DIN912",
+   "bitola": "M3",
+   "comp": 12,
+   "extra": "nas porcas embutidas da placa do carro A05"
+  },
+  {
+   "nome": "carro",
+   "tipo": "DIN912",
+   "bitola": "M3",
+   "comp": 12,
+   "extra": "nas porcas embutidas da placa do carro A05"
+  },
+  {
+   "nome": "carro",
+   "tipo": "DIN912",
+   "bitola": "M3",
+   "comp": 12,
+   "extra": "nas porcas embutidas da placa do carro A05"
+  }
+ ]
+}

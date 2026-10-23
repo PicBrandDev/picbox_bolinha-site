@@ -1,0 +1,115 @@
+{
+ "id": "A11",
+ "nome": "portinhola",
+ "variante": "f",
+ "titulo": "Portinhola do alcapao (frente / tras)",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 6623.8
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 2240,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   40.1,
+   31.4,
+   45.5
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 1.76,
+  "minimo": 1.0,
+  "amostras_abaixo": 0,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 0.0,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "carro": {
+   "ok": true,
+   "colisoes": {}
+  },
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "A05.A x A01.A",
+   1.0,
+   144.0
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "nota": "peca fora do caminho da bola"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 0,
+  "sequencia": "engrenar as duas com as bordas internas juntas (fechado); M3x55 em cada eixo pelo berco."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 8.4,
+  "horas": 0.96,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "imagens/pecas/A11_portinhola__eixoA-cima_berco-frente.png",
+   "imagens/pecas/A11_portinhola__eixoA-cima_berco-frente_contexto.png",
+   "imagens/pecas/A11_portinhola__eixoA-cima_berco-frente_mesa.png",
+   "imagens/pecas/A11_portinhola__eixoA-cima_berco-frente_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 20.7,
+ "arquivos": {
+  "grupo": "2_boca_e_soltura",
+  "stl": "stl_para_imprimir/2_boca_e_soltura/A11_portinhola__eixoA-cima_berco-frente.stl",
+  "step": "step/2_boca_e_soltura/A11_portinhola__eixoA-cima_berco-frente.step",
+  "imagem": "imagens/pecas/A11_portinhola__eixoA-cima_berco-frente.png"
+ },
+ "fixadores": []
+}
