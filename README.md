@@ -19,6 +19,8 @@ Este repositório reúne tudo o que define a máquina:
 
 - **Ver as peças montadas:** abra `cad_pecas/saidas/visualizador.html` no navegador (dois cliques, sem servidor).
   Lista de peças ao lado; clicar destaca a peça na máquina; modo "peça a peça"; links para STL e STEP.
+- **Montar:** [`cad_pecas/docs/MONTAGEM.md`](cad_pecas/docs/MONTAGEM.md) — passo a passo da Máquina A, com imagens,
+  parafusos e o que conferir em cada etapa.
 - **Imprimir:** `cad_pecas/saidas/stl_para_imprimir/<grupo>/` — já na orientação de impressão.
   Ordem e tempos em `cad_pecas/docs/FILA_IMPRESSAO.md`; parafusos em `cad_pecas/docs/BOM_FIXACAO.md`.
 - **Abrir em CAD:** `cad_pecas/saidas/montagem/maquina_a_montada.step` (tudo junto, sem gabinete) ou

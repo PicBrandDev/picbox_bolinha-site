@@ -61,6 +61,7 @@ maquina_a/     layout, eixo, soltura, magazine, bandeja, elevador (+ elevador_bo
   pecas/       A01_bloco_motor.py … A27_cabeca_elevador.py (uma peça por arquivo)
 ferramentas/   build_all, relatorio, visualizador, checagem_global, pack, render_*, mapa_pecas, tabela_bola,
                diagnostico, diag_peca, dump_scene, params_to_json.mjs, teste_ambiente
-docs/          INVENTARIO, PENDENCIAS, VERIFICACAO, FILA_IMPRESSAO, BOM_FIXACAO, CHANGELOG, REFERENCIA_CAD_ANTIGO
+docs/          MONTAGEM (passo a passo), INVENTARIO, PENDENCIAS, VERIFICACAO, FILA_IMPRESSAO, BOM_FIXACAO, CHANGELOG,
+               REFERENCIA_CAD_ANTIGO
 saidas/        tudo o que é gerado (ver acima)
 ```
