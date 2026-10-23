@@ -18,14 +18,19 @@ PECAS = {
     "A36": "A36_garfo",
     "A08": "A08_gabarito",
     "A15": "A15_saida_magazine",
-    "A16": "A16_calha_carga",
+    "A16": "A16_escapamento",
+    "A26": "A26_entrada_berco",
     "A17": "A17_balancim",
     "A18": "A18_entrada_magazine",
     "A19": "A19_suporte_entrada",
     "A12": "A12_calco",
     "A13": "A13_rodape",
-    "A14": "A14_saida_bandeja",
-    "A38": "A38_bolsao",
+    "A20": "A20_base_elevador",
+    "A24": "A24_suporte_motor_elevador",
+    "A21": "A21_fuso",
+    "A22": "A22_tampa_elevador",
+    "A25": "A25_saida_elevador",
+    "A23": "A23_calha_elevador",
 }
 
 # curso real de cada carro: o eixo A so tem fim de curso do lado do motor; no lado do tensor para na carga (-140)
@@ -151,12 +156,20 @@ def hardware_fixo():
     if "A15" in PECAS:
         a, b = M.eixo_tubo(M.X_TUBO[0]), M.eixo_tubo(M.X_TUBO[1])
         out["tubo"] = hw.tubo(a[0], b[0], M.Y_MAG, a[2], b[2], M.TUBO_D, M.TUBO_DI)
+    if "A20" in PECAS:
+        out.update(_hw_elevador())
     return out
+
+
+@lru_cache(maxsize=None)
+def _hw_elevador():
+    from maquina_a import elevador as EL
+    return EL.hardware()
 
 
 def corpos_magazine():
     """Apoios da bola no caminho do magazine (o que a bola toca de proposito)."""
-    out = {pid: modulo(pid).build(None, var_principal(modulo(pid))) for pid in ("A15", "A16", "A18") if pid in PECAS}
+    out = {pid: modulo(pid).build(None, var_principal(modulo(pid))) for pid in ("A15", "A16", "A26", "A18") if pid in PECAS}
     out.update({k: v for k, v in hardware_fixo().items() if k == "tubo"})
     return out
 
@@ -168,7 +181,7 @@ def corpos_contexto_caminho(carro_a=-140.0):
     from maquina_a import eixo as E
     out = {}
     for pid, v, obj in pecas_fixas():
-        if pid not in ("A15", "A16", "A18"):
+        if pid not in ("A15", "A16", "A26", "A18"):
             out[f"{pid}.{v}"] = obj
     for e in ("A", "B"):
         for k, w in E.fixos(e, E.lados_fc(e)).items():
@@ -184,7 +197,7 @@ def corpos_contexto_caminho(carro_a=-140.0):
 
 
 def corpos_bandeja():
-    """Corte (MDF da bandeja, EVA) e divisoria com os furos (referencia, coordenadas da maquina)."""
+    """Corte (MDF da bandeja, EVA) e divisoria com o furo do tubo do elevador (referencia, coordenadas da maquina)."""
     import math
     import cadquery as cq
     from common.features import caixa, cilindro
@@ -199,17 +212,23 @@ def corpos_bandeja():
 
     base = caixa(B.X_BAND[0], B.X_BAND[1], B.Y_BAND[0], B.Y_BAND[1], 1050, 1250)
     mdf = base.cut(acima(lambda x, y: B.z_eva(x, y) - B.EVA)).intersect(acima(B.z_mdf_baixo))
-    mdf = mdf.cut(cilindro(54.5, 400, (*B.SAIDA, 900), (0, 0, 1)))
+    from maquina_a import elevador as EL
+    furo = cilindro(EL.D_FURO_DIVISORIA, 400, (*EL.C, 900), (0, 0, 1)).union(caixa(EL.C[0], 300, -300, EL.C[1], 900, 1300))
+    mdf = mdf.cut(furo)
     eva = caixa(B.X_BAND[0], B.X_BAND[1], B.Y_BAND[0], B.Y_RODAPE[0], 1050, 1250)
     eva = eva.cut(acima(B.z_eva)).intersect(acima(lambda x, y: B.z_eva(x, y) - B.EVA))
-    eva = eva.cut(cilindro(54.5, 400, (*B.SAIDA, 900), (0, 0, 1)))
+    eva = eva.cut(furo)
     for sx in (-1, 1):                                     # recorte nos cantos de tras: pes dos blocos dos eixos (x>=|200|)
         canto = caixa(sx * B.X_RECORTE[0], sx * 300, B.Y_RECORTE, 0, 900, 1300) if sx > 0 else caixa(-300, -B.X_RECORTE[0], B.Y_RECORTE, 0, 900, 1300)
         mdf = mdf.cut(canto)
         eva = eva.cut(canto)
     a, m = L.GAB_LADO / 2, L.MDF_GAB
     div = caixa(-a + m, a - m, -a + m, a - m, L.Z_DIVISORIA - m, L.Z_DIVISORIA)
-    div = div.cut(cilindro(65.0, 100, (*B.SAIDA, L.Z_DIVISORIA - 50), (0, 0, 1)))
+    div = div.cut(furo)                                    # tubo do elevador (furo Ø101 + recorte ate o canto)
+    if "A20" in PECAS:                                     # furos dos parafusos da base do elevador
+        a20 = modulo("A20")
+        for ang in a20.FUROS_FLANGE:
+            div = div.cut(cilindro(4.0, 40, EL.p(a20.R_FURO_FLANGE, ang, L.Z_DIVISORIA - 30), (0, 0, 1)))
     return {"bandeja_mdf": mdf, "bandeja_eva": eva, "divisoria": div}
 
 
@@ -228,7 +247,7 @@ def corpos_contexto_bandeja():
     from maquina_a import eixo as E
     out = {}
     for pid, v, obj in pecas_fixas():
-        if pid not in ("A12", "A14", "A38"):
+        if pid != "A12":
             out[f"{pid}.{v}"] = obj
     for k, w in E.fixos("B", E.lados_fc("B")).items():
         out[f"B.{k}"] = E.para_maquina(w, "B")

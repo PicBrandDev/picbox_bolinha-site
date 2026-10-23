@@ -5,6 +5,8 @@ Intencao:
 - Interfaces: placa de MDF (aba de tras com 3 parafusos de madeira 3,5x12 por metade), EVA encosta na frente.
 Impressao: deitado na face da frente (a da bola), aba para cima.
 """
+import math
+
 import cadquery as cq
 
 from common import fab
@@ -74,7 +76,9 @@ def checa_bola(var="e"):
     from common.checks import c7_interferencia
     from maquina_a import montagem as MT
     r = 19.0
-    pts = [(x, y, B.z_eva(x, y) + r + 0.6) for x in range(-180, 181, 30) for y in range(-185, -42, 20)]
+    from maquina_a import elevador as EL
+    longe = lambda x, y: math.hypot(x - EL.C[0], y - EL.C[1]) > EL.TUBO_D / 2 + r + fab.FOLGA_BOLA_RADIAL   # fora do tubo
+    pts = [(x, y, B.z_eva(x, y) + r + 0.6) for x in range(-180, 181, 30) for y in range(-185, -42, 20) if longe(x, y)]
     bolas = cq.Workplane("XY").add([hw.bola(c, 2 * (r + fab.FOLGA_BOLA_RADIAL)).val() for c in pts])
     fixos = MT.corpos_contexto_bandeja()
     res = c7_interferencia(bolas, fixos)

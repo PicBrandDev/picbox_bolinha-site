@@ -22,7 +22,8 @@ Checagem 11 (visual): avaliada abrindo as imagens em `out/png/` (ver CHANGELOG).
 | A36_garfo | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
 | A08_gabarito | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
 | A15_saida_magazine | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
-| A16_calha_carga | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A16_escapamento | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A26_entrada_berco | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
 | A17_balancim | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
 | A18_entrada_magazine | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
 | A19_suporte_entrada | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
@@ -34,8 +35,14 @@ Checagem 11 (visual): avaliada abrindo as imagens em `out/png/` (ver CHANGELOG).
 | A12_calco_5 | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
 | A13_rodape | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
 | A13_rodape_d | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
-| A14_saida_bandeja | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
-| A38_bolsao | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A20_base_elevador | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A24_suporte_motor_elevador | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A21_fuso | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A21_fuso_2 | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A21_fuso_3 | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A22_tampa_elevador | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A25_saida_elevador | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
+| A23_calha_elevador | ok | ok | ok | ok | ok | ok | ok | ok | ok | ok | ver | ok | ok | APROVADA |
 
 ## Detalhes que importam
 
@@ -56,7 +63,8 @@ Checagem 11 (visual): avaliada abrindo as imagens em `out/png/` (ver CHANGELOG).
 - **A36_garfo**: menor folga em movimento 1.0 mm (A05.A x A01.A, carro em 144.0); parede p1 1.81 mm (min 1.6); overhang 0.0 mm2, ponte max 3.2 mm
 - **A08_gabarito**: parede p1 4.0 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
 - **A15_saida_magazine**: menor folga em movimento inf mm (A.patim x A15, carro em -141.0); parede p1 1.56 mm (min 1.6); overhang 0.0 mm2, ponte max 0.1 mm
-- **A16_calha_carga**: menor folga em movimento 1.0 mm (A11.t x A16, carro em -141.0); parede p1 2.0 mm (min 1.6); overhang 0.0 mm2, ponte max 9.2 mm
+- **A16_escapamento**: menor folga em movimento 5.5 mm (A10.A x A16, carro em -141.0); parede p1 2.0 mm (min 1.6); overhang 0.0 mm2, ponte max 9.5 mm
+- **A26_entrada_berco**: menor folga em movimento 1.0 mm (A10.A x A26, carro em -141.0); parede p1 2.0 mm (min 1.6); overhang 6.3 mm2, ponte max 0.2 mm
 - **A17_balancim**: menor folga em movimento inf mm (A.patim x A17, carro em -141.0); parede p1 1.8 mm (min 1.5); overhang 0.0 mm2, ponte max 9.2 mm
 - **A18_entrada_magazine**: menor folga em movimento 3.38 mm (ref:A.garra x A18, carro em 99.0); parede p1 1.59 mm (min 1.6); overhang 0.0 mm2, ponte max 5.9 mm
 - **A19_suporte_entrada**: menor folga em movimento inf mm (A.patim x A19, carro em -141.0); parede p1 5.4 mm (min 1.6); overhang 0.0 mm2, ponte max 0.1 mm
@@ -64,9 +72,15 @@ Checagem 11 (visual): avaliada abrindo as imagens em `out/png/` (ver CHANGELOG).
 - **A12_calco_1**: menor folga em movimento inf mm (B.patim x A12, carro em -144.2); parede p1 11.31 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
 - **A12_calco_2**: menor folga em movimento inf mm (B.patim x A12, carro em -144.2); parede p1 7.15 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
 - **A12_calco_3**: menor folga em movimento inf mm (B.patim x A12, carro em -144.2); parede p1 9.18 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
-- **A12_calco_4**: menor folga em movimento inf mm (B.patim x A12, carro em -144.2); parede p1 5.02 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
+- **A12_calco_4**: menor folga em movimento inf mm (B.patim x A12, carro em -144.2); parede p1 5.22 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
 - **A12_calco_5**: menor folga em movimento inf mm (B.patim x A12, carro em -144.2); parede p1 6.73 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
 - **A13_rodape**: menor folga em movimento inf mm (B.patim x A13, carro em -144.2); parede p1 3.0 mm (min 1.6); overhang 0.0 mm2, ponte max 0.2 mm
 - **A13_rodape_d**: menor folga em movimento inf mm (B.patim x A13, carro em -144.2); parede p1 3.0 mm (min 1.6); overhang 0.0 mm2, ponte max 0.2 mm
-- **A14_saida_bandeja**: menor folga em movimento inf mm (B.patim x A14, carro em -144.2); parede p1 2.99 mm (min 1.6); overhang 0.0 mm2, ponte max 0.0 mm
-- **A38_bolsao**: parede p1 3.2 mm (min 1.6); overhang 0.0 mm2, ponte max 0.1 mm
+- **A20_base_elevador**: parede p1 4.41 mm (min 1.6); overhang 0.0 mm2, ponte max 2.6 mm
+- **A24_suporte_motor_elevador**: parede p1 2.32 mm (min 1.6); overhang 0.0 mm2, ponte max 6.2 mm
+- **A21_fuso**: menor folga em movimento inf mm (B.patim x A21, carro em -144.2); parede p1 1.67 mm (min 1.0); overhang 20.5 mm2, ponte max 0.0 mm
+- **A21_fuso_2**: menor folga em movimento inf mm (B.patim x A21, carro em -144.2); parede p1 0.95 mm (min 1.0); overhang 36.8 mm2, ponte max 3.2 mm
+- **A21_fuso_3**: menor folga em movimento inf mm (B.patim x A21, carro em -144.2); parede p1 2.79 mm (min 1.0); overhang 8.3 mm2, ponte max 3.2 mm
+- **A22_tampa_elevador**: menor folga em movimento inf mm (A.patim x A22, carro em -141.0); parede p1 2.99 mm (min 1.6); overhang 0.0 mm2, ponte max 3.6 mm
+- **A25_saida_elevador**: menor folga em movimento inf mm (A.patim x A25, carro em -141.0); parede p1 2.05 mm (min 1.6); overhang 0.0 mm2, ponte max 5.9 mm
+- **A23_calha_elevador**: menor folga em movimento inf mm (A.patim x A23, carro em -141.0); parede p1 2.58 mm (min 1.6); overhang 0.0 mm2, ponte max 5.9 mm

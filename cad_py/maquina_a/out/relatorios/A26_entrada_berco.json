@@ -1,0 +1,132 @@
+{
+ "id": "A26",
+ "nome": "entrada_berco",
+ "variante": "-",
+ "titulo": "Entrada do berco (curva em V + linguas)",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 38770.8
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 3120,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   41.8,
+   46.5,
+   44.5
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 2.0,
+  "minimo": 1.6,
+  "amostras_abaixo": 16,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 6.3,
+  "ponte_max_mm": 0.2,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "A10.A x A26",
+   1.0,
+   -141.0
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "fila": {
+   "ok": true,
+   "apoios": {},
+   "maquina": {},
+   "pontos": 59
+  },
+  "solta": {
+   "ok": true,
+   "apoios": {},
+   "maquina": {},
+   "pontos": 13
+  },
+  "nota": "carro A na carga (x=-140); bola levantada 0,6 mm contra os apoios, 1,5 mm de folga contra o resto"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 2,
+  "sequencia": "1) pinos Ø4 na junta com a A16; 2) encostar na lateral esquerda e parafusar (2x M4x25); 3) com o carro A parado na carga (x=-140), conferir que as linguas entram no furo do berco sem encostar."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 26.6,
+  "horas": 2.62,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "png/A26_entrada_berco.png",
+   "png/A26_entrada_berco_contexto.png",
+   "png/A26_entrada_berco_mesa.png",
+   "png/A26_entrada_berco_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 22.9,
+ "fixadores": [
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral esquerda"
+  },
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral esquerda"
+  }
+ ]
+}

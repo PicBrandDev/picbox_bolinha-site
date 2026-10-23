@@ -51,6 +51,20 @@ def main():
         m.visual.face_colors = [150, 150, 150, 255]
         cena.add_geometry(m, node_name="hw_" + nome, geom_name="hw_" + nome)
     asm.save(str(OUT / "assembly.step"))
+    # STEP completo para visualizacao: impressas + compradas + MDF (bandeja, divisoria, gabinete)
+    comp = cq.Assembly(name="maquina_a_completa")
+    for nome, w in pecas():
+        comp.add(w, name=nome, color=cq.Color(0.91, 0.54, 0.17))
+    for nome, w in {**compradas(), **MT.hardware_fixo()}.items():
+        cor = cq.Color(0.62, 0.83, 0.91, 0.5) if nome == "tubo" else cq.Color(0.55, 0.55, 0.55)
+        comp.add(w, name="comprada_" + nome.replace(".", "_"), color=cor)
+    if "A12" in MT.PECAS:
+        for nome, w in MT.corpos_bandeja().items():
+            comp.add(w, name=nome, color=cq.Color(0.2, 0.2, 0.2) if nome == "bandeja_eva" else cq.Color(0.78, 0.66, 0.47))
+    from maquina_a import verifica as V2
+    for nome, w in V2.gabinete().items():
+        comp.add(w, name="gabinete_" + nome, color=cq.Color(0.78, 0.66, 0.47, 0.25))
+    comp.save(str(OUT / "maquina_a_completa.step"))
     cena.export(OUT / "glb" / "assembly.glb")
     print("assembly.step e assembly.glb:", len(cena.geometry), "corpos")
 

@@ -1,9 +1,9 @@
 """Tracado do magazine e da calha de carga (coordenadas da MAQUINA, Z up). Tudo e definido pelo CENTRO DA BOLA.
 
 Fluxo: entrada (carga manual; depois o elevador) em x=+130 -> tubo acrilico Ø50x44 ao longo de -x em y=70
-(atras do eixo A) -> saida A15: reta + curva de 90 graus para -y -> calha de carga A16: travessia em V ao longo
-de -y em x=-185,5 (passa por baixo do pe do bloco do tensor A), escapamento (servo SG90, 2 dedos), canto contra o
-batente da frente e trecho em V ao longo de +x ate a lingua que entra no berco (carro A em x=-140).
+(atras do eixo A) -> saida A15: reta + curva de 90 graus para -y -> escapamento A16: travessia em V ao longo
+de -y em x=-184,5 (passa por baixo do pe do bloco do tensor A), servo SG90 com 2 dedos -> entrada do berco A26:
+curva em V de 90 graus (R18,5, para +x) e linguas que entram no berco (carro A em x=-140).
 Inclinacao de 3 graus em todo o caminho. Capacidade ~10 bolas (tubo 6 + saida e curva 1,9 + fila ate o dedo 0,5
 + canal da entrada 1,3 + funil 1).
 """
@@ -34,13 +34,13 @@ X_CARGA_MIN = -141.0                   # ESTIMADO limite do carro A do lado do t
 X_LINGUA = X_CARGA_MIN + S.X_BOCH_E[0] - 1.0   # -166: fim do corpo da calha (1 mm da bochecha do berco no limite)
 X_PONTA = X_CARGA - 1.0 + S.X_PORT[0] - 1.0   # -162,5: ponta da lingua (1 mm das portinholas com o carro em -141)
 Y_CANTO = S.Y_C                        # -57 plano da bola no berco
-QUEDA_CANTO = 2.0                      # ESTIMADO degrau da travessia para o trecho final (a bola desce, nunca sobe)
+QUEDA_CANTO = 2.0                      # referencia das alturas a montante (mantida: o magazine nao muda de altura)
 
 # alturas do centro da bola (de tras para frente), a partir do berco
 Z_BERCO = S.Z_C                                             # 1470
 Z_FIM = Z_BERCO                                             # trecho final chega no nivel do berco (vertice continuo)
 Z_CANTO_X = Z_FIM + (X_LINGUA - X_TRAV) * math.tan(INCL)    # trecho final no canto
-Z_CANTO_Y = Z_CANTO_X + QUEDA_CANTO                         # travessia no canto
+Z_CANTO_Y = Z_CANTO_X + QUEDA_CANTO                         # referencia de z_trav (y=-57)
 Z_CURVA1 = Z_CANTO_Y + (Y_CURVA1 - Y_CANTO) * math.tan(INCL)
 Z_CURVA0 = Z_CURVA1 + (math.pi / 2 * R_CURVA) * math.tan(INCL)
 Z_TUBO0 = Z_CURVA0 + (X_TUBO[0] - X_CURVA0) * math.tan(INCL)    # ponta esquerda do tubo (centro da bola)
@@ -69,24 +69,6 @@ def z_fim(x):
     return Z_FIM + (X_LINGUA - x) * math.tan(INCL)
 
 
-def z_queda(y):
-    """Centro da bola na travessia e, depois do fim dela, apoiada no flanco/borda de tras do V do trecho final."""
-    t = math.tan(math.radians(ANG_V))
-    vert = z_fim(X_TRAV) - H_VERTICE
-    o = y - Y_CANTO                                   # distancia ao centro do V do trecho final
-    e = V_ABERTO - 1.6                                # quina do patamar
-    o_plano = e - R_B * math.sin(math.radians(ANG_V))
-    if o <= 0:
-        flanco = z_fim(X_TRAV)
-    elif o <= o_plano:                                # encosta so no flanco de tras
-        flanco = vert + o * t + R_B / math.cos(math.radians(ANG_V))
-    else:                                             # encosta na quina do patamar
-        flanco = vert + e * t + math.sqrt(max(0.0, R_B ** 2 - (o - e) ** 2))
-    if y >= Y_FIM_TRAV:
-        return max(z_trav(y), flanco)
-    return flanco
-
-
 def z_tubo(x):
     return Z_TUBO0 + (x - X_TUBO[0]) * math.tan(INCL)
 
@@ -104,12 +86,17 @@ def pontos_bola(passo=4.0):
         cx, cy = X_TRAV + R_CURVA, Y_CURVA1
         pts.append((cx - R_CURVA * math.sin(a), cy + R_CURVA * math.cos(a), Z_CURVA0 - a * R_CURVA * math.tan(INCL)))
     y = Y_CURVA1
-    while y > Y_CANTO:
-        pts.append((X_TRAV, y, z_queda(y)))
+    while y > Y_CURVA_B0:
+        pts.append((X_TRAV, y, z_trav(y)))
         y -= passo
-    x = X_TRAV
+    n = int(math.pi / 2 * R_CURVA_B / passo) + 1
+    for k in range(n + 1):
+        a = math.pi / 2 * k / n
+        cx, cy = C_CURVA_B
+        pts.append((cx - R_CURVA_B * math.cos(a), cy - R_CURVA_B * math.sin(a), Z_CURVA_B0 - (Z_CURVA_B0 - Z_FIM) * k / n))
+    x = X_LINGUA + passo
     while x <= S.X_PORT[0] + X_CARGA:
-        pts.append((x, Y_CANTO, z_fim(x) if x <= X_LINGUA else Z_FIM))
+        pts.append((x, Y_CANTO, Z_FIM))
         x += passo
     return pts
 
@@ -170,8 +157,32 @@ def canal_curva(u_neg=None, pos="v", perfil=None):
 X_PAREDE = -L.PAREDE_X                 # -207 face interna da lateral esquerda
 U_PAREDE = X_TRAV - X_PAREDE - 0.0     # 21,5: lado da parede vai ate a lateral (a parede e a guarda de fora)
 
-# travessia termina antes do trecho final: a bola cai (nunca sobe) no flanco de tras do V do trecho final
-Y_FIM_TRAV = Y_CANTO + R_B + 1.5       # -36,5
+# curva em V da entrada do berco (A26): da travessia (-y) para o berco (+x), sem degrau nem batente
+R_CURVA_B = X_LINGUA - X_TRAV          # 18,5: o maior raio que cabe entre a travessia e o berco
+C_CURVA_B = (X_LINGUA, Y_CANTO + R_CURVA_B)   # (-166, -38,5)
+Y_CURVA_B0 = C_CURVA_B[1]              # fim da travessia
+Z_CURVA_B0 = Z_CANTO_Y + (Y_CURVA_B0 - Y_CANTO) * math.tan(INCL)   # 1473,9 (travessia na mesma altura de antes)
+INCL_CURVA_B = math.degrees(math.atan((Z_CURVA_B0 - Z_FIM) / (math.pi / 2 * R_CURVA_B)))   # ~7,7 graus
+Y_JUNTA_B = Y_CURVA_B0 + 4.5           # ESTIMADO junta A16/A26 na travessia (pinos)
+
+
+def canal_curva_berco(neg="guarda", pos="v", perfil=None, extra=20.0):
+    """Curva de 90 graus da travessia (vindo em -y) para o berco (seguindo em +x), descendo de Z_CURVA_B0 a Z_FIM.
+    A varredura comeca 'extra' graus alem do fim (x>-166, fora da peca): no comeco dela o OCC perde material."""
+    import cadquery as cq
+    cx, cy = C_CURVA_B
+    h = Z_CURVA_B0 - Z_FIM
+    z0 = Z_FIM - h * extra / 90.0
+    hel = cq.Wire.makeHelix(pitch=4 * h, height=h * (90.0 + extra) / 90.0, radius=R_CURVA_B, center=cq.Vector(cx, cy, z0),
+                            lefthand=True)
+    hel = hel.rotate(cq.Vector(cx, cy, 0), cq.Vector(cx, cy, 1), 270 + extra)
+    p0 = hel.startPoint()
+    t0 = hel.tangentAt(0).normalized()
+    lat = cq.Vector(0, 0, 1).cross(t0).normalized()
+    pl = cq.Plane(origin=p0.toTuple(), xDir=lat.toTuple(), normal=t0.toTuple())
+    # varrida contra o fluxo: os lados u+/u- trocam
+    pts = perfil if perfil is not None else perfil_v(neg=pos, pos=neg)
+    return cq.Workplane(pl).polyline(pts).close().sweep(cq.Workplane().add(hel), isFrenet=True)
 
 # escapamento: servo SG90 deitado contra a lateral, eixo para +x; dedos no plano do vertice da travessia
 Z_PIVO = z_trav(Y_PIVO) - H_VERTICE - 14.0   # ponta sobe ~9,8 acima do vertice e desce ~3 abaixo

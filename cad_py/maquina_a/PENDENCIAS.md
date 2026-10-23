@@ -70,10 +70,10 @@
 ## Interfaces que a P2 precisa respeitar
 - Calha de carga do magazine -> berco: com o carro A em x=-140, a bola chega rolando em +X com centro em y=-57, z=1470; a calha termina em x=-165 (bochecha de entrada do berco em x=-140-24), apoiada em V de 120 graus (linhas de contato a y=-57+-9,5, z=1453,6).
 - Magazine refeito para tubo Ø50x44 (bola 38), 8-10 bolas; o tubo Ø40x36 nao serve.
-- Elevador: adiado (correia GT2 10 com pas ou pistao de 450 mm). Ate la, bolsao de coleta na saida da bandeja.
+- Elevador: fuso em tubo acrilico Ø100 no canto frente-direita (A20-A25; ver CHANGELOG). Entrega no funil da A18.
 
 ## Decisoes da P2 (2026-10-22)
-- Sem elevador: a bola sai da bandeja por um tubo no canto frente-direita e cai num bolsao atras da porta do pedestal. O operador devolve as bolas no funil do magazine (A18), que e alcancado pela porta de tras (fundo parafusado) ou tirando a frente de policarbonato.
+- (substituido) Sem elevador / bolsao: trocado pelo elevador de fuso em 2026-10-22.
 - Magazine: tubo acrilico Ø50x44, comprimento 230 mm; o tubo Ø40x36 nao serve para a bola de 38.
 - Comporta do magazine eliminada: o servo do escapamento so solta a bola com o carro A na carga (x=-140), e ela chega ao berco em menos de 1 s. Se quiser a comporta de volta (carga mais rapida), e uma peca a mais na A16.
 - Carro A: limite do lado do tensor em -141 (firmware). A calha de carga fica a 1 mm da bochecha do berco nesse limite.
@@ -85,7 +85,27 @@
 - **SG90:** dimensoes (corpo 22,8x12,2x22,7, orelhas a 15,9 da base, furos a 27,8) e o braco que vem no kit (o rebaixo do A17 assume Ø7,4 + braco de 5,4x17).
 - Tubo acrilico: diametro externo real (o encaixe tem 0,3 mm de folga por lado).
 - Furacao nova no MDF:
-  - laterais: 2+3 furos M4 (A15/A16, lateral esquerda) e 2 M4 (A19) + 2 M4 (A38) na lateral direita, todos com porca-garra por fora;
-  - divisoria: furo Ø65 no canto frente-direita (A14);
-  - placa da bandeja: furo Ø54,5.
+  - laterais: 2+3 furos M4 (A15/A16, lateral esquerda) e 2 M4 (A19) na lateral direita, com porca-garra por fora; 2 furos Ø4,5 (A22, tampa do elevador) na lateral direita, parafuso de fora e porca por dentro;
+  - divisoria: furo Ø101 centrado em (155,-155) + recorte ate o canto frente-direita; 3 furos escareados para a A20;
+  - placa da bandeja e EVA: mesmo furo Ø101 + recorte ate o canto.
 - Placa da bandeja (MDF) e EVA: recorte de 6 x 9 mm nos dois cantos de tras (x>=|199|, y>=-29), onde ficam os pes dos blocos dos eixos.
+
+## Elevador de fuso (2026-10-22)
+### Comprar
+- Tubo acrilico Ø100 x 94 (parede 3), 573 mm. Furo de entrada e entalhe de saida cortados no tubo (gabarito: imprimir a A25 e marcar).
+- Barra roscada M8 x 620 mm, 4 porcas M8, 2 arruelas M8 pequenas (Ø14), 2 rolamentos 608ZZ, acoplamento flexivel 5x8 (Ø19 x 25).
+- Barra Ø8 de aluminio x 516 mm (trilho-guia), com 3 furos roscados M3 (z=1200, 1400, 1575); 3 M3x8 pela parede do tubo.
+- NEMA 17 (17HS4401 ou igual) + driver; 2 pinos Ø3x16 por junta do fuso (4).
+### A testar (prioridade)
+1. **Topo (saida):** imprimir A21-3 + A22 + A25 e testar so o ultimo segmento num pedaco de tubo: a bola tem que passar por cima do trilho e rolar para fora no entalhe em toda volta. Se ficar girando sem sair, aumentar o caimento do filete (10 -> 15 graus) ou alargar o entalhe.
+2. **Pe (entrada):** bola parada nas duas cunhas (63 e 207 graus) tem que cair para dentro; o filete nao pode prender a bola na borda do furo.
+3. Rotacao: 30-60 rpm (1 bola a cada 1-2 s). Sentido horario visto de cima.
+### Riscos conhecidos
+- O caminho da bola dentro do tubo depende de atrito (bola segura pelo trilho e arrastada pelo filete): a checagem do CAD so garante que ha espaco livre.
+- A20 e pesada (~230 g, 21 h): se faltar tempo de impressora, ela pode ser oca (pedir).
+
+## A16 + A26 (2026-10-22)
+- Furacao da lateral esquerda: A16 agora com 2 M4 (y=-27 e 33) e A26 com 2 M4 (y=-74 e -50), todos com porca-garra por fora.
+- Montagem: A16 e A26 se alinham por 2 pinos Ø4x16 em y=-34. Com o carro A parado na carga (x=-140), conferir que as
+  linguas da A26 entram no furo do berco sem encostar (folga de 1,3 mm no raio).
+- A testar: a bola passa a curva R18,5 sem parar (desce ~7,7 graus). Se bater forte no batente do berco, reduzir a descida.

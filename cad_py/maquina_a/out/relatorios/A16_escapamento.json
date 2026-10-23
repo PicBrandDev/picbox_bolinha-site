@@ -1,0 +1,132 @@
+{
+ "id": "A16",
+ "nome": "escapamento",
+ "variante": "-",
+ "titulo": "Escapamento (travessia + servo)",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 34656.8
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 4354,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   46.0,
+   75.3,
+   36.5
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 2.0,
+  "minimo": 1.6,
+  "amostras_abaixo": 4,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 9.5,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "abaixo_da_folga": {},
+  "folga_exigida": 1.0,
+  "menor": [
+   "A10.A x A16",
+   5.5,
+   -141.0
+  ],
+  "passos": 59
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "fila": {
+   "ok": true,
+   "apoios": {},
+   "maquina": {},
+   "pontos": 59
+  },
+  "solta": {
+   "ok": true,
+   "apoios": {},
+   "maquina": {},
+   "pontos": 13
+  },
+  "nota": "carro A na carga (x=-140); bola levantada 0,6 mm contra os apoios, 1,5 mm de folga contra o resto"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 2,
+  "sequencia": "1) servo SG90 entre os postes, encostado na lateral, 2 parafusos das orelhas; 2) balancim A17 no braco do servo (servo a 90 graus = dedos nivelados); 3) pinos Ø4 na junta com a A15; 4) parafusar na lateral esquerda (2x M4x25); 5) entrada A26 encaixada nos pinos da junta de baixo."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 33.7,
+  "horas": 3.26,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "png/A16_escapamento.png",
+   "png/A16_escapamento_contexto.png",
+   "png/A16_escapamento_mesa.png",
+   "png/A16_escapamento_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 24.6,
+ "fixadores": [
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral esquerda"
+  },
+  {
+   "nome": "parede",
+   "tipo": "DIN912",
+   "bitola": "M4",
+   "comp": 25,
+   "extra": "porca-garra M4 cravada por fora da lateral esquerda"
+  }
+ ]
+}

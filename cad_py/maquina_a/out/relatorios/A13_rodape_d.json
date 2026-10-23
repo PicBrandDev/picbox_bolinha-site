@@ -77,7 +77,7 @@
   "ok": true,
   "fixos": {},
   "carro_b": {},
-  "pontos": 104,
+  "pontos": 86,
   "nota": "bola com 1,5 mm de folga em cada ponto da grade (30 x 20 mm) da bandeja"
  },
  "13_montagem": {
@@ -103,6 +103,6 @@
   "nota": "avaliar abrindo as imagens"
  },
  "aprovada": true,
- "tempo_verificacao_s": 16.7,
+ "tempo_verificacao_s": 21.8,
  "fixadores": []
 }

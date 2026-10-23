@@ -44,3 +44,31 @@
   - **A12 calcos** (6 alturas);
   - **A14 saida** no canto frente-direita (tubo rente ao EVA, sem degrau) ate o **A38 bolsao** atras da porta do pedestal.
   - Bola checada em toda a bandeja com a boca passando por cima.
+
+## 2026-10-22 — Elevador de fuso (A20-A25); saem A14 e A38
+- **Conceito do usuario:** tubo acrilico em pe com fuso girando dentro, motor embaixo, furo no tubo para a bola entrar,
+  caminho no topo ate o magazine. Fica no canto frente-direita (inclinado pela parede direita batia na boca do carro B).
+- **Tubo Ø100x94** (num Ø50 a bola de 38 nao cabe entre o nucleo do fuso e a parede), 573 mm, de z=1067 (embaixo da
+  divisoria) a 1640. Furo de entrada 35..232 graus (z 1112..1170, soleira abaixo do EVA) e entalhe de saida 122..175
+  graus no topo. Trilho-guia: barra Ø8 a 250 graus, presa na parede do tubo por 3 M3.
+- **A21 fuso** (3 segmentos de ~168 mm na barra M8, pinos Ø3 nas juntas): helice a direita, passo 70 (com 62 a bola
+  tocava o filete de cima), topo do filete caindo 10 graus para fora, parte de baixo a 45 graus (sem suporte).
+  Gira no sentido horario visto de cima.
+- **A20 base** (pe do tubo, piso conico, 608 de baixo; presa na divisoria com 3 parafusos de cima) + **A24 suporte do
+  motor** (NEMA 17 em pe, dentro do pedestal, janelas para o acoplamento 5x8).
+- **Saida:** o trilho acaba 10 mm abaixo do fim do filete; a bola passa por cima da ponta dele, gira com o fuso ate o
+  entalhe e rola para fora pelo caimento do filete. **A25 saida** (soleira + piso com guardas), **A22 tampa** (608 de
+  cima, presa na lateral direita), **A23 calha** em V (3 graus, x=100) ate um furo de queda sobre o funil da A18.
+- **Bandeja:** inclinacao mantida (3,5 x 3 graus): para 6,5 graus o canto baixo teria de descer 22 mm dentro da
+  divisoria. O "lugar certo" da bola fica por conta do piso conico + trilho. Furo Ø101 (+ recorte ate o canto) no MDF,
+  no EVA e na divisoria; calco 4 mudou de (130,-195) para (75,-195).
+- Eliminados: **A14** saida da bandeja e **A38** bolsao.
+
+## 2026-10-22 — A16 refeita em duas pecas (A16 escapamento + A26 entrada do berco)
+- O canto de 90 graus com degrau de 2 mm e batente (ponto onde a bola podia parar) virou uma **curva em V de 90 graus**,
+  R18,5 (o maior raio que cabe entre a travessia x=-184,5 e o berco x=-166), descendo ~7,7 graus, guarda por fora (no
+  comeco, a lateral esquerda e a guarda). Alturas do magazine a montante nao mudaram.
+- **A16 escapamento:** so a travessia (y=40..-34), o servo SG90 + rasgos dos dedos e a placa na parede (2x M4).
+- **A26 entrada do berco (nova):** junta com a A16 em y=-34 (2 pinos Ø4), curva, placa na parede (2x M4) com
+  enchimento sob a curva, e linguas mais robustas: 8 x 2,8 mm (antes 5 x 2,5) com a ponta chanfrada.
+- Caminho da bola: o trecho final reto deixou de existir (a curva termina na boca do berco).

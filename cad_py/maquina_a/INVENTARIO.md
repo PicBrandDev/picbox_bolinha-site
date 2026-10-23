@@ -99,3 +99,9 @@ Critério: P1 primeiro; dentro da mesma prioridade, a mais longa antes. Peças p
 - A15 saida do magazine, A16 calha de carga, A17 balancim, A18 entrada, A19 suporte da entrada.
 - Eliminados: A19 comporta e A32 guia da comporta (sem comporta; ver PENDENCIAS), A22 selas e A23 espacadores (o tubo fica so nas duas pontas), A20/A21 (entrada e sensor de nivel substituidos por A18; sensor de nivel adiado).
 - Elevador (A24 a A29) adiado.
+
+## Atualizacao 2026-10-22 (elevador de fuso)
+- IDs novos (reaproveitam numeros eliminados): A20 base do elevador, A21 fuso (3 segmentos), A22 tampa do elevador,
+  A23 calha ate o magazine, A24 suporte do motor do elevador, A25 saida do elevador.
+- Eliminados: A14 saida da bandeja e A38 bolsao (a bola entra direto no tubo do elevador).
+- O elevador antigo da referencia (correia com cacambas, A24-A29 da tabela acima) nao sera feito.

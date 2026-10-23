@@ -1,0 +1,145 @@
+{
+ "id": "A20",
+ "nome": "base_elevador",
+ "variante": "-",
+ "titulo": "Base do elevador (pe do tubo + piso)",
+ "1_brep": {
+  "ok": true,
+  "valido": true,
+  "solidos": 1,
+  "volume_mm3": 326160.8
+ },
+ "2_stl": {
+  "ok": true,
+  "estanque": true,
+  "winding": true,
+  "degeneradas": 0,
+  "corpos": 1,
+  "triangulos": 10900,
+  "tol_linear": 0.02,
+  "tol_angular": 0.1
+ },
+ "3_mesa": {
+  "ok": true,
+  "impressora": "220",
+  "tamanho": [
+   117.0,
+   117.0,
+   41.9
+  ],
+  "mesa": [
+   220.0,
+   220.0,
+   250.0
+  ]
+ },
+ "4_intencao": {
+  "ok": true,
+  "nota": "sem referencia coletada (peca nova)"
+ },
+ "5_parede": {
+  "ok": true,
+  "percentil1_mm": 4.41,
+  "minimo": 1.6,
+  "amostras_abaixo": 14,
+  "amostras": 3000
+ },
+ "6_overhang": {
+  "ok": true,
+  "area_overhang_mm2": 0.0,
+  "ponte_max_mm": 2.6,
+  "limite_graus": 45.0
+ },
+ "7_interferencia": {
+  "ok": true,
+  "colisoes": {},
+  "parafusos": {
+   "ok": true,
+   "colisoes": {}
+  }
+ },
+ "8_movimento": {
+  "ok": true,
+  "nota": "peca fora dos eixos"
+ },
+ "9_furos": {
+  "ok": true,
+  "nota": "sem furacao entre pecas"
+ },
+ "10_bola": {
+  "ok": true,
+  "entrada": {
+   "63": {},
+   "100": {},
+   "135": {},
+   "180": {},
+   "207": {}
+  },
+  "carros": {
+   "A": {
+    "ok": true,
+    "menor": [
+     "A.patim x elev_acrilico",
+     Infinity,
+     -141.0
+    ]
+   },
+   "B": {
+    "ok": true,
+    "menor": [
+     "B.patim x elev_acrilico",
+     Infinity,
+     -144.2
+    ]
+   }
+  },
+  "nota": "bola rola da bandeja (cunhas 63 e 207 graus e meio do arco) ate o piso; carros A e B no curso inteiro"
+ },
+ "13_montagem": {
+  "ok": true,
+  "bloqueados": {},
+  "n": 3,
+  "sequencia": "1) prensar o 608 de cima no fundo do rebaixo; 2) cortar o furo Ø101 na divisoria (canto frente-direita) e segurar a base por baixo e parafusar de cima (3 parafusos de madeira 3,5x30 cabeca chata); 3) descer o tubo (com o trilho ja aparafusado) pelo furo da divisoria ate o ressalto, trilho no encaixe; 4) A24 + motor por baixo."
+ },
+ "12_fatiamento": {
+  "ok": true,
+  "gramas": 219.4,
+  "horas": 20.14,
+  "metodo": "estimado por volume (sem slicer CLI)"
+ },
+ "11_visual": {
+  "ok": null,
+  "imagens": [
+   "png/A20_base_elevador.png",
+   "png/A20_base_elevador_contexto.png",
+   "png/A20_base_elevador_mesa.png",
+   "png/A20_base_elevador_lado_a_lado.png"
+  ],
+  "nota": "avaliar abrindo as imagens"
+ },
+ "aprovada": true,
+ "tempo_verificacao_s": 28.4,
+ "fixadores": [
+  {
+   "nome": "divisoria0",
+   "tipo": "ISO7380",
+   "bitola": "M4",
+   "comp": 30,
+   "extra": "parafuso de madeira 3,5x30 cabeca chata (escarear a divisoria), de cima, antes da bandeja"
+  },
+  {
+   "nome": "divisoria1",
+   "tipo": "ISO7380",
+   "bitola": "M4",
+   "comp": 30,
+   "extra": "parafuso de madeira 3,5x30 cabeca chata (escarear a divisoria), de cima, antes da bandeja"
+  },
+  {
+   "nome": "divisoria2",
+   "tipo": "ISO7380",
+   "bitola": "M4",
+   "comp": 30,
+   "extra": "parafuso de madeira 3,5x30 cabeca chata (escarear a divisoria), de cima, antes da bandeja"
+  }
+ ]
+}
