@@ -15,6 +15,7 @@ de geometria**: só de posição e interface.
 | `montagem/maquina_a.glb` | A mesma cena em malha (Y para cima), usada pelo visualizador. |
 | `imagens/pecas/` | Por peça: vista, contexto, mesa da impressora, comparação com o CAD antigo. |
 | `imagens/explicativas/` | Como as partes funcionam (caminho da bola, elevador, carga do berço, solenoide…). |
+| `imagens/visao_geral/` | Máquina inteira para o README: com gabinete, em corte, explodida, módulo a módulo e giro 360°. |
 | `relatorios/` | As 13 verificações de cada peça (JSON). |
 
 Nome dos arquivos: `ID_peça__posição[__xQuantidade]`, por exemplo
@@ -33,6 +34,8 @@ cd cad_pecas
 ```
 
 Imagens explicativas: `ferramentas/render_*.py saidas/imagens/explicativas` e `ferramentas/mapa_pecas.py`.
+Visão geral do README: `cd ferramentas/visao_geral && npm install`, depois `python ferramentas/visao_geral/gerar.py`
+(Playwright, Pillow e ffmpeg).
 
 ## As 13 verificações (por peça)
 
