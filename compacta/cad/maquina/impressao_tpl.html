@@ -2,108 +2,117 @@
 <title>Impressão PICBOX Compacta</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
-/* Layout: ficha de oficina - carimbo, regras de fatiamento, tres colunas (uma por impressora) com as mesas na ordem */
+/* Layout: ordem de servico clara - cabecalho, resumo das 3 impressoras (abas), mesas em linhas numeradas, depois a lista geral */
 :root{
-  --paper:#f1f3f0; --sheet:#fbfcfa; --ink:#1b231f; --muted:#5d6a63; --rule:#d3dad5; --line:#97a39c;
-  --accent:#2753d6; --ok:#2b7a4c; --warn:#9a6510; --pending:#b4382a;
+  color-scheme:light;
+  --bg:#f5f6f4; --card:#ffffff; --ink:#18201c; --muted:#5b6862; --rule:#dde2de; --soft:#eef1ee;
+  --a:#1f5fd1; --b:#0f8a6a; --c:#9a5b12; --ok:#237a47; --warn:#a15c00; --warn-bg:#fff3e0; --ok-bg:#e8f5ed;
   --f-disp:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --paper:#101412; --sheet:#161b18; --ink:#e1e8e3; --muted:#99a69f; --rule:#2b332f; --line:#6b766f;
-  --accent:#7f9dff; --ok:#5cc08a; --warn:#e0a84a; --pending:#ef7a6b; color-scheme:dark }}
-:root[data-theme="dark"]{
-  --paper:#101412; --sheet:#161b18; --ink:#e1e8e3; --muted:#99a69f; --rule:#2b332f; --line:#6b766f;
-  --accent:#7f9dff; --ok:#5cc08a; --warn:#e0a84a; --pending:#ef7a6b; color-scheme:dark }
 *{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--f-body);margin:0;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
-.wrap{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
-h1,h2,h3{font-family:var(--f-disp);font-weight:700;margin:0;line-height:1.1;text-wrap:balance}
-h1{font-size:2.2rem} h2{font-size:1.45rem;text-transform:uppercase;letter-spacing:.04em} h3{font-size:1.15rem;letter-spacing:.03em}
-p{margin:0;max-width:72ch}
-.mono{font-family:var(--f-mono);font-size:.84rem;overflow-wrap:anywhere}
-.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
-.lbl{font-family:var(--f-disp);font-weight:600;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-.carimbo{display:grid;grid-template-columns:2fr repeat(4,1fr);border:1.5px solid var(--ink);background:var(--sheet)}
-.carimbo>div{padding:10px 12px;border-left:1px solid var(--ink);display:flex;flex-direction:column;gap:2px;min-width:0}
-.carimbo>div:first-child{border-left:0}
-.carimbo .v{font-family:var(--f-mono);font-size:.88rem}
-@media (max-width:820px){.carimbo{grid-template-columns:1fr 1fr}.carimbo>div{border-left:0;border-top:1px solid var(--ink)}.carimbo>div:first-child{grid-column:1/-1;border-top:0}}
-.regras{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
-.regra{border:1px solid var(--rule);background:var(--sheet);padding:10px 12px;display:flex;flex-direction:column;gap:3px}
-.regra b{font-family:var(--f-disp);font-size:1.05rem;letter-spacing:.02em}
-.colunas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
-@media (max-width:1050px){.colunas{grid-template-columns:minmax(0,1fr)}}
-.col{display:flex;flex-direction:column;gap:12px;min-width:0}
-.col>header{border-top:2px solid var(--ink);padding-top:8px;display:flex;flex-direction:column;gap:4px}
-.col>header .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.barra{height:6px;background:var(--rule);position:relative}
-.barra i{position:absolute;inset:0 auto 0 0;background:var(--ok)}
-.mesa{border:1px solid var(--rule);background:var(--sheet);display:flex;flex-direction:column;min-width:0}
-.mesa.feita{opacity:.6}
-.mesa .topo{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--rule)}
-.mesa .n{font:700 1.5rem var(--f-disp);letter-spacing:.02em}
-.mesa img{width:100%;height:auto;display:block;background:#f4f6f4;cursor:zoom-in}
-.mesa .corpo{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{font:600 .74rem var(--f-disp);letter-spacing:.07em;text-transform:uppercase;padding:2px 8px;border:1px solid currentColor}
-.c-ok{color:var(--ok)} .c-warn{color:var(--warn)} .c-info{color:var(--muted)}
-.pecas{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px}
-.pecas details{border-top:1px solid var(--rule);padding-top:4px}
-.pecas summary{cursor:pointer;font-weight:500}
-.pecas summary .q{color:var(--muted);font-weight:400}
-.pecas p{font-size:.85rem;margin-top:4px}
-label.feito{display:flex;gap:8px;align-items:center;font-weight:600;cursor:pointer}
-input[type=checkbox]{width:18px;height:18px;accent-color:var(--ok)}
-button{font:600 .8rem var(--f-disp);letter-spacing:.08em;text-transform:uppercase;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:5px 10px;cursor:pointer}
-button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.sec{display:flex;flex-direction:column;gap:12px}
-.sec>header{border-top:1.5px solid var(--ink);padding-top:10px;display:flex;flex-direction:column;gap:6px}
-.tab{overflow-x:auto;border:1px solid var(--rule);background:var(--sheet)}
-table{border-collapse:collapse;width:100%;font-size:.85rem}
-th,td{padding:6px 9px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
-th{font:600 .72rem var(--f-disp);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-.fotos{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
-.fotos figure{margin:0;border:1px solid var(--rule);background:var(--sheet)}
-.fotos img{width:100%;height:auto;display:block}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--f-disp);font-weight:700;margin:0;line-height:1.1;letter-spacing:.01em;text-wrap:balance}
+h1{font-size:2.1rem} h2{font-size:1.35rem;text-transform:uppercase;letter-spacing:.05em}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-size:.82rem;overflow-wrap:anywhere}
+.num{font-variant-numeric:tabular-nums}
+.lbl{font:600 .74rem var(--f-disp);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+/* cabecalho */
+.cab{background:var(--card);border:1px solid var(--rule);display:grid;grid-template-columns:1.6fr repeat(4,1fr)}
+.cab>div{padding:14px 16px;border-left:1px solid var(--rule);display:flex;flex-direction:column;gap:3px;min-width:0}
+.cab>div:first-child{border-left:0}
+.cab .v{font:600 1.15rem var(--f-body)}
+@media (max-width:800px){.cab{grid-template-columns:1fr 1fr}.cab>div{border-left:0;border-top:1px solid var(--rule)}.cab>div:first-child{grid-column:1/-1;border-top:0}}
+/* configuracao */
+.cfg{background:var(--card);border:1px solid var(--rule);display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.cfg>div{padding:12px 16px;border-left:1px solid var(--rule);display:flex;flex-direction:column;gap:2px}
+.cfg>div:first-child{border-left:0}
+.cfg b{font-size:.92rem}
+.cfg span{font-size:.86rem;color:var(--muted)}
+@media (max-width:800px){.cfg{grid-template-columns:1fr}.cfg>div{border-left:0;border-top:1px solid var(--rule)}.cfg>div:first-child{border-top:0}}
+/* abas das impressoras */
+.abas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:800px){.abas{grid-template-columns:1fr}}
+.aba{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:1px solid var(--rule);border-top:4px solid var(--cor);padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.aba[aria-selected="true"]{box-shadow:0 0 0 2px var(--cor) inset;background:var(--card)}
+.aba:focus-visible{outline:2px solid var(--cor);outline-offset:2px}
+.aba .l1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.aba .nome{font:700 1.25rem var(--f-disp);letter-spacing:.02em}
+.aba .h{font:600 1.25rem var(--f-body)}
+.aba .sub{font-size:.85rem;color:var(--muted)}
+.prog{height:6px;background:var(--soft);position:relative;border-radius:3px;overflow:hidden}
+.prog i{position:absolute;inset:0 auto 0 0;background:var(--cor)}
+/* mesas */
+.painel{display:flex;flex-direction:column;gap:12px}
+.painel>header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--cor);padding-bottom:8px}
+.mesa{background:var(--card);border:1px solid var(--rule);display:grid;grid-template-columns:64px 300px minmax(0,1fr);min-width:0}
+@media (max-width:900px){.mesa{grid-template-columns:52px minmax(0,1fr)}.mesa .img{grid-column:2}.mesa .info{grid-column:1/-1}}
+.mesa.feita{background:var(--soft)}
+.mesa .ord{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 0;border-right:1px solid var(--rule)}
+.mesa .ord .n{font:700 1.9rem var(--f-disp);color:var(--cor);line-height:1}
+.mesa .ord input{width:20px;height:20px;accent-color:var(--ok);cursor:pointer}
+.mesa .ord small{font-size:.7rem;color:var(--muted);text-align:center}
+.mesa .img{border-right:1px solid var(--rule);background:#f4f6f4}
+.mesa .img img{width:100%;height:auto;display:block;cursor:zoom-in}
+.mesa .info{padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.mesa .t1{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.mesa .t1 h3{font-size:1.25rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.78rem;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--soft);color:var(--ink)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{padding:6px 8px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{font:600 .72rem var(--f-disp);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);white-space:nowrap;background:var(--soft)}
+td.q{text-align:center;white-space:nowrap}
+.pn{font-weight:600}
+.pf{font-size:.8rem;color:var(--muted);display:block;margin-top:1px}
+.tab{overflow-x:auto;border:1px solid var(--rule);background:var(--card)}
+.sec{display:flex;flex-direction:column;gap:10px}
+.sec>header{display:flex;flex-direction:column;gap:4px}
+.fotos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:800px){.fotos{grid-template-columns:1fr}}
+.fotos figure{margin:0;background:var(--card);border:1px solid var(--rule)}
+.fotos img{width:100%;height:auto;display:block;cursor:zoom-in}
 .fotos figcaption{padding:6px 10px;font-size:.84rem;color:var(--muted)}
-.zoom{position:fixed;inset:0;background:color-mix(in srgb,var(--ink) 75%,transparent);display:flex;align-items:center;justify-content:center;
-  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:20;cursor:zoom-out}
+.zoom{position:fixed;inset:0;background:rgba(20,26,23,.82);display:flex;align-items:center;justify-content:center;z-index:20;cursor:zoom-out;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .zoom img{max-width:100%;max-height:100%;background:#f4f6f4}
-.small{font-size:.84rem;color:var(--muted)}
 </style>
 
 <div class="wrap">
-  <div class="carimbo" role="group" aria-label="Carimbo">
-    <div><span class="lbl">Ficha</span><h1>Impressão PICBOX Compacta</h1></div>
-    <div><span class="lbl">Revisão</span><span class="v">R1</span></div>
-    <div><span class="lbl">Mesas</span><span class="v" id="c-mesas"></span></div>
-    <div><span class="lbl">Peças</span><span class="v" id="c-pecas"></span></div>
+  <div class="cab">
+    <div><span class="lbl">Ordem de impressão</span><h1>PICBOX Compacta R1</h1></div>
+    <div><span class="lbl">Mesas</span><span class="v num" id="c-mesas"></span></div>
+    <div><span class="lbl">Peças</span><span class="v num" id="c-pecas"></span></div>
     <div><span class="lbl">Material</span><span class="v">PETG</span></div>
+    <div><span class="lbl">Pasta dos arquivos</span><span class="mono">compacta/imprimir/</span></div>
   </div>
 
-  <div class="regras">
-    <div class="regra"><b>Fatiador</b><span>Bico 0,4, camada 0,2, 4 perímetros, 25% de preenchimento.</span></div>
-    <div class="regra"><b>Não gire nada</b><span>As peças já vêm na posição certa e arrumadas na mesa. Desligue a orientação automática.</span></div>
-    <div class="regra"><b>Placa como objeto único?</b><span>Se o fatiador juntar tudo, use "Dividir em objetos" (Split to objects).</span></div>
-    <div class="regra"><b>Comece pelas mesas 01</b><span>A 01 de cada impressora é o teste de encaixe. Monte com as peças compradas antes de seguir.</span></div>
+  <div class="cfg">
+    <div><b>Fatiamento</b><span>Bico 0,4 · camada 0,2 · 4 perímetros · 25% de preenchimento</span></div>
+    <div><b>Não gire nada</b><span>As peças já vêm na posição certa. Desligue a orientação automática.</span></div>
+    <div><b>Vários objetos</b><span>Se a mesa virar um objeto só, use "Dividir em objetos".</span></div>
+    <div><b>Mesa 01 primeiro</b><span>É o teste de encaixe: monte com as peças compradas antes de seguir.</span></div>
   </div>
 
-  <p class="small">Os arquivos estão em <span class="mono">compacta/imprimir/&lt;impressora&gt;/</span>, numerados na ordem. Marque cada mesa quando terminar: a marcação fica salva só neste navegador. Clique numa imagem para ampliar e numa peça para ver para que serve e por que imprime naquela posição.</p>
-
-  <div class="colunas" id="colunas"></div>
+  <div class="abas" role="tablist" id="abas"></div>
+  <section class="painel" id="painel" role="tabpanel"></section>
 
   <section class="sec">
-    <header><h2>Todas as peças</h2><p>Uma STL por peça em <span class="mono">compacta/imprimir/pecas_avulsas/</span>, para reimprimir só uma.</p></header>
+    <header><h2>Todas as peças</h2><p class="muted">Arquivos avulsos em <span class="mono">compacta/imprimir/pecas_avulsas/</span>, para reimprimir uma peça só.</p></header>
     <div class="tab"><table id="t-pecas"></table></div>
   </section>
 
   <section class="sec">
-    <header><h2>Onde cada peça vai</h2><p>A máquina montada, com as peças reais. Azul é impressa e fica parada, laranja é impressa e se mexe, cinza é comprada.</p></header>
+    <header><h2>Onde as peças vão</h2><p class="muted">A máquina montada com as peças reais. Azul é impressa e fica parada, laranja é impressa e se mexe, cinza é comprada.</p></header>
     <div class="fotos" id="fotos"></div>
   </section>
 </div>
@@ -113,54 +122,67 @@ const D = __DADOS__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const f1 = v => Number(v).toLocaleString("pt-BR", {maximumFractionDigits: 1});
-const POS = {"Z": "em pé, como monta", "Z-": "de cabeça para baixo", "+X": "deitada sobre a face da direita",
-  "-X": "deitada sobre a face da esquerda", "+Y": "deitada de costas", "-Y": "em pé sobre a frente"};
-const IMP = {A: ["A_impressora_grande", "Impressora grande (260 × 260)", "Peças de precisão e as que ficam à vista"],
-  B: ["B_creality_1", "Creality 1 (220 × 220)", "Peças grandes e simples"],
-  C: ["C_creality_2", "Creality 2 (220 × 220)", "Peças grandes e simples"]};
-const chave = n => "picbox-impresso-" + n;
-const ler = n => { try { return localStorage.getItem(chave(n)) === "1"; } catch (e) { return false; } };
-const gravar = (n, v) => { try { v ? localStorage.setItem(chave(n), "1") : localStorage.removeItem(chave(n)); } catch (e) {} };
-const infoPeca = nome => D.pecas.find(p => p.peca === nome) || {};
+const POS = {"Z": "em pé, como monta", "Z-": "de cabeça para baixo", "+X": "deitada sobre a lateral direita",
+  "-X": "deitada sobre a lateral esquerda", "+Y": "deitada de costas", "-Y": "em pé sobre a frente"};
+const IMP = {
+  A: {pasta: "A_impressora_grande", nome: "A · Impressora grande", mesa: "260 × 260", sub: "Peças de precisão e as que ficam à vista", cor: "var(--a)"},
+  B: {pasta: "B_creality_1", nome: "B · Creality 1", mesa: "220 × 220", sub: "Peças grandes e simples", cor: "var(--b)"},
+  C: {pasta: "C_creality_2", nome: "C · Creality 2", mesa: "220 × 220", sub: "Peças grandes e simples", cor: "var(--c)"}};
+const ler = n => { try { return localStorage.getItem("picbox-impresso-" + n) === "1"; } catch (e) { return false; } };
+const gravar = (n, v) => { try { v ? localStorage.setItem("picbox-impresso-" + n, "1") : localStorage.removeItem("picbox-impresso-" + n); } catch (e) {} };
+const peca = nome => D.pecas.find(p => p.peca === nome) || {};
+let atual = "A";
+try { atual = localStorage.getItem("picbox-aba") || "A"; } catch (e) {}
 
 $("c-mesas").textContent = Object.values(D.placas).reduce((s, v) => s + v.length, 0);
 $("c-pecas").textContent = D.pecas.reduce((s, p) => s + p.quantidade, 0);
 
-function desenhar() {
-  $("colunas").innerHTML = ["A", "B", "C"].map(k => {
-    const [pasta, nome, sub] = IMP[k], lista = D.placas[k];
-    const feitas = lista.filter(p => ler(p.n)).reduce((s, p) => s + p.horas, 0);
-    return `<div class="col"><header><div class="t"><h2>${k} · ${nome}</h2><span class="num">${f1(D.total[k])} h</span></div>
-      <span class="small">${sub}. Pasta <span class="mono">${pasta}/</span></span>
-      <div class="barra" aria-label="feito"><i style="width:${100 * feitas / D.total[k]}%"></i></div>
-      <span class="small">${f1(feitas)} de ${f1(D.total[k])} h impressas</span></header>
-      ${lista.map((p, i) => {
-        const arq = `${String(i + 1).padStart(2, "0")}_placa_${p.n}.stl`, ok = ler(p.n);
-        const qtd = {}; p.pecas.forEach(x => qtd[x] = (qtd[x] || 0) + 1);
-        return `<article class="mesa${ok ? " feita" : ""}">
-          <div class="topo"><span class="n">${String(i + 1).padStart(2, "0")} · ${p.n}</span>
-            <label class="feito"><input type="checkbox" data-n="${p.n}" ${ok ? "checked" : ""}> Impressa</label></div>
-          <img src="${D.imgs[p.arquivo]}" alt="Mesa ${p.n}" loading="lazy">
-          <div class="corpo"><span class="mono">${pasta}/${arq}</span>
-            <div class="chips"><span class="chip c-info">${f1(p.horas)} h</span><span class="chip c-info">altura ${Math.round(p.altura)} mm</span>
-              ${p.suporte ? '<span class="chip c-warn">com suporte + aba (brim)</span>' : '<span class="chip c-ok">sem suporte</span>'}
-              ${i === 0 ? '<span class="chip c-warn">teste de encaixe</span>' : ""}</div>
-            <ul class="pecas">${Object.entries(qtd).map(([x, q]) => { const d = infoPeca(x);
-              return `<li><details><summary>${esc(x)}${q > 1 ? ` <span class="q">×${q}</span>` : ""}</summary>
-                <p><b>Para que serve:</b> ${esc(d.funcao || "—")}</p><p><b>Na mesa:</b> ${esc(POS[d.posicao] || "")}. ${esc(d.por_que || "")}</p></details></li>`; }).join("")}</ul>
-          </div></article>`; }).join("")}</div>`;
-  }).join("");
-  document.querySelectorAll("#colunas input[type=checkbox]").forEach(c => c.addEventListener("change", () => { gravar(c.dataset.n, c.checked); desenhar(); }));
-  document.querySelectorAll("#colunas img").forEach(im => im.addEventListener("click", () => zoom(im.src)));
+function feitas(k) { return D.placas[k].filter(p => ler(p.n)).reduce((s, p) => s + p.horas, 0); }
+
+function abas() {
+  $("abas").innerHTML = ["A", "B", "C"].map(k => { const I = IMP[k], f = feitas(k), n = D.placas[k].length;
+    return `<button class="aba" role="tab" aria-selected="${k === atual}" data-k="${k}" style="--cor:${I.cor}">
+      <span class="l1"><span class="nome">${I.nome}</span><span class="h num">${f1(D.total[k])} h</span></span>
+      <span class="sub">Mesa ${I.mesa} · ${n} mesas · ${I.sub}</span>
+      <span class="prog"><i style="width:${100 * f / D.total[k]}%"></i></span>
+      <span class="sub num">${f1(f)} de ${f1(D.total[k])} h impressas</span></button>`; }).join("");
+  document.querySelectorAll(".aba").forEach(b => b.addEventListener("click", () => { atual = b.dataset.k;
+    try { localStorage.setItem("picbox-aba", atual); } catch (e) {} desenhar(); }));
 }
-function zoom(src) {
-  const z = document.createElement("div"); z.className = "zoom"; z.innerHTML = `<img src="${src}" alt="">`;
-  z.addEventListener("click", () => z.remove()); document.body.appendChild(z);
+
+function painel() {
+  const I = IMP[atual], lista = D.placas[atual];
+  $("painel").style.setProperty("--cor", I.cor);
+  $("painel").innerHTML = `<header><h2 style="color:${I.cor}">${I.nome} — mesas na ordem</h2>
+      <span class="muted">Pasta <span class="mono">compacta/imprimir/${I.pasta}/</span></span></header>` +
+    lista.map((p, i) => {
+      const nn = String(i + 1).padStart(2, "0"), arq = `${nn}_placa_${p.n}.stl`, ok = ler(p.n);
+      const qtd = {}; p.pecas.forEach(x => qtd[x] = (qtd[x] || 0) + 1);
+      return `<article class="mesa${ok ? " feita" : ""}" style="--cor:${I.cor}">
+        <div class="ord"><span class="n">${nn}</span><input type="checkbox" data-n="${p.n}" ${ok ? "checked" : ""} aria-label="Mesa ${nn} impressa"><small>${ok ? "impressa" : "marcar"}</small></div>
+        <div class="img"><img src="${D.imgs[p.arquivo]}" alt="Mesa ${nn}" loading="lazy"></div>
+        <div class="info">
+          <div class="t1"><h3>Mesa ${nn} <span class="muted">(${p.n})</span></h3><span class="mono">${arq}</span></div>
+          <div class="tags"><span class="tag num">${f1(p.horas)} h</span><span class="tag num">altura ${Math.round(p.altura)} mm</span>
+            ${p.suporte ? '<span class="tag warn">com suporte + aba (brim) 5 mm</span>' : '<span class="tag ok">sem suporte</span>'}
+            ${i === 0 ? '<span class="tag warn">teste de encaixe</span>' : ""}</div>
+          <table><thead><tr><th>Peça</th><th>Qtd</th><th>Posição na mesa</th></tr></thead><tbody>
+            ${Object.entries(qtd).map(([x, q]) => { const d = peca(x);
+              return `<tr><td><span class="pn">${esc(x)}</span><span class="pf">${esc(d.funcao || "")}</span></td><td class="q num">${q}</td>
+                <td>${esc(POS[d.posicao] || "")}<span class="pf">${esc(d.por_que || "")}</span></td></tr>`; }).join("")}
+          </tbody></table>
+        </div></article>`; }).join("");
+  document.querySelectorAll("#painel input[type=checkbox]").forEach(c => c.addEventListener("change", () => { gravar(c.dataset.n, c.checked); desenhar(); }));
+  document.querySelectorAll("#painel img").forEach(im => im.addEventListener("click", () => zoom(im.src)));
 }
+function desenhar() { abas(); painel(); }
+function zoom(src) { const z = document.createElement("div"); z.className = "zoom"; z.innerHTML = `<img src="${src}" alt="">`;
+  z.addEventListener("click", () => z.remove()); document.body.appendChild(z); }
+
 desenhar();
-$("t-pecas").innerHTML = "<thead><tr><th>Peça</th><th>Arquivo avulso</th><th>Qtd</th><th>Mesa</th><th>Na mesa</th><th>Horas</th></tr></thead><tbody>" +
-  D.pecas.map(p => `<tr><td>${esc(p.peca)}</td><td class="mono">${esc(p.arquivo)}</td><td class="num">${p.quantidade}</td><td>${p.placas.join(", ")}</td>
-    <td>${POS[p.posicao]}${p.suporte.startsWith("sim") || p.suporte.startsWith("so") ? " · com suporte" : ""}</td><td class="num">${f1(p.horas)}</td></tr>`).join("") + "</tbody>";
+$("t-pecas").innerHTML = "<thead><tr><th>Peça</th><th>Arquivo avulso</th><th>Qtd</th><th>Mesa</th><th>Posição</th><th>Horas</th></tr></thead><tbody>" +
+  D.pecas.map(p => `<tr><td class="pn">${esc(p.peca)}</td><td class="mono">${esc(p.arquivo)}</td><td class="q num">${p.quantidade}</td><td>${p.placas.join(", ")}</td>
+    <td>${POS[p.posicao]}${/^(sim|so)/.test(p.suporte) ? " · com suporte" : ""}</td><td class="num">${f1(p.horas)}</td></tr>`).join("") + "</tbody>";
 $("fotos").innerHTML = D.fotos.map(([t, s]) => `<figure><img src="${s}" alt="${esc(t)}" loading="lazy"><figcaption>${esc(t)}</figcaption></figure>`).join("");
 document.querySelectorAll("#fotos img").forEach(im => im.addEventListener("click", () => zoom(im.src)));
 </script>
