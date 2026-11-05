@@ -269,6 +269,9 @@ def detalhes(m, peca, el):
         # janela do sensor no piso do bolso e canal dos fios ate embaixo da rampa
         cut.append(cq.Solid.makeBox(4.8, 9.4, 12.0, pnt=cq.Vector(sx - 2.4, sy - 4.7, zt - 8.0)))
         cut.append(cq.Solid.makeBox(4.0, 6.0, 40.0, pnt=cq.Vector(sx - 2.0, sy - 3.0, zb0 - 5.0)))
+    if peca.startswith("Suporte do NEMA"):     # ressalto de 22 mm da face do NEMA 17 (2 mm de altura): furo de 23 na placa
+        zf = (m.zpA if peca.endswith("cima") else m.zpB) + m.dz_correia - 15.0
+        cut.append(cq.Solid.makeCylinder(11.5, 4.4, pnt=cq.Vector(m.x_motor, m.y_correia, zf - 0.2)))
     if peca == "Suporte do NEMA de cima":     # furo do cabo do motor (aba e parede)
         cut.append(cq.Solid.makeCylinder(5.0, 10.0, pnt=cq.Vector(-212.0, m.y_correia, 312.0), dir=cq.Vector(1, 0, 0)))
     if peca == "Suporte do NEMA de baixo":    # furo do cabo do motor e do fim de curso de baixo
@@ -306,7 +309,19 @@ def construir(m, peca, so=None, fx=None, geo=None):
         if tp == "impressa" or e["peca"] in ("Gabinete", "Tela", "EVA 5 mm") or e["corpo"].startswith("esteira"):
             continue
         a, b = aabb(e)
-        if np.all(b > lo) and np.all(a < hi):
+        if not (np.all(b > lo) and np.all(a < hi)):
+            continue
+        # so recorta onde a comprada ENTRA na peca (mais de 0,3 mm em todas as direcoes de alguma caixa dela);
+        # se so encosta, nao recorta: o recorte de 0,25 deixava beiradas finas que o fatiador nao imprime.
+        # O perfil 2020 e excecao: a luva precisa da folga de 0,25 para ele entrar.
+        entra = False
+        for o in proprios:
+            oa, ob = aabb(o)
+            prof = np.minimum(b, ob) - np.maximum(a, oa)
+            if np.all(prof > 0.3):
+                entra = True
+                break
+        if entra or e["peca"].startswith("Perfil 2020"):
             cut.append(solido(e, FOLGA_COMPRADA))
     cut += furos(m, peca, fx, el)
     if cut:

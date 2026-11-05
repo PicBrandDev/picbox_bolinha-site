@@ -64,6 +64,8 @@ def main():
         limpa(C / nome)
         for f in sorted(origem.glob(padrao)):
             shutil.copy2(f, C / nome / f.name)
+    if (S / "impressao.html").exists():
+        shutil.copy2(S / "impressao.html", imp / "impressao.html")
     limpa(C / "pagina")
     shutil.copy2(S / "picbox_compacta_r1.html", C / "pagina" / "picbox_compacta.html")
     print("\n".join(geral))

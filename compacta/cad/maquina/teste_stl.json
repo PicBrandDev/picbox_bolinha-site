@@ -108,7 +108,7 @@
   {
    "stl": "carro_a.stl",
    "z0": 0.0,
-   "apoio_cm2": 2.6,
+   "apoio_cm2": 2.7,
    "fechada": true,
    "corpos": 1,
    "ok": 1.0,

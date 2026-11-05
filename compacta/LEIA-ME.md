@@ -4,7 +4,7 @@ Máquina A inteira dentro do gabinete de 420 × 420 × 200 (tela no fundo), bola
 
 | Pasta | Para que serve |
 |---|---|
-| `imprimir/` | **Arquivos para imprimir.** Leia `ORDEM_DE_IMPRESSAO.txt`. |
+| `imprimir/` | **Arquivos para imprimir.** Abra `impressao.html` (mesas por impressora, na ordem, com imagem) ou leia `ORDEM_DE_IMPRESSAO.txt`. |
 | `imprimir/A_impressora_grande/` | Mesas da impressora boa, de 260 × 260: peças de precisão e as que ficam à vista. |
 | `imprimir/B_creality_1/`, `imprimir/C_creality_2/` | Mesas das Creality, de 220 × 220: peças grandes e simples. |
 | `imprimir/pecas_avulsas/` | Uma STL por peça, para reimprimir só uma. `__x2` no nome quer dizer imprimir 2 cópias. |
@@ -34,6 +34,8 @@ python teste_stl.py
 python plano.py
 python malhas.py
 python render_m.py
+python render_mesas.py
+python impressao_html.py
 python pagina_m.py
 python publicar.py
 ```

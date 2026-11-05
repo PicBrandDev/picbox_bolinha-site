@@ -8,14 +8,14 @@ Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
 As 3 impressoras trabalham ao mesmo tempo. Em cada uma, imprima na ordem dos numeros.
 
 IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a vista  -  total 34.5 h   (pasta A_impressora_grande)
-  01_placa_A1.stl       13.6 h  altura 29 mm
+  01_placa_A1.stl        3.4 h  altura 60 mm  COM SUPORTE
+        - Cabine
+        - Carro A
+  02_placa_A2.stl       13.6 h  altura 29 mm
         - Guia impressa inferior
         - Base
         - Guia impressa superior
         - Espacador
-  02_placa_A2.stl        3.4 h  altura 60 mm  COM SUPORTE
-        - Cabine
-        - Carro A
   03_placa_A3.stl       12.8 h  altura 52 mm
         - Suporte do motor
         - Tubo superior
@@ -29,13 +29,13 @@ IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a 
         - Carro B
         - Anel
 
-IMPRESSORA B - Creality 220 x 220  -  total 24.5 h   (pasta B_creality_1)
-  01_placa_B1.stl        6.3 h  altura 105 mm
-        - Fila
-  02_placa_B2.stl        5.0 h  altura 48 mm
+IMPRESSORA B - Creality 220 x 220  -  total 24.4 h   (pasta B_creality_1)
+  01_placa_B1.stl        4.9 h  altura 48 mm
         - Bloco direito
         - Suporte do NEMA de cima
         - Suporte do NEMA de baixo
+  02_placa_B2.stl        6.3 h  altura 105 mm
+        - Fila
   03_placa_B3.stl        8.1 h  altura 77 mm
         - Bandeja esquerda
   04_placa_B4.stl        5.1 h  altura 77 mm

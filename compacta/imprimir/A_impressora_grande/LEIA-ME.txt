@@ -5,14 +5,14 @@ Os arquivos ja vem com as pecas arrumadas na mesa e na posicao certa: NAO use or
 Se o fatiador juntar tudo num objeto so, use 'Dividir em objetos' (Split to objects).
 Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
 
-  01_placa_A1.stl       13.6 h  altura 29 mm
+  01_placa_A1.stl        3.4 h  altura 60 mm  COM SUPORTE
+        - Cabine
+        - Carro A
+  02_placa_A2.stl       13.6 h  altura 29 mm
         - Guia impressa inferior
         - Base
         - Guia impressa superior
         - Espacador
-  02_placa_A2.stl        3.4 h  altura 60 mm  COM SUPORTE
-        - Cabine
-        - Carro A
   03_placa_A3.stl       12.8 h  altura 52 mm
         - Suporte do motor
         - Tubo superior

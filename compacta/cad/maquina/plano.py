@@ -148,7 +148,8 @@ def main():
     sem_sup = [l for l in A if l not in com_sup]
     BC = sorted([l for l in imp if l["impressora"] == "BC"], key=ordem)
     pa = placas(sem_sup, 260, 14.0)
-    pl = {"A": pa[:1] + placas(com_sup, 260, 14.0) + pa[1:]}
+    # a placa com suporte (cabine e carro A) vai primeiro: e o teste de encaixe do trilho, da correia e do ima
+    pl = {"A": placas(com_sup, 260, 14.0) + pa}
     # B e C: placas de ate 10 h, distribuidas alternando pela que termina antes
     pbc = placas(BC, 220, 10.0)
     pl["B"], pl["C"] = [], []
@@ -157,6 +158,12 @@ def main():
         k = min(tempo, key=tempo.get)
         pl[k].append(p)
         tempo[k] += sum(x["horas"] / x["quantidade"] for x in p) + 0.2
+    # em B, a placa dos blocos e suportes do NEMA vai primeiro: e o teste de encaixe do perfil, do motor e da tensora
+    for k in ("B", "C"):
+        for i, pp in enumerate(pl[k]):
+            if any(x["base"] in ("Suporte do NEMA de cima", "Bloco direito") for x in pp):
+                pl[k].insert(0, pl[k].pop(i))
+                break
     # STL de cada placa
     (S / "placas").mkdir(exist_ok=True)
     for f in (S / "placas").glob("*.stl"):
