@@ -1,0 +1,526 @@
+<title>Elevador de Cabine PICBOX</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: folha de montagem; visor 3D com painel de etapas ao lado, resultados da validacao embaixo */
+:root{
+  --bg:#eef1f0; --paper:#ffffff; --ink:#17201c; --muted:#4c5853; --line:#cbd5d0; --soft:#e4ebe8;
+  --accent:#1d5f8a; --ok:#2f7a45; --warn:#a4660b; --bad:#b0352b; --scene:#dfe5e2;
+  --f-disp:"Archivo",system-ui,sans-serif; --f-body:"Source Serif 4",Georgia,serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111614; --paper:#19201d; --ink:#e2eae6; --muted:#a5b2ac; --line:#323e39; --soft:#212a26;
+  --accent:#6fb3df; --ok:#6cc488; --warn:#e2a64a; --bad:#ef7a6f; --scene:#1b2320; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111614; --paper:#19201d; --ink:#e2eae6; --muted:#a5b2ac; --line:#323e39; --soft:#212a26;
+  --accent:#6fb3df; --ok:#6cc488; --warn:#e2a64a; --bad:#ef7a6f; --scene:#1b2320; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body)}
+.wrap{max-width:1240px;margin:0 auto;padding-block:24px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--f-disp);margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:1.9rem;font-weight:800}
+h2{font-size:1.35rem;font-weight:800;padding-top:10px;border-top:2px solid var(--ink)}
+h3{font-size:1.02rem;font-weight:600}
+p{margin:0;max-width:72ch}
+section{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font:600 .72rem var(--f-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;gap:6px;align-items:baseline;font:600 .76rem var(--f-mono);padding:6px 10px;border:1px solid currentColor;background:var(--paper)}
+.c-ok{color:var(--ok)} .c-warn{color:var(--warn)} .c-bad{color:var(--bad)} .c-acc{color:var(--accent)}
+.visor{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:0;border:1.5px solid var(--ink);background:var(--paper)}
+@media (max-width:900px){.visor{grid-template-columns:1fr}}
+#cv{position:relative;min-height:560px;background:var(--scene);touch-action:none;overflow:hidden}
+#cv canvas{position:absolute;inset:0}
+#cv canvas{display:block;width:100%;height:100%}
+.barra{position:absolute;left:10px;top:10px;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100% - 20px)}
+.barra button,.painel button{font:600 .74rem var(--f-mono);letter-spacing:.03em;padding:7px 11px;border:1px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer}
+.barra button[aria-pressed="true"],.painel button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.info{position:absolute;left:10px;bottom:10px;right:10px;font:.78rem var(--f-mono);color:var(--muted);pointer-events:none}
+.painel{border-left:1.5px solid var(--ink);display:flex;flex-direction:column;min-width:0}
+@media (max-width:900px){.painel{border-left:0;border-top:1.5px solid var(--ink)}}
+.abas{display:flex;border-bottom:1px solid var(--line)}
+.abas button{flex:1;border:0;border-right:1px solid var(--line);padding:10px 6px}
+.abas button:last-child{border-right:0}
+.corpo{padding:14px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;overflow-x:hidden;max-height:560px}
+.passos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.passos li{border:1px solid var(--line);padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.passos li[aria-current="true"]{border-color:var(--ink);background:var(--soft)}
+.passos li b{font-family:var(--f-disp);font-size:.92rem}
+.passos li span{font-size:.86rem;color:var(--muted)}
+.passos li .n{font:600 .7rem var(--f-mono);color:var(--muted)}
+.ctl{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+input[type=range]{width:100%}
+.sel{border:1px solid var(--line);padding:10px;display:flex;flex-direction:column;gap:4px;font-size:.88rem}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;line-height:1.35}
+th,td{text-align:left;vertical-align:top;padding:7px 9px;border-bottom:1px solid var(--line)}
+th{font:600 .7rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--soft);white-space:nowrap}
+td.num{white-space:nowrap}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+ul,ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:5px;max-width:76ch}
+.note{background:var(--soft);border-left:3px solid var(--warn);padding:10px 12px;max-width:none}
+.note.ok{border-left-color:var(--ok)}
+.small{font-size:.84rem;color:var(--muted)}
+.fase{font:600 .82rem var(--f-mono)}
+@media (prefers-reduced-motion: reduce){.passos li{transition:none}}
+[hidden]{display:none!important}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:12px">
+  <span class="eyebrow" id="sobre"></span>
+  <h1>Elevador de cabine: montagem validada</h1>
+  <p id="lead"></p>
+  <div class="chips" id="chips"></div>
+</header>
+
+<section>
+  <div class="visor">
+    <div id="cv" aria-label="Modelo 3D do elevador">
+      <div class="barra" role="toolbar" aria-label="Vista">
+        <button id="v-34" aria-pressed="true">3/4</button>
+        <button id="v-frente" aria-pressed="false">Frente</button>
+        <button id="v-lado" aria-pressed="false">Lado</button>
+        <button id="v-cima" aria-pressed="false">Cima</button>
+        <button id="b-tubo" aria-pressed="true">Tubo</button>
+        <button id="b-paraf" aria-pressed="true">Parafusos</button>
+      </div>
+      <div class="info" id="info">Arraste para girar, role para aproximar. Clique numa peça para ver como ela é fixada.</div>
+    </div>
+    <div class="painel">
+      <div class="abas" role="tablist">
+        <button id="a-mont" role="tab" aria-pressed="true">Montagem</button>
+        <button id="a-func" role="tab" aria-pressed="false">Funcionamento</button>
+      </div>
+      <div class="corpo" id="p-mont">
+        <p class="small">Ordem de montagem na bancada. Cada etapa mostra as peças que entram e os parafusos delas. A chave alcança todos os parafusos nessa ordem.</p>
+        <ol class="passos" id="passos"></ol>
+      </div>
+      <div class="corpo" id="p-func" hidden>
+        <div class="ctl">
+          <button id="play" aria-pressed="true">Pausar</button>
+          <button id="vel1" aria-pressed="true">1×</button>
+          <button id="vel05" aria-pressed="false">0,5×</button>
+          <button id="vel2" aria-pressed="false">2×</button>
+        </div>
+        <label class="small" for="tempo">Tempo do ciclo</label>
+        <input type="range" id="tempo" min="0" max="1000" value="0">
+        <div class="fase" id="fase"></div>
+        <ol class="passos" id="fases"></ol>
+      </div>
+      <div class="corpo" id="sel" style="border-top:1px solid var(--line);max-height:none"><div class="sel" id="selbox"><span class="eyebrow">Peça selecionada</span><span class="small">Nenhuma. Clique numa peça no modelo.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>O que mudou e por quê</h2>
+  <div class="two">
+    <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+      <h3>Esteira de dedos saiu</h3>
+      <ul>
+        <li>Com a correia no plano da tela, os dedos que voltam pelo lado de descida passam por dentro da calha por onde a bola sobe. Na coluna de 34 mm não há espaço para separar os dois lados.</li>
+        <li>Com a correia no outro sentido, cada dedo é um bloco rígido preso na correia que precisa contornar a polia de 20 dentes. A correia descola da polia nesse trecho, e a coluna teria que subir para caber o giro de 30 mm do dedo.</li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+      <h3 id="guia-tit"></h3>
+      <ul id="guia-itens"></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Comporta: como a bola passa</h2>
+  <ol id="seq"></ol>
+  <p>O teste levanta a lâmina com a cabine parada no fundo, a bola no berço e a seguinte encostada nela. Isso foi repetido com as tolerâncias somadas no pior sentido: bolas de 25,3 a 25,5 mm, lâmina deslocada, degrau e inclinações nos extremos.</p>
+  <div class="tbl"><table id="t-comp"></table></div>
+  <p class="small">Folga negativa significaria a lâmina batendo na bola. "Degrau" é a altura que a bola seguinte teria que pular para passar pela lâmina levantada. A força para pular é comparada com o empurrão de 6 bolas na fila com 1° a mais de inclinação.</p>
+</section>
+
+<section>
+  <h2>Onde cada peça fica e como fixa</h2>
+  <div class="tbl"><table id="t-pecas"></table></div>
+</section>
+
+<section>
+  <h2>Parafusos</h2>
+  <p>Para cada parafuso, o programa conferiu:</p>
+  <ul>
+    <li>se ele atravessa a peça que prende;</li>
+    <li>se pega o suficiente na peça que rosca: 4 mm em inserto e 2,5 mm em rosca de metal;</li>
+    <li>se não fura nenhuma outra peça;</li>
+    <li>se o inserto fica com parede de pelo menos 1,2 mm;</li>
+    <li>se a chave chega até a cabeça na etapa em que o parafuso entra.</li>
+  </ul>
+  <div class="tbl"><table id="t-paraf"></table></div>
+</section>
+
+<section>
+  <h2>Menores folgas em movimento</h2>
+  <p>As folgas foram medidas em três varreduras:</p>
+  <ul>
+    <li>a cabine contra as peças fixas, a cada 0,5 mm do curso;</li>
+    <li>o braço da comporta contra as peças fixas, a cada 0,25° do giro;</li>
+    <li>a cabine contra o braço em todas as combinações de altura e ângulo. Eles nunca se encostam, então nenhuma ordem de comando causa batida.</li>
+  </ul>
+  <p>O mínimo exigido é 0,5 mm.</p>
+  <div class="tbl"><table id="t-folgas"></table></div>
+</section>
+
+<section>
+  <h2>Correia, trilho e impressão</h2>
+  <div class="two">
+    <div class="tbl"><table id="t-correia"></table></div>
+    <div class="tbl"><table id="t-imp"></table></div>
+  </div>
+</section>
+
+<section>
+  <h2>O que esta validação não cobre</h2>
+  <ul>
+    <li>A dinâmica: quique da bola de aço na parede da cabine, velocidade com que a bola chega da bandeja e vibração. Isso fica para o teste de bancada com a peça impressa.</li>
+    <li>A tolerância real da impressão. O modelo usa folga mínima de 0,5 mm entre peças que se movem. Se a sua impressora erra mais que 0,25 mm por face, as paredes da cabine precisam de folga maior.</li>
+    <li>A rigidez das peças impressas e a força de aperto dos parafusos em PETG.</li>
+    <li>Onde a fila, o servo e a rampa ficam na máquina de verdade. Aqui eles estão na bancada; na máquina dependem da bandeja e do carro A.</li>
+  </ul>
+  <p class="note" id="compras"></p>
+</section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const C = {"geo": [{"n": "base", "c": "mundo", "t": "box", "s": [19.0, 20.5, 2.5], "p": [191.0, 178.5, 2.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Base", "cor": "preto", "etapa": 1}, {"n": "base_frente", "c": "mundo", "t": "box", "s": [11.0, 23.0, 2.5], "p": [199.0, 135.0, 2.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Base", "cor": "preto", "etapa": 1}, {"n": "batente", "c": "mundo", "t": "box", "s": [1.25, 5.0, 11.911], "p": [202.25, 165.0, 16.911], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Batente", "cor": "acento", "etapa": 1}, {"n": "espinha_inf", "c": "mundo", "t": "box", "s": [14.25, 4.0, 97.5], "p": [191.75, 192.0, 102.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Espinha inferior", "cor": "preto", "etapa": 1}, {"n": "espinha_sup", "c": "mundo", "t": "box", "s": [14.25, 4.0, 98.0], "p": [191.75, 192.0, 298.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Espinha superior", "cor": "preto", "etapa": 1}, {"n": "trilho", "c": "mundo", "t": "box", "s": [4.5, 3.25, 192.5], "p": [191.0, 184.75, 208.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Trilho MGN9", "cor": "metal", "etapa": 2}, {"n": "berco_piso", "c": "carro", "t": "box", "s": [11.75, 13.0, 1.5], "p": [191.698, 143.709, -1.405], "q": [0.997412, 0.069746, 0.01741, 0.001217], "peca": "Cabine", "cor": "acento", "etapa": 3}, {"n": "berco_dir", "c": "carro", "t": "box", "s": [1.0, 14.0, 11.5], "p": [204.5, 144.5, 10.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Cabine", "cor": "acento", "etapa": 3}, {"n": "berco_fundo", "c": "carro", "t": "box", "s": [12.75, 1.0, 11.5], "p": [192.75, 157.5, 10.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Cabine", "cor": "acento", "etapa": 3}, {"n": "alma_esq", "c": "carro", "t": "box", "s": [1.25, 7.25, 13.5], "p": [179.25, 165.75, 23.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Cabine", "cor": "acento", "etapa": 3}, {"n": "bloco_dir", "c": "carro", "t": "box", "s": [7.75, 7.25, 13.5], "p": [195.75, 165.75, 23.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Cabine", "cor": "acento", "etapa": 3}, {"n": "costas", "c": "carro", "t": "box", "s": [12.75, 2.5, 19.95], "p": [190.75, 175.5, 20.127], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Cabine", "cor": "acento", "etapa": 3}, {"n": "patim", "c": "carro", "t": "box", "s": [10.0, 4.0, 19.95], "p": [191.0, 182.0, 20.127], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Patim MGN9H", "cor": "metal", "etapa": 2}, {"n": "polia_baixo", "c": "mundo", "t": "cylinder", "s": [9.0, 4.0], "p": [191.0, 168.5, 12.5], "q": [0.707107, 0.707107, 0.0, 0.0], "peca": "Polia de baixo", "cor": "metal", "etapa": 4}, {"n": "espacador", "c": "mundo", "t": "cylinder", "s": [3.0, 7.75], "p": [191.0, 180.25, 12.5], "q": [0.707107, 0.707107, 0.0, 0.0], "peca": "Espaçador", "cor": "preto", "etapa": 4}, {"n": "sup_placa", "c": "mundo", "t": "box", "s": [8.0, 34.5, 2.0], "p": [191.0, 161.5, 417.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Suporte do motor", "cor": "preto", "etapa": 5}, {"n": "sup_perna", "c": "mundo", "t": "box", "s": [8.0, 4.0, 9.5], "p": [191.0, 192.0, 405.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Suporte do motor", "cor": "preto", "etapa": 5}, {"n": "sup_abraco", "c": "mundo", "t": "box", "s": [7.5, 14.0, 8.25], "p": [191.0, 141.0, 406.75], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Suporte do motor", "cor": "preto", "etapa": 5}, {"n": "motor", "c": "mundo", "t": "box", "s": [6.0, 16.25, 5.0], "p": [191.0, 140.75, 405.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Motor N20", "cor": "metal", "etapa": 5}, {"n": "polia_cima", "c": "mundo", "t": "cylinder", "s": [9.0, 4.0], "p": [191.0, 168.5, 405.0], "q": [0.707107, 0.707107, 0.0, 0.0], "peca": "Polia do motor", "cor": "metal", "etapa": 5}, {"n": "cubo_cima", "c": "mundo", "t": "cylinder", "s": [4.5, 3.5], "p": [191.0, 161.0, 405.0], "q": [0.707107, 0.707107, 0.0, 0.0], "peca": "Polia do motor", "cor": "metal", "etapa": 5}, {"n": "correia_volta", "c": "mundo", "t": "box", "s": [0.7, 3.0, 196.25], "p": [184.634, 168.5, 208.75], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Correia", "cor": "correia", "etapa": 6}, {"n": "frente_b", "c": "mundo", "t": "box", "s": [14.25, 1.0, 97.5], "p": [193.75, 129.0, 102.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Tubo inferior", "cor": "transp", "etapa": 7}, {"n": "frente_c", "c": "mundo", "t": "box", "s": [2.0, 1.0, 87.5], "p": [177.5, 129.0, 112.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Tubo inferior", "cor": "transp", "etapa": 7}, {"n": "esq_inf_tras", "c": "mundo", "t": "box", "s": [1.0, 19.75, 97.5], "p": [176.5, 176.25, 102.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Tubo inferior", "cor": "transp", "etapa": 7}, {"n": "esq_inf_cima", "c": "mundo", "t": "box", "s": [1.0, 13.25, 75.0], "p": [176.5, 143.25, 125.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Tubo inferior", "cor": "transp", "etapa": 7}, {"n": "dir_inf", "c": "mundo", "t": "box", "s": [1.0, 33.0, 97.5], "p": [207.0, 163.0, 102.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Tubo inferior", "cor": "transp", "etapa": 7}, {"n": "frente_sup", "c": "mundo", "t": "box", "s": [16.25, 1.0, 76.0], "p": [191.75, 129.0, 276.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Tubo superior", "cor": "transp", "etapa": 7}, {"n": "esq_sup", "c": "mundo", "t": "box", "s": [1.0, 33.0, 98.0], "p": [176.5, 163.0, 298.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Tubo superior", "cor": "transp", "etapa": 7}, {"n": "dir_sup", "c": "mundo", "t": "box", "s": [1.0, 33.0, 98.0], "p": [207.0, 163.0, 298.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Tubo superior", "cor": "transp", "etapa": 7}, {"n": "fila_piso", "c": "mundo", "t": "box", "s": [77.0, 13.25, 1.5], "p": [96.895, 143.25, 23.888], "q": [0.999391, 0.0, 0.034899, 0.0], "peca": "Fila", "cor": "preto", "etapa": 8}, {"n": "fila_frente", "c": "mundo", "t": "box", "s": [77.75, 1.0, 18.5], "p": [97.75, 129.0, 43.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Fila", "cor": "transp", "etapa": 8}, {"n": "fila_frente_baixo", "c": "mundo", "t": "box", "s": [75.75, 1.0, 11.0], "p": [95.75, 129.0, 14.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Fila", "cor": "transp", "etapa": 8}, {"n": "fila_fundo", "c": "mundo", "t": "box", "s": [77.75, 1.0, 29.5], "p": [97.75, 157.5, 32.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Fila", "cor": "preto", "etapa": 8}, {"n": "fila_inicio", "c": "mundo", "t": "box", "s": [1.0, 15.25, 29.5], "p": [19.0, 143.25, 32.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Fila", "cor": "preto", "etapa": 8}, {"n": "rampa", "c": "mundo", "t": "box", "s": [14.25, 34.0, 1.5], "p": [191.75, 94.157, 346.935], "q": [0.99863, 0.052336, 0.0, 0.0], "peca": "Rampa", "cor": "preto", "etapa": 8}, {"n": "rampa_esq", "c": "mundo", "t": "box", "s": [1.0, 35.0, 16.679], "p": [176.5, 93.0, 357.321], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Rampa", "cor": "transp", "etapa": 8}, {"n": "rampa_dir", "c": "mundo", "t": "box", "s": [1.0, 35.0, 16.679], "p": [207.0, 93.0, 357.321], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Rampa", "cor": "transp", "etapa": 8}, {"n": "rampa_fim", "c": "mundo", "t": "box", "s": [14.25, 1.0, 16.679], "p": [191.75, 59.0, 357.321], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Rampa", "cor": "acento", "etapa": 8}, {"n": "suporte_servo", "c": "mundo", "t": "box", "s": [16.0, 14.25, 10.5], "p": [100.0, 102.25, 10.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Suporte do servo", "cor": "preto", "etapa": 8}, {"n": "servo", "c": "mundo", "t": "box", "s": [11.4, 14.25, 6.0], "p": [100.0, 102.25, 27.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Servo", "cor": "metal", "etapa": 8}, {"n": "alav_chifre", "c": "alavanca", "t": "box", "s": [8.0, 1.25, 4.0], "p": [0.0, -3.25, 0.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Servo", "cor": "metal", "etapa": 8}, {"n": "alav_braco", "c": "alavanca", "t": "box", "s": [41.775, 4.0, 2.0], "p": [36.775, 0.0, -2.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Braço da comporta", "cor": "comporta", "etapa": 8}, {"n": "alav_ponte", "c": "alavanca", "t": "box", "s": [1.775, 7.5, 4.5], "p": [76.775, 3.5, -8.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Braço da comporta", "cor": "comporta", "etapa": 8}, {"n": "alav_lamina", "c": "alavanca", "t": "box", "s": [0.75, 10.0, 5.0], "p": [77.8, 21.0, -8.0], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Braço da comporta", "cor": "comporta", "etapa": 8}, {"n": "alav_ponta", "c": "alavanca", "t": "box", "s": [0.4, 10.0, 1.5], "p": [77.8, 21.0, -1.5], "q": [1.0, 0.0, 0.0, 0.0], "peca": "Braço da comporta", "cor": "comporta", "etapa": 8}], "fix": [{"n": "base_espinha_0", "p0": [183.0, 192.0, 0.0], "d": [0, 0, 1], "L": 12, "etapa": 1, "tipo": "M3x12", "ok": true, "c": "mundo"}, {"n": "base_espinha_1", "p0": [200.5, 192.0, 0.0], "d": [0, 0, 1], "L": 12, "etapa": 1, "tipo": "M3x12", "ok": true, "c": "mundo"}, {"n": "trilho_0", "p0": [191.0, 184.5, 26.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_1", "p0": [191.0, 184.5, 46.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_2", "p0": [191.0, 184.5, 66.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_3", "p0": [191.0, 184.5, 86.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_4", "p0": [191.0, 184.5, 106.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_5", "p0": [191.0, 184.5, 126.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_6", "p0": [191.0, 184.5, 146.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_7", "p0": [191.0, 184.5, 166.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_8", "p0": [191.0, 184.5, 186.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_9", "p0": [191.0, 184.5, 206.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_10", "p0": [191.0, 184.5, 226.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_11", "p0": [191.0, 184.5, 246.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_12", "p0": [191.0, 184.5, 266.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_13", "p0": [191.0, 184.5, 286.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_14", "p0": [191.0, 184.5, 306.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_15", "p0": [191.0, 184.5, 326.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_16", "p0": [191.0, 184.5, 346.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_17", "p0": [191.0, 184.5, 366.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "trilho_18", "p0": [191.0, 184.5, 386.0], "d": [0, 1, 0], "L": 10, "etapa": 2, "tipo": "M3x10", "ok": true, "c": "mundo"}, {"n": "cabine_patim_0", "p0": [183.5, 175.5, 12.127144310510875], "d": [0, 1, 0], "L": 5.5, "etapa": 3, "tipo": "M3x6", "ok": true, "c": "carro"}, {"n": "cabine_patim_1", "p0": [198.5, 175.5, 12.127144310510875], "d": [0, 1, 0], "L": 5.5, "etapa": 3, "tipo": "M3x6", "ok": true, "c": "carro"}, {"n": "cabine_patim_2", "p0": [183.5, 175.5, 28.127144310510875], "d": [0, 1, 0], "L": 5.5, "etapa": 3, "tipo": "M3x6", "ok": true, "c": "carro"}, {"n": "cabine_patim_3", "p0": [198.5, 175.5, 28.127144310510875], "d": [0, 1, 0], "L": 5.5, "etapa": 3, "tipo": "M3x6", "ok": true, "c": "carro"}, {"n": "eixo_polia_baixo", "p0": [191.0, 196.0, 12.5], "d": [0, -1, 0], "L": 35, "etapa": 4, "tipo": "M3x35", "ok": true, "c": "mundo"}, {"n": "suporte_espinha_0", "p0": [186.0, 192.0, 400.0], "d": [0, 0, -1], "L": 12, "etapa": 5, "tipo": "M3x12", "ok": true, "c": "mundo"}, {"n": "suporte_espinha_1", "p0": [196.0, 192.0, 400.0], "d": [0, 0, -1], "L": 12, "etapa": 5, "tipo": "M3x12", "ok": true, "c": "mundo"}, {"n": "tubo_esq_0", "p0": [175.5, 192.0, 30], "d": [1, 0, 0], "L": 8, "etapa": 7, "tipo": "M3x8 chata", "ok": true, "c": "mundo"}, {"n": "tubo_esq_1", "p0": [175.5, 192.0, 160], "d": [1, 0, 0], "L": 8, "etapa": 7, "tipo": "M3x8 chata", "ok": true, "c": "mundo"}, {"n": "tubo_esq_2", "p0": [175.5, 192.0, 240], "d": [1, 0, 0], "L": 8, "etapa": 7, "tipo": "M3x8 chata", "ok": true, "c": "mundo"}, {"n": "tubo_esq_3", "p0": [175.5, 192.0, 380], "d": [1, 0, 0], "L": 8, "etapa": 7, "tipo": "M3x8 chata", "ok": true, "c": "mundo"}, {"n": "tubo_dir_0", "p0": [208.0, 192.0, 30], "d": [-1, 0, 0], "L": 8, "etapa": 7, "tipo": "M3x8 chata", "ok": true, "c": "mundo"}, {"n": "tubo_dir_1", "p0": [208.0, 192.0, 160], "d": [-1, 0, 0], "L": 8, "etapa": 7, "tipo": "M3x8 chata", "ok": true, "c": "mundo"}, {"n": "tubo_dir_2", "p0": [208.0, 192.0, 240], "d": [-1, 0, 0], "L": 8, "etapa": 7, "tipo": "M3x8 chata", "ok": true, "c": "mundo"}, {"n": "tubo_dir_3", "p0": [208.0, 192.0, 380], "d": [-1, 0, 0], "L": 8, "etapa": 7, "tipo": "M3x8 chata", "ok": true, "c": "mundo"}], "anc": {"zc_min": 18.822855689489124, "zc_espera": 334.21459818336916, "zc_topo": 354.21459818336916, "zc_max": 357.21459818336916, "x_bola": 190.8, "x_contato": 178.10000000000002}, "piv": [100.0, 121.0, 27.0], "r": 12.7, "tab": [], "p": {"zf_fim": 20.0, "x_fila_fim": 174.0, "x_fila_ini": 20.0, "incl_fila": 4.0, "y_bola": 142.7, "z_rampa": 352.0, "incl_rampa": 6.0, "x_ida": 197.3661977236758, "x_volta": 184.6338022763242, "y_correia": [165.5, 171.5], "zb": 12.5, "zt": 405.0, "incl_berco_y": 8.0, "incl_berco_x": 2.0, "z_piso_bola": 0.0, "ang_baixa": 7.5}, "pecas": {"Base": {"tipo": "impressa", "mat": "PETG preto", "etapa": 1, "fix": "4 parafusos de madeira na bancada (ou no piso do gabinete); 2 M3x12 de baixo prendem a espinha"}, "Espinha inferior": {"tipo": "impressa", "mat": "PETG preto", "etapa": 1, "fix": "assenta na base; 2 M3x12 por baixo + o trilho por cima amarra com a superior"}, "Espinha superior": {"tipo": "impressa", "mat": "PETG preto", "etapa": 1, "fix": "apoiada na inferior; o trilho, com 19 M3x10, une as duas"}, "Batente": {"tipo": "impressa", "mat": "parte da base", "etapa": 1, "fix": "impresso junto com a base"}, "Trilho MGN9": {"tipo": "comprada", "mat": "MGN9 cortado em 380 mm", "etapa": 2, "fix": "19 M3x10 pela frente em insertos M3 na espinha, a cada 20 mm"}, "Patim MGN9H": {"tipo": "comprada", "mat": "vem montado no trilho", "etapa": 2, "fix": "corre no trilho; nunca tirar do trilho (as esferas caem)"}, "Cabine": {"tipo": "impressa", "mat": "PETG preto", "etapa": 3, "fix": "4 M3x6 pela frente, passando por furos de acesso no fundo do berço, nos furos roscados do patim"}, "Polia de baixo": {"tipo": "comprada", "mat": "polia tensora GT2 20T furo 3", "etapa": 4, "fix": "parafuso M3x35 por trás da espinha, espaçador, polia e porca autotravante"}, "Espaçador": {"tipo": "impressa", "mat": "PETG", "etapa": 4, "fix": "no parafuso da polia de baixo"}, "Suporte do motor": {"tipo": "impressa", "mat": "PETG preto", "etapa": 5, "fix": "2 M3x12 de cima, dentro de rebaixos na perna, em insertos no topo da espinha"}, "Motor N20": {"tipo": "comprada", "mat": "N20 12 V 100 rpm com encoder", "etapa": 5, "fix": "abraçado pelo suporte; 2 M2 na face da caixa de redução"}, "Polia do motor": {"tipo": "comprada", "mat": "GT2 20T furo 3", "etapa": 5, "fix": "no eixo do N20 com o parafuso sem cabeça no lado chato do eixo"}, "Correia": {"tipo": "comprada", "mat": "GT2 6 mm aberta, 830 mm", "etapa": 6, "fix": "as duas pontas nas presilhas da cabine; tensão dada na presilha de cima"}, "Tubo inferior": {"tipo": "impressa", "mat": "PETG transparente", "etapa": 7, "fix": "encaixa pela frente; 4 M3x8 cabeça chata pelas laterais na espinha"}, "Tubo superior": {"tipo": "impressa", "mat": "PETG transparente", "etapa": 7, "fix": "encaixa pela frente; 4 M3x8 cabeça chata pelas laterais na espinha"}, "Fila": {"tipo": "impressa", "mat": "PETG preto", "etapa": 8, "fix": "parafusada na bancada; na máquina vem da bandeja"}, "Suporte do servo": {"tipo": "impressa", "mat": "PETG preto", "etapa": 8, "fix": "parafusado na bancada com furos oblongos: ajuste de +-2 mm em X para centrar a lâmina entre as bolas"}, "Servo": {"tipo": "comprada", "mat": "MG90S engrenagem metálica", "etapa": 8, "fix": "2 parafusos do próprio servo no suporte"}, "Braço da comporta": {"tipo": "impressa", "mat": "PETG preto", "etapa": 8, "fix": "aparafusado no chifre do servo (2 parafusos do chifre)"}, "Rampa": {"tipo": "impressa", "mat": "PETG preto", "etapa": 8, "fix": "apoiada no topo da parede da frente + 2 pés na bancada"}}};
+const V = {"ancoras": {"zc_min": 18.82, "zc_espera": 334.21, "zc_topo": 354.21, "zc_max": 357.21, "x_bola": 190.8, "x_contato": 178.1}, "folgas": [{"a": "patim", "pa": "Patim MGN9H", "b": "trilho", "pb": "Trilho MGN9", "folga": -4.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": "o patim abraça o trilho"}, {"a": "bloco_dir", "pa": "Cabine", "b": "batente", "pb": "Batente", "folga": -0.0, "zc": 18.8, "ang": 0.0, "ok": true, "nota": "batente de baixo: e onde a cabine para"}, {"a": "alav_chifre", "pa": "Servo", "b": "servo", "pb": "Servo", "folga": -0.0, "zc": 357.2, "ang": 0.0, "ok": true, "nota": "chifre montado no eixo do servo"}, {"a": "berco_dir", "pa": "Cabine", "b": "frente_b", "pb": "Tubo inferior", "folga": 0.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_dir", "pa": "Cabine", "b": "dir_inf", "pb": "Tubo inferior", "folga": 0.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_dir", "pa": "Cabine", "b": "frente_sup", "pb": "Tubo superior", "folga": 0.5, "zc": 177.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_dir", "pa": "Cabine", "b": "dir_sup", "pb": "Tubo superior", "folga": 0.5, "zc": 177.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_fundo", "pa": "Cabine", "b": "dir_inf", "pb": "Tubo inferior", "folga": 0.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_fundo", "pa": "Cabine", "b": "dir_sup", "pb": "Tubo superior", "folga": 0.5, "zc": 177.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alma_esq", "pa": "Cabine", "b": "esq_inf_tras", "pb": "Tubo inferior", "folga": 0.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alma_esq", "pa": "Cabine", "b": "esq_sup", "pb": "Tubo superior", "folga": 0.5, "zc": 162.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "costas", "pa": "Cabine", "b": "polia_baixo", "pb": "Polia de baixo", "folga": 0.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "costas", "pa": "Cabine", "b": "polia_cima", "pb": "Polia do motor", "folga": 0.5, "zc": 355.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "costas", "pa": "Cabine", "b": "esq_inf_tras", "pb": "Tubo inferior", "folga": 0.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "costas", "pa": "Cabine", "b": "esq_sup", "pb": "Tubo superior", "folga": 0.5, "zc": 159.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_braco", "pa": "Braço da comporta", "b": "suporte_servo", "pb": "Suporte do servo", "folga": 0.5, "zc": 357.2, "ang": 5.5, "ok": true, "nota": ""}, {"a": "alav_braco", "pa": "Braço da comporta", "b": "servo", "pb": "Servo", "folga": 0.5, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "frente_b", "pb": "Tubo inferior", "folga": 0.57, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "frente_sup", "pb": "Tubo superior", "folga": 0.57, "zc": 201.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "frente_c", "pb": "Tubo inferior", "folga": 0.63, "zc": 26.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_ponte", "pa": "Braço da comporta", "b": "fila_piso", "pb": "Fila", "folga": 0.81, "zc": 357.2, "ang": 5.0, "ok": true, "nota": ""}, {"a": "alav_chifre", "pa": "Servo", "b": "suporte_servo", "pb": "Suporte do servo", "folga": 0.93, "zc": 357.2, "ang": 8.0, "ok": true, "nota": ""}, {"a": "alav_ponte", "pa": "Braço da comporta", "b": "frente_b", "pb": "Tubo inferior", "folga": 0.95, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_ponte", "pa": "Braço da comporta", "b": "fila_frente_baixo", "pb": "Fila", "folga": 0.96, "zc": 357.2, "ang": 8.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "alav_ponte", "pb": "Braço da comporta", "folga": 1.35, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "alav_lamina", "pb": "Braço da comporta", "folga": 1.35, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_dir", "pa": "Cabine", "b": "batente", "pb": "Batente", "folga": 1.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_fundo", "pa": "Cabine", "b": "batente", "pb": "Batente", "folga": 1.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "costas", "pa": "Cabine", "b": "correia_volta", "pb": "Correia", "folga": 1.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "alav_ponta", "pb": "Braço da comporta", "folga": 1.7, "zc": 25.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alma_esq", "pa": "Cabine", "b": "esq_inf_cima", "pb": "Tubo inferior", "folga": 2.0, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "patim", "pa": "Patim MGN9H", "b": "espinha_inf", "pb": "Espinha inferior", "folga": 2.0, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "patim", "pa": "Patim MGN9H", "b": "espinha_sup", "pb": "Espinha superior", "folga": 2.0, "zc": 158.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "patim", "pa": "Patim MGN9H", "b": "sup_perna", "pb": "Suporte do motor", "folga": 2.0, "zc": 354.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_ponte", "pa": "Braço da comporta", "b": "frente_c", "pb": "Tubo inferior", "folga": 2.0, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_ponte", "pa": "Braço da comporta", "b": "fila_frente", "pb": "Fila", "folga": 2.0, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_lamina", "pa": "Braço da comporta", "b": "frente_b", "pb": "Tubo inferior", "folga": 2.0, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_lamina", "pa": "Braço da comporta", "b": "frente_c", "pb": "Tubo inferior", "folga": 2.0, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_ponta", "pa": "Braço da comporta", "b": "frente_b", "pb": "Tubo inferior", "folga": 2.0, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_ponta", "pa": "Braço da comporta", "b": "frente_c", "pb": "Tubo inferior", "folga": 2.0, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_ponta", "pa": "Braço da comporta", "b": "fila_frente", "pb": "Fila", "folga": 2.0, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_lamina", "pa": "Braço da comporta", "b": "fila_frente", "pb": "Fila", "folga": 2.06, "zc": 357.2, "ang": 0.0, "ok": true, "nota": ""}, {"a": "bloco_dir", "pa": "Cabine", "b": "polia_cima", "pb": "Polia do motor", "folga": 2.18, "zc": 356.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_dir", "pa": "Cabine", "b": "rampa", "pb": "Rampa", "folga": 2.37, "zc": 325.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "esq_inf_tras", "pb": "Tubo inferior", "folga": 2.4, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "esq_inf_cima", "pb": "Tubo inferior", "folga": 2.4, "zc": 50.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "esq_sup", "pb": "Tubo superior", "folga": 2.4, "zc": 200.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "rampa", "pb": "Rampa", "folga": 2.42, "zc": 349.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_dir", "pa": "Cabine", "b": "rampa_dir", "pb": "Rampa", "folga": 2.5, "zc": 318.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_fundo", "pa": "Cabine", "b": "esq_inf_tras", "pb": "Tubo inferior", "folga": 2.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_fundo", "pa": "Cabine", "b": "esq_inf_cima", "pb": "Tubo inferior", "folga": 2.5, "zc": 26.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_fundo", "pa": "Cabine", "b": "esq_sup", "pb": "Tubo superior", "folga": 2.5, "zc": 175.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alma_esq", "pa": "Cabine", "b": "fila_fundo", "pb": "Fila", "folga": 2.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "bloco_dir", "pa": "Cabine", "b": "dir_inf", "pb": "Tubo inferior", "folga": 2.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "bloco_dir", "pa": "Cabine", "b": "dir_sup", "pb": "Tubo superior", "folga": 2.5, "zc": 160.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "costas", "pa": "Cabine", "b": "dir_inf", "pb": "Tubo inferior", "folga": 2.5, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "costas", "pa": "Cabine", "b": "dir_sup", "pb": "Tubo superior", "folga": 2.5, "zc": 157.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "dir_inf", "pb": "Tubo inferior", "folga": 2.51, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "dir_sup", "pb": "Tubo superior", "folga": 2.51, "zc": 196.3, "ang": 0.0, "ok": true, "nota": ""}, {"a": "bloco_dir", "pa": "Cabine", "b": "correia_volta", "pb": "Correia", "folga": 2.67, "zc": 18.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "berco_piso", "pa": "Cabine", "b": "rampa_dir", "pb": "Rampa", "folga": 2.7, "zc": 344.8, "ang": 0.0, "ok": true, "nota": ""}, {"a": "alav_lamina", "pa": "Braço da comporta", "b": "fila_piso", "pb": "Fila", "folga": 2.78, "zc": 357.2, "ang": 7.25, "ok": true, "nota": ""}], "parafusos": [{"nome": "base_espinha_0", "tipo": "M3x12", "etapa": 1, "prende": "Base", "rosca": "Espinha inferior", "pega": 7.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [183.0, 192.0, 0.0], "dir": [0, 0, 1], "L": 12, "corpo": "mundo"}, {"nome": "base_espinha_1", "tipo": "M3x12", "etapa": 1, "prende": "Base", "rosca": "Espinha inferior", "pega": 7.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [200.5, 192.0, 0.0], "dir": [0, 0, 1], "L": 12, "corpo": "mundo"}, {"nome": "trilho_0", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 26.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_1", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 46.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_2", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 66.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_3", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 86.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_4", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 106.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_5", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 126.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_6", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 146.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_7", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 166.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_8", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha inferior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 186.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_9", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 3.7 mm"], "p0": [191.0, 184.5, 206.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_10", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 226.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_11", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 246.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_12", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 266.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_13", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 286.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_14", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 306.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_15", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 326.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_16", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 346.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_17", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 11.2 mm"], "p0": [191.0, 184.5, 366.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "trilho_18", "tipo": "M3x10", "etapa": 2, "prende": "Trilho MGN9", "rosca": "Espinha superior", "pega": 6.5, "acesso": ["Patim MGN9H"], "ok": true, "problemas": [], "notas": ["parede do inserto 7.7 mm"], "p0": [191.0, 184.5, 386.0], "dir": [0, 1, 0], "L": 10, "corpo": "mundo"}, {"nome": "cabine_patim_0", "tipo": "M3x6", "etapa": 3, "prende": "Cabine", "rosca": "Patim MGN9H", "pega": 3.0, "acesso": ["Cabine"], "ok": true, "problemas": [], "notas": [], "p0": [183.5, 175.5, 12.127144310510875], "dir": [0, 1, 0], "L": 5.5, "corpo": "carro"}, {"nome": "cabine_patim_1", "tipo": "M3x6", "etapa": 3, "prende": "Cabine", "rosca": "Patim MGN9H", "pega": 3.0, "acesso": ["Cabine"], "ok": true, "problemas": [], "notas": [], "p0": [198.5, 175.5, 12.127144310510875], "dir": [0, 1, 0], "L": 5.5, "corpo": "carro"}, {"nome": "cabine_patim_2", "tipo": "M3x6", "etapa": 3, "prende": "Cabine", "rosca": "Patim MGN9H", "pega": 3.0, "acesso": ["Cabine"], "ok": true, "problemas": [], "notas": [], "p0": [183.5, 175.5, 28.127144310510875], "dir": [0, 1, 0], "L": 5.5, "corpo": "carro"}, {"nome": "cabine_patim_3", "tipo": "M3x6", "etapa": 3, "prende": "Cabine", "rosca": "Patim MGN9H", "pega": 3.0, "acesso": ["Cabine"], "ok": true, "problemas": [], "notas": [], "p0": [198.5, 175.5, 28.127144310510875], "dir": [0, 1, 0], "L": 5.5, "corpo": "carro"}, {"nome": "eixo_polia_baixo", "tipo": "M3x35", "etapa": 4, "prende": "Espinha inferior", "rosca": "Polia de baixo", "pega": 8.0, "acesso": [], "ok": true, "problemas": [], "notas": [], "p0": [191.0, 196.0, 12.5], "dir": [0, -1, 0], "L": 35, "corpo": "mundo"}, {"nome": "suporte_espinha_0", "tipo": "M3x12", "etapa": 5, "prende": "Suporte do motor", "rosca": "Espinha superior", "pega": 8.0, "acesso": ["Suporte do motor"], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [186.0, 192.0, 400.0], "dir": [0, 0, -1], "L": 12, "corpo": "mundo"}, {"nome": "suporte_espinha_1", "tipo": "M3x12", "etapa": 5, "prende": "Suporte do motor", "rosca": "Espinha superior", "pega": 8.0, "acesso": ["Suporte do motor"], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [196.0, 192.0, 400.0], "dir": [0, 0, -1], "L": 12, "corpo": "mundo"}, {"nome": "tubo_esq_0", "tipo": "M3x8 chata", "etapa": 7, "prende": "Tubo inferior", "rosca": "Espinha inferior", "pega": 6.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [175.5, 192.0, 30], "dir": [1, 0, 0], "L": 8, "corpo": "mundo"}, {"nome": "tubo_esq_1", "tipo": "M3x8 chata", "etapa": 7, "prende": "Tubo inferior", "rosca": "Espinha inferior", "pega": 6.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [175.5, 192.0, 160], "dir": [1, 0, 0], "L": 8, "corpo": "mundo"}, {"nome": "tubo_esq_2", "tipo": "M3x8 chata", "etapa": 7, "prende": "Tubo superior", "rosca": "Espinha superior", "pega": 6.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [175.5, 192.0, 240], "dir": [1, 0, 0], "L": 8, "corpo": "mundo"}, {"nome": "tubo_esq_3", "tipo": "M3x8 chata", "etapa": 7, "prende": "Tubo superior", "rosca": "Espinha superior", "pega": 6.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [175.5, 192.0, 380], "dir": [1, 0, 0], "L": 8, "corpo": "mundo"}, {"nome": "tubo_dir_0", "tipo": "M3x8 chata", "etapa": 7, "prende": "Tubo inferior", "rosca": "Espinha inferior", "pega": 6.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [208.0, 192.0, 30], "dir": [-1, 0, 0], "L": 8, "corpo": "mundo"}, {"nome": "tubo_dir_1", "tipo": "M3x8 chata", "etapa": 7, "prende": "Tubo inferior", "rosca": "Espinha inferior", "pega": 6.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [208.0, 192.0, 160], "dir": [-1, 0, 0], "L": 8, "corpo": "mundo"}, {"nome": "tubo_dir_2", "tipo": "M3x8 chata", "etapa": 7, "prende": "Tubo superior", "rosca": "Espinha superior", "pega": 6.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [208.0, 192.0, 240], "dir": [-1, 0, 0], "L": 8, "corpo": "mundo"}, {"nome": "tubo_dir_3", "tipo": "M3x8 chata", "etapa": 7, "prende": "Tubo superior", "rosca": "Espinha superior", "pega": 6.0, "acesso": [], "ok": true, "problemas": [], "notas": ["parede do inserto 1.7 mm"], "p0": [208.0, 192.0, 380], "dir": [-1, 0, 0], "L": 8, "corpo": "mundo"}], "correia": {"comprimento": 833.0, "compra": "GT2 6 mm aberta, 1 m (corta em ~835 mm)", "pega_presilha": 8.0, "presilhas_z": [[13, 21], [29, 37]], "curso": [18.82, 357.21], "folga_polia_cima": 0.5, "folga_polia_baixo": 0.5, "folga_ramo_livre": 1.5, "trilho_sobra_cima": 3.71, "trilho_sobra_baixo": 3.0}, "comporta": {"casos": {"nominal": {"lamina_baixa_topo_vs_fila": -3.1, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.8, 142.7, 31.53], "bola3": [165.46, 143.25, 33.3], "folga_lamina_bola_no_berco": 0.69, "folga_lamina_bola_seguinte": 0.8, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.77, "degrau_mm": 6.46, "forca_para_pular_N": 1.17, "empurrao_fila_N": 0.34, "fs_segurar": 3.4, "torque_servo_Nmm": 1.27, "fs_servo": 170.0, "fs_afastar": 5.7}, "lâmina ajustada +0,3, bolas grandes": {"lamina_baixa_topo_vs_fila": -3.14, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.75, 142.7, 31.58], "bola3": [165.31, 143.25, 33.36], "folga_lamina_bola_no_berco": 0.33, "folga_lamina_bola_seguinte": 1.18, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.77, "degrau_mm": 6.48, "forca_para_pular_N": 1.16, "empurrao_fila_N": 0.34, "fs_segurar": 3.4, "torque_servo_Nmm": 1.3, "fs_servo": 166.0, "fs_afastar": 5.7}, "lâmina ajustada -0,3, bolas pequenas": {"lamina_baixa_topo_vs_fila": -3.06, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.85, 142.7, 31.48], "bola3": [165.61, 143.25, 33.24], "folga_lamina_bola_no_berco": 1.05, "folga_lamina_bola_seguinte": 0.42, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.77, "degrau_mm": 6.45, "forca_para_pular_N": 1.17, "empurrao_fila_N": 0.34, "fs_segurar": 3.4, "torque_servo_Nmm": 1.24, "fs_servo": 174.0, "fs_afastar": 5.7}, "berço grande, seguinte pequena, lâmina +0,3": {"lamina_baixa_topo_vs_fila": -3.1, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.45, 142.7, 31.59], "bola3": [165.09, 143.25, 33.27], "folga_lamina_bola_no_berco": 0.33, "folga_lamina_bola_seguinte": 1.17, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.78, "degrau_mm": 6.47, "forca_para_pular_N": 1.17, "empurrao_fila_N": 0.34, "fs_segurar": 3.4, "torque_servo_Nmm": 1.27, "fs_servo": 170.0, "fs_afastar": 5.7}, "berço pequena, seguinte grande, lâmina -0,3": {"lamina_baixa_topo_vs_fila": -3.1, "lamina_alta_topo_vs_fila": 7.0, "bola2": [191.15, 142.7, 31.47], "bola3": [165.81, 143.25, 33.32], "folga_lamina_bola_no_berco": 1.05, "folga_lamina_bola_seguinte": 0.45, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.76, "degrau_mm": 6.46, "forca_para_pular_N": 1.16, "empurrao_fila_N": 0.34, "fs_segurar": 3.4, "torque_servo_Nmm": 1.27, "fs_servo": 170.0, "fs_afastar": 5.7}, "sem ajuste: lâmina +0,6": {"lamina_baixa_topo_vs_fila": -3.18, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.75, 142.7, 31.58], "bola3": [165.31, 143.25, 33.36], "folga_lamina_bola_no_berco": 0.05, "folga_lamina_bola_seguinte": 1.44, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.77, "degrau_mm": 6.5, "forca_para_pular_N": 1.17, "empurrao_fila_N": 0.34, "fs_segurar": 3.4, "torque_servo_Nmm": 1.34, "fs_servo": 162.0, "fs_afastar": 5.7}, "sem ajuste: lâmina -0,6": {"lamina_baixa_topo_vs_fila": -3.02, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.85, 142.7, 31.48], "bola3": [165.61, 143.25, 33.24], "folga_lamina_bola_no_berco": 1.34, "folga_lamina_bola_seguinte": 0.16, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.77, "degrau_mm": 6.42, "forca_para_pular_N": 1.16, "empurrao_fila_N": 0.34, "fs_segurar": 3.4, "torque_servo_Nmm": 1.21, "fs_servo": 179.0, "fs_afastar": 5.7}, "degrau 0,4 / fila 3 graus": {"lamina_baixa_topo_vs_fila": -3.1, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.8, 142.7, 31.93], "bola3": [165.42, 143.25, 33.15], "folga_lamina_bola_no_berco": 0.83, "folga_lamina_bola_seguinte": 0.77, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.77, "degrau_mm": 6.59, "forca_para_pular_N": 1.2, "empurrao_fila_N": 0.27, "fs_segurar": 4.4, "torque_servo_Nmm": 1.27, "fs_servo": 170.0, "fs_afastar": 7.1}, "degrau 1,2 / fila 5 graus": {"lamina_baixa_topo_vs_fila": -3.1, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.8, 142.7, 31.13], "bola3": [165.5, 143.25, 33.44], "folga_lamina_bola_no_berco": 0.56, "folga_lamina_bola_seguinte": 0.83, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.77, "degrau_mm": 6.34, "forca_para_pular_N": 1.13, "empurrao_fila_N": 0.41, "fs_segurar": 2.8, "torque_servo_Nmm": 1.27, "fs_servo": 170.0, "fs_afastar": 4.8}, "berço 7 graus / 1,3 graus": {"lamina_baixa_topo_vs_fila": -3.1, "lamina_alta_topo_vs_fila": 7.0, "bola2": [190.8, 142.7, 31.66], "bola3": [165.44, 143.25, 33.3], "folga_lamina_bola_no_berco": 0.73, "folga_lamina_bola_seguinte": 0.82, "afastar_bola_seguinte_mm": 0.0, "forca_ponta_servo_N": 2.77, "degrau_mm": 6.46, "forca_para_pular_N": 1.17, "empurrao_fila_N": 0.34, "fs_segurar": 3.4, "torque_servo_Nmm": 1.27, "fs_servo": 170.0, "fs_afastar": 5.7}}, "pior_folga": 0.05, "pior_fs_segurar": 2.8, "pior_afastar": 0.0, "sequencia": ["cabine no fundo, lâmina baixa: uma bola rola para o berço (sensor confirma)", "servo levanta a lâmina no vão entre a bola do berço e a seguinte", "cabine sobe; a fila fica presa na lâmina", "cabine volta ao fundo; servo baixa a lâmina; a proxima bola entra"]}, "impressao": [{"peca": "Base", "dims": [87.0, 38.0, 5.0], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Batente", "dims": [23.8, 10.0, 2.5], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Espinha inferior", "dims": [195.0, 28.5, 8.0], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Espinha superior", "dims": [196.0, 28.5, 8.0], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Cabine", "dims": [47.5, 45.2, 27.5], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Espaçador", "dims": [15.5, 6.0, 6.0], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Suporte do motor", "dims": [69.0, 23.0, 16.0], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Tubo inferior", "dims": [195.0, 68.0, 32.5], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Tubo superior", "dims": [196.0, 68.0, 32.5], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Fila", "dims": [157.5, 59.0, 30.5], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Rampa", "dims": [70.1, 33.4, 32.5], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Suporte do servo", "dims": [32.0, 28.5, 21.0], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}, {"peca": "Braço da comporta", "dims": [83.6, 35.0, 13.0], "cabe": ["260 x 260 x 300", "220 x 220 x 250"], "ok": true}], "envelope": {"min": [172.0, 112.0, 0.0], "max": [210.0, 199.0, 419.0], "ok": true, "limite": "X 172..210 (faixa direita, fora da janela), Y até 200 (tela), Z 0..420"}};
+const TXT = {"sobre": "PICBOX compacta · elevador R0.2 · trilho MGN9 · validação de montagem · 03/11/2026", "lead": "Uma cabine sobe e desce num trilho MGN9 levando uma bola por vez. A correia é aberta e as duas pontas ficam presas na cabine, então nada rígido passa pelas polias. Embaixo, uma lâmina movida por servo libera uma bola de cada vez. Todas as peças, parafusos e movimentos abaixo foram checados por programa, no mesmo modelo que aparece em 3D.", "guia_tit": "Cabine num trilho entrou", "guia_itens": ["<b>Polia:</b> as presilhas ficam na cabine, e a cabine nunca chega a menos de 0,5 mm das polias em todo o curso. Por elas passa só correia.", "<b>Trilho:</b> o patim fica sempre com pelo menos 3 mm de trilho sobrando. Nem batendo no topo ele sai do trilho.", "<b>Comporta:</b> a versão passiva com contrapeso foi reprovada na checagem, porque a bola seguinte avançava antes de a lâmina subir. Com servo, a lâmina sobe antes de a cabine sair."], "guia_min": 3, "guia_chip": "Patim: trilho sobrando embaixo / em cima", "guia_linha": "Trilho sobrando embaixo / em cima", "compras": "Compras que mudam com está versão:<br>Entram: trilho MGN9 cortado em 380 mm com patim MGN9H, N20 com encoder, servo MG90S, 1 m de correia GT2 6 mm aberta e cerca de 40 insertos M3.<br>Sai: a correia fechada de 760 mm.", "etapas": [["Base e espinha", "As duas espinhas assentam na base. Entram 2 M3x12 por baixo, em insertos na espinha de baixo.", [0, 0, 0]], ["Trilho com patim", "Trilho MGN9 de 380 mm, já com o patim, preso por 19 M3x10 pela frente em insertos. Deslize o patim para alcançar cada furo.", [0, -1, 0]], ["Cabine", "Entram 4 M3x6 pela frente nos furos roscados do patim. A chave passa pelos furos de acesso no fundo do berço.", [0, -1, 0]], ["Polia de baixo", "Um M3x35 entra por trás da espinha e passa pelo espaçador e pela polia, com porca autotravante na frente.", [0, 1, 0]], ["Motor no topo", "O suporte abraça o N20 e entra no topo da espinha com 2 M3x12 de cima. A polia vai no eixo, com o parafuso sem cabeça no lado chato.", [0, 0, 1]], ["Correia", "Prenda uma ponta na presilha de baixo. Passe pela polia de baixo, suba pelo lado livre, contorne a polia do motor e prenda na presilha de cima. A tensão se dá na presilha de cima.", [0, 0, 0]], ["Tubo", "O tubo de baixo e o de cima entram pela frente. Cada um leva 4 M3x8 de cabeça chata pelas laterais, na espinha.", [0, -1, 0]], ["Fila, comporta e rampa", "Fila, suporte do servo com o braço e rampa vão na bancada. Ajuste a lâmina pelos furos oblongos até ela ficar entre as duas bolas.", [-1, 0, 0]]]};
+const $ = id => document.getElementById(id);
+const fmt = (v, d = 1) => (typeof v === 'number' && isFinite(v)) ? v.toFixed(d).replace('.', ',') : (v === Infinity ? '∞' : String(v));
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ---------------- textos da variante ---------------- */
+$('sobre').textContent = TXT.sobre;
+$('lead').textContent = TXT.lead;
+$('guia-tit').textContent = TXT.guia_tit;
+$('guia-itens').innerHTML = TXT.guia_itens.map(t => `<li>${t}</li>`).join('');
+$('compras').innerHTML = TXT.compras;
+
+/* ---------------- resumo ---------------- */
+(function resumo() {
+  const pr = V.parafusos, okp = pr.filter(f => f.ok).length;
+  const ruins = V.folgas.filter(f => !f.ok).length;
+  const menor = Math.min(...V.folgas.filter(f => !f.nota).map(f => f.folga));
+  const cp = V.comporta, co = V.correia;
+  const imp = V.impressao.filter(i => i.ok).length;
+  const chips = [
+    [ruins === 0, `Folgas: ${ruins} problemas · menor ${fmt(menor)} mm`],
+    [okp === pr.length, `Parafusos ${okp}/${pr.length}`],
+    [co.folga_polia_cima >= 0.5 && co.folga_polia_baixo >= 0.5, `Polias: ${fmt(Math.min(co.folga_polia_cima, co.folga_polia_baixo))} mm até a cabine`],
+    [co.trilho_sobra_baixo >= TXT.guia_min, `${TXT.guia_chip}: ${fmt(co.trilho_sobra_baixo)} / ${fmt(co.trilho_sobra_cima)} mm`],
+    [cp.pior_folga >= 0, `Comporta: ${Object.keys(cp.casos).length} casos · menor folga ${fmt(cp.pior_folga, 2)} mm`],
+    [cp.pior_fs_segurar >= 2.5, `Lâmina segura a fila: FS ${fmt(cp.pior_fs_segurar)}`],
+    [imp === V.impressao.length, `Impressão ${imp}/${V.impressao.length}`],
+    [V.envelope.ok, `Dentro de 420 × 420 × 200`],
+  ];
+  $('chips').innerHTML = chips.map(([ok, t]) => `<span class="chip ${ok ? 'c-ok' : 'c-bad'}">${ok ? 'OK' : 'FALHA'} · ${t}</span>`).join('');
+})();
+
+/* ---------------- tabelas ---------------- */
+(function tabelas() {
+  $('seq').innerHTML = V.comporta.sequencia.map(s => `<li>${s.charAt(0).toUpperCase() + s.slice(1)}.</li>`).join('');
+  const cs = V.comporta.casos;
+  $('t-comp').innerHTML = `<thead><tr><th>Caso</th><th>Folga até a bola do berço</th><th>Folga até a seguinte</th><th>Degrau</th><th>Força para pular</th><th>FS segurar</th><th>FS do servo</th></tr></thead><tbody>` +
+    Object.entries(cs).map(([k, r]) => `<tr><td>${k}</td><td class="num ${r.folga_lamina_bola_no_berco < 0 ? 'c-bad' : ''}">${fmt(r.folga_lamina_bola_no_berco, 2)} mm</td><td class="num">${fmt(r.folga_lamina_bola_seguinte, 2)} mm</td><td class="num">${fmt(r.degrau_mm, 2)} mm</td><td class="num">${fmt(r.forca_para_pular_N, 2)} N</td><td class="num">${fmt(r.fs_segurar)}</td><td class="num">${fmt(r.fs_servo, 0)}</td></tr>`).join('') + '</tbody>';
+  const P = C.pecas;
+  $('t-pecas').innerHTML = `<thead><tr><th>Etapa</th><th>Peça</th><th>Tipo</th><th>Material / modelo</th><th>Como fixa</th></tr></thead><tbody>` +
+    Object.entries(P).sort((a, b) => a[1].etapa - b[1].etapa).map(([k, v]) => `<tr><td class="num">${v.etapa}</td><td><b>${k}</b></td><td>${v.tipo}</td><td>${v.mat}</td><td>${v.fix}</td></tr>`).join('') + '</tbody>';
+  $('t-paraf').innerHTML = `<thead><tr><th>Etapa</th><th>Parafuso</th><th>Tipo</th><th>Prende</th><th>Rosca em</th><th>Pega</th><th>Resultado</th></tr></thead><tbody>` +
+    V.parafusos.map(f => `<tr><td class="num">${f.etapa}</td><td class="mono">${f.nome}</td><td class="num">${f.tipo}</td><td>${f.prende}</td><td>${f.rosca}</td><td class="num">${fmt(f.pega)} mm</td><td class="${f.ok ? 'c-ok' : 'c-bad'}">${f.ok ? 'OK' : f.problemas.join('; ')}${f.notas.length ? ' · ' + f.notas[0] : ''}</td></tr>`).join('') + '</tbody>';
+  const fl = V.folgas.filter(f => !f.nota).slice(0, 14);
+  $('t-folgas').innerHTML = `<thead><tr><th>Peça que move</th><th>Contra</th><th>Folga</th><th>Onde</th></tr></thead><tbody>` +
+    fl.map(f => `<tr><td>${f.pa} <span class="small mono">${f.a}</span></td><td>${f.pb} <span class="small mono">${f.b}</span></td><td class="num ${f.ok ? '' : 'c-bad'}">${fmt(f.folga, 2)} mm</td><td class="num">cabine em Z ${fmt(f.zc)} · servo ${fmt(f.ang)}°</td></tr>`).join('') +
+    V.folgas.filter(f => f.nota).map(f => `<tr><td>${f.pa}</td><td>${f.pb}</td><td class="num">contato</td><td>${f.nota}</td></tr>`).join('') + '</tbody>';
+  const co = V.correia;
+  $('t-correia').innerHTML = `<thead><tr><th>Correia e trilho</th><th>Valor</th></tr></thead><tbody>
+    <tr><td>Comprimento da correia aberta</td><td class="num">${fmt(co.comprimento, 0)} mm (${co.compra})</td></tr>
+    <tr><td>Pega de cada presilha</td><td class="num">${fmt(co.pega_presilha, 0)} mm = 4 dentes</td></tr>
+    <tr><td>Curso da cabine</td><td class="num">Z ${fmt(co.curso[0])} a ${fmt(co.curso[1])}</td></tr>
+    <tr><td>Menor folga cabine × polia do motor</td><td class="num">${fmt(co.folga_polia_cima)} mm</td></tr>
+    <tr><td>Menor folga cabine × polia de baixo</td><td class="num">${fmt(co.folga_polia_baixo)} mm</td></tr>
+    <tr><td>Menor folga cabine × ramo livre</td><td class="num">${fmt(co.folga_ramo_livre)} mm</td></tr>
+    <tr><td>${TXT.guia_linha}</td><td class="num">${fmt(co.trilho_sobra_baixo)} / ${fmt(co.trilho_sobra_cima)} mm</td></tr></tbody>`;
+  $('t-imp').innerHTML = `<thead><tr><th>Peça impressa</th><th>Tamanho</th><th>Cabe em</th></tr></thead><tbody>` +
+    V.impressao.map(i => `<tr><td>${i.peca}</td><td class="num">${i.dims.map(d => fmt(d, 0)).join(' × ')}</td><td class="${i.ok ? '' : 'c-bad'}">${i.cabe.join(', ') || 'não cabe'}</td></tr>`).join('') + '</tbody>';
+})();
+
+/* ---------------- etapas ---------------- */
+const ETAPAS = TXT.etapas;
+const FASES = [
+  [0.0, 0.8, 'Lâmina baixa: uma bola rola para o berço'],
+  [0.8, 1.3, 'Servo levanta a lâmina entre as duas bolas'],
+  [1.3, 6.0, 'Cabine sobe 315 mm até a espera (67 mm/s)'],
+  [6.0, 7.0, 'Espera o carro A pedir a bola'],
+  [7.0, 7.3, 'Sobe mais 20 mm: o piso inclinado passa da parede'],
+  [7.3, 8.3, 'Bola rola na rampa até o bolso do carro A'],
+  [8.3, 13.3, 'Cabine desce até o batente'],
+  [13.3, 13.8, 'Servo baixa a lâmina: a próxima bola entra'],
+];
+const T_CICLO = 13.8;
+
+/* ---------------- cena 3D ---------------- */
+const box = $('cv');
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+box.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(32, 1, 1, 5000);
+const ctl = new THREE.OrbitControls(cam, renderer.domElement);
+ctl.enableDamping = true;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x445048, 0.85));
+const sol = new THREE.DirectionalLight(0xffffff, 0.75); sol.position.set(400, 700, 500); scene.add(sol);
+const M3 = (x, y, z) => new THREE.Vector3(x, z, -y);       // CAD (Z para cima) -> three (Y para cima)
+const alvo = M3(185, 140, 190);
+ctl.target.copy(alvo);
+
+function cores() {
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches && document.documentElement.dataset.theme !== 'light' || document.documentElement.dataset.theme === 'dark';
+  return {
+    preto: dark ? 0x3a4440 : 0x2e3532, acento: 0x2f7fb5, metal: dark ? 0xa9b2ae : 0x9aa3a0, transp: dark ? 0x9fc7e0 : 0x6f98b5,
+    correia: 0x1d1f1e, comporta: 0xd08a1c, chao: 0x888888, bola: dark ? 0xe6ecea : 0xc9cfcd, paraf: 0x30a35a, cena: css('--scene')
+  };
+}
+let COR = cores();
+const mats = {};
+function mat(cor) {
+  if (mats[cor]) return mats[cor];
+  const t = cor === 'transp';
+  mats[cor] = new THREE.MeshStandardMaterial({color: COR[cor] ?? 0x888888, metalness: cor === 'metal' ? 0.6 : 0.05, roughness: cor === 'metal' ? 0.35 : 0.7,
+    transparent: t, opacity: t ? 0.16 : 1, depthWrite: !t});
+  return mats[cor];
+}
+const G = {mundo: new THREE.Group(), carro: new THREE.Group(), alavanca: new THREE.Group()};
+scene.add(G.mundo, G.carro, G.alavanca);
+G.alavanca.position.copy(M3(...C.piv));
+const malhas = [];
+for (const e of C.geo) {
+  let geo;
+  if (e.t === 'box') geo = new THREE.BoxGeometry(2 * e.s[0], 2 * e.s[2], 2 * e.s[1]);
+  else geo = new THREE.CylinderGeometry(e.s[0], e.s[0], 2 * e.s[1], 28);
+  const m = new THREE.Mesh(geo, mat(e.cor).clone());
+  m.position.copy(M3(...e.p));
+  m.quaternion.set(e.q[1], e.q[3], -e.q[2], e.q[0]);
+  m.userData = e;
+  m.userData.base = m.position.clone();
+  G[e.c].add(m);
+  malhas.push(m);
+}
+// ramo da correia preso na cabine (muda com a altura)
+const ramo = [0, 1].map(() => { const m = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1, 6), mat('correia')); m.userData = {peca: 'Correia', etapa: 6, n: 'ramo preso'}; scene.add(m); malhas.push(m); return m; });
+// bolas
+const R = C.r;
+const NB = 6;
+const bolas = Array.from({length: NB}, (_, i) => i).map(() => { const m = new THREE.Mesh(new THREE.SphereGeometry(R, 28, 18), new THREE.MeshStandardMaterial({color: COR.bola, metalness: 0.85, roughness: 0.25})); m.userData = {peca: 'Bola de aço 1"', n: 'bola'}; scene.add(m); return m; });
+// parafusos
+const paraf = [];
+for (const f of C.fix) {
+  const g = new THREE.Group();
+  const d = M3(...f.d).normalize();
+  const haste = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, f.L, 12), new THREE.MeshStandardMaterial({color: f.ok ? COR.paraf : 0xc0392b}));
+  haste.position.y = f.L / 2;
+  const cab = new THREE.Mesh(new THREE.CylinderGeometry(2.75, 2.75, 3, 16), new THREE.MeshStandardMaterial({color: f.ok ? COR.paraf : 0xc0392b}));
+  cab.position.y = -1.5;
+  g.add(haste, cab);
+  g.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d);
+  g.position.copy(M3(...f.p0));
+  g.userData = f;
+  (f.c === 'carro' ? G.carro : G.mundo).add(g);
+  paraf.push(g);
+}
+const tubo = malhas.filter(m => m.userData.peca && m.userData.peca.startsWith('Tubo'));
+
+/* ---------------- estado ---------------- */
+const A = C.anc, Pp = C.p;
+let modo = 'mont', etapa = 8, tEt = 1, tFunc = 0, tocando = true, vel = 1, mostrarTubo = true, mostrarParaf = true;
+const tf = Math.tan(Pp.incl_fila * Math.PI / 180), tr = Math.tan(Pp.incl_rampa * Math.PI / 180);
+const zf = x => Pp.zf_fim + (Pp.x_fila_fim - Math.min(x, Pp.x_fila_fim)) * tf;
+const b3 = V.comporta.casos.nominal.bola3, b2 = V.comporta.casos.nominal.bola2;
+const slot = j => { const x = b3[0] - 2 * R * j; return [x, b3[1], zf(x) + R]; };
+const ease = u => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
+const lerp = (a, b, u) => a + (b - a) * u;
+const lerp3 = (a, b, u) => a.map((v, i) => lerp(v, b[i], u));
+const zBerco = zc => zc + (b2[2] - A.zc_min);
+
+function estado(t) {
+  const n = Math.floor(t / T_CICLO), tau = t - n * T_CICLO;
+  const fase = FASES.findIndex(([a, b]) => tau >= a && tau < b);
+  const u = fase >= 0 ? (tau - FASES[fase][0]) / (FASES[fase][1] - FASES[fase][0]) : 1;
+  let zc = A.zc_min, th = Pp.ang_baixa ?? 7.5;
+  if (fase === 1) th = lerp(7.5, 0, ease(u));
+  if (fase >= 2 && fase <= 6) th = 0;
+  if (fase === 7) th = lerp(0, 7.5, ease(u));
+  if (fase === 2) zc = lerp(A.zc_min, A.zc_espera, ease(u));
+  if (fase === 3) zc = A.zc_espera;
+  if (fase === 4) zc = lerp(A.zc_espera, A.zc_topo, ease(u));
+  if (fase === 5) zc = A.zc_topo;
+  if (fase === 6) zc = lerp(A.zc_topo, A.zc_min, ease(u));
+  const pos = [];
+  for (let k = 0; k < NB; k++) {
+    const q = ((k - n) % NB + NB) % NB;
+    let p;
+    if (q === 0) {
+      const berco = [b2[0], b2[1], zBerco(zc)];
+      if (fase === 0) p = lerp3(slot(0), berco, ease(u));
+      else if (fase <= 4) p = berco;
+      else if (fase === 5) {
+        const y = lerp(b2[1], 72, ease(u));
+        const zr = y > 130 ? lerp(zBerco(A.zc_topo), Pp.z_rampa + R, (b2[1] - y) / (b2[1] - 130)) : Pp.z_rampa - (128 - y) * tr + R;
+        p = [b2[0] + 0.8, y, zr];
+      } else p = slot(NB - 1);
+    } else {
+      p = fase === 0 ? lerp3(slot(q), slot(q - 1), ease(u)) : slot(q - 1);
+    }
+    pos.push(p);
+  }
+  return {zc, th, pos, fase, tau};
+}
+
+function aplicar(s) {
+  G.carro.position.y = s.zc;
+  G.alavanca.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, -1), s.th * Math.PI / 180);
+  const yc = (Pp.y_correia[0] + Pp.y_correia[1]) / 2;
+  const segs = [[Pp.zb, s.zc + 13], [s.zc + 37, Pp.zt]];
+  segs.forEach(([a, b], i) => { ramo[i].scale.y = Math.max(0.1, b - a); ramo[i].position.copy(M3(Pp.x_ida, yc, (a + b) / 2)); });
+  s.pos.forEach((p, i) => bolas[i].position.copy(M3(...p)));
+}
+
+/* ---------------- montagem: etapas e explosao ---------------- */
+function visMontagem() {
+  for (const m of malhas) {
+    const e = m.userData, et = e.etapa ?? 0;
+    m.visible = et <= etapa && !(e.peca && e.peca.startsWith('Tubo') && !mostrarTubo);
+    const dir = ETAPAS[Math.max(0, et - 1)]?.[2] || [0, 0, 0];
+    const off = et === etapa ? (1 - ease(tEt)) * 140 : 0;
+    if (m.userData.base) m.position.copy(m.userData.base).add(M3(dir[0] * off, dir[1] * off, dir[2] * off));
+    const destaque = et === etapa && modo === 'mont';
+    if (m.material.emissive) m.material.emissive.setHex(destaque ? 0x553300 : 0x000000);
+  }
+  for (const g of paraf) g.visible = mostrarParaf && g.userData.etapa <= etapa;
+  bolas.forEach(b => b.visible = etapa >= 8);
+  ramo.forEach(r => r.visible = etapa >= 6);
+}
+function visFunc() {
+  for (const m of malhas) {
+    const e = m.userData;
+    m.visible = !(e.peca && e.peca.startsWith('Tubo') && !mostrarTubo);
+    if (m.userData.base) m.position.copy(m.userData.base);
+    if (m.material.emissive) m.material.emissive.setHex(0x000000);
+  }
+  for (const g of paraf) g.visible = mostrarParaf;
+  bolas.forEach(b => b.visible = true);
+  ramo.forEach(r => r.visible = true);
+}
+
+const lp = $('passos');
+lp.innerHTML = ETAPAS.map(([t, d], i) => `<li tabindex="0" data-i="${i + 1}"><span class="n">Etapa ${i + 1}</span><b>${t}</b><span>${d}</span></li>`).join('');
+function marcarEtapa() { lp.querySelectorAll('li').forEach(li => li.setAttribute('aria-current', String(+li.dataset.i === etapa))); }
+lp.addEventListener('click', ev => { const li = ev.target.closest('li'); if (!li) return; etapa = +li.dataset.i; tEt = 0; marcarEtapa(); });
+lp.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); ev.target.click(); } });
+marcarEtapa();
+const lf = $('fases');
+lf.innerHTML = FASES.map(([a, b, t], i) => `<li data-i="${i}"><span class="n">${fmt(a)}–${fmt(b)} s</span><span>${t}</span></li>`).join('');
+lf.addEventListener('click', ev => { const li = ev.target.closest('li'); if (!li) return; tFunc = FASES[+li.dataset.i][0] + 0.01; });
+
+function aba(qual) {
+  modo = qual;
+  $('a-mont').setAttribute('aria-pressed', String(qual === 'mont'));
+  $('a-func').setAttribute('aria-pressed', String(qual === 'func'));
+  $('p-mont').hidden = qual !== 'mont';
+  $('p-func').hidden = qual !== 'func';
+  if (qual === 'mont') { etapa = 8; tEt = 1; marcarEtapa(); }
+}
+$('a-mont').onclick = () => aba('mont');
+$('a-func').onclick = () => aba('func');
+$('play').onclick = () => { tocando = !tocando; $('play').textContent = tocando ? 'Pausar' : 'Tocar'; $('play').setAttribute('aria-pressed', String(tocando)); };
+[['vel1', 1], ['vel05', 0.5], ['vel2', 2]].forEach(([id, v]) => $(id).onclick = () => { vel = v; ['vel1', 'vel05', 'vel2'].forEach(k => $(k).setAttribute('aria-pressed', String(k === id))); });
+$('tempo').oninput = ev => { tFunc = ev.target.value / 1000 * T_CICLO; tocando = false; $('play').textContent = 'Tocar'; $('play').setAttribute('aria-pressed', 'false'); };
+$("b-tubo").onclick = () => { mostrarTubo = !mostrarTubo; $("b-tubo").setAttribute('aria-pressed', String(mostrarTubo)); };
+$("b-paraf").onclick = () => { mostrarParaf = !mostrarParaf; $("b-paraf").setAttribute('aria-pressed', String(mostrarParaf)); };
+
+const VISTAS = {'v-34': [M3(820, -560, 470)], 'v-frente': [M3(160, -980, 210)], 'v-lado': [M3(1150, 150, 210)], 'v-cima': [M3(186, 141, 1500)]};
+let anim = null;
+Object.keys(VISTAS).forEach(id => $(id).onclick = () => {
+  Object.keys(VISTAS).forEach(k => $(k).setAttribute('aria-pressed', String(k === id)));
+  anim = {de: cam.position.clone(), para: VISTAS[id][0].clone(), u: 0};
+  if (id === 'v-cima') cam.up.set(0, 0, -1); else cam.up.set(0, 1, 0);
+});
+cam.position.copy(VISTAS['v-34'][0]);
+
+/* ---------------- selecao ---------------- */
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+let selecionada = null, desceu = null;
+renderer.domElement.addEventListener('pointerdown', ev => desceu = [ev.clientX, ev.clientY]);
+renderer.domElement.addEventListener('pointerup', ev => {
+  if (!desceu || Math.hypot(ev.clientX - desceu[0], ev.clientY - desceu[1]) > 5) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ptr.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1);
+  ray.setFromCamera(ptr, cam);
+  const hits = ray.intersectObjects([...malhas.filter(m => m.visible), ...bolas, ...paraf.filter(g => g.visible)], true);
+  const h = hits.find(x => !(x.object.material.transparent) ) || hits[0];
+  selecionar(h ? (h.object.userData.peca ? h.object : h.object.parent) : null);
+});
+function selecionar(obj) {
+  for (const m of malhas) if (m.material.emissive && modo !== 'mont') m.material.emissive.setHex(0);
+  const sb = $('selbox');
+  if (!obj) { sb.innerHTML = '<span class="eyebrow">Peça selecionada</span><span class="small">Nenhuma. Clique numa peça no modelo.</span>'; selecionada = null; return; }
+  const u = obj.userData;
+  if (u.p0) {
+    sb.innerHTML = `<span class="eyebrow">Parafuso · etapa ${u.etapa}</span><b>${u.tipo}</b><span class="mono small">${u.n}</span><span>${u.ok ? 'OK: atravessa, pega e a chave alcança.' : 'Com problema'}</span>`;
+    return;
+  }
+  const info = C.pecas[u.peca] || {};
+  selecionada = u.peca;
+  sb.innerHTML = `<span class="eyebrow">Peça selecionada${info.etapa ? ' · etapa ' + info.etapa : ''}</span><b>${u.peca}</b>` +
+    (info.mat ? `<span class="small">${info.tipo} · ${info.mat}</span><span>${info.fix}</span>` : '');
+}
+
+/* ---------------- laco ---------------- */
+function tamanho() {
+  const w = box.clientWidth, h = Math.max(420, box.clientHeight);
+  renderer.setSize(w, h, false);
+  cam.aspect = w / h; cam.updateProjectionMatrix();
+}
+new ResizeObserver(tamanho).observe(box);
+tamanho();
+function tema() { COR = cores(); scene.background = new THREE.Color(COR.cena || '#dfe5e2'); }
+tema();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', tema);
+new MutationObserver(tema).observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
+
+const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let ult = performance.now();
+function quadro(agora) {
+  const dt = Math.min(0.05, (agora - ult) / 1000); ult = agora;
+  if (anim) { anim.u = Math.min(1, anim.u + dt * 2); cam.position.lerpVectors(anim.de, anim.para, ease(anim.u)); if (anim.u >= 1) anim = null; }
+  if (modo === 'mont') {
+    tEt = Math.min(1, tEt + dt * (reduz ? 10 : 1.2));
+    visMontagem();
+    aplicar(estado(0.4));
+  } else {
+    if (tocando) tFunc = (tFunc + dt * vel) % T_CICLO;
+    const s = estado(tFunc);
+    visFunc();
+    aplicar(s);
+    $('tempo').value = Math.round(tFunc / T_CICLO * 1000);
+    $('fase').textContent = `${fmt(tFunc)} s · cabine em Z ${fmt(s.zc)} mm · servo ${fmt(s.th)}°`;
+    lf.querySelectorAll('li').forEach(li => li.setAttribute('aria-current', String(+li.dataset.i === s.fase)));
+  }
+  ctl.update();
+  renderer.render(scene, cam);
+  requestAnimationFrame(quadro);
+}
+requestAnimationFrame(quadro);
+</script>

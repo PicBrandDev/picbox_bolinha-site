@@ -1,0 +1,53 @@
+INTERF 0 ruins [] previstas 41 0s
+PARAFUSOS 0 ruins de 126 1s
+BOLA bolso {'centro': [193.3, 72.7, 358.92], 'toques': {'rampa_bolso': -0.0, 'rampa_dir': -0.0, 'eva_bolso': -0.0}, 'ok': True, 'empurra_direita_N': np.float64(0.017), 'empurra_frente_N': np.float64(-0.069)}
+BOLA pega {'ima_ate_bola': 1.0, 'gap_pedido': 1.0, 'resto_min': 10.23, 'ok': True}
+BOLA levando {'folga_min': 0.78, 'com': 'rampa_bolso', 'c': np.float64(163.3), 'ok': True}
+BOLA queda {'pouso_x': [np.float64(-143.1), np.float64(142.4)], 'voo_ms': 246, 'v_max': 314, 'trajetorias': 98, 'ruins': [], 'ok': True}
+BOLA anel {'casos': {'0.0': 'passa limpa', '3.0': 'passa limpa', '6.25': 'passa limpa', '7.3': 'bate em anel_flange (Z 114.6)', '12.0': 'bate em anel_flange (Z 120.1)', '20.0': 'bate em anel_flange (Z 122.1)', '30.0': 'bate em ir_dir (Z 122.1)'}, 'furo': 38.0, 'ir_z': 95.4, 'ok': True}
+BOLA bandeja {'folga_bola_anel': np.float64(3.24), 'juntas_mm': 0.0, 'labio_min': np.float64(1.0), 'parede_alta_sobra': np.float64(5.08), 'x_entrada_max': np.float64(39.9), 'pontos': 287, 'falhas': [], 'ok': True}
+BOLA fila {'sempre_desce': True, 'capacidade_bolas': 14, 'bolas_na_maquina': 8, 'ok': True}
+ENVELOPE {'min': [-210.0, 0.5, 0.0], 'max': [210.0, 199.0, 420.0], 'fora': [], 'ok': True} 
+JANELA {'z': [109.9, 347.2], 'x': [-162.8, 172.0], 'tamanho': [335, 237], 'bloqueia': ['NEMA 17 A', 'Suporte do NEMA de cima']}
+VARREDURA ok 30.5 s {'A': 112, 'B': 97}
+    {'a': 'presilha_A', 'pa': 'Carro A', 'b': 'correia_tras_A', 'pb': 'Correia A', 'folga': -3.57, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a correia passa na fenda dentada da presilha'}
+    {'a': 'presilha_B', 'pa': 'Carro B', 'b': 'correia_tras_B', 'pb': 'Correia B', 'folga': -3.57, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a correia passa na fenda dentada da presilha'}
+    {'a': 'aloj_dir_b', 'pa': 'Cabine', 'b': 'fdc_baixo_alav', 'pb': 'Fim de curso', 'folga': -0.6, 'onde': {'zc': np.float64(18.8), 'cA': 166.3}, 'ok': True, 'nota': 'fim de curso de baixo: a cabine aperta a alavanca no batente'}
+    {'a': 'aloj_dir_b', 'pa': 'Cabine', 'b': 'fdc_cima_alav', 'pb': 'Fim de curso', 'folga': -0.01, 'onde': {'zc': np.float64(356.8), 'cA': 166.3}, 'ok': True, 'nota': 'fim de curso de cima: a cabine aperta a alavanca no topo'}
+    {'a': 'est_movA', 'pa': 'Esteira A', 'b': 'ponta_estA', 'pb': 'Carro A', 'folga': -0.0, 'onde': {'cA': 132.0, 'cB': -159.0}, 'ok': True, 'nota': 'elo da ponta da esteira preso no suporte'}
+    {'a': 'est_fixA', 'pa': 'Esteira A', 'b': 'est_fixaA', 'pb': 'Ponta fixa da esteira', 'folga': -0.0, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'elo da ponta da esteira preso no suporte'}
+    {'a': 'est_fixB', 'pa': 'Esteira B', 'b': 'est_fixaB', 'pb': 'Ponta fixa da esteira', 'folga': -0.0, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'elo da ponta da esteira preso no suporte'}
+    {'a': 'est_movB', 'pa': 'Esteira B', 'b': 'ponta_estB', 'pb': 'Carro B', 'folga': -0.0, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'elo da ponta da esteira preso no suporte'}
+    {'a': 'est_curvaB_0', 'pa': 'Esteira B', 'b': 'piso', 'pb': 'Gabinete', 'folga': 0.16, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'o ramo de baixo da esteira B fica no piso'}
+    {'a': 'placaA', 'pa': 'Carro A', 'b': 'fdc_alav_A', 'pb': 'Fim de curso', 'folga': 0.2, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'fim de curso do eixo A: a placa aperta a alavanca na casa'}
+    {'a': 'placaB', 'pa': 'Carro B', 'b': 'fdc_alav_B', 'pb': 'Fim de curso', 'folga': 0.2, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'fim de curso do eixo B: a placa aperta a alavanca na casa'}
+    {'a': 'patim_topo_A', 'pa': 'Patim MGN12H A', 'b': 'trilho_A', 'pb': 'Trilho MGN12 A', 'folga': 0.2, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'o patim abraca o trilho'}
+    {'a': 'patim_topo_B', 'pa': 'Patim MGN12H B', 'b': 'trilho_B', 'pb': 'Trilho MGN12 B', 'folga': 0.2, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'o patim abraca o trilho'}
+    {'a': 'patim_fl1_A', 'pa': 'Patim MGN12H A', 'b': 'trilho_A', 'pb': 'Trilho MGN12 A', 'folga': 0.4, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'o patim abraca o trilho'}
+    {'a': 'patim_fl2_A', 'pa': 'Patim MGN12H A', 'b': 'trilho_A', 'pb': 'Trilho MGN12 A', 'folga': 0.4, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'o patim abraca o trilho'}
+    {'a': 'patim_fl1_B', 'pa': 'Patim MGN12H B', 'b': 'trilho_B', 'pb': 'Trilho MGN12 B', 'folga': 0.4, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'o patim abraca o trilho'}
+    {'a': 'patim_fl2_B', 'pa': 'Patim MGN12H B', 'b': 'trilho_B', 'pb': 'Trilho MGN12 B', 'folga': 0.4, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'o patim abraca o trilho'}
+    {'a': 'patim_topo_A', 'pa': 'Patim MGN12H A', 'b': 'fdc_alav_A', 'pb': 'Fim de curso', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': ''}
+    {'a': 'est_movA', 'pa': 'Esteira A', 'b': 'prat_estA_0', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_movA', 'pa': 'Esteira A', 'b': 'prat_estA_1', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -147.0, 'cB': -147.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_fixA', 'pa': 'Esteira A', 'b': 'prat_estA_0_fora', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_fixA', 'pa': 'Esteira A', 'b': 'prat_estA_1_fora', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -147.0, 'cB': -147.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_0', 'pa': 'Esteira A', 'b': 'prat_estA_0', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_0', 'pa': 'Esteira A', 'b': 'prat_estA_1', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_1', 'pa': 'Esteira A', 'b': 'prat_estA_0', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_1', 'pa': 'Esteira A', 'b': 'prat_estA_0_trav_4', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_1', 'pa': 'Esteira A', 'b': 'prat_estA_1', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_1', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_0', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_1', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_1', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -84.0, 'cB': -84.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_1', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_2', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': 6.0, 'cB': 6.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_1', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_3', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': 93.0, 'cB': 93.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_2', 'pa': 'Esteira A', 'b': 'prat_estA_1', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_2', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_0', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_2', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_1', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -105.0, 'cB': -105.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_2', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_2', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -15.0, 'cB': -15.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_2', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_3', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': 75.0, 'cB': 75.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_2', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_4', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': 165.0, 'cB': -126.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_3', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_0', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -165.0, 'cB': -165.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_3', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_1', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -108.0, 'cB': -108.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+    {'a': 'est_curvaA_3', 'pa': 'Esteira A', 'b': 'prat_estA_1_trav_2', 'pb': 'Prateleira da esteira', 'folga': 0.5, 'onde': {'cA': -21.0, 'cB': -21.0}, 'ok': True, 'nota': 'a esteira A desliza deitada na prateleira'}
+total 44s

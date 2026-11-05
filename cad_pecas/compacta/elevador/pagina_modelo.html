@@ -1,0 +1,563 @@
+<title>Elevador de Cabine PICBOX</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: folha de montagem; visor 3D com painel de etapas ao lado, resultados da validacao embaixo */
+:root{
+  --bg:#eef1f0; --paper:#ffffff; --ink:#17201c; --muted:#4c5853; --line:#cbd5d0; --soft:#e4ebe8;
+  --accent:#1d5f8a; --ok:#2f7a45; --warn:#a4660b; --bad:#b0352b; --scene:#dfe5e2;
+  --f-disp:"Archivo",system-ui,sans-serif; --f-body:"Source Serif 4",Georgia,serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111614; --paper:#19201d; --ink:#e2eae6; --muted:#a5b2ac; --line:#323e39; --soft:#212a26;
+  --accent:#6fb3df; --ok:#6cc488; --warn:#e2a64a; --bad:#ef7a6f; --scene:#1b2320; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111614; --paper:#19201d; --ink:#e2eae6; --muted:#a5b2ac; --line:#323e39; --soft:#212a26;
+  --accent:#6fb3df; --ok:#6cc488; --warn:#e2a64a; --bad:#ef7a6f; --scene:#1b2320; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body)}
+.wrap{max-width:1240px;margin:0 auto;padding-block:24px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--f-disp);margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:1.9rem;font-weight:800}
+h2{font-size:1.35rem;font-weight:800;padding-top:10px;border-top:2px solid var(--ink)}
+h3{font-size:1.02rem;font-weight:600}
+p{margin:0;max-width:72ch}
+section{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font:600 .72rem var(--f-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;gap:6px;align-items:baseline;font:600 .76rem var(--f-mono);padding:6px 10px;border:1px solid currentColor;background:var(--paper)}
+.c-ok{color:var(--ok)} .c-warn{color:var(--warn)} .c-bad{color:var(--bad)} .c-acc{color:var(--accent)}
+.visor{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:0;border:1.5px solid var(--ink);background:var(--paper)}
+@media (max-width:900px){.visor{grid-template-columns:1fr}}
+#cv{position:relative;min-height:560px;background:var(--scene);touch-action:none;overflow:hidden}
+#cv canvas{position:absolute;inset:0}
+#cv canvas{display:block;width:100%;height:100%}
+.barra{position:absolute;left:10px;top:10px;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100% - 20px)}
+.barra button,.painel button{font:600 .74rem var(--f-mono);letter-spacing:.03em;padding:7px 11px;border:1px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer}
+.barra button[aria-pressed="true"],.painel button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.info{position:absolute;left:10px;bottom:10px;right:10px;font:.78rem var(--f-mono);color:var(--muted);pointer-events:none}
+.painel{border-left:1.5px solid var(--ink);display:flex;flex-direction:column;min-width:0}
+@media (max-width:900px){.painel{border-left:0;border-top:1.5px solid var(--ink)}}
+.abas{display:flex;border-bottom:1px solid var(--line)}
+.abas button{flex:1;border:0;border-right:1px solid var(--line);padding:10px 6px}
+.abas button:last-child{border-right:0}
+.corpo{padding:14px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;overflow-x:hidden;max-height:560px}
+.passos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.passos li{border:1px solid var(--line);padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.passos li[aria-current="true"]{border-color:var(--ink);background:var(--soft)}
+.passos li b{font-family:var(--f-disp);font-size:.92rem}
+.passos li span{font-size:.86rem;color:var(--muted)}
+.passos li .n{font:600 .7rem var(--f-mono);color:var(--muted)}
+.ctl{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+input[type=range]{width:100%}
+.sel{border:1px solid var(--line);padding:10px;display:flex;flex-direction:column;gap:4px;font-size:.88rem}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;line-height:1.35}
+th,td{text-align:left;vertical-align:top;padding:7px 9px;border-bottom:1px solid var(--line)}
+th{font:600 .7rem var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--soft);white-space:nowrap}
+td.num{white-space:nowrap}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+ul,ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:5px;max-width:76ch}
+.note{background:var(--soft);border-left:3px solid var(--warn);padding:10px 12px;max-width:none}
+.note.ok{border-left-color:var(--ok)}
+.small{font-size:.84rem;color:var(--muted)}
+.fase{font:600 .82rem var(--f-mono)}
+@media (prefers-reduced-motion: reduce){.passos li{transition:none}}
+[hidden]{display:none!important}
+</style>
+
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:12px">
+  <span class="eyebrow" id="sobre"></span>
+  <h1>Elevador de cabine: montagem validada</h1>
+  <p id="lead"></p>
+  <div class="chips" id="chips"></div>
+</header>
+
+<section>
+  <div class="visor">
+    <div id="cv" aria-label="Modelo 3D do elevador">
+      <div class="barra" role="toolbar" aria-label="Vista">
+        <button id="v-34" aria-pressed="true">3/4</button>
+        <button id="v-frente" aria-pressed="false">Frente</button>
+        <button id="v-lado" aria-pressed="false">Lado</button>
+        <button id="v-cima" aria-pressed="false">Cima</button>
+        <button id="b-tubo" aria-pressed="true">Tubo</button>
+        <button id="b-paraf" aria-pressed="true">Parafusos</button>
+      </div>
+      <div class="info" id="info">Arraste para girar, role para aproximar. Clique numa peça para ver como ela é fixada.</div>
+    </div>
+    <div class="painel">
+      <div class="abas" role="tablist">
+        <button id="a-mont" role="tab" aria-pressed="true">Montagem</button>
+        <button id="a-func" role="tab" aria-pressed="false">Funcionamento</button>
+      </div>
+      <div class="corpo" id="p-mont">
+        <p class="small">Ordem de montagem na bancada. Cada etapa mostra as peças que entram e os parafusos delas. A chave alcança todos os parafusos nessa ordem.</p>
+        <ol class="passos" id="passos"></ol>
+      </div>
+      <div class="corpo" id="p-func" hidden>
+        <div class="ctl">
+          <button id="play" aria-pressed="true">Pausar</button>
+          <button id="vel1" aria-pressed="true">1×</button>
+          <button id="vel05" aria-pressed="false">0,5×</button>
+          <button id="vel2" aria-pressed="false">2×</button>
+        </div>
+        <label class="small" for="tempo">Tempo do ciclo</label>
+        <input type="range" id="tempo" min="0" max="1000" value="0">
+        <div class="fase" id="fase"></div>
+        <ol class="passos" id="fases"></ol>
+      </div>
+      <div class="corpo" id="sel" style="border-top:1px solid var(--line);max-height:none"><div class="sel" id="selbox"><span class="eyebrow">Peça selecionada</span><span class="small">Nenhuma. Clique numa peça no modelo.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>O que mudou e por quê</h2>
+  <div class="two">
+    <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+      <h3>Esteira de dedos saiu</h3>
+      <ul>
+        <li>Com a correia no plano da tela, os dedos que voltam pelo lado de descida passam por dentro da calha por onde a bola sobe. Na coluna de 34 mm não há espaço para separar os dois lados.</li>
+        <li>Com a correia no outro sentido, cada dedo é um bloco rígido preso na correia que precisa contornar a polia de 20 dentes. A correia descola da polia nesse trecho, e a coluna teria que subir para caber o giro de 30 mm do dedo.</li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+      <h3 id="guia-tit"></h3>
+      <ul id="guia-itens"></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Comporta: como a bola passa</h2>
+  <ol id="seq"></ol>
+  <p>O teste levanta a lâmina com a cabine parada no fundo, a bola no berço e a seguinte encostada nela. Isso foi repetido com as tolerâncias somadas no pior sentido: bolas de 25,3 a 25,5 mm, lâmina deslocada, degrau e inclinações nos extremos.</p>
+  <div class="tbl"><table id="t-comp"></table></div>
+  <p class="small">Folga negativa significaria a lâmina batendo na bola. "Degrau" é a altura que a bola seguinte teria que pular para passar pela lâmina levantada. A força para pular é comparada com o empurrão de 6 bolas na fila com 1° a mais de inclinação.</p>
+</section>
+
+<section id="s-res">
+  <h2>Resistência das peças</h2>
+  <p>Contas de mão para cada ponto que carrega, com PETG impresso: 45 MPa no plano da camada, 25 MPa entre camadas e 10 MPa para carga permanente (acima disso o PETG deforma com o tempo). Cada ponto usa a direção em que a peça é impressa. Há duas cargas:</p>
+  <ul>
+    <li><b>normal:</b> o que a peça sente sempre, com a correia esticada a 5 N por ramo e a cabine subindo. Exige FS de pelo menos 3.</li>
+    <li><b>falha:</b> o fim de curso falhou e o motor trava contra o batente ou a cabeça, com o maior torque de catálogo do N20 (2,4 kgf·cm, <span id="r-trava"></span> N na correia). Exige FS de pelo menos 1,5.</li>
+  </ul>
+  <div class="tbl"><table id="t-res"></table></div>
+  <h3>O que foi reforçado nesta rechecagem</h3>
+  <ul id="r-antes"></ul>
+</section>
+
+<section id="s-print">
+  <h2>Impressão: posição e impressora</h2>
+  <p>Impressoras: A com mesa de 260 × 260 e B e C com mesa de 220 × 220, todas com 250 mm de altura. A conta deixa 5 mm de margem em volta para a saia. As horas são estimadas pelo volume (PETG, camada de 0,2 mm e 4 perímetros) e podem variar 30% para mais ou para menos.</p>
+  <div class="tbl"><table id="t-print"></table></div>
+  <p class="small" id="r-extras"></p>
+</section>
+
+<section>
+  <h2>Onde cada peça fica e como fixa</h2>
+  <div class="tbl"><table id="t-pecas"></table></div>
+</section>
+
+<section>
+  <h2>Parafusos</h2>
+  <p>Para cada parafuso, o programa conferiu:</p>
+  <ul>
+    <li>se ele atravessa a peça que prende;</li>
+    <li>se pega o suficiente na peça que rosca: 5 mm rosqueando direto no PETG (furo de 2,7 mm), 2,5 mm em porca e 8 mm em madeira;</li>
+    <li>se não fura nenhuma outra peça;</li>
+    <li>se sobra pelo menos 1,5 mm de parede em volta da rosca;</li>
+    <li>se a chave chega até a cabeça na etapa em que o parafuso entra.</li>
+  </ul>
+  <div class="tbl"><table id="t-paraf"></table></div>
+</section>
+
+<section>
+  <h2>Menores folgas em movimento</h2>
+  <p>As folgas foram medidas em três varreduras:</p>
+  <ul>
+    <li>a cabine contra as peças fixas, a cada 0,5 mm do curso;</li>
+    <li>o braço da comporta contra as peças fixas, a cada 0,25° do giro;</li>
+    <li>a cabine contra o braço em todas as combinações de altura e ângulo. Eles nunca se encostam, então nenhuma ordem de comando causa batida.</li>
+  </ul>
+  <p>O mínimo exigido é 0,5 mm.</p>
+  <div class="tbl"><table id="t-folgas"></table></div>
+</section>
+
+<section>
+  <h2>Correia, trilho e impressão</h2>
+  <div class="two">
+    <div class="tbl"><table id="t-correia"></table></div>
+    <div class="tbl"><table id="t-imp"></table></div>
+  </div>
+</section>
+
+<section>
+  <h2>O que esta validação não cobre</h2>
+  <ul>
+    <li>A dinâmica: quique da bola de aço na parede da cabine, velocidade com que a bola chega da bandeja e vibração. Isso fica para o teste de bancada com a peça impressa.</li>
+    <li>A tolerância real da impressão. O modelo usa folga mínima de 0,5 mm entre peças que se movem. Se a sua impressora erra mais que 0,25 mm por face, as paredes da cabine precisam de folga maior.</li>
+    <li>A resistência foi calculada à mão, peça por peça, não por elementos finitos. O aperto dos parafusos no PETG também não entra: aperte só até encostar.</li>
+    <li>Onde a fila, o servo e a rampa ficam na máquina de verdade. Aqui eles estão na bancada; na máquina dependem da bandeja e do carro A.</li>
+  </ul>
+  <p class="note" id="compras"></p>
+</section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const C = __CENA__;
+const V = __VAL__;
+const TXT = __TXT__;
+const RES = __RES__;
+const $ = id => document.getElementById(id);
+const fmt = (v, d = 1) => (typeof v === 'number' && isFinite(v)) ? v.toFixed(d).replace('.', ',') : (v === Infinity ? '∞' : String(v));
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ---------------- textos da variante ---------------- */
+$('sobre').textContent = TXT.sobre;
+$('lead').textContent = TXT.lead;
+$('guia-tit').textContent = TXT.guia_tit;
+$('guia-itens').innerHTML = TXT.guia_itens.map(t => `<li>${t}</li>`).join('');
+$('compras').innerHTML = TXT.compras;
+
+/* ---------------- resumo ---------------- */
+(function resumo() {
+  const pr = V.parafusos, okp = pr.filter(f => f.ok).length;
+  const ruins = V.folgas.filter(f => !f.ok).length;
+  const menor = Math.min(...V.folgas.filter(f => !f.nota).map(f => f.folga));
+  const cp = V.comporta, co = V.correia;
+  const imp = V.impressao.filter(i => i.ok).length;
+  const chips = [
+    [ruins === 0, `Folgas: ${ruins} problemas · menor ${fmt(menor)} mm`],
+    [okp === pr.length, `Parafusos ${okp}/${pr.length}`],
+    [co.folga_polia_cima >= 0.5 && co.folga_polia_baixo >= 0.5, `Polias: ${fmt(Math.min(co.folga_polia_cima, co.folga_polia_baixo))} mm até a cabine`],
+    [co.trilho_sobra_baixo >= TXT.guia_min, `${TXT.guia_chip}: ${fmt(co.trilho_sobra_baixo)} / ${fmt(co.trilho_sobra_cima)} mm`],
+    [cp.pior_folga >= 0, `Comporta: ${Object.keys(cp.casos).length} casos · menor folga ${fmt(cp.pior_folga, 2)} mm`],
+    [cp.pior_fs_segurar >= 2.5, `Lâmina segura a fila: FS ${fmt(cp.pior_fs_segurar)}`],
+    [imp === V.impressao.length, `Impressão ${imp}/${V.impressao.length}`],
+    [V.envelope.ok, `Dentro de 420 × 420 × 200`],
+  ];
+  $('chips').innerHTML = chips.map(([ok, t]) => `<span class="chip ${ok ? 'c-ok' : 'c-bad'}">${ok ? 'OK' : 'FALHA'} · ${t}</span>`).join('');
+})();
+
+/* ---------------- tabelas ---------------- */
+(function tabelas() {
+  $('seq').innerHTML = V.comporta.sequencia.map(s => `<li>${s.charAt(0).toUpperCase() + s.slice(1)}.</li>`).join('');
+  const cs = V.comporta.casos;
+  $('t-comp').innerHTML = `<thead><tr><th>Caso</th><th>Folga até a bola do berço</th><th>Folga até a seguinte</th><th>Degrau</th><th>Força para pular</th><th>FS segurar</th><th>FS do servo</th></tr></thead><tbody>` +
+    Object.entries(cs).map(([k, r]) => `<tr><td>${k}</td><td class="num ${r.folga_lamina_bola_no_berco < 0 ? 'c-bad' : ''}">${fmt(r.folga_lamina_bola_no_berco, 2)} mm</td><td class="num">${fmt(r.folga_lamina_bola_seguinte, 2)} mm</td><td class="num">${fmt(r.degrau_mm, 2)} mm</td><td class="num">${fmt(r.forca_para_pular_N, 2)} N</td><td class="num">${fmt(r.fs_segurar)}</td><td class="num">${fmt(r.fs_servo, 0)}</td></tr>`).join('') + '</tbody>';
+  const P = C.pecas;
+  $('t-pecas').innerHTML = `<thead><tr><th>Etapa</th><th>Peça</th><th>Tipo</th><th>Material / modelo</th><th>Como fixa</th></tr></thead><tbody>` +
+    Object.entries(P).sort((a, b) => a[1].etapa - b[1].etapa).map(([k, v]) => `<tr><td class="num">${v.etapa}</td><td><b>${k}</b></td><td>${v.tipo}</td><td>${v.mat}</td><td>${v.fix}</td></tr>`).join('') + '</tbody>';
+  $('t-paraf').innerHTML = `<thead><tr><th>Etapa</th><th>Parafuso</th><th>Tipo</th><th>Prende</th><th>Rosca em</th><th>Pega</th><th>Resultado</th></tr></thead><tbody>` +
+    V.parafusos.map(f => `<tr><td class="num">${f.etapa}</td><td class="mono">${f.nome}</td><td class="num">${f.tipo}</td><td>${f.prende}</td><td>${f.rosca}</td><td class="num">${fmt(f.pega)} mm</td><td class="${f.ok ? 'c-ok' : 'c-bad'}">${f.ok ? 'OK' : f.problemas.join('; ')}${f.notas.length ? ' · ' + f.notas[0] : ''}</td></tr>`).join('') + '</tbody>';
+  const fl = V.folgas.filter(f => !f.nota).slice(0, 14);
+  $('t-folgas').innerHTML = `<thead><tr><th>Peça que move</th><th>Contra</th><th>Folga</th><th>Onde</th></tr></thead><tbody>` +
+    fl.map(f => `<tr><td>${f.pa} <span class="small mono">${f.a}</span></td><td>${f.pb} <span class="small mono">${f.b}</span></td><td class="num ${f.ok ? '' : 'c-bad'}">${fmt(f.folga, 2)} mm</td><td class="num">cabine em Z ${fmt(f.zc)} · servo ${fmt(f.ang)}°</td></tr>`).join('') +
+    V.folgas.filter(f => f.nota).map(f => `<tr><td>${f.pa}</td><td>${f.pb}</td><td class="num">contato</td><td>${f.nota}</td></tr>`).join('') + '</tbody>';
+  const co = V.correia;
+  $('t-correia').innerHTML = `<thead><tr><th>Correia e trilho</th><th>Valor</th></tr></thead><tbody>
+    <tr><td>Comprimento da correia aberta</td><td class="num">${fmt(co.comprimento, 0)} mm (${co.compra})</td></tr>
+    <tr><td>Pega de cada presilha</td><td class="num">${fmt(co.pega_presilha, 0)} mm = 4 dentes</td></tr>
+    <tr><td>Curso da cabine</td><td class="num">Z ${fmt(co.curso[0])} a ${fmt(co.curso[1])}</td></tr>
+    <tr><td>Menor folga cabine × polia do motor</td><td class="num">${fmt(co.folga_polia_cima)} mm</td></tr>
+    <tr><td>Menor folga cabine × polia de baixo</td><td class="num">${fmt(co.folga_polia_baixo)} mm</td></tr>
+    <tr><td>Menor folga cabine × ramo livre</td><td class="num">${fmt(co.folga_ramo_livre)} mm</td></tr>
+    <tr><td>${TXT.guia_linha}</td><td class="num">${fmt(co.trilho_sobra_baixo)} / ${fmt(co.trilho_sobra_cima)} mm</td></tr></tbody>`;
+  $('t-imp').innerHTML = `<thead><tr><th>Peça impressa</th><th>Tamanho</th><th>Cabe em</th></tr></thead><tbody>` +
+    V.impressao.map(i => `<tr><td>${i.peca}</td><td class="num">${i.dims.map(d => fmt(d, 0)).join(' × ')}</td><td class="${i.ok ? '' : 'c-bad'}">${i.cabe.join(', ') || 'não cabe'}</td></tr>`).join('') + '</tbody>';
+})();
+
+/* ---------------- etapas ---------------- */
+if (!RES) { $('s-res').hidden = true; $('s-print').hidden = true; }
+else {
+  const f1 = x => (x === null || x === undefined) ? '—' : String(x).replace('.', ',');
+  $('r-trava').textContent = f1(RES.cargas.F_trava);
+  const atuais = RES.casos.filter(c => !c.antes);
+  $('t-res').innerHTML = `<thead><tr><th>Peça</th><th>Ponto</th><th>Carga</th><th class="num">Força</th><th class="num">Tensão / limite</th><th class="num">FS</th><th>Obs.</th></tr></thead><tbody>` +
+    atuais.map(c => `<tr><td>${c.peca}</td><td>${c.ponto}</td><td>${c.regime}</td><td class="num">${c.carga_N === null ? '—' : f1(c.carga_N) + ' N'}</td>` +
+      `<td class="num">${c.tensao_MPa === null ? '—' : f1(c.tensao_MPa) + ' / ' + f1(c.limite_MPa) + ' MPa'}</td>` +
+      `<td class="num"><span class="chip ${c.ok ? 'c-ok' : 'c-bad'}">${f1(c.fs)}</span></td><td>${c.nota || ''}</td></tr>`).join('') + '</tbody>';
+  $('r-antes').innerHTML = RES.casos.filter(c => c.antes).map(c => `<li><b>${c.peca}:</b> ${c.ponto}, FS ${f1(c.fs)} na falha. ${c.nota}.</li>`).join('') +
+    RES.reforcos.map(r => `<li>${r}</li>`).join('');
+  $('t-print').innerHTML = `<thead><tr><th>Peça</th><th>Como deitar</th><th>Suporte</th><th class="num">Na mesa</th><th class="num">Altura</th><th class="num">Horas</th><th>Impressora</th></tr></thead><tbody>` +
+    RES.impressao.map(l => `<tr><td>${l.peca}</td><td>${l.posicao}</td><td>${l.suporte}</td><td class="num">${l.mesa_mm[0]} × ${l.mesa_mm[1]}</td>` +
+      `<td class="num">${l.altura_mm}</td><td class="num">${f1(l.horas)}</td><td>${l.impressora}</td></tr>`).join('') +
+    Object.entries(RES.horas).map(([k, h]) => `<tr><td colspan="5"><b>Total na ${k}</b></td><td class="num"><b>${f1(h)}</b></td><td></td></tr>`).join('') + '</tbody>';
+  $('r-extras').textContent = 'Imprima também: ' + RES.extras.map(e => `${e.quantidade} × ${e.peca} (${e.posicao})`).join('; ') + '.';
+}
+const ETAPAS = TXT.etapas;
+const FASES = [
+  [0.0, 0.8, 'Lâmina baixa: uma bola rola para o berço'],
+  [0.8, 1.3, 'Servo levanta a lâmina entre as duas bolas'],
+  [1.3, 6.0, 'Cabine sobe 315 mm até a espera (67 mm/s)'],
+  [6.0, 7.0, 'Espera o carro A pedir a bola'],
+  [7.0, 7.3, 'Sobe mais 20 mm: o piso inclinado passa da parede'],
+  [7.3, 8.3, 'Bola rola na rampa até o bolso do carro A'],
+  [8.3, 13.3, 'Cabine desce até o batente'],
+  [13.3, 13.8, 'Servo baixa a lâmina: a próxima bola entra'],
+];
+const T_CICLO = 13.8;
+
+/* ---------------- cena 3D ---------------- */
+const box = $('cv');
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+box.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(32, 1, 1, 5000);
+const ctl = new THREE.OrbitControls(cam, renderer.domElement);
+ctl.enableDamping = true;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x445048, 0.85));
+const sol = new THREE.DirectionalLight(0xffffff, 0.75); sol.position.set(400, 700, 500); scene.add(sol);
+const M3 = (x, y, z) => new THREE.Vector3(x, z, -y);       // CAD (Z para cima) -> three (Y para cima)
+const alvo = M3(185, 140, 190);
+ctl.target.copy(alvo);
+
+function cores() {
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches && document.documentElement.dataset.theme !== 'light' || document.documentElement.dataset.theme === 'dark';
+  return {
+    preto: dark ? 0x3a4440 : 0x2e3532, acento: 0x2f7fb5, metal: dark ? 0xa9b2ae : 0x9aa3a0, transp: dark ? 0x9fc7e0 : 0x6f98b5,
+    correia: 0x1d1f1e, comporta: 0xd08a1c, chao: 0x888888, bola: dark ? 0xe6ecea : 0xc9cfcd, paraf: 0x30a35a, cena: css('--scene')
+  };
+}
+let COR = cores();
+const mats = {};
+function mat(cor) {
+  if (mats[cor]) return mats[cor];
+  const t = cor === 'transp';
+  mats[cor] = new THREE.MeshStandardMaterial({color: COR[cor] ?? 0x888888, metalness: cor === 'metal' ? 0.6 : 0.05, roughness: cor === 'metal' ? 0.35 : 0.7,
+    transparent: t, opacity: t ? 0.16 : 1, depthWrite: !t});
+  return mats[cor];
+}
+const G = {mundo: new THREE.Group(), carro: new THREE.Group(), alavanca: new THREE.Group()};
+scene.add(G.mundo, G.carro, G.alavanca);
+G.alavanca.position.copy(M3(...C.piv));
+const malhas = [];
+for (const e of C.geo) {
+  let geo;
+  if (e.t === 'box') geo = new THREE.BoxGeometry(2 * e.s[0], 2 * e.s[2], 2 * e.s[1]);
+  else geo = new THREE.CylinderGeometry(e.s[0], e.s[0], 2 * e.s[1], 28);
+  const m = new THREE.Mesh(geo, mat(e.cor).clone());
+  m.position.copy(M3(...e.p));
+  m.quaternion.set(e.q[1], e.q[3], -e.q[2], e.q[0]);
+  m.userData = e;
+  m.userData.base = m.position.clone();
+  G[e.c].add(m);
+  malhas.push(m);
+}
+// ramo da correia preso na cabine (muda com a altura)
+const ramo = [0, 1].map(() => { const m = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1, 6), mat('correia')); m.userData = {peca: 'Correia', etapa: 6, n: 'ramo preso'}; scene.add(m); malhas.push(m); return m; });
+// bolas
+const R = C.r;
+const NB = 6;
+const bolas = Array.from({length: NB}, (_, i) => i).map(() => { const m = new THREE.Mesh(new THREE.SphereGeometry(R, 28, 18), new THREE.MeshStandardMaterial({color: COR.bola, metalness: 0.85, roughness: 0.25})); m.userData = {peca: 'Bola de aço 1"', n: 'bola'}; scene.add(m); return m; });
+// parafusos
+const paraf = [];
+for (const f of C.fix) {
+  const g = new THREE.Group();
+  const d = M3(...f.d).normalize();
+  const haste = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, f.L, 12), new THREE.MeshStandardMaterial({color: f.ok ? COR.paraf : 0xc0392b}));
+  haste.position.y = f.L / 2;
+  const cab = new THREE.Mesh(new THREE.CylinderGeometry(2.75, 2.75, 3, 16), new THREE.MeshStandardMaterial({color: f.ok ? COR.paraf : 0xc0392b}));
+  cab.position.y = -1.5;
+  g.add(haste, cab);
+  g.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d);
+  g.position.copy(M3(...f.p0));
+  g.userData = f;
+  (f.c === 'carro' ? G.carro : G.mundo).add(g);
+  paraf.push(g);
+}
+const tubo = malhas.filter(m => m.userData.peca && m.userData.peca.startsWith('Tubo'));
+
+/* ---------------- estado ---------------- */
+const A = C.anc, Pp = C.p;
+let modo = 'mont', etapa = 8, tEt = 1, tFunc = 0, tocando = true, vel = 1, mostrarTubo = true, mostrarParaf = true;
+const tf = Math.tan(Pp.incl_fila * Math.PI / 180), tr = Math.tan(Pp.incl_rampa * Math.PI / 180);
+const zf = x => Pp.zf_fim + (Pp.x_fila_fim - Math.min(x, Pp.x_fila_fim)) * tf;
+const b3 = V.comporta.casos.nominal.bola3, b2 = V.comporta.casos.nominal.bola2;
+const slot = j => { const x = b3[0] - 2 * R * j; return [x, b3[1], zf(x) + R]; };
+const ease = u => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
+const lerp = (a, b, u) => a + (b - a) * u;
+const lerp3 = (a, b, u) => a.map((v, i) => lerp(v, b[i], u));
+const zBerco = zc => zc + (b2[2] - A.zc_min);
+
+function estado(t) {
+  const n = Math.floor(t / T_CICLO), tau = t - n * T_CICLO;
+  const fase = FASES.findIndex(([a, b]) => tau >= a && tau < b);
+  const u = fase >= 0 ? (tau - FASES[fase][0]) / (FASES[fase][1] - FASES[fase][0]) : 1;
+  let zc = A.zc_min, th = Pp.ang_baixa ?? 7.5;
+  if (fase === 1) th = lerp(7.5, 0, ease(u));
+  if (fase >= 2 && fase <= 6) th = 0;
+  if (fase === 7) th = lerp(0, 7.5, ease(u));
+  if (fase === 2) zc = lerp(A.zc_min, A.zc_espera, ease(u));
+  if (fase === 3) zc = A.zc_espera;
+  if (fase === 4) zc = lerp(A.zc_espera, A.zc_topo, ease(u));
+  if (fase === 5) zc = A.zc_topo;
+  if (fase === 6) zc = lerp(A.zc_topo, A.zc_min, ease(u));
+  const pos = [];
+  for (let k = 0; k < NB; k++) {
+    const q = ((k - n) % NB + NB) % NB;
+    let p;
+    if (q === 0) {
+      const berco = [b2[0], b2[1], zBerco(zc)];
+      if (fase === 0) p = lerp3(slot(0), berco, ease(u));
+      else if (fase <= 4) p = berco;
+      else if (fase === 5) {
+        const y = lerp(b2[1], 72, ease(u));
+        const zr = y > 130 ? lerp(zBerco(A.zc_topo), Pp.z_rampa + R, (b2[1] - y) / (b2[1] - 130)) : Pp.z_rampa - (128 - y) * tr + R;
+        p = [b2[0] + 0.8, y, zr];
+      } else p = slot(NB - 1);
+    } else {
+      p = fase === 0 ? lerp3(slot(q), slot(q - 1), ease(u)) : slot(q - 1);
+    }
+    pos.push(p);
+  }
+  return {zc, th, pos, fase, tau};
+}
+
+function aplicar(s) {
+  G.carro.position.y = s.zc;
+  G.alavanca.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, -1), s.th * Math.PI / 180);
+  const yc = (Pp.y_correia[0] + Pp.y_correia[1]) / 2;
+  const segs = [[Pp.zb, s.zc + 13], [s.zc + 37, Pp.zt]];
+  segs.forEach(([a, b], i) => { ramo[i].scale.y = Math.max(0.1, b - a); ramo[i].position.copy(M3(Pp.x_ida, yc, (a + b) / 2)); });
+  s.pos.forEach((p, i) => bolas[i].position.copy(M3(...p)));
+}
+
+/* ---------------- montagem: etapas e explosao ---------------- */
+function visMontagem() {
+  for (const m of malhas) {
+    const e = m.userData, et = e.etapa ?? 0;
+    m.visible = et <= etapa && !(e.peca && e.peca.startsWith('Tubo') && !mostrarTubo);
+    const dir = ETAPAS[Math.max(0, et - 1)]?.[2] || [0, 0, 0];
+    const off = et === etapa ? (1 - ease(tEt)) * 140 : 0;
+    if (m.userData.base) m.position.copy(m.userData.base).add(M3(dir[0] * off, dir[1] * off, dir[2] * off));
+    const destaque = et === etapa && modo === 'mont';
+    if (m.material.emissive) m.material.emissive.setHex(destaque ? 0x553300 : 0x000000);
+  }
+  for (const g of paraf) g.visible = mostrarParaf && g.userData.etapa <= etapa;
+  bolas.forEach(b => b.visible = etapa >= 8);
+  ramo.forEach(r => r.visible = etapa >= 6);
+}
+function visFunc() {
+  for (const m of malhas) {
+    const e = m.userData;
+    m.visible = !(e.peca && e.peca.startsWith('Tubo') && !mostrarTubo);
+    if (m.userData.base) m.position.copy(m.userData.base);
+    if (m.material.emissive) m.material.emissive.setHex(0x000000);
+  }
+  for (const g of paraf) g.visible = mostrarParaf;
+  bolas.forEach(b => b.visible = true);
+  ramo.forEach(r => r.visible = true);
+}
+
+const lp = $('passos');
+lp.innerHTML = ETAPAS.map(([t, d], i) => `<li tabindex="0" data-i="${i + 1}"><span class="n">Etapa ${i + 1}</span><b>${t}</b><span>${d}</span></li>`).join('');
+function marcarEtapa() { lp.querySelectorAll('li').forEach(li => li.setAttribute('aria-current', String(+li.dataset.i === etapa))); }
+lp.addEventListener('click', ev => { const li = ev.target.closest('li'); if (!li) return; etapa = +li.dataset.i; tEt = 0; marcarEtapa(); });
+lp.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); ev.target.click(); } });
+marcarEtapa();
+const lf = $('fases');
+lf.innerHTML = FASES.map(([a, b, t], i) => `<li data-i="${i}"><span class="n">${fmt(a)}–${fmt(b)} s</span><span>${t}</span></li>`).join('');
+lf.addEventListener('click', ev => { const li = ev.target.closest('li'); if (!li) return; tFunc = FASES[+li.dataset.i][0] + 0.01; });
+
+function aba(qual) {
+  modo = qual;
+  $('a-mont').setAttribute('aria-pressed', String(qual === 'mont'));
+  $('a-func').setAttribute('aria-pressed', String(qual === 'func'));
+  $('p-mont').hidden = qual !== 'mont';
+  $('p-func').hidden = qual !== 'func';
+  if (qual === 'mont') { etapa = 8; tEt = 1; marcarEtapa(); }
+}
+$('a-mont').onclick = () => aba('mont');
+$('a-func').onclick = () => aba('func');
+$('play').onclick = () => { tocando = !tocando; $('play').textContent = tocando ? 'Pausar' : 'Tocar'; $('play').setAttribute('aria-pressed', String(tocando)); };
+[['vel1', 1], ['vel05', 0.5], ['vel2', 2]].forEach(([id, v]) => $(id).onclick = () => { vel = v; ['vel1', 'vel05', 'vel2'].forEach(k => $(k).setAttribute('aria-pressed', String(k === id))); });
+$('tempo').oninput = ev => { tFunc = ev.target.value / 1000 * T_CICLO; tocando = false; $('play').textContent = 'Tocar'; $('play').setAttribute('aria-pressed', 'false'); };
+$("b-tubo").onclick = () => { mostrarTubo = !mostrarTubo; $("b-tubo").setAttribute('aria-pressed', String(mostrarTubo)); };
+$("b-paraf").onclick = () => { mostrarParaf = !mostrarParaf; $("b-paraf").setAttribute('aria-pressed', String(mostrarParaf)); };
+
+const VISTAS = {'v-34': [M3(820, -560, 470)], 'v-frente': [M3(160, -980, 210)], 'v-lado': [M3(1150, 150, 210)], 'v-cima': [M3(186, 141, 1500)]};
+let anim = null;
+Object.keys(VISTAS).forEach(id => $(id).onclick = () => {
+  Object.keys(VISTAS).forEach(k => $(k).setAttribute('aria-pressed', String(k === id)));
+  anim = {de: cam.position.clone(), para: VISTAS[id][0].clone(), u: 0};
+  if (id === 'v-cima') cam.up.set(0, 0, -1); else cam.up.set(0, 1, 0);
+});
+cam.position.copy(VISTAS['v-34'][0]);
+
+/* ---------------- selecao ---------------- */
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+let selecionada = null, desceu = null;
+renderer.domElement.addEventListener('pointerdown', ev => desceu = [ev.clientX, ev.clientY]);
+renderer.domElement.addEventListener('pointerup', ev => {
+  if (!desceu || Math.hypot(ev.clientX - desceu[0], ev.clientY - desceu[1]) > 5) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ptr.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1);
+  ray.setFromCamera(ptr, cam);
+  const hits = ray.intersectObjects([...malhas.filter(m => m.visible), ...bolas, ...paraf.filter(g => g.visible)], true);
+  const h = hits.find(x => !(x.object.material.transparent) ) || hits[0];
+  selecionar(h ? (h.object.userData.peca ? h.object : h.object.parent) : null);
+});
+function selecionar(obj) {
+  for (const m of malhas) if (m.material.emissive && modo !== 'mont') m.material.emissive.setHex(0);
+  const sb = $('selbox');
+  if (!obj) { sb.innerHTML = '<span class="eyebrow">Peça selecionada</span><span class="small">Nenhuma. Clique numa peça no modelo.</span>'; selecionada = null; return; }
+  const u = obj.userData;
+  if (u.p0) {
+    sb.innerHTML = `<span class="eyebrow">Parafuso · etapa ${u.etapa}</span><b>${u.tipo}</b><span class="mono small">${u.n}</span><span>${u.ok ? 'OK: atravessa, pega e a chave alcança.' : 'Com problema'}</span>`;
+    return;
+  }
+  const info = C.pecas[u.peca] || {};
+  selecionada = u.peca;
+  sb.innerHTML = `<span class="eyebrow">Peça selecionada${info.etapa ? ' · etapa ' + info.etapa : ''}</span><b>${u.peca}</b>` +
+    (info.mat ? `<span class="small">${info.tipo} · ${info.mat}</span><span>${info.fix}</span>` : '');
+}
+
+/* ---------------- laco ---------------- */
+function tamanho() {
+  const w = box.clientWidth, h = Math.max(420, box.clientHeight);
+  renderer.setSize(w, h, false);
+  cam.aspect = w / h; cam.updateProjectionMatrix();
+}
+new ResizeObserver(tamanho).observe(box);
+tamanho();
+function tema() { COR = cores(); scene.background = new THREE.Color(COR.cena || '#dfe5e2'); }
+tema();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', tema);
+new MutationObserver(tema).observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
+
+const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let ult = performance.now();
+function quadro(agora) {
+  const dt = Math.min(0.05, (agora - ult) / 1000); ult = agora;
+  if (anim) { anim.u = Math.min(1, anim.u + dt * 2); cam.position.lerpVectors(anim.de, anim.para, ease(anim.u)); if (anim.u >= 1) anim = null; }
+  if (modo === 'mont') {
+    tEt = Math.min(1, tEt + dt * (reduz ? 10 : 1.2));
+    visMontagem();
+    aplicar(estado(0.4));
+  } else {
+    if (tocando) tFunc = (tFunc + dt * vel) % T_CICLO;
+    const s = estado(tFunc);
+    visFunc();
+    aplicar(s);
+    $('tempo').value = Math.round(tFunc / T_CICLO * 1000);
+    $('fase').textContent = `${fmt(tFunc)} s · cabine em Z ${fmt(s.zc)} mm · servo ${fmt(s.th)}°`;
+    lf.querySelectorAll('li').forEach(li => li.setAttribute('aria-current', String(+li.dataset.i === s.fase)));
+  }
+  ctl.update();
+  renderer.render(scene, cam);
+  requestAnimationFrame(quadro);
+}
+requestAnimationFrame(quadro);
+</script>

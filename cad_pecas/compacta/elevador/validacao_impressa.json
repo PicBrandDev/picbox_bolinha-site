@@ -1,0 +1,2767 @@
+{
+ "ancoras": {
+  "zc_min": 18.82,
+  "zc_espera": 334.21,
+  "zc_topo": 354.21,
+  "zc_max": 357.21,
+  "x_bola": 190.8,
+  "x_contato": 178.1
+ },
+ "folgas": [
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "fdc_baixo_alav",
+   "pb": "Fim de curso",
+   "folga": -0.6,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": "fim de curso de baixo: a cabine aperta a alavanca no batente"
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "fdc_cima_alav",
+   "pb": "Fim de curso",
+   "folga": -0.01,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": "fim de curso de cima: a cabine aperta a alavanca no topo"
+  },
+  {
+   "a": "bloco_dir",
+   "pa": "Cabine",
+   "b": "batente",
+   "pb": "Batente",
+   "folga": -0.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": "batente de baixo: e onde a cabine para"
+  },
+  {
+   "a": "alav_chifre",
+   "pa": "Servo",
+   "b": "servo",
+   "pb": "Servo",
+   "folga": -0.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": "chifre montado no eixo do servo"
+  },
+  {
+   "a": "berco_dir",
+   "pa": "Cabine",
+   "b": "batente",
+   "pb": "Batente",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_dir",
+   "pa": "Cabine",
+   "b": "frente_b",
+   "pb": "Tubo inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_dir",
+   "pa": "Cabine",
+   "b": "dir_inf",
+   "pb": "Tubo inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_dir",
+   "pa": "Cabine",
+   "b": "frente_sup",
+   "pb": "Tubo superior",
+   "folga": 0.5,
+   "zc": 177.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_dir",
+   "pa": "Cabine",
+   "b": "dir_sup",
+   "pb": "Tubo superior",
+   "folga": 0.5,
+   "zc": 177.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_fundo",
+   "pa": "Cabine",
+   "b": "batente",
+   "pb": "Batente",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_fundo",
+   "pa": "Cabine",
+   "b": "dir_inf",
+   "pb": "Tubo inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_fundo",
+   "pa": "Cabine",
+   "b": "dir_sup",
+   "pb": "Tubo superior",
+   "folga": 0.5,
+   "zc": 177.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alma_esq",
+   "pa": "Cabine",
+   "b": "esq_inf_tras",
+   "pb": "Tubo inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alma_esq",
+   "pa": "Cabine",
+   "b": "esq_sup",
+   "pb": "Tubo superior",
+   "folga": 0.5,
+   "zc": 162.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "polia_baixo",
+   "pb": "Polia de baixo",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "polia_cima",
+   "pb": "Polia do motor",
+   "folga": 0.5,
+   "zc": 353.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "esq_inf_tras",
+   "pb": "Tubo inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "esq_sup",
+   "pb": "Tubo superior",
+   "folga": 0.5,
+   "zc": 157.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_a",
+   "pa": "Cabine",
+   "b": "trilho_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_a",
+   "pa": "Cabine",
+   "b": "trilho_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_b",
+   "pa": "Cabine",
+   "b": "trilho_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_b",
+   "pa": "Cabine",
+   "b": "trilho_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_c",
+   "pa": "Cabine",
+   "b": "trilho_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_c",
+   "pa": "Cabine",
+   "b": "trilho_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_d",
+   "pa": "Cabine",
+   "b": "trilho_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_d",
+   "pa": "Cabine",
+   "b": "pescoco_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_d",
+   "pa": "Cabine",
+   "b": "trilho_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_d",
+   "pa": "Cabine",
+   "b": "pescoco_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_e",
+   "pa": "Cabine",
+   "b": "trilho_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_e",
+   "pa": "Cabine",
+   "b": "pescoco_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_e",
+   "pa": "Cabine",
+   "b": "trilho_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_e",
+   "pa": "Cabine",
+   "b": "pescoco_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_a",
+   "pa": "Cabine",
+   "b": "trilho_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_a",
+   "pa": "Cabine",
+   "b": "trilho_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "trilho_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "trilho_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_c",
+   "pa": "Cabine",
+   "b": "trilho_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_c",
+   "pa": "Cabine",
+   "b": "trilho_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_d",
+   "pa": "Cabine",
+   "b": "trilho_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_d",
+   "pa": "Cabine",
+   "b": "pescoco_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_d",
+   "pa": "Cabine",
+   "b": "trilho_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_d",
+   "pa": "Cabine",
+   "b": "pescoco_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "trilho_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "pescoco_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 0.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "trilho_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "pescoco_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 0.5,
+   "zc": 157.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_braco",
+   "pa": "Braco da comporta",
+   "b": "suporte_servo",
+   "pb": "Suporte do servo",
+   "folga": 0.5,
+   "zc": 357.2,
+   "ang": 5.5,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_braco",
+   "pa": "Braco da comporta",
+   "b": "servo",
+   "pb": "Servo",
+   "folga": 0.5,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "frente_b",
+   "pb": "Tubo inferior",
+   "folga": 0.57,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "frente_sup",
+   "pb": "Tubo superior",
+   "folga": 0.57,
+   "zc": 201.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "frente_c",
+   "pb": "Tubo inferior",
+   "folga": 0.63,
+   "zc": 26.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponte",
+   "pa": "Braco da comporta",
+   "b": "fila_piso",
+   "pb": "Fila",
+   "folga": 0.81,
+   "zc": 357.2,
+   "ang": 5.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_chifre",
+   "pa": "Servo",
+   "b": "suporte_servo",
+   "pb": "Suporte do servo",
+   "folga": 0.93,
+   "zc": 357.2,
+   "ang": 8.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponte",
+   "pa": "Braco da comporta",
+   "b": "frente_b",
+   "pb": "Tubo inferior",
+   "folga": 0.95,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_barra",
+   "pa": "Braco da comporta",
+   "b": "frente_b",
+   "pb": "Tubo inferior",
+   "folga": 0.95,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponte",
+   "pa": "Braco da comporta",
+   "b": "fila_frente_baixo",
+   "pb": "Fila",
+   "folga": 0.96,
+   "zc": 357.2,
+   "ang": 8.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_fundo",
+   "pa": "Cabine",
+   "b": "bochecha",
+   "pb": "Base",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "batente",
+   "pb": "Batente",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_a",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_b",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_c",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_d",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_e",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_a",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_c",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_c",
+   "pa": "Cabine",
+   "b": "fdc_baixo_alav",
+   "pb": "Fim de curso",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_c",
+   "pa": "Cabine",
+   "b": "fdc_cima_alav",
+   "pb": "Fim de curso",
+   "folga": 1.0,
+   "zc": 355.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_d",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "fdc_baixo_alav",
+   "pb": "Fim de curso",
+   "folga": 1.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "fdc_cima_alav",
+   "pb": "Fim de curso",
+   "folga": 1.0,
+   "zc": 356.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "pe_eixos",
+   "pb": "Guia impressa inferior",
+   "folga": 1.1,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "alav_ponte",
+   "pb": "Braco da comporta",
+   "folga": 1.35,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "alav_barra",
+   "pb": "Braco da comporta",
+   "folga": 1.35,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "alav_lamina",
+   "pb": "Braco da comporta",
+   "folga": 1.35,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_barra",
+   "pa": "Braco da comporta",
+   "b": "fila_frente_baixo",
+   "pb": "Fila",
+   "folga": 1.36,
+   "zc": 357.2,
+   "ang": 8.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_a",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_b",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_c",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_d",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_e",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_a",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_c",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_d",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.49,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "correia_volta",
+   "pb": "Correia",
+   "folga": 1.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_barra",
+   "pa": "Braco da comporta",
+   "b": "esq_inf_tras",
+   "pb": "Tubo inferior",
+   "folga": 1.5,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_barra",
+   "pa": "Braco da comporta",
+   "b": "fila_fundo",
+   "pb": "Fila",
+   "folga": 1.5,
+   "zc": 357.2,
+   "ang": 7.5,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_barra",
+   "pa": "Braco da comporta",
+   "b": "fila_fundo_fim",
+   "pb": "Fila",
+   "folga": 1.5,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "alav_ponta2",
+   "pb": "Braco da comporta",
+   "folga": 1.5,
+   "zc": 26.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "alav_ponta",
+   "pb": "Braco da comporta",
+   "folga": 1.5,
+   "zc": 27.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "cabeca_eixos",
+   "pb": "Guia impressa superior",
+   "folga": 1.54,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "alav_ponta_topo",
+   "pb": "Braco da comporta",
+   "folga": 1.7,
+   "zc": 27.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alma_esq",
+   "pa": "Cabine",
+   "b": "esq_inf_cima",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponte",
+   "pa": "Braco da comporta",
+   "b": "frente_c",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponte",
+   "pa": "Braco da comporta",
+   "b": "fila_frente",
+   "pb": "Fila",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_lamina",
+   "pa": "Braco da comporta",
+   "b": "frente_b",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_lamina",
+   "pa": "Braco da comporta",
+   "b": "frente_c",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_lamina",
+   "pa": "Braco da comporta",
+   "b": "fila_frente",
+   "pb": "Fila",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta2",
+   "pa": "Braco da comporta",
+   "b": "frente_b",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta2",
+   "pa": "Braco da comporta",
+   "b": "frente_c",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta2",
+   "pa": "Braco da comporta",
+   "b": "fila_frente",
+   "pb": "Fila",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta",
+   "pa": "Braco da comporta",
+   "b": "frente_b",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta",
+   "pa": "Braco da comporta",
+   "b": "frente_c",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta",
+   "pa": "Braco da comporta",
+   "b": "fila_frente",
+   "pb": "Fila",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta_topo",
+   "pa": "Braco da comporta",
+   "b": "frente_b",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta_topo",
+   "pa": "Braco da comporta",
+   "b": "frente_c",
+   "pb": "Tubo inferior",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta_topo",
+   "pa": "Braco da comporta",
+   "b": "fila_frente",
+   "pb": "Fila",
+   "folga": 2.0,
+   "zc": 357.2,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "batente",
+   "pb": "Batente",
+   "folga": 2.15,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "bloco_dir",
+   "pa": "Cabine",
+   "b": "polia_cima",
+   "pb": "Polia do motor",
+   "folga": 2.18,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "fdc_baixo",
+   "pb": "Fim de curso",
+   "folga": 2.3,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "fdc_baixo",
+   "pb": "Fim de curso",
+   "folga": 2.3,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_c",
+   "pa": "Cabine",
+   "b": "fdc_baixo",
+   "pb": "Fim de curso",
+   "folga": 2.3,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "fdc_baixo",
+   "pb": "Fim de curso",
+   "folga": 2.3,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_dir",
+   "pa": "Cabine",
+   "b": "rampa",
+   "pb": "Rampa",
+   "folga": 2.37,
+   "zc": 325.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "esq_inf_tras",
+   "pb": "Tubo inferior",
+   "folga": 2.4,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "esq_inf_cima",
+   "pb": "Tubo inferior",
+   "folga": 2.4,
+   "zc": 50.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "esq_sup",
+   "pb": "Tubo superior",
+   "folga": 2.4,
+   "zc": 200.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "rampa",
+   "pb": "Rampa",
+   "folga": 2.42,
+   "zc": 349.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_dir",
+   "pa": "Cabine",
+   "b": "rampa_dir",
+   "pb": "Rampa",
+   "folga": 2.5,
+   "zc": 318.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_fundo",
+   "pa": "Cabine",
+   "b": "esq_inf_tras",
+   "pb": "Tubo inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_fundo",
+   "pa": "Cabine",
+   "b": "esq_inf_cima",
+   "pb": "Tubo inferior",
+   "folga": 2.5,
+   "zc": 26.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_fundo",
+   "pa": "Cabine",
+   "b": "esq_sup",
+   "pb": "Tubo superior",
+   "folga": 2.5,
+   "zc": 175.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alma_esq",
+   "pa": "Cabine",
+   "b": "fila_fundo_fim",
+   "pb": "Fila",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "bloco_dir",
+   "pa": "Cabine",
+   "b": "dir_inf",
+   "pb": "Tubo inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "bloco_dir",
+   "pa": "Cabine",
+   "b": "dir_sup",
+   "pb": "Tubo superior",
+   "folga": 2.5,
+   "zc": 160.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "dir_inf",
+   "pb": "Tubo inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "dir_sup",
+   "pb": "Tubo superior",
+   "folga": 2.5,
+   "zc": 155.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_a",
+   "pa": "Cabine",
+   "b": "placa_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_a",
+   "pa": "Cabine",
+   "b": "pescoco_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_a",
+   "pa": "Cabine",
+   "b": "placa_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_a",
+   "pa": "Cabine",
+   "b": "pescoco_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_b",
+   "pa": "Cabine",
+   "b": "placa_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_b",
+   "pa": "Cabine",
+   "b": "pescoco_esq_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_b",
+   "pa": "Cabine",
+   "b": "placa_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_b",
+   "pa": "Cabine",
+   "b": "pescoco_esq_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_d",
+   "pa": "Cabine",
+   "b": "placa_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_d",
+   "pa": "Cabine",
+   "b": "placa_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_e",
+   "pa": "Cabine",
+   "b": "placa_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_esq_e",
+   "pa": "Cabine",
+   "b": "placa_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_a",
+   "pa": "Cabine",
+   "b": "placa_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_a",
+   "pa": "Cabine",
+   "b": "pescoco_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_a",
+   "pa": "Cabine",
+   "b": "placa_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_a",
+   "pa": "Cabine",
+   "b": "pescoco_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "placa_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "pescoco_dir_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "placa_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "pescoco_dir_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_d",
+   "pa": "Cabine",
+   "b": "placa_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_d",
+   "pa": "Cabine",
+   "b": "placa_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "placa_inf",
+   "pb": "Guia impressa inferior",
+   "folga": 2.5,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "placa_sup",
+   "pb": "Guia impressa superior",
+   "folga": 2.5,
+   "zc": 155.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "dir_inf",
+   "pb": "Tubo inferior",
+   "folga": 2.51,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "dir_sup",
+   "pb": "Tubo superior",
+   "folga": 2.51,
+   "zc": 196.3,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "bloco_dir",
+   "pa": "Cabine",
+   "b": "correia_volta",
+   "pb": "Correia",
+   "folga": 2.67,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "bochecha",
+   "pb": "Base",
+   "folga": 2.68,
+   "zc": 18.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "berco_piso",
+   "pa": "Cabine",
+   "b": "rampa_dir",
+   "pb": "Rampa",
+   "folga": 2.7,
+   "zc": 344.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_lamina",
+   "pa": "Braco da comporta",
+   "b": "fila_piso",
+   "pb": "Fila",
+   "folga": 2.77,
+   "zc": 357.2,
+   "ang": 7.75,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "costas",
+   "pa": "Cabine",
+   "b": "fdc_cima",
+   "pb": "Fim de curso",
+   "folga": 2.8,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_b",
+   "pa": "Cabine",
+   "b": "fdc_cima",
+   "pb": "Fim de curso",
+   "folga": 2.8,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_c",
+   "pa": "Cabine",
+   "b": "fdc_cima",
+   "pb": "Fim de curso",
+   "folga": 2.8,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "aloj_dir_e",
+   "pa": "Cabine",
+   "b": "fdc_cima",
+   "pb": "Fim de curso",
+   "folga": 2.8,
+   "zc": 356.8,
+   "ang": 0.0,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta2",
+   "pa": "Braco da comporta",
+   "b": "fila_piso",
+   "pb": "Fila",
+   "folga": 2.92,
+   "zc": 357.2,
+   "ang": 7.75,
+   "ok": true,
+   "nota": ""
+  },
+  {
+   "a": "alav_ponta",
+   "pa": "Braco da comporta",
+   "b": "fila_piso",
+   "pb": "Fila",
+   "folga": 2.92,
+   "zc": 357.2,
+   "ang": 7.75,
+   "ok": true,
+   "nota": ""
+  }
+ ],
+ "parafusos": [
+  {
+   "nome": "base_guia_0",
+   "tipo": "M3x12",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Guia impressa inferior",
+   "pega": 14.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede em volta da rosca 2.0 mm",
+    "parede em volta da rosca 2.0 mm"
+   ],
+   "p0": [
+    186.0,
+    195.5,
+    0.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_guia_1",
+   "tipo": "M3x12",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Guia impressa inferior",
+   "pega": 14.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede em volta da rosca 2.0 mm",
+    "parede em volta da rosca 2.0 mm"
+   ],
+   "p0": [
+    196.0,
+    195.5,
+    0.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_chao_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Bancada",
+   "pega": 11.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    193.0,
+    116.0,
+    5.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_chao_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Bancada",
+   "pega": 11.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    205.0,
+    116.0,
+    5.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "eixo_polia_baixo",
+   "tipo": "M3x40",
+   "etapa": 4,
+   "prende": "Guia impressa inferior",
+   "rosca": "Base",
+   "pega": 4.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    191.0,
+    196.0,
+    12.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 40,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_guia_0",
+   "tipo": "M3x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede em volta da rosca 2.0 mm",
+    "parede em volta da rosca 2.0 mm"
+   ],
+   "p0": [
+    186.0,
+    195.5,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_guia_1",
+   "tipo": "M3x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede em volta da rosca 2.0 mm",
+    "parede em volta da rosca 2.0 mm"
+   ],
+   "p0": [
+    196.0,
+    195.5,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "orelha_parede",
+   "tipo": "madeira 3,5x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Gabinete",
+   "pega": 11.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    205.0,
+    116.5,
+    405.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_baixo_0",
+   "tipo": "M2x12",
+   "etapa": 1,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa inferior",
+   "pega": 20.0,
+   "acesso": [
+    "Guia impressa inferior",
+    "Gabinete"
+   ],
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    182.15,
+    13.6
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_baixo_1",
+   "tipo": "M2x12",
+   "etapa": 1,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa inferior",
+   "pega": 28.0,
+   "acesso": [
+    "Guia impressa inferior",
+    "Gabinete"
+   ],
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    191.65,
+    13.6
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_cima_0",
+   "tipo": "M2x12",
+   "etapa": 3,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "acesso": [
+    "Guia impressa superior",
+    "Gabinete"
+   ],
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    182.15,
+    406.9
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_cima_1",
+   "tipo": "M2x12",
+   "etapa": 3,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa superior",
+   "pega": 28.0,
+   "acesso": [
+    "Guia impressa superior",
+    "Gabinete"
+   ],
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    191.65,
+    406.9
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_tubo_0",
+   "tipo": "M3x12",
+   "etapa": 7,
+   "prende": "Suporte do motor",
+   "rosca": "Tubo superior",
+   "pega": 8.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede em volta da rosca 2.5 mm"
+   ],
+   "p0": [
+    176.0,
+    145.0,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_tubo_1",
+   "tipo": "M3x12",
+   "etapa": 7,
+   "prende": "Suporte do motor",
+   "rosca": "Tubo superior",
+   "pega": 8.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede em volta da rosca 2.5 mm"
+   ],
+   "p0": [
+    205.0,
+    145.0,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "tubo_base_0",
+   "tipo": "M3x10",
+   "etapa": 7,
+   "prende": "Tubo inferior",
+   "rosca": "Base",
+   "pega": 5.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede em volta da rosca 2.5 mm"
+   ],
+   "p0": [
+    192.0,
+    124.5,
+    9.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "tubo_base_1",
+   "tipo": "M3x10",
+   "etapa": 7,
+   "prende": "Tubo inferior",
+   "rosca": "Base",
+   "pega": 5.0,
+   "acesso": [],
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede em volta da rosca 7.0 mm"
+   ],
+   "p0": [
+    201.5,
+    124.5,
+    9.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  }
+ ],
+ "correia": {
+  "comprimento": 833.0,
+  "compra": "GT2 6 mm aberta, 1 m (corta em ~835 mm)",
+  "pega_presilha": 8.0,
+  "presilhas_z": [
+   [
+    13,
+    21
+   ],
+   [
+    29,
+    37
+   ]
+  ],
+  "curso": [
+   18.82,
+   357.21
+  ],
+  "folga_polia_cima": 0.5,
+  "folga_polia_baixo": 0.5,
+  "folga_ramo_livre": 1.5,
+  "trilho_sobra_cima": 1.1,
+  "trilho_sobra_baixo": 1.0
+ },
+ "comporta": {
+  "casos": {
+   "nominal": {
+    "lamina_baixa_topo_vs_fila": -3.1,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.8,
+     142.7,
+     31.53
+    ],
+    "bola3": [
+     165.46,
+     143.25,
+     33.3
+    ],
+    "folga_lamina_bola_no_berco": 0.68,
+    "folga_lamina_bola_seguinte": 0.8,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.77,
+    "degrau_mm": 6.46,
+    "forca_para_pular_N": 1.17,
+    "empurrao_fila_N": 0.34,
+    "fs_segurar": 3.4,
+    "torque_servo_Nmm": 1.5,
+    "fs_servo": 144.0,
+    "fs_afastar": 5.7
+   },
+   "lamina ajustada +0,3, bolas grandes": {
+    "lamina_baixa_topo_vs_fila": -3.14,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.75,
+     142.7,
+     31.58
+    ],
+    "bola3": [
+     165.31,
+     143.25,
+     33.36
+    ],
+    "folga_lamina_bola_no_berco": 0.33,
+    "folga_lamina_bola_seguinte": 1.18,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.77,
+    "degrau_mm": 6.48,
+    "forca_para_pular_N": 1.16,
+    "empurrao_fila_N": 0.34,
+    "fs_segurar": 3.4,
+    "torque_servo_Nmm": 1.55,
+    "fs_servo": 139.0,
+    "fs_afastar": 5.7
+   },
+   "lamina ajustada -0,3, bolas pequenas": {
+    "lamina_baixa_topo_vs_fila": -3.06,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.85,
+     142.7,
+     31.48
+    ],
+    "bola3": [
+     165.61,
+     143.25,
+     33.24
+    ],
+    "folga_lamina_bola_no_berco": 1.04,
+    "folga_lamina_bola_seguinte": 0.42,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.77,
+    "degrau_mm": 6.45,
+    "forca_para_pular_N": 1.17,
+    "empurrao_fila_N": 0.34,
+    "fs_segurar": 3.4,
+    "torque_servo_Nmm": 1.45,
+    "fs_servo": 149.0,
+    "fs_afastar": 5.7
+   },
+   "berco grande, seguinte pequena, lamina +0,3": {
+    "lamina_baixa_topo_vs_fila": -3.1,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.45,
+     142.7,
+     31.59
+    ],
+    "bola3": [
+     165.09,
+     143.25,
+     33.27
+    ],
+    "folga_lamina_bola_no_berco": 0.33,
+    "folga_lamina_bola_seguinte": 1.17,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.78,
+    "degrau_mm": 6.47,
+    "forca_para_pular_N": 1.17,
+    "empurrao_fila_N": 0.34,
+    "fs_segurar": 3.4,
+    "torque_servo_Nmm": 1.5,
+    "fs_servo": 144.0,
+    "fs_afastar": 5.7
+   },
+   "berco pequena, seguinte grande, lamina -0,3": {
+    "lamina_baixa_topo_vs_fila": -3.1,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     191.15,
+     142.7,
+     31.47
+    ],
+    "bola3": [
+     165.81,
+     143.25,
+     33.32
+    ],
+    "folga_lamina_bola_no_berco": 1.03,
+    "folga_lamina_bola_seguinte": 0.45,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.76,
+    "degrau_mm": 6.46,
+    "forca_para_pular_N": 1.16,
+    "empurrao_fila_N": 0.34,
+    "fs_segurar": 3.4,
+    "torque_servo_Nmm": 1.5,
+    "fs_servo": 144.0,
+    "fs_afastar": 5.7
+   },
+   "sem ajuste: lamina +0,6": {
+    "lamina_baixa_topo_vs_fila": -3.18,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.75,
+     142.7,
+     31.58
+    ],
+    "bola3": [
+     165.31,
+     143.25,
+     33.36
+    ],
+    "folga_lamina_bola_no_berco": 0.05,
+    "folga_lamina_bola_seguinte": 1.44,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.77,
+    "degrau_mm": 6.5,
+    "forca_para_pular_N": 1.17,
+    "empurrao_fila_N": 0.34,
+    "fs_segurar": 3.4,
+    "torque_servo_Nmm": 1.6,
+    "fs_servo": 135.0,
+    "fs_afastar": 5.7
+   },
+   "sem ajuste: lamina -0,6": {
+    "lamina_baixa_topo_vs_fila": -3.02,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.85,
+     142.7,
+     31.48
+    ],
+    "bola3": [
+     165.61,
+     143.25,
+     33.24
+    ],
+    "folga_lamina_bola_no_berco": 1.32,
+    "folga_lamina_bola_seguinte": 0.16,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.77,
+    "degrau_mm": 6.42,
+    "forca_para_pular_N": 1.16,
+    "empurrao_fila_N": 0.34,
+    "fs_segurar": 3.4,
+    "torque_servo_Nmm": 1.39,
+    "fs_servo": 155.0,
+    "fs_afastar": 5.7
+   },
+   "degrau 0,4 / fila 3 graus": {
+    "lamina_baixa_topo_vs_fila": -3.1,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.8,
+     142.7,
+     31.93
+    ],
+    "bola3": [
+     165.42,
+     143.25,
+     33.15
+    ],
+    "folga_lamina_bola_no_berco": 0.83,
+    "folga_lamina_bola_seguinte": 0.77,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.77,
+    "degrau_mm": 6.59,
+    "forca_para_pular_N": 1.2,
+    "empurrao_fila_N": 0.27,
+    "fs_segurar": 4.4,
+    "torque_servo_Nmm": 1.5,
+    "fs_servo": 144.0,
+    "fs_afastar": 7.1
+   },
+   "degrau 1,2 / fila 5 graus": {
+    "lamina_baixa_topo_vs_fila": -3.1,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.8,
+     142.7,
+     31.13
+    ],
+    "bola3": [
+     165.5,
+     143.25,
+     33.44
+    ],
+    "folga_lamina_bola_no_berco": 0.54,
+    "folga_lamina_bola_seguinte": 0.83,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.77,
+    "degrau_mm": 6.34,
+    "forca_para_pular_N": 1.13,
+    "empurrao_fila_N": 0.41,
+    "fs_segurar": 2.8,
+    "torque_servo_Nmm": 1.5,
+    "fs_servo": 144.0,
+    "fs_afastar": 4.8
+   },
+   "berco 7 graus / 1,3 graus": {
+    "lamina_baixa_topo_vs_fila": -3.1,
+    "lamina_alta_topo_vs_fila": 7.0,
+    "bola2": [
+     190.8,
+     142.7,
+     31.66
+    ],
+    "bola3": [
+     165.44,
+     143.25,
+     33.3
+    ],
+    "folga_lamina_bola_no_berco": 0.73,
+    "folga_lamina_bola_seguinte": 0.82,
+    "afastar_bola_seguinte_mm": 0.0,
+    "forca_ponta_servo_N": 2.77,
+    "degrau_mm": 6.46,
+    "forca_para_pular_N": 1.17,
+    "empurrao_fila_N": 0.34,
+    "fs_segurar": 3.4,
+    "torque_servo_Nmm": 1.5,
+    "fs_servo": 144.0,
+    "fs_afastar": 5.7
+   }
+  },
+  "pior_folga": 0.05,
+  "pior_fs_segurar": 2.8,
+  "pior_afastar": 0.0,
+  "sequencia": [
+   "cabine no fundo, lamina baixa: uma bola rola para o berco (sensor confirma)",
+   "servo levanta a lamina no vao entre a bola do berco e a seguinte",
+   "cabine sobe; a fila fica presa na lamina",
+   "cabine volta ao fundo; servo baixa a lamina; a proxima bola entra"
+  ]
+ },
+ "impressao": [
+  {
+   "peca": "Base",
+   "dims": [
+    87.0,
+    38.0,
+    19.0
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Batente",
+   "dims": [
+    23.8,
+    13.0,
+    5.0
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Guia impressa inferior",
+   "dims": [
+    195.0,
+    33.0,
+    22.5
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Guia impressa superior",
+   "dims": [
+    213.0,
+    33.0,
+    22.5
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Cabine",
+   "dims": [
+    59.0,
+    47.3,
+    32.0
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Espacador",
+   "dims": [
+    5.0,
+    5.0,
+    4.0
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Suporte do motor",
+   "dims": [
+    93.0,
+    38.0,
+    22.0
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Tubo inferior",
+   "dims": [
+    195.0,
+    51.5,
+    32.5
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Tubo superior",
+   "dims": [
+    215.0,
+    44.5,
+    37.0
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Fila",
+   "dims": [
+    157.5,
+    59.0,
+    30.5
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Rampa",
+   "dims": [
+    70.1,
+    33.4,
+    32.5
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Suporte do servo",
+   "dims": [
+    32.0,
+    28.5,
+    21.0
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  },
+  {
+   "peca": "Braco da comporta",
+   "dims": [
+    83.6,
+    38.0,
+    16.0
+   ],
+   "cabe": [
+    "260 x 260 x 250",
+    "220 x 220 x 250"
+   ],
+   "ok": true
+  }
+ ],
+ "envelope": {
+  "min": [
+   172.0,
+   106.0,
+   0.0
+  ],
+  "max": [
+   210.0,
+   199.0,
+   419.0
+  ],
+  "ok": true,
+  "limite": "X 172..210 (faixa direita, fora da janela), Y ate 200 (tela), Z 0..420"
+ },
+ "interferencias": {
+  "ruins": [],
+  "previstas": 13,
+  "ok": true
+ },
+ "atrito": {
+  "massa_cabine_g": 19.3,
+  "altura_C_mm": 40.0,
+  "braco_correia_mm": 14.0,
+  "folga_por_lado_mm": 0.5,
+  "casos": [
+   {
+    "mu": 0.15,
+    "situacao": "PETG com spray de PTFE ou grafite",
+    "forca_subir_N": 1.0,
+    "fs_motor": 8.0,
+    "indice_trava": 0.11,
+    "trava": false
+   },
+   {
+    "mu": 0.3,
+    "situacao": "PETG liso, lubrificado com vaselina",
+    "forca_subir_N": 1.14,
+    "fs_motor": 7.0,
+    "indice_trava": 0.21,
+    "trava": false
+   },
+   {
+    "mu": 0.5,
+    "situacao": "PETG seco, pior caso",
+    "forca_subir_N": 1.31,
+    "fs_motor": 6.1,
+    "indice_trava": 0.35,
+    "trava": false
+   }
+  ],
+  "inclinacao_max_graus": 1.43,
+  "balanco_na_frente_do_berco_mm": 1.31
+ }
+}

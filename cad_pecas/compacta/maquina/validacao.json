@@ -1,0 +1,5670 @@
+{
+ "interferencias": {
+  "ok": true,
+  "ruins": [],
+  "n_ruins": 0,
+  "previstas": 41,
+  "encostam": 201,
+  "pares": 28441
+ },
+ "parafusos": [
+  {
+   "nome": "base_guia_0",
+   "tipo": "M3x12",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Guia impressa inferior",
+   "pega": 14.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    186.0,
+    195.5,
+    0.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_guia_1",
+   "tipo": "M3x12",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Guia impressa inferior",
+   "pega": 14.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    196.0,
+    195.5,
+    0.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_chao_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Gabinete",
+   "pega": 11.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    193.0,
+    116.0,
+    5.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_chao_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Gabinete",
+   "pega": 11.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    205.0,
+    116.0,
+    5.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "eixo_polia_baixo",
+   "tipo": "M3x40",
+   "etapa": 4,
+   "prende": "Guia impressa inferior",
+   "rosca": "Base",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    191.0,
+    196.0,
+    12.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 40,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_guia_0",
+   "tipo": "M3x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    186.0,
+    195.5,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_guia_1",
+   "tipo": "M3x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    196.0,
+    195.5,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "orelha_parede",
+   "tipo": "madeira 3,5x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Gabinete",
+   "pega": 11.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    205.0,
+    116.5,
+    405.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_baixo_0",
+   "tipo": "M2x12",
+   "etapa": 1,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa inferior",
+   "pega": 20.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    182.15,
+    13.6
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_baixo_1",
+   "tipo": "M2x12",
+   "etapa": 1,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa inferior",
+   "pega": 28.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    191.65,
+    13.6
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_cima_0",
+   "tipo": "M2x12",
+   "etapa": 3,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    182.15,
+    406.9
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_cima_1",
+   "tipo": "M2x12",
+   "etapa": 3,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa superior",
+   "pega": 28.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    191.65,
+    406.9
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_tubo_0",
+   "tipo": "M3x12",
+   "etapa": 7,
+   "prende": "Suporte do motor",
+   "rosca": "Tubo superior",
+   "pega": 8.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    176.0,
+    145.0,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_tubo_1",
+   "tipo": "M3x12",
+   "etapa": 7,
+   "prende": "Suporte do motor",
+   "rosca": "Tubo superior",
+   "pega": 8.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    205.0,
+    145.0,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "tubo_base_0",
+   "tipo": "M3x10",
+   "etapa": 7,
+   "prende": "Tubo inferior",
+   "rosca": "Base",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    192.0,
+    124.5,
+    9.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "tubo_base_1",
+   "tipo": "M3x10",
+   "etapa": 7,
+   "prende": "Tubo inferior",
+   "rosca": "Base",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    201.5,
+    124.5,
+    9.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "rampa_parede_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 8,
+   "prende": "Rampa",
+   "rosca": "Gabinete",
+   "pega": 14.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    208.0,
+    75.0,
+    364.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "rampa_parede_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 8,
+   "prende": "Rampa",
+   "rosca": "Gabinete",
+   "pega": 14.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    208.0,
+    115.0,
+    364.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fila_piso_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 8,
+   "prende": "Fila",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -22.0,
+    160.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fila_piso_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 8,
+   "prende": "Fila",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    156.0,
+    160.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "filaE_piso_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Fila esquerda",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -194.0,
+    160.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "filaE_piso_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Fila esquerda",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -49.0,
+    160.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_esq_A_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco esquerdo",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -203.0,
+    39.0,
+    402.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_esq_A_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco esquerdo",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -203.0,
+    39.0,
+    414.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_esq_A_0",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco esquerdo",
+   "rosca": "Perfil 2020 A",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -191.0,
+    4.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_esq_A_1",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco esquerdo",
+   "rosca": "Perfil 2020 A",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -197.0,
+    4.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_dir_A_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    203.0,
+    39.0,
+    402.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_dir_A_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    203.0,
+    39.0,
+    414.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_dir_A_0",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco direito",
+   "rosca": "Perfil 2020 A",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    191.0,
+    4.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_dir_A_1",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco direito",
+   "rosca": "Perfil 2020 A",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    197.0,
+    4.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_0",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -187.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_1",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -162.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_2",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -137.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_3",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -112.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_4",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -87.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_5",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -62.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_6",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -37.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_7",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -12.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_8",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    12.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_9",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    37.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_10",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    62.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_11",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    87.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_12",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    112.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_13",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    137.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_14",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    162.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_15",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    187.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_A_0",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "NEMA 17 A",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -199.5,
+    6.5,
+    372.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_A_1",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "NEMA 17 A",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -168.5,
+    6.5,
+    372.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_A_2",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "NEMA 17 A",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -168.5,
+    37.5,
+    372.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_A_3",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "NEMA 17 A",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -199.5,
+    37.5,
+    372.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_A_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    8.0,
+    306.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_A_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    36.0,
+    306.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_A_2",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    22.0,
+    318.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "eixo_tens_A",
+   "tipo": "M5x25 + porca nylon",
+   "etapa": 11,
+   "prende": "Bloco direito",
+   "rosca": "Bloco direito",
+   "pega": 8.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    195.0,
+    22.0,
+    391.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 25,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_A_0",
+   "tipo": "M2x12",
+   "etapa": 9,
+   "prende": "Fim de curso",
+   "rosca": "Bloco esquerdo",
+   "pega": 5.6,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -197.1,
+    44.4,
+    381.15
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_A_1",
+   "tipo": "M2x12",
+   "etapa": 9,
+   "prende": "Fim de curso",
+   "rosca": "Bloco esquerdo",
+   "pega": 5.6,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -197.1,
+    44.4,
+    390.65
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_esq_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco esquerdo",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -203.0,
+    39.0,
+    78.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_esq_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco esquerdo",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -203.0,
+    39.0,
+    90.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_esq_B_0",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco esquerdo",
+   "rosca": "Perfil 2020 B",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -191.0,
+    4.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_esq_B_1",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco esquerdo",
+   "rosca": "Perfil 2020 B",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -197.0,
+    4.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_dir_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    203.0,
+    39.0,
+    78.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_dir_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    203.0,
+    39.0,
+    90.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_dir_B_0",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco direito",
+   "rosca": "Perfil 2020 B",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    191.0,
+    4.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_dir_B_1",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco direito",
+   "rosca": "Perfil 2020 B",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    197.0,
+    4.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_0",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -187.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_1",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -162.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_2",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -137.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_3",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -112.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_4",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -87.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_5",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -62.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_6",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -37.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_7",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -12.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_8",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    12.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_9",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    37.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_10",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    62.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_11",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    87.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_12",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    112.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_13",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    137.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_14",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    162.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_15",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    187.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_B_0",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "NEMA 17 B",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -199.5,
+    6.5,
+    48.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_B_1",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "NEMA 17 B",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -168.5,
+    6.5,
+    48.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_B_2",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "NEMA 17 B",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -168.5,
+    37.5,
+    48.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_B_3",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "NEMA 17 B",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -199.5,
+    37.5,
+    48.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -183.0,
+    47.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -170.0,
+    47.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_parede_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    47.3,
+    14.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_parede_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    47.3,
+    36.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "eixo_tens_B",
+   "tipo": "M5x25 + porca nylon",
+   "etapa": 11,
+   "prende": "Bloco direito",
+   "rosca": "Bloco direito",
+   "pega": 8.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    195.0,
+    22.0,
+    67.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 25,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_B_0",
+   "tipo": "M2x12",
+   "etapa": 9,
+   "prende": "Fim de curso",
+   "rosca": "Bloco esquerdo",
+   "pega": 5.6,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -197.1,
+    44.4,
+    57.15
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_B_1",
+   "tipo": "M2x12",
+   "etapa": 9,
+   "prende": "Fim de curso",
+   "rosca": "Bloco esquerdo",
+   "pega": 5.6,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -197.1,
+    44.4,
+    66.65
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "carroA_patim_0",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Patim MGN12H A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    46.0,
+    395.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "carroA_patim_1",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Patim MGN12H A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    10.0,
+    46.0,
+    395.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "carroA_patim_2",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Patim MGN12H A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    10.0,
+    46.0,
+    415.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "carroA_patim_3",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Patim MGN12H A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    46.0,
+    415.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "carroB_patim_0",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro B",
+   "rosca": "Patim MGN12H B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    46.0,
+    71.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "carroB_patim_1",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro B",
+   "rosca": "Patim MGN12H B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    10.0,
+    46.0,
+    71.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "carroB_patim_2",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro B",
+   "rosca": "Patim MGN12H B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    10.0,
+    46.0,
+    91.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "carroB_patim_3",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro B",
+   "rosca": "Patim MGN12H B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    46.0,
+    91.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "anel_placa_0",
+   "tipo": "M3x12 + porca",
+   "etapa": 13,
+   "prende": "Anel",
+   "rosca": "Carro B",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -16.0,
+    50.0,
+    60.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "anel_placa_1",
+   "tipo": "M3x12 + porca",
+   "etapa": 13,
+   "prende": "Anel",
+   "rosca": "Carro B",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    16.0,
+    50.0,
+    60.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "anel_placa_2",
+   "tipo": "M3x12 + porca",
+   "etapa": 13,
+   "prende": "Anel",
+   "rosca": "Carro B",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -16.0,
+    50.0,
+    99.92125663553304
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "anel_placa_3",
+   "tipo": "M3x12 + porca",
+   "etapa": 13,
+   "prende": "Anel",
+   "rosca": "Carro B",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    16.0,
+    50.0,
+    99.92125663553304
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "ima",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Eletroima P20/15",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    26.0,
+    73.7,
+    392.62125663553303
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "gancho_teto_0_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -179.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_0_0",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -179.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_0_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -171.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_0_1",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -171.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_1_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -4.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_1_0",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -8.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_1_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    4.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_1_1",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    8.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_2_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    146.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_2_0",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    146.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_2_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    154.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_2_1",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    154.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "est_fixaA_0",
+   "tipo": "M3x16 + porca",
+   "etapa": 13,
+   "prende": "Ponta fixa da esteira",
+   "rosca": "Prateleira da esteira",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -22.349999999999994,
+    92.0,
+    410.5
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "est_fixaA_1",
+   "tipo": "M3x16 + porca",
+   "etapa": 13,
+   "prende": "Ponta fixa da esteira",
+   "rosca": "Prateleira da esteira",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -16.349999999999994,
+    92.0,
+    410.5
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "est_fixaB_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Ponta fixa da esteira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -24.5,
+    6.0,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "est_fixaB_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Ponta fixa da esteira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -18.5,
+    6.0,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_0_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja esquerda",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -145.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_0_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja esquerda",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -50.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_1_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja do meio",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_1_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja do meio",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    80.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_2_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja direita",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    138.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_2_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja direita",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    167.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  }
+ ],
+ "bola": {
+  "bolso": {
+   "centro": [
+    193.3,
+    72.7,
+    358.92
+   ],
+   "toques": {
+    "rampa_bolso": -0.0,
+    "rampa_dir": -0.0,
+    "eva_bolso": -0.0
+   },
+   "ok": true,
+   "empurra_direita_N": 0.017,
+   "empurra_frente_N": -0.069
+  },
+  "pega": {
+   "ima_ate_bola": 1.0,
+   "gap_pedido": 1.0,
+   "resto_min": 10.23,
+   "ok": true
+  },
+  "levando": {
+   "folga_min": 0.78,
+   "com": "rampa_bolso",
+   "c": 163.3,
+   "ok": true
+  },
+  "queda": {
+   "pouso_x": [
+    -143.1,
+    142.4
+   ],
+   "voo_ms": 246,
+   "v_max": 314,
+   "trajetorias": 98,
+   "ruins": [],
+   "ok": true
+  },
+  "anel": {
+   "casos": {
+    "0.0": "passa limpa",
+    "3.0": "passa limpa",
+    "6.25": "passa limpa",
+    "7.3": "bate em anel_flange (Z 114.6)",
+    "12.0": "bate em anel_flange (Z 120.1)",
+    "20.0": "bate em anel_flange (Z 122.1)",
+    "30.0": "bate em ir_dir (Z 122.1)"
+   },
+   "furo": 38.0,
+   "ir_z": 95.4,
+   "ok": true
+  },
+  "bandeja": {
+   "folga_bola_anel": 3.24,
+   "juntas_mm": 0.0,
+   "labio_min": 1.0,
+   "parede_alta_sobra": 5.08,
+   "x_entrada_max": 39.9,
+   "pontos": 287,
+   "falhas": [],
+   "ok": true
+  },
+  "fila": {
+   "sempre_desce": true,
+   "capacidade_bolas": 14,
+   "bolas_na_maquina": 8,
+   "ok": true
+  }
+ },
+ "envelope": {
+  "min": [
+   -210.0,
+   0.5,
+   0.0
+  ],
+  "max": [
+   210.0,
+   199.0,
+   420.0
+  ],
+  "fora": [],
+  "ok": true
+ },
+ "janela": {
+  "z": [
+   109.9,
+   347.2
+  ],
+  "x": [
+   -162.8,
+   172.0
+  ],
+  "tamanho": [
+   335,
+   237
+  ],
+  "bloqueia": [
+   "NEMA 17 A",
+   "Suporte do NEMA de cima"
+  ]
+ },
+ "varredura": {
+  "ok": true,
+  "linhas": [
+   {
+    "a": "presilha_A",
+    "pa": "Carro A",
+    "b": "correia_tras_A",
+    "pb": "Correia A",
+    "folga": -3.57,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a correia passa na fenda dentada da presilha"
+   },
+   {
+    "a": "presilha_B",
+    "pa": "Carro B",
+    "b": "correia_tras_B",
+    "pb": "Correia B",
+    "folga": -3.57,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a correia passa na fenda dentada da presilha"
+   },
+   {
+    "a": "aloj_dir_b",
+    "pa": "Cabine",
+    "b": "fdc_baixo_alav",
+    "pb": "Fim de curso",
+    "folga": -0.6,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": "fim de curso de baixo: a cabine aperta a alavanca no batente"
+   },
+   {
+    "a": "aloj_dir_b",
+    "pa": "Cabine",
+    "b": "fdc_cima_alav",
+    "pb": "Fim de curso",
+    "folga": -0.01,
+    "onde": {
+     "zc": 356.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": "fim de curso de cima: a cabine aperta a alavanca no topo"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "ponta_estA",
+    "pb": "Carro A",
+    "folga": -0.0,
+    "onde": {
+     "cA": 132.0,
+     "cB": -159.0
+    },
+    "ok": true,
+    "nota": "elo da ponta da esteira preso no suporte"
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "est_fixaA",
+    "pb": "Ponta fixa da esteira",
+    "folga": -0.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "elo da ponta da esteira preso no suporte"
+   },
+   {
+    "a": "est_fixB",
+    "pa": "Esteira B",
+    "b": "est_fixaB",
+    "pb": "Ponta fixa da esteira",
+    "folga": -0.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "elo da ponta da esteira preso no suporte"
+   },
+   {
+    "a": "est_movB",
+    "pa": "Esteira B",
+    "b": "ponta_estB",
+    "pb": "Carro B",
+    "folga": -0.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "elo da ponta da esteira preso no suporte"
+   },
+   {
+    "a": "est_curvaB_0",
+    "pa": "Esteira B",
+    "b": "piso",
+    "pb": "Gabinete",
+    "folga": 0.16,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o ramo de baixo da esteira B fica no piso"
+   },
+   {
+    "a": "placaA",
+    "pa": "Carro A",
+    "b": "fdc_alav_A",
+    "pb": "Fim de curso",
+    "folga": 0.2,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "fim de curso do eixo A: a placa aperta a alavanca na casa"
+   },
+   {
+    "a": "placaB",
+    "pa": "Carro B",
+    "b": "fdc_alav_B",
+    "pb": "Fim de curso",
+    "folga": 0.2,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "fim de curso do eixo B: a placa aperta a alavanca na casa"
+   },
+   {
+    "a": "patim_topo_A",
+    "pa": "Patim MGN12H A",
+    "b": "trilho_A",
+    "pb": "Trilho MGN12 A",
+    "folga": 0.2,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o patim abraca o trilho"
+   },
+   {
+    "a": "patim_topo_B",
+    "pa": "Patim MGN12H B",
+    "b": "trilho_B",
+    "pb": "Trilho MGN12 B",
+    "folga": 0.2,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o patim abraca o trilho"
+   },
+   {
+    "a": "patim_fl1_A",
+    "pa": "Patim MGN12H A",
+    "b": "trilho_A",
+    "pb": "Trilho MGN12 A",
+    "folga": 0.4,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o patim abraca o trilho"
+   },
+   {
+    "a": "patim_fl2_A",
+    "pa": "Patim MGN12H A",
+    "b": "trilho_A",
+    "pb": "Trilho MGN12 A",
+    "folga": 0.4,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o patim abraca o trilho"
+   },
+   {
+    "a": "patim_fl1_B",
+    "pa": "Patim MGN12H B",
+    "b": "trilho_B",
+    "pb": "Trilho MGN12 B",
+    "folga": 0.4,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o patim abraca o trilho"
+   },
+   {
+    "a": "patim_fl2_B",
+    "pa": "Patim MGN12H B",
+    "b": "trilho_B",
+    "pb": "Trilho MGN12 B",
+    "folga": 0.4,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o patim abraca o trilho"
+   },
+   {
+    "a": "patim_topo_A",
+    "pa": "Patim MGN12H A",
+    "b": "fdc_alav_A",
+    "pb": "Fim de curso",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -147.0,
+     "cB": -147.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -147.0,
+     "cB": -147.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_0",
+    "pa": "Esteira A",
+    "b": "prat_estA_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_0",
+    "pa": "Esteira A",
+    "b": "prat_estA_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_1",
+    "pa": "Esteira A",
+    "b": "prat_estA_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_1",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_1",
+    "pa": "Esteira A",
+    "b": "prat_estA_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_1",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_1",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -84.0,
+     "cB": -84.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_1",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 6.0,
+     "cB": 6.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_1",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 93.0,
+     "cB": 93.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_2",
+    "pa": "Esteira A",
+    "b": "prat_estA_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_2",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_2",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -105.0,
+     "cB": -105.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_2",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -15.0,
+     "cB": -15.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_2",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 75.0,
+     "cB": 75.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_2",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 165.0,
+     "cB": -126.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_3",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_3",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -108.0,
+     "cB": -108.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_3",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -21.0,
+     "cB": -21.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_3",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 69.0,
+     "cB": 69.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_3",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 159.0,
+     "cB": -132.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_4",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_4",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -108.0,
+     "cB": -108.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_4",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -21.0,
+     "cB": -21.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_4",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 69.0,
+     "cB": 69.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_4",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 159.0,
+     "cB": -132.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_5",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_5",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_5",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -105.0,
+     "cB": -105.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_5",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -15.0,
+     "cB": -15.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_5",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 75.0,
+     "cB": 75.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_5",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 165.0,
+     "cB": -126.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_6",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_6",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_6",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_6",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_6",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -84.0,
+     "cB": -84.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_6",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 6.0,
+     "cB": 6.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_6",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": 93.0,
+     "cB": 93.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "patim_topo_B",
+    "pa": "Patim MGN12H B",
+    "b": "fdc_alav_B",
+    "pb": "Fim de curso",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_fixB",
+    "pa": "Esteira B",
+    "b": "piso",
+    "pb": "Gabinete",
+    "folga": 0.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o ramo de baixo da esteira B fica no piso"
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "frente_b",
+    "pb": "Tubo inferior",
+    "folga": 0.57,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "frente_sup",
+    "pb": "Tubo superior",
+    "folga": 0.57,
+    "onde": {
+     "zc": 204.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "frente_c",
+    "pb": "Tubo inferior",
+    "folga": 0.63,
+    "onde": {
+     "zc": 28.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_aba_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.64,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_aba_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.64,
+    "onde": {
+     "cA": -147.0,
+     "cB": -147.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaA_0",
+    "pa": "Esteira A",
+    "b": "placaA",
+    "pb": "Carro A",
+    "folga": 0.64,
+    "onde": {
+     "cA": 90.0,
+     "cB": 90.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponte_B",
+    "pa": "Carro B",
+    "b": "correia_tras_B",
+    "pb": "Correia B",
+    "folga": 0.8,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponte_A",
+    "pa": "Carro A",
+    "b": "correia_tras_A",
+    "pb": "Correia A",
+    "folga": 0.8,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponte",
+    "pa": "Braco da comporta",
+    "b": "fila_piso",
+    "pb": "Fila",
+    "folga": 0.87,
+    "onde": {
+     "th": 5.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_barra",
+    "pa": "Braco da comporta",
+    "b": "piso",
+    "pb": "Gabinete",
+    "folga": 0.88,
+    "onde": {
+     "th": 7.5
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaA_2",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_5",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_0",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_0",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": -159.0,
+     "cB": -159.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_0",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": -72.0,
+     "cB": -72.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_0",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": 18.0,
+     "cB": 18.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_0",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": 108.0,
+     "cB": 108.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": -159.0,
+     "cB": -159.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": -72.0,
+     "cB": -72.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": 18.0,
+     "cB": 18.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_7",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 0.89,
+    "onde": {
+     "cA": 108.0,
+     "cB": 108.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "patim_fl2_A",
+    "pa": "Patim MGN12H A",
+    "b": "tens_cima_A",
+    "pb": "Bloco direito",
+    "folga": 1.0,
+    "onde": {
+     "cA": 162.0,
+     "cB": -129.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_fl2_A",
+    "pa": "Patim MGN12H A",
+    "b": "polia_A",
+    "pb": "Polia GT2 20T A",
+    "folga": 1.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "placaA",
+    "pa": "Carro A",
+    "b": "prat_estA_0",
+    "pb": "Prateleira da esteira",
+    "folga": 1.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "placaA",
+    "pa": "Carro A",
+    "b": "prat_estA_1",
+    "pb": "Prateleira da esteira",
+    "folga": 1.0,
+    "onde": {
+     "cA": -30.0,
+     "cB": -30.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_0",
+    "pb": "Prateleira da esteira",
+    "folga": 1.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_1",
+    "pb": "Prateleira da esteira",
+    "folga": 1.0,
+    "onde": {
+     "cA": 15.0,
+     "cB": 15.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_aba_0",
+    "pb": "Prateleira da esteira",
+    "folga": 1.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_aba_1",
+    "pb": "Prateleira da esteira",
+    "folga": 1.0,
+    "onde": {
+     "cA": -150.0,
+     "cB": -150.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "placaA",
+    "pb": "Carro A",
+    "folga": 1.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_fl2_B",
+    "pa": "Patim MGN12H B",
+    "b": "polia_B",
+    "pb": "Polia GT2 20T B",
+    "folga": 1.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "placaB",
+    "pa": "Carro B",
+    "b": "sup_nema_placa_B",
+    "pb": "Suporte do NEMA de baixo",
+    "folga": 1.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_frente_0",
+    "pb": "Bandeja esquerda",
+    "folga": 1.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_frente_1",
+    "pb": "Bandeja do meio",
+    "folga": 1.0,
+    "onde": {
+     "cA": -18.0,
+     "cB": -48.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_frente_2",
+    "pb": "Bandeja direita",
+    "folga": 1.0,
+    "onde": {
+     "cA": 24.0,
+     "cB": 102.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_c",
+    "pa": "Cabine",
+    "b": "fdc_baixo_alav",
+    "pb": "Fim de curso",
+    "folga": 1.0,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_c",
+    "pa": "Cabine",
+    "b": "fdc_cima_alav",
+    "pb": "Fim de curso",
+    "folga": 1.0,
+    "onde": {
+     "zc": 356.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_e",
+    "pa": "Cabine",
+    "b": "fdc_baixo_alav",
+    "pb": "Fim de curso",
+    "folga": 1.0,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_e",
+    "pa": "Cabine",
+    "b": "fdc_cima_alav",
+    "pb": "Fim de curso",
+    "folga": 1.0,
+    "onde": {
+     "zc": 356.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaA_2",
+    "pa": "Esteira A",
+    "b": "prat_estA_0",
+    "pb": "Prateleira da esteira",
+    "folga": 1.01,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_5",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 1.01,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "alav_ponte",
+    "pa": "Braco da comporta",
+    "b": "fila_frente_baixo",
+    "pb": "Fila",
+    "folga": 1.16,
+    "onde": {
+     "th": 7.5
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_barra",
+    "pa": "Braco da comporta",
+    "b": "fila_frente_baixo",
+    "pb": "Fila",
+    "folga": 1.27,
+    "onde": {
+     "th": 7.5
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_nerv_0_0_0",
+    "pb": "Bandeja esquerda",
+    "folga": 1.33,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_topo_A",
+    "pa": "Patim MGN12H A",
+    "b": "teto",
+    "pb": "Gabinete",
+    "folga": 1.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_fl1_A",
+    "pa": "Patim MGN12H A",
+    "b": "teto",
+    "pb": "Gabinete",
+    "folga": 1.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "placaA",
+    "pa": "Carro A",
+    "b": "teto",
+    "pb": "Gabinete",
+    "folga": 1.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "barra_estB",
+    "pa": "Carro B",
+    "b": "correia_frente_B",
+    "pb": "Correia B",
+    "folga": 1.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "barra_estB",
+    "pa": "Carro B",
+    "b": "correia_tras_B",
+    "pb": "Correia B",
+    "folga": 1.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_movB",
+    "pa": "Esteira B",
+    "b": "barra_estB",
+    "pb": "Carro B",
+    "folga": 1.5,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_barra",
+    "pa": "Braco da comporta",
+    "b": "fila_fundo",
+    "pb": "Fila",
+    "folga": 1.5,
+    "onde": {
+     "th": 7.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_barra",
+    "pa": "Braco da comporta",
+    "b": "fila_fundo_fim",
+    "pb": "Fila",
+    "folga": 1.5,
+    "onde": {
+     "th": 0.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_nerv_0_0_0_topo",
+    "pb": "Bandeja esquerda",
+    "folga": 1.59,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_nerv_2_0_0_topo",
+    "pb": "Bandeja direita",
+    "folga": 1.73,
+    "onde": {
+     "cA": 45.0,
+     "cB": 105.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_nerv_1_4_0_topo",
+    "pb": "Bandeja do meio",
+    "folga": 1.75,
+    "onde": {
+     "cA": -18.0,
+     "cB": 96.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_nerv_0_1_topo",
+    "pb": "Bandeja esquerda",
+    "folga": 1.81,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "batente",
+    "pb": "Batente",
+    "folga": 1.89,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "prateleiraA",
+    "pa": "Carro A",
+    "b": "bloco_dir_A",
+    "pb": "Bloco direito",
+    "folga": 2.0,
+    "onde": {
+     "cA": 162.0,
+     "cB": -129.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_0_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_0_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -123.0,
+     "cB": -123.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_0_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -81.0,
+     "cB": -81.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_0_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -36.0,
+     "cB": -36.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 9.0,
+     "cB": 9.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 15.0,
+     "cB": 15.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 60.0,
+     "cB": 60.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 105.0,
+     "cB": 105.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 150.0,
+     "cB": -141.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -162.0,
+     "cB": -162.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -150.0,
+     "cB": -150.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -60.0,
+     "cB": -60.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 30.0,
+     "cB": 30.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_movA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 120.0,
+     "cB": 120.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_estA_0_trav_4",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -159.0,
+     "cB": -159.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -147.0,
+     "cB": -147.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_1",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -60.0,
+     "cB": -60.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_2",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 30.0,
+     "cB": 30.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_fixA",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_trav_3",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": 120.0,
+     "cB": 120.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "alav_ponte",
+    "pa": "Braco da comporta",
+    "b": "fila_frente",
+    "pb": "Fila",
+    "folga": 2.0,
+    "onde": {
+     "th": 0.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_lamina",
+    "pa": "Braco da comporta",
+    "b": "fila_frente",
+    "pb": "Fila",
+    "folga": 2.0,
+    "onde": {
+     "th": 0.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponta2",
+    "pa": "Braco da comporta",
+    "b": "fila_frente",
+    "pb": "Fila",
+    "folga": 2.0,
+    "onde": {
+     "th": 0.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponta",
+    "pa": "Braco da comporta",
+    "b": "fila_frente",
+    "pb": "Fila",
+    "folga": 2.0,
+    "onde": {
+     "th": 0.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponta_topo",
+    "pa": "Braco da comporta",
+    "b": "fila_frente",
+    "pb": "Fila",
+    "folga": 2.0,
+    "onde": {
+     "th": 0.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_topo_A",
+    "pa": "Patim MGN12H A",
+    "b": "fdc_A",
+    "pb": "Fim de curso",
+    "folga": 2.1,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_fl2_A",
+    "pa": "Patim MGN12H A",
+    "b": "fdc_A",
+    "pb": "Fim de curso",
+    "folga": 2.1,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_topo_B",
+    "pa": "Patim MGN12H B",
+    "b": "fdc_B",
+    "pb": "Fim de curso",
+    "folga": 2.1,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_fl2_B",
+    "pa": "Patim MGN12H B",
+    "b": "fdc_B",
+    "pb": "Fim de curso",
+    "folga": 2.1,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "fdc_alav_B",
+    "pb": "Fim de curso",
+    "folga": 2.2,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaB_1",
+    "pa": "Esteira B",
+    "b": "piso",
+    "pb": "Gabinete",
+    "folga": 2.22,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "o ramo de baixo da esteira B fica no piso"
+   },
+   {
+    "a": "costas",
+    "pa": "Cabine",
+    "b": "fdc_baixo",
+    "pb": "Fim de curso",
+    "folga": 2.3,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_b",
+    "pa": "Cabine",
+    "b": "fdc_baixo",
+    "pb": "Fim de curso",
+    "folga": 2.3,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_c",
+    "pa": "Cabine",
+    "b": "fdc_baixo",
+    "pb": "Fim de curso",
+    "folga": 2.3,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_e",
+    "pa": "Cabine",
+    "b": "fdc_baixo",
+    "pb": "Fim de curso",
+    "folga": 2.3,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_topo_A",
+    "pa": "Patim MGN12H A",
+    "b": "bloco_braco_A",
+    "pb": "Bloco esquerdo",
+    "folga": 2.3,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_fl2_A",
+    "pa": "Patim MGN12H A",
+    "b": "bloco_braco_A",
+    "pb": "Bloco esquerdo",
+    "folga": 2.3,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_topo_B",
+    "pa": "Patim MGN12H B",
+    "b": "bloco_braco_B",
+    "pb": "Bloco esquerdo",
+    "folga": 2.3,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "patim_fl2_B",
+    "pa": "Patim MGN12H B",
+    "b": "bloco_braco_B",
+    "pb": "Bloco esquerdo",
+    "folga": 2.3,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "esq_inf_tras",
+    "pb": "Tubo inferior",
+    "folga": 2.34,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "esq_inf_cima",
+    "pb": "Tubo inferior",
+    "folga": 2.34,
+    "onde": {
+     "zc": 56.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "esq_sup",
+    "pb": "Tubo superior",
+    "folga": 2.34,
+    "onde": {
+     "zc": 206.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "bochecha",
+    "pb": "Base",
+    "folga": 2.42,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_dir",
+    "pa": "Cabine",
+    "b": "rampa_dir",
+    "pb": "Rampa",
+    "folga": 2.5,
+    "onde": {
+     "zc": 316.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alma_esq",
+    "pa": "Cabine",
+    "b": "fila_fundo_fim",
+    "pb": "Fila",
+    "folga": 2.5,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "dir_inf",
+    "pb": "Tubo inferior",
+    "folga": 2.51,
+    "onde": {
+     "zc": 18.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "dir_sup",
+    "pb": "Tubo superior",
+    "folga": 2.51,
+    "onde": {
+     "zc": 200.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_dir",
+    "pa": "Cabine",
+    "b": "rampa",
+    "pb": "Rampa",
+    "folga": 2.56,
+    "onde": {
+     "zc": 324.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_eva_2",
+    "pb": "EVA 5 mm",
+    "folga": 2.61,
+    "onde": {
+     "cA": 24.0,
+     "cB": 102.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_dir",
+    "pa": "Cabine",
+    "b": "rampa_macico",
+    "pb": "Rampa",
+    "folga": 2.65,
+    "onde": {
+     "zc": 314.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_nerv_0_0_1_topo",
+    "pb": "Bandeja esquerda",
+    "folga": 2.68,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "rampa",
+    "pb": "Rampa",
+    "folga": 2.69,
+    "onde": {
+     "zc": 352.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_piso",
+    "pa": "Cabine",
+    "b": "rampa_dir",
+    "pb": "Rampa",
+    "folga": 2.7,
+    "onde": {
+     "zc": 342.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "rampa_dir",
+    "pb": "Rampa",
+    "folga": 2.7,
+    "onde": {
+     "zc": 346.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_piso",
+    "pa": "Cabine",
+    "b": "rampa",
+    "pb": "Rampa",
+    "folga": 2.7,
+    "onde": {
+     "zc": 348.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_piso",
+    "pa": "Cabine",
+    "b": "rampa_macico",
+    "pb": "Rampa",
+    "folga": 2.72,
+    "onde": {
+     "zc": 338.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_eva_0",
+    "pb": "EVA 5 mm",
+    "folga": 2.73,
+    "onde": {
+     "cA": 66.0,
+     "cB": -132.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_macico",
+    "pa": "Cabine",
+    "b": "rampa_macico",
+    "pb": "Rampa",
+    "folga": 2.77,
+    "onde": {
+     "zc": 342.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costas",
+    "pa": "Cabine",
+    "b": "fdc_cima",
+    "pb": "Fim de curso",
+    "folga": 2.8,
+    "onde": {
+     "zc": 356.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_b",
+    "pa": "Cabine",
+    "b": "fdc_cima",
+    "pb": "Fim de curso",
+    "folga": 2.8,
+    "onde": {
+     "zc": 356.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_c",
+    "pa": "Cabine",
+    "b": "fdc_cima",
+    "pb": "Fim de curso",
+    "folga": 2.8,
+    "onde": {
+     "zc": 356.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "aloj_dir_e",
+    "pa": "Cabine",
+    "b": "fdc_cima",
+    "pb": "Fim de curso",
+    "folga": 2.8,
+    "onde": {
+     "zc": 356.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "placaA",
+    "pa": "Carro A",
+    "b": "fdc_A",
+    "pb": "Fim de curso",
+    "folga": 2.8,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "placaB",
+    "pa": "Carro B",
+    "b": "fdc_B",
+    "pb": "Fim de curso",
+    "folga": 2.8,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaA_6",
+    "pa": "Esteira A",
+    "b": "prat_aba_1",
+    "pb": "Prateleira da esteira",
+    "folga": 2.81,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaA_1",
+    "pa": "Esteira A",
+    "b": "placaA",
+    "pb": "Carro A",
+    "folga": 2.81,
+    "onde": {
+     "cA": 108.0,
+     "cB": 108.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_placa_2",
+    "pb": "Bandeja direita",
+    "folga": 2.81,
+    "onde": {
+     "cA": 3.0,
+     "cB": 99.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "band_eva_1",
+    "pb": "EVA 5 mm",
+    "folga": 2.82,
+    "onde": {
+     "cA": -39.0,
+     "cB": -51.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_lamina",
+    "pa": "Braco da comporta",
+    "b": "fila_piso",
+    "pb": "Fila",
+    "folga": 2.83,
+    "onde": {
+     "th": 7.5
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "costasB",
+    "pa": "Anel",
+    "b": "sup_nema_placa_B",
+    "pb": "Suporte do NEMA de baixo",
+    "folga": 2.85,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "est_curvaA_3",
+    "pa": "Esteira A",
+    "b": "prat_estA_1",
+    "pb": "Prateleira da esteira",
+    "folga": 2.88,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "est_curvaA_4",
+    "pa": "Esteira A",
+    "b": "prat_estA_1_fora",
+    "pb": "Prateleira da esteira",
+    "folga": 2.88,
+    "onde": {
+     "cA": -165.0,
+     "cB": -165.0
+    },
+    "ok": true,
+    "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "berco_dir",
+    "pa": "Cabine",
+    "b": "band_eva_2",
+    "pb": "EVA 5 mm",
+    "folga": 2.96,
+    "onde": {
+     "zc": 34.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "berco_dir",
+    "pa": "Cabine",
+    "b": "band_placa_2",
+    "pb": "Bandeja direita",
+    "folga": 2.96,
+    "onde": {
+     "zc": 28.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponta2",
+    "pa": "Braco da comporta",
+    "b": "fila_piso",
+    "pb": "Fila",
+    "folga": 2.98,
+    "onde": {
+     "th": 7.5
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponta",
+    "pa": "Braco da comporta",
+    "b": "fila_piso",
+    "pb": "Fila",
+    "folga": 2.98,
+    "onde": {
+     "th": 7.5
+    },
+    "ok": true,
+    "nota": ""
+   }
+  ],
+  "segundos": 30.5,
+  "posicoes": {
+   "A": 112,
+   "B": 97
+  }
+ }
+}

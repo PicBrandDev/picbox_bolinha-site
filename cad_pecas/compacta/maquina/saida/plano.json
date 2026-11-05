@@ -1,0 +1,1229 @@
+{
+ "placas": {
+  "A": [
+   {
+    "n": "A1",
+    "arquivo": "placa_A1.stl",
+    "horas": 13.6,
+    "pecas": [
+     "Guia impressa inferior",
+     "Base",
+     "Guia impressa superior",
+     "Espacador"
+    ],
+    "suporte": false,
+    "altura": 28.9
+   },
+   {
+    "n": "A2",
+    "arquivo": "placa_A2.stl",
+    "horas": 3.4,
+    "pecas": [
+     "Cabine",
+     "Carro A"
+    ],
+    "suporte": true,
+    "altura": 60.0
+   },
+   {
+    "n": "A3",
+    "arquivo": "placa_A3.stl",
+    "horas": 12.8,
+    "pecas": [
+     "Suporte do motor",
+     "Tubo superior",
+     "Tubo inferior",
+     "Rampa",
+     "Suporte do servo",
+     "Braco da comporta"
+    ],
+    "suporte": false,
+    "altura": 51.5
+   },
+   {
+    "n": "A4",
+    "arquivo": "placa_A4.stl",
+    "horas": 4.7,
+    "pecas": [
+     "Braco da comporta",
+     "Braco da comporta",
+     "Carro B",
+     "Anel"
+    ],
+    "suporte": false,
+    "altura": 60.0
+   }
+  ],
+  "B": [
+   {
+    "n": "B1",
+    "arquivo": "placa_B1.stl",
+    "horas": 6.3,
+    "pecas": [
+     "Fila"
+    ],
+    "suporte": false,
+    "altura": 105.0
+   },
+   {
+    "n": "B2",
+    "arquivo": "placa_B2.stl",
+    "horas": 5.0,
+    "pecas": [
+     "Bloco direito",
+     "Suporte do NEMA de cima",
+     "Suporte do NEMA de baixo"
+    ],
+    "suporte": false,
+    "altura": 48.0
+   },
+   {
+    "n": "B3",
+    "arquivo": "placa_B3.stl",
+    "horas": 8.1,
+    "pecas": [
+     "Bandeja esquerda"
+    ],
+    "suporte": false,
+    "altura": 76.8
+   },
+   {
+    "n": "B4",
+    "arquivo": "placa_B4.stl",
+    "horas": 5.1,
+    "pecas": [
+     "Bandeja direita"
+    ],
+    "suporte": false,
+    "altura": 76.6
+   }
+  ],
+  "C": [
+   {
+    "n": "C1",
+    "arquivo": "placa_C1.stl",
+    "horas": 10.0,
+    "pecas": [
+     "Fila esquerda",
+     "Bloco esquerdo",
+     "Bloco esquerdo",
+     "Bloco direito"
+    ],
+    "suporte": false,
+    "altura": 105.0
+   },
+   {
+    "n": "C2",
+    "arquivo": "placa_C2.stl",
+    "horas": 6.6,
+    "pecas": [
+     "Prateleira da esteira esquerda",
+     "Prateleira da esteira direita",
+     "Gancho da prateleira",
+     "Gancho da prateleira",
+     "Gancho da prateleira",
+     "Ponta fixa da esteira A (prateleira)",
+     "Ponta fixa da esteira B (piso)"
+    ],
+    "suporte": false,
+    "altura": 16.0
+   },
+   {
+    "n": "C3",
+    "arquivo": "placa_C3.stl",
+    "horas": 5.7,
+    "pecas": [
+     "Bandeja do meio"
+    ],
+    "suporte": false,
+    "altura": 76.7
+   }
+  ]
+ },
+ "total": {
+  "A": 34.5,
+  "B": 24.5,
+  "C": 22.3
+ },
+ "pecas": [
+  {
+   "peca": "Base",
+   "arquivo": "base.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    87.0,
+    38.0
+   ],
+   "altura_mm": 28.9,
+   "vol_cm3": 13.3,
+   "massa_g": 13.0,
+   "horas": 1.1,
+   "balanco_cm2": 0.5,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Base",
+   "etapa": 1,
+   "funcao": "Pé do elevador, no piso do gabinete. Segura a guia de baixo e a polia de baixo (porca presa na bochecha). Tem o batente onde a cabine para embaixo.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "impressora": "A",
+   "xy": [
+    38.040000915527344,
+    87.04000091552734
+   ],
+   "placas": [
+    "A1"
+   ]
+  },
+  {
+   "peca": "Guia impressa inferior",
+   "arquivo": "guia_impressa_inferior.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "+Y",
+   "suporte": "nao (aba do T de 2 mm sem suporte)",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    201.0,
+    33.0
+   ],
+   "altura_mm": 22.5,
+   "vol_cm3": 82.3,
+   "massa_g": 78.0,
+   "horas": 5.8,
+   "balanco_cm2": 16.3,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Guia impressa inferior",
+   "etapa": 1,
+   "funcao": "Metade de baixo do trilho do elevador: dois trilhos em T por onde a cabine desliza. Precisa sair reta e lisa.",
+   "por_que": "Deitada de costas para os trilhos em T saírem retos e lisos, sem suporte (a aba do T tem só 2 mm).",
+   "impressora": "A",
+   "xy": [
+    33.040000915527344,
+    201.02000427246094
+   ],
+   "placas": [
+    "A1"
+   ]
+  },
+  {
+   "peca": "Guia impressa superior",
+   "arquivo": "guia_impressa_superior.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "+Y",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    213.0,
+    33.0
+   ],
+   "altura_mm": 22.5,
+   "vol_cm3": 88.8,
+   "massa_g": 85.0,
+   "horas": 6.3,
+   "balanco_cm2": 17.9,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220 (diagonal)",
+    "C 220 (diagonal)"
+   ],
+   "ok": true,
+   "base": "Guia impressa superior",
+   "etapa": 3,
+   "funcao": "Metade de cima do trilho do elevador. Encaixa na de baixo por 2 pinos e segura o fim de curso de cima.",
+   "por_que": "Igual à de baixo: de costas, trilhos para cima.",
+   "impressora": "A",
+   "xy": [
+    33.040000915527344,
+    213.0399932861328
+   ],
+   "placas": [
+    "A1"
+   ]
+  },
+  {
+   "peca": "Cabine",
+   "arquivo": "cabine.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "so embaixo do bloco da correia",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    59.0,
+    32.0
+   ],
+   "altura_mm": 47.7,
+   "vol_cm3": 23.5,
+   "massa_g": 22.0,
+   "horas": 1.8,
+   "balanco_cm2": 6.9,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Cabine",
+   "etapa": 2,
+   "funcao": "Leva uma bola por vez para cima. Desliza nos trilhos em T. A correia prende nas duas fendas dentadas do bloco da direita.",
+   "por_que": "Em pé como monta, sobre a base plana. Só o bloco da correia precisa de suporte embaixo.",
+   "impressora": "A",
+   "xy": [
+    32.040000915527344,
+    59.040000915527344
+   ],
+   "placas": [
+    "A2"
+   ]
+  },
+  {
+   "peca": "Espacador",
+   "arquivo": "espacador.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "+Y",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    5.0,
+    5.0
+   ],
+   "altura_mm": 3.8,
+   "vol_cm3": 0.0,
+   "massa_g": 0.0,
+   "horas": 0.2,
+   "balanco_cm2": 0.0,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Espacador",
+   "etapa": 4,
+   "funcao": "Anel que afasta a polia de baixo do pé da guia, para a correia ficar alinhada.",
+   "por_que": "Deitada de costas: a face de trás é plana e comprida, e assim as faces que deslizam ou ficam à vista saem lisas.",
+   "impressora": "A",
+   "xy": [
+    5.039999961853027,
+    5.039999961853027
+   ],
+   "placas": [
+    "A1"
+   ]
+  },
+  {
+   "peca": "Suporte do motor",
+   "arquivo": "suporte_do_motor.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z-",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    93.0,
+    38.0
+   ],
+   "altura_mm": 22.0,
+   "vol_cm3": 19.7,
+   "massa_g": 19.0,
+   "horas": 1.5,
+   "balanco_cm2": 3.7,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Suporte do motor",
+   "etapa": 5,
+   "funcao": "Segura o motor N20 no topo do elevador. A orelha da frente vai parafusada na parede direita.",
+   "por_que": "De cabeça para baixo: a face de cima é a maior e mais plana, então vira a base e nada fica pendurado.",
+   "impressora": "A",
+   "xy": [
+    38.040000915527344,
+    93.04000091552734
+   ],
+   "placas": [
+    "A3"
+   ]
+  },
+  {
+   "peca": "Tubo inferior",
+   "arquivo": "tubo_inferior.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "+Y",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    200.0,
+    32.5
+   ],
+   "altura_mm": 51.5,
+   "vol_cm3": 45.1,
+   "massa_g": 43.0,
+   "horas": 3.3,
+   "balanco_cm2": 56.0,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Tubo inferior",
+   "etapa": 7,
+   "funcao": "Parede transparente da frente e dos lados do elevador (metade de baixo). Impede a bola de cair da cabine.",
+   "por_que": "Deitado com a abertura para baixo: a frente transparente fica lisa, em ponte de 32 mm.",
+   "impressora": "A",
+   "xy": [
+    32.540000915527344,
+    200.02000427246094
+   ],
+   "placas": [
+    "A3"
+   ]
+  },
+  {
+   "peca": "Tubo superior",
+   "arquivo": "tubo_superior.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "+Y",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    215.0,
+    37.0
+   ],
+   "altura_mm": 48.5,
+   "vol_cm3": 46.5,
+   "massa_g": 44.0,
+   "horas": 3.4,
+   "balanco_cm2": 46.0,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220 (diagonal)",
+    "C 220 (diagonal)"
+   ],
+   "ok": true,
+   "base": "Tubo superior",
+   "etapa": 7,
+   "funcao": "Metade de cima do tubo. No topo, prende no suporte do motor.",
+   "por_que": "Igual ao de baixo.",
+   "impressora": "A",
+   "xy": [
+    37.040000915527344,
+    215.0399932861328
+   ],
+   "placas": [
+    "A3"
+   ]
+  },
+  {
+   "peca": "Fila",
+   "arquivo": "fila.stl",
+   "lascas_cm3": [
+    0.34,
+    0.34
+   ],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao (nervuras embaixo do piso)",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    205.6,
+    30.5
+   ],
+   "altura_mm": 105.0,
+   "vol_cm3": 86.6,
+   "massa_g": 82.0,
+   "horas": 6.1,
+   "balanco_cm2": 50.4,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Fila",
+   "etapa": 8,
+   "funcao": "Calha onde as bolas esperam a vez de subir. Desce para a direita até a comporta. Na frente, à esquerda de X 40, tem um lábio baixo por onde a bola entra vindo da bandeja.",
+   "por_que": "Em pé como monta: as nervuras embaixo do piso seguram o piso inclinado durante a impressão.",
+   "impressora": "BC",
+   "xy": [
+    205.55438232421875,
+    30.540000915527344
+   ],
+   "placas": [
+    "B1"
+   ]
+  },
+  {
+   "peca": "Rampa",
+   "arquivo": "rampa.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao (piso macico)",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    77.0,
+    34.5
+   ],
+   "altura_mm": 35.4,
+   "vol_cm3": 30.9,
+   "massa_g": 29.0,
+   "horas": 2.3,
+   "balanco_cm2": 1.1,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Rampa",
+   "etapa": 8,
+   "funcao": "Recebe a bola que sai da cabine lá em cima e a leva rolando até o bolso, onde o ímã do carro A pega. O piso cai para a direita para a bola encostar sempre no mesmo lugar.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "impressora": "A",
+   "xy": [
+    34.540000915527344,
+    77.04000091552734
+   ],
+   "placas": [
+    "A3"
+   ]
+  },
+  {
+   "peca": "Suporte do servo",
+   "arquivo": "suporte_do_servo.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    32.0,
+    28.5
+   ],
+   "altura_mm": 33.0,
+   "vol_cm3": 19.8,
+   "massa_g": 19.0,
+   "horas": 1.6,
+   "balanco_cm2": 0.2,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Suporte do servo",
+   "etapa": 8,
+   "funcao": "Segura o servo SG90 que mexe a comporta, no piso, na frente da fila.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "impressora": "A",
+   "xy": [
+    32.040000915527344,
+    28.540000915527344
+   ],
+   "placas": [
+    "A3"
+   ]
+  },
+  {
+   "peca": "Braco da comporta",
+   "arquivo": "braco_da_comporta__x3.stl",
+   "lascas_cm3": [],
+   "quantidade": 3,
+   "posicao": "Z-",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    83.6,
+    38.0
+   ],
+   "altura_mm": 16.0,
+   "vol_cm3": 3.8,
+   "massa_g": 4.0,
+   "horas": 1.4,
+   "balanco_cm2": 0.9,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Braco da comporta",
+   "etapa": 8,
+   "funcao": "Braço no servo com a lâmina que deixa passar uma bola por vez para a cabine. A ponta da lâmina tem 0,8 mm (por isso imprimir 3 e escolher a melhor).",
+   "por_que": "De cabeça para baixo: o topo da lâmina fica na mesa, então a ponta de 0,8 mm sai inteira.",
+   "impressora": "A",
+   "xy": [
+    83.58999633789062,
+    38.040000915527344
+   ],
+   "placas": [
+    "A3",
+    "A4"
+   ]
+  },
+  {
+   "peca": "Fila esquerda",
+   "arquivo": "fila_esquerda.stl",
+   "lascas_cm3": [
+    0.34,
+    0.34
+   ],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao (nervuras embaixo do piso)",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    179.0,
+    30.5
+   ],
+   "altura_mm": 105.0,
+   "vol_cm3": 79.5,
+   "massa_g": 76.0,
+   "horas": 5.6,
+   "balanco_cm2": 43.9,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Fila",
+   "etapa": 8,
+   "funcao": "Calha onde as bolas esperam a vez de subir. Desce para a direita até a comporta. Na frente, à esquerda de X 40, tem um lábio baixo por onde a bola entra vindo da bandeja.",
+   "por_que": "Em pé como monta: as nervuras embaixo do piso seguram o piso inclinado durante a impressão.",
+   "impressora": "BC",
+   "xy": [
+    179.0399932861328,
+    30.540000915527344
+   ],
+   "placas": [
+    "C1"
+   ]
+  },
+  {
+   "peca": "Bloco esquerdo",
+   "arquivo": "bloco_esquerdo__x2.stl",
+   "lascas_cm3": [],
+   "quantidade": 2,
+   "posicao": "-X",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    44.0,
+    42.0
+   ],
+   "altura_mm": 22.0,
+   "vol_cm3": 17.6,
+   "massa_g": 17.0,
+   "horas": 2.8,
+   "balanco_cm2": 0.5,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Bloco esquerdo",
+   "etapa": 9,
+   "funcao": "Prende a ponta esquerda do perfil 2020 na parede esquerda. Leva o fim de curso KW10 que dá a posição zero do carro. São 2 iguais: eixo de cima e de baixo.",
+   "por_que": "Deitada sobre a face que encosta na parede (ou na lateral): a face plana vai na mesa.",
+   "impressora": "BC",
+   "xy": [
+    44.040000915527344,
+    42.040000915527344
+   ],
+   "placas": [
+    "C1"
+   ]
+  },
+  {
+   "peca": "Bloco direito",
+   "arquivo": "bloco_direito__x2.stl",
+   "lascas_cm3": [],
+   "quantidade": 2,
+   "posicao": "+X",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    47.0,
+    40.0
+   ],
+   "altura_mm": 25.0,
+   "vol_cm3": 17.4,
+   "massa_g": 17.0,
+   "horas": 2.8,
+   "balanco_cm2": 0.7,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Bloco direito",
+   "etapa": 9,
+   "funcao": "Prende a ponta direita do perfil na parede direita. Leva a polia tensora da correia, num rasgo para esticar. São 2 iguais.",
+   "por_que": "Deitada sobre a face que encosta na parede: essa face é plana e tudo o mais cresce para cima, sem suporte.",
+   "impressora": "BC",
+   "xy": [
+    47.040000915527344,
+    40.040000915527344
+   ],
+   "placas": [
+    "B2",
+    "C1"
+   ]
+  },
+  {
+   "peca": "Suporte do NEMA de cima",
+   "arquivo": "suporte_do_nema_de_cima.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "-X",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    76.0,
+    46.2
+   ],
+   "altura_mm": 48.0,
+   "vol_cm3": 25.2,
+   "massa_g": 24.0,
+   "horas": 1.9,
+   "balanco_cm2": 2.0,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Suporte do NEMA de cima",
+   "etapa": 11,
+   "funcao": "Segura o motor NEMA 17 do eixo de cima, com o eixo virado para cima, na parede esquerda.",
+   "por_que": "Deitada sobre a face que encosta na parede (ou na lateral): a face plana vai na mesa.",
+   "impressora": "BC",
+   "xy": [
+    76.04000091552734,
+    46.189998626708984
+   ],
+   "placas": [
+    "B2"
+   ]
+  },
+  {
+   "peca": "Suporte do NEMA de baixo",
+   "arquivo": "suporte_do_nema_de_baixo.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "-X",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    50.7,
+    48.0
+   ],
+   "altura_mm": 48.0,
+   "vol_cm3": 18.5,
+   "massa_g": 18.0,
+   "horas": 1.5,
+   "balanco_cm2": 0.9,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Suporte do NEMA de baixo",
+   "etapa": 11,
+   "funcao": "Segura o motor NEMA 17 do eixo de baixo, apoiado no piso.",
+   "por_que": "Deitada sobre a face que encosta na parede (ou na lateral): a face plana vai na mesa.",
+   "impressora": "BC",
+   "xy": [
+    48.040000915527344,
+    50.689998626708984
+   ],
+   "placas": [
+    "B2"
+   ]
+  },
+  {
+   "peca": "Carro A",
+   "arquivo": "carro_a.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "-X",
+   "suporte": "sim: embaixo da presilha, da prateleira e da nervura",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    60.5,
+    42.9
+   ],
+   "altura_mm": 60.0,
+   "vol_cm3": 17.2,
+   "massa_g": 16.0,
+   "horas": 1.4,
+   "balanco_cm2": 7.2,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Carro A",
+   "etapa": 12,
+   "funcao": "Vai parafusado no patim do trilho de cima. Prende a correia na fenda dentada e leva o eletroímã que segura e solta a bola.",
+   "por_que": "De lado: é a única posição em que a prateleira do ímã fica forte (a força passa ao longo das camadas). Precisa de suporte embaixo da presilha, da prateleira e da nervura, e de aba (brim) de 5 mm.",
+   "impressora": "A",
+   "xy": [
+    42.91874313354492,
+    60.540000915527344
+   ],
+   "placas": [
+    "A2"
+   ]
+  },
+  {
+   "peca": "Carro B",
+   "arquivo": "carro_b.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "+Y",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    68.0,
+    44.0
+   ],
+   "altura_mm": 45.0,
+   "vol_cm3": 20.8,
+   "massa_g": 20.0,
+   "horas": 1.6,
+   "balanco_cm2": 2.1,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Carro B",
+   "etapa": 12,
+   "funcao": "Vai parafusado no patim do trilho de baixo. Prende a correia e leva o anel.",
+   "por_que": "Deitada de costas: a face de trás é plana e comprida, e assim as faces que deslizam ou ficam à vista saem lisas.",
+   "impressora": "A",
+   "xy": [
+    44.040000915527344,
+    67.96125793457031
+   ],
+   "placas": [
+    "A4"
+   ]
+  },
+  {
+   "peca": "Anel",
+   "arquivo": "anel.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z-",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    62.0,
+    53.7
+   ],
+   "altura_mm": 60.0,
+   "vol_cm3": 26.3,
+   "massa_g": 25.0,
+   "horas": 2.0,
+   "balanco_cm2": 3.4,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Anel",
+   "etapa": 13,
+   "funcao": "O alvo do jogo: a bola tem que passar pelo furo de 38 mm. Nos furos laterais vão o LED infravermelho e o fototransistor que contam o acerto.",
+   "por_que": "De cabeça para baixo: a borda do anel (a parte que leva as batidas da bola) sai na mesa, plana e forte.",
+   "impressora": "A",
+   "xy": [
+    62.040000915527344,
+    53.72199249267578
+   ],
+   "placas": [
+    "A4"
+   ]
+  },
+  {
+   "peca": "Bandeja esquerda",
+   "arquivo": "bandeja_esquerda.stl",
+   "lascas_cm3": [
+    0.486
+   ],
+   "quantidade": 1,
+   "posicao": "-Y",
+   "suporte": "nao (impressa em pe, frente na mesa)",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    178.8,
+    100.0
+   ],
+   "altura_mm": 76.8,
+   "vol_cm3": 113.3,
+   "massa_g": 108.0,
+   "horas": 7.9,
+   "balanco_cm2": 3.0,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Bandeja esquerda",
+   "etapa": 14,
+   "funcao": "Piso inclinado que recebe a bola depois da queda e a leva para a fila. O EVA 5 mm vai colado em cima.",
+   "por_que": "Em pé sobre a frente: assim as nervuras saem retas, sem suporte, e o piso fica liso.",
+   "impressora": "BC",
+   "xy": [
+    178.7899932861328,
+    100.04000091552734
+   ],
+   "placas": [
+    "B3"
+   ]
+  },
+  {
+   "peca": "Bandeja do meio",
+   "arquivo": "bandeja_do_meio.stl",
+   "lascas_cm3": [
+    0.486
+   ],
+   "quantidade": 1,
+   "posicao": "-Y",
+   "suporte": "nao (impressa em pe, frente na mesa)",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    149.6,
+    75.2
+   ],
+   "altura_mm": 76.7,
+   "vol_cm3": 77.5,
+   "massa_g": 74.0,
+   "horas": 5.5,
+   "balanco_cm2": 2.2,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Bandeja do meio",
+   "etapa": 14,
+   "funcao": "Parte do meio da bandeja (embaixo do anel).",
+   "por_que": "Em pé sobre a frente: assim as nervuras saem retas, sem suporte, e o piso fica liso.",
+   "impressora": "BC",
+   "xy": [
+    149.64410400390625,
+    75.20361328125
+   ],
+   "placas": [
+    "C3"
+   ]
+  },
+  {
+   "peca": "Bandeja direita",
+   "arquivo": "bandeja_direita.stl",
+   "lascas_cm3": [
+    0.486,
+    0.486
+   ],
+   "quantidade": 1,
+   "posicao": "-Y",
+   "suporte": "nao (impressa em pe, frente na mesa)",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    100.0,
+    88.8
+   ],
+   "altura_mm": 76.6,
+   "vol_cm3": 69.3,
+   "massa_g": 66.0,
+   "horas": 4.9,
+   "balanco_cm2": 1.0,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Bandeja direita",
+   "etapa": 14,
+   "funcao": "Parte da direita da bandeja. Leva a bola para a esquerda, até a entrada da fila.",
+   "por_que": "Em pé sobre a frente: assim as nervuras saem retas, sem suporte, e o piso fica liso.",
+   "impressora": "BC",
+   "xy": [
+    88.79000091552734,
+    100.04000091552734
+   ],
+   "placas": [
+    "B4"
+   ]
+  },
+  {
+   "peca": "Prateleira da esteira esquerda",
+   "arquivo": "prateleira_da_esteira_esquerda.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    185.0,
+    57.0
+   ],
+   "altura_mm": 13.0,
+   "vol_cm3": 31.8,
+   "massa_g": 30.0,
+   "horas": 2.4,
+   "balanco_cm2": 0.4,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Prateleira da esteira",
+   "etapa": 13,
+   "funcao": "Apoio deitado da esteira porta-cabo do carro A, perto do teto. São 2 metades.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "impressora": "BC",
+   "xy": [
+    185.0399932861328,
+    57.040000915527344
+   ],
+   "placas": [
+    "C2"
+   ]
+  },
+  {
+   "peca": "Prateleira da esteira direita",
+   "arquivo": "prateleira_da_esteira_direita.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    185.0,
+    57.0
+   ],
+   "altura_mm": 13.0,
+   "vol_cm3": 31.9,
+   "massa_g": 30.0,
+   "horas": 2.4,
+   "balanco_cm2": 0.4,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Prateleira da esteira",
+   "etapa": 13,
+   "funcao": "Apoio deitado da esteira porta-cabo do carro A, perto do teto. São 2 metades.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "impressora": "BC",
+   "xy": [
+    185.0399932861328,
+    57.040000915527344
+   ],
+   "placas": [
+    "C2"
+   ]
+  },
+  {
+   "peca": "Gancho da prateleira",
+   "arquivo": "gancho_da_prateleira__x3.stl",
+   "lascas_cm3": [],
+   "quantidade": 3,
+   "posicao": "-X",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    23.0,
+    12.0
+   ],
+   "altura_mm": 16.0,
+   "vol_cm3": 1.8,
+   "massa_g": 2.0,
+   "horas": 1.0,
+   "balanco_cm2": 0.4,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Gancho da prateleira",
+   "etapa": 13,
+   "funcao": "Pendura a prateleira no teto do gabinete. São 3 iguais.",
+   "por_que": "Deitada sobre a face que encosta na parede (ou na lateral): a face plana vai na mesa.",
+   "impressora": "BC",
+   "xy": [
+    23.040000915527344,
+    12.039999961853027
+   ],
+   "placas": [
+    "C2"
+   ]
+  },
+  {
+   "peca": "Ponta fixa da esteira A (prateleira)",
+   "arquivo": "ponta_fixa_da_esteira_a_prateleira.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    12.0,
+    12.0
+   ],
+   "altura_mm": 10.0,
+   "vol_cm3": 1.3,
+   "massa_g": 1.0,
+   "horas": 0.3,
+   "balanco_cm2": 0.0,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Ponta fixa da esteira",
+   "etapa": 13,
+   "funcao": "Onde a ponta parada de cada esteira porta-cabo é parafusada: a A na prateleira e a B no piso.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "impressora": "BC",
+   "xy": [
+    12.039999961853027,
+    12.039999961853027
+   ],
+   "placas": [
+    "C2"
+   ]
+  },
+  {
+   "peca": "Ponta fixa da esteira B (piso)",
+   "arquivo": "ponta_fixa_da_esteira_b_piso.stl",
+   "lascas_cm3": [],
+   "quantidade": 1,
+   "posicao": "Z",
+   "suporte": "nao",
+   "fechada": true,
+   "corpos": 1,
+   "mesa_mm": [
+    26.0,
+    11.0
+   ],
+   "altura_mm": 12.5,
+   "vol_cm3": 2.2,
+   "massa_g": 2.0,
+   "horas": 0.3,
+   "balanco_cm2": 0.0,
+   "valido": true,
+   "cabe": [
+    "A 260",
+    "B 220",
+    "C 220"
+   ],
+   "ok": true,
+   "base": "Ponta fixa da esteira",
+   "etapa": 13,
+   "funcao": "Onde a ponta parada de cada esteira porta-cabo é parafusada: a A na prateleira e a B no piso.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "impressora": "BC",
+   "xy": [
+    26.040000915527344,
+    11.039999961853027
+   ],
+   "placas": [
+    "C2"
+   ]
+  }
+ ]
+}
