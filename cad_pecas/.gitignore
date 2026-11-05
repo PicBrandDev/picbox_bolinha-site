@@ -1,5 +1,0 @@
-__pycache__/
-*.pyc
-# gerados que nao vao para o git
-saidas/*.zip
-saidas/referencia_cad_antigo/

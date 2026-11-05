@@ -1,0 +1,62 @@
+PICBOX COMPACTA - ORDEM DE IMPRESSAO
+
+Configuracao: PETG, bico 0,4, camada 0,2, 4 perimetros, 25% de preenchimento.
+Os arquivos ja vem com as pecas arrumadas na mesa e na posicao certa: NAO use orientacao automatica.
+Se o fatiador juntar tudo num objeto so, use 'Dividir em objetos' (Split to objects).
+Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
+
+As 3 impressoras trabalham ao mesmo tempo. Em cada uma, imprima na ordem dos numeros.
+
+IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a vista  -  total 34.5 h   (pasta A_impressora_grande)
+  01_placa_A1.stl       13.6 h  altura 29 mm
+        - Guia impressa inferior
+        - Base
+        - Guia impressa superior
+        - Espacador
+  02_placa_A2.stl        3.4 h  altura 60 mm  COM SUPORTE
+        - Cabine
+        - Carro A
+  03_placa_A3.stl       12.8 h  altura 52 mm
+        - Suporte do motor
+        - Tubo superior
+        - Tubo inferior
+        - Rampa
+        - Suporte do servo
+        - Braco da comporta
+  04_placa_A4.stl        4.7 h  altura 60 mm
+        - Braco da comporta
+        - Braco da comporta
+        - Carro B
+        - Anel
+
+IMPRESSORA B - Creality 220 x 220  -  total 24.5 h   (pasta B_creality_1)
+  01_placa_B1.stl        6.3 h  altura 105 mm
+        - Fila
+  02_placa_B2.stl        5.0 h  altura 48 mm
+        - Bloco direito
+        - Suporte do NEMA de cima
+        - Suporte do NEMA de baixo
+  03_placa_B3.stl        8.1 h  altura 77 mm
+        - Bandeja esquerda
+  04_placa_B4.stl        5.1 h  altura 77 mm
+        - Bandeja direita
+
+IMPRESSORA C - Creality 220 x 220  -  total 22.3 h   (pasta C_creality_2)
+  01_placa_C1.stl       10.0 h  altura 105 mm
+        - Fila esquerda
+        - Bloco esquerdo
+        - Bloco esquerdo
+        - Bloco direito
+  02_placa_C2.stl        6.6 h  altura 16 mm
+        - Prateleira da esteira esquerda
+        - Prateleira da esteira direita
+        - Gancho da prateleira
+        - Gancho da prateleira
+        - Gancho da prateleira
+        - Ponta fixa da esteira A (prateleira)
+        - Ponta fixa da esteira B (piso)
+  03_placa_C3.stl        5.7 h  altura 77 mm
+        - Bandeja do meio
+
+Pecas avulsas (uma por arquivo, para reimprimir so uma): pasta pecas_avulsas.
+No nome, __x2 / __x3 = imprimir 2 / 3 copias.

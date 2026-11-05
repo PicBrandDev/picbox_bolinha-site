@@ -1,0 +1,3048 @@
+{
+ "interferencias": {
+  "ok": true,
+  "ruins": [],
+  "n_ruins": 0,
+  "previstas": 41,
+  "encostam": 201,
+  "pares": 28441
+ },
+ "parafusos": [
+  {
+   "nome": "base_guia_0",
+   "tipo": "M3x12",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Guia impressa inferior",
+   "pega": 14.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    186.0,
+    195.5,
+    0.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_guia_1",
+   "tipo": "M3x12",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Guia impressa inferior",
+   "pega": 14.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    196.0,
+    195.5,
+    0.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_chao_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Gabinete",
+   "pega": 11.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    193.0,
+    116.0,
+    5.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "base_chao_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 1,
+   "prende": "Base",
+   "rosca": "Gabinete",
+   "pega": 11.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    205.0,
+    116.0,
+    5.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "eixo_polia_baixo",
+   "tipo": "M3x40",
+   "etapa": 4,
+   "prende": "Guia impressa inferior",
+   "rosca": "Base",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    191.0,
+    196.0,
+    12.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 40,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_guia_0",
+   "tipo": "M3x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    186.0,
+    195.5,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_guia_1",
+   "tipo": "M3x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    196.0,
+    195.5,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "orelha_parede",
+   "tipo": "madeira 3,5x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Gabinete",
+   "pega": 11.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    205.0,
+    116.5,
+    405.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_baixo_0",
+   "tipo": "M2x12",
+   "etapa": 1,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa inferior",
+   "pega": 20.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    182.15,
+    13.6
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_baixo_1",
+   "tipo": "M2x12",
+   "etapa": 1,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa inferior",
+   "pega": 28.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    191.65,
+    13.6
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_cima_0",
+   "tipo": "M2x12",
+   "etapa": 3,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa superior",
+   "pega": 20.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    182.15,
+    406.9
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_cima_1",
+   "tipo": "M2x12",
+   "etapa": 3,
+   "prende": "Fim de curso",
+   "rosca": "Guia impressa superior",
+   "pega": 28.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.5,
+    191.65,
+    406.9
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 12.0,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_tubo_0",
+   "tipo": "M3x12",
+   "etapa": 7,
+   "prende": "Suporte do motor",
+   "rosca": "Tubo superior",
+   "pega": 8.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    176.0,
+    145.0,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "suporte_tubo_1",
+   "tipo": "M3x12",
+   "etapa": 7,
+   "prende": "Suporte do motor",
+   "rosca": "Tubo superior",
+   "pega": 8.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    205.0,
+    145.0,
+    419.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "tubo_base_0",
+   "tipo": "M3x10",
+   "etapa": 7,
+   "prende": "Tubo inferior",
+   "rosca": "Base",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    192.0,
+    124.5,
+    9.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "tubo_base_1",
+   "tipo": "M3x10",
+   "etapa": 7,
+   "prende": "Tubo inferior",
+   "rosca": "Base",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    201.5,
+    124.5,
+    9.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "rampa_parede_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 8,
+   "prende": "Rampa",
+   "rosca": "Gabinete",
+   "pega": 14.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    208.0,
+    75.0,
+    364.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "rampa_parede_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 8,
+   "prende": "Rampa",
+   "rosca": "Gabinete",
+   "pega": 14.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    208.0,
+    115.0,
+    364.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fila_piso_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 8,
+   "prende": "Fila",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -22.0,
+    160.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fila_piso_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 8,
+   "prende": "Fila",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    156.0,
+    160.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "filaE_piso_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Fila esquerda",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -194.0,
+    160.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "filaE_piso_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Fila esquerda",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -49.0,
+    160.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_esq_A_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco esquerdo",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -203.0,
+    39.0,
+    402.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_esq_A_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco esquerdo",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -203.0,
+    39.0,
+    414.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_esq_A_0",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco esquerdo",
+   "rosca": "Perfil 2020 A",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -191.0,
+    4.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_esq_A_1",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco esquerdo",
+   "rosca": "Perfil 2020 A",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -197.0,
+    4.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_dir_A_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    203.0,
+    39.0,
+    402.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_dir_A_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    203.0,
+    39.0,
+    414.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_dir_A_0",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco direito",
+   "rosca": "Perfil 2020 A",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    191.0,
+    4.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_dir_A_1",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco direito",
+   "rosca": "Perfil 2020 A",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    197.0,
+    4.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_0",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -187.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_1",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -162.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_2",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -137.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_3",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -112.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_4",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -87.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_5",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -62.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_6",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -37.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_7",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -12.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_8",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    12.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_9",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    37.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_10",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    62.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_11",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    87.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_12",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    112.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_13",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    137.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_14",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    162.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_A_15",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 A",
+   "rosca": "Perfil 2020 A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    187.5,
+    33.0,
+    405.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_A_0",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "NEMA 17 A",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -199.5,
+    6.5,
+    372.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_A_1",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "NEMA 17 A",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -168.5,
+    6.5,
+    372.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_A_2",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "NEMA 17 A",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -168.5,
+    37.5,
+    372.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_A_3",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "NEMA 17 A",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -199.5,
+    37.5,
+    372.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_A_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    8.0,
+    306.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_A_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    36.0,
+    306.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_A_2",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de cima",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    22.0,
+    318.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "eixo_tens_A",
+   "tipo": "M5x25 + porca nylon",
+   "etapa": 11,
+   "prende": "Bloco direito",
+   "rosca": "Bloco direito",
+   "pega": 8.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    195.0,
+    22.0,
+    391.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 25,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_A_0",
+   "tipo": "M2x12",
+   "etapa": 9,
+   "prende": "Fim de curso",
+   "rosca": "Bloco esquerdo",
+   "pega": 5.6,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -197.1,
+    44.4,
+    381.15
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_A_1",
+   "tipo": "M2x12",
+   "etapa": 9,
+   "prende": "Fim de curso",
+   "rosca": "Bloco esquerdo",
+   "pega": 5.6,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -197.1,
+    44.4,
+    390.65
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_esq_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco esquerdo",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -203.0,
+    39.0,
+    78.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_esq_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco esquerdo",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -203.0,
+    39.0,
+    90.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_esq_B_0",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco esquerdo",
+   "rosca": "Perfil 2020 B",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -191.0,
+    4.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_esq_B_1",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco esquerdo",
+   "rosca": "Perfil 2020 B",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -197.0,
+    4.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_dir_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    203.0,
+    39.0,
+    78.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_dir_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 9.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    203.0,
+    39.0,
+    90.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_dir_B_0",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco direito",
+   "rosca": "Perfil 2020 B",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    191.0,
+    4.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "luva_dir_B_1",
+   "tipo": "M5x10 + martelo",
+   "etapa": 10,
+   "prende": "Bloco direito",
+   "rosca": "Perfil 2020 B",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    197.0,
+    4.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_0",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -187.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_1",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -162.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_2",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -137.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_3",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -112.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_4",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -87.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_5",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -62.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_6",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -37.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_7",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -12.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_8",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    12.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_9",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    37.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_10",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    62.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_11",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    87.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_12",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    112.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_13",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    137.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_14",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    162.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "trilho_B_15",
+   "tipo": "M3x8 + martelo",
+   "etapa": 10,
+   "prende": "Trilho MGN12 B",
+   "rosca": "Perfil 2020 B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    187.5,
+    33.0,
+    81.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_B_0",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "NEMA 17 B",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -199.5,
+    6.5,
+    48.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_B_1",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "NEMA 17 B",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -168.5,
+    6.5,
+    48.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_B_2",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "NEMA 17 B",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -168.5,
+    37.5,
+    48.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "nema_B_3",
+   "tipo": "M3x8",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "NEMA 17 B",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -199.5,
+    37.5,
+    48.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -183.0,
+    47.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -170.0,
+    47.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_parede_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    47.3,
+    14.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sup_nema_parede_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 11,
+   "prende": "Suporte do NEMA de baixo",
+   "rosca": "Gabinete",
+   "pega": 11.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -205.5,
+    47.3,
+    36.0
+   ],
+   "dir": [
+    -1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "eixo_tens_B",
+   "tipo": "M5x25 + porca nylon",
+   "etapa": 11,
+   "prende": "Bloco direito",
+   "rosca": "Bloco direito",
+   "pega": 8.5,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    195.0,
+    22.0,
+    67.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 25,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_B_0",
+   "tipo": "M2x12",
+   "etapa": 9,
+   "prende": "Fim de curso",
+   "rosca": "Bloco esquerdo",
+   "pega": 5.6,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -197.1,
+    44.4,
+    57.15
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "fdc_B_1",
+   "tipo": "M2x12",
+   "etapa": 9,
+   "prende": "Fim de curso",
+   "rosca": "Bloco esquerdo",
+   "pega": 5.6,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -197.1,
+    44.4,
+    66.65
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "carroA_patim_0",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Patim MGN12H A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    46.0,
+    395.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "carroA_patim_1",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Patim MGN12H A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    10.0,
+    46.0,
+    395.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "carroA_patim_2",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Patim MGN12H A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    10.0,
+    46.0,
+    415.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "carroA_patim_3",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Patim MGN12H A",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    46.0,
+    415.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "carroB_patim_0",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro B",
+   "rosca": "Patim MGN12H B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    46.0,
+    71.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "carroB_patim_1",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro B",
+   "rosca": "Patim MGN12H B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    10.0,
+    46.0,
+    71.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "carroB_patim_2",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro B",
+   "rosca": "Patim MGN12H B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    10.0,
+    46.0,
+    91.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "carroB_patim_3",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro B",
+   "rosca": "Patim MGN12H B",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    46.0,
+    91.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 8,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "anel_placa_0",
+   "tipo": "M3x12 + porca",
+   "etapa": 13,
+   "prende": "Anel",
+   "rosca": "Carro B",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -16.0,
+    50.0,
+    60.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "anel_placa_1",
+   "tipo": "M3x12 + porca",
+   "etapa": 13,
+   "prende": "Anel",
+   "rosca": "Carro B",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    16.0,
+    50.0,
+    60.0
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "anel_placa_2",
+   "tipo": "M3x12 + porca",
+   "etapa": 13,
+   "prende": "Anel",
+   "rosca": "Carro B",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -16.0,
+    50.0,
+    99.92125663553304
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "anel_placa_3",
+   "tipo": "M3x12 + porca",
+   "etapa": 13,
+   "prende": "Anel",
+   "rosca": "Carro B",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    16.0,
+    50.0,
+    99.92125663553304
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 12,
+   "corpo": "carroB"
+  },
+  {
+   "nome": "ima",
+   "tipo": "M3x8",
+   "etapa": 12,
+   "prende": "Carro A",
+   "rosca": "Eletroima P20/15",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    26.0,
+    73.7,
+    392.62125663553303
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 8,
+   "corpo": "carroA"
+  },
+  {
+   "nome": "gancho_teto_0_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -179.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_0_0",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -179.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_0_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -171.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_0_1",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -171.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_1_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -4.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_1_0",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    -8.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_1_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    4.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_1_1",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    8.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_2_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    146.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_2_0",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    146.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_teto_2_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    154.0,
+    112.0,
+    416.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "gancho_prat_2_1",
+   "tipo": "M3x10",
+   "etapa": 13,
+   "prende": "Gancho da prateleira",
+   "rosca": "Prateleira da esteira",
+   "pega": 6.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [
+    "parede de 1,5 mm em volta da rosca: 100% cheia"
+   ],
+   "p0": [
+    154.0,
+    108.0,
+    403.5
+   ],
+   "dir": [
+    0,
+    -1,
+    0
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "est_fixaA_0",
+   "tipo": "M3x16 + porca",
+   "etapa": 13,
+   "prende": "Ponta fixa da esteira",
+   "rosca": "Prateleira da esteira",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -22.349999999999994,
+    92.0,
+    410.5
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "est_fixaA_1",
+   "tipo": "M3x16 + porca",
+   "etapa": 13,
+   "prende": "Ponta fixa da esteira",
+   "rosca": "Prateleira da esteira",
+   "pega": 3.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -16.349999999999994,
+    92.0,
+    410.5
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "est_fixaB_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Ponta fixa da esteira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -24.5,
+    6.0,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "est_fixaB_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 13,
+   "prende": "Ponta fixa da esteira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -18.5,
+    6.0,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_0_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja esquerda",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -145.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_0_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja esquerda",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -50.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_1_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja do meio",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    -10.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_1_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja do meio",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    80.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_2_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja direita",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    138.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "band_2_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 14,
+   "prende": "Bandeja direita",
+   "rosca": "Gabinete",
+   "pega": 12.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    167.0,
+    57.5,
+    4.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  }
+ ],
+ "bola": {
+  "bolso": {
+   "centro": [
+    193.3,
+    72.7,
+    358.92
+   ],
+   "toques": {
+    "rampa_bolso": -0.0,
+    "rampa_dir": -0.0,
+    "eva_bolso": -0.0
+   },
+   "ok": true,
+   "empurra_direita_N": 0.017,
+   "empurra_frente_N": -0.069
+  },
+  "pega": {
+   "ima_ate_bola": 1.0,
+   "gap_pedido": 1.0,
+   "resto_min": 10.23,
+   "ok": true
+  },
+  "levando": {
+   "folga_min": 0.78,
+   "com": "rampa_bolso",
+   "c": 163.3,
+   "ok": true
+  },
+  "queda": {
+   "pouso_x": [
+    -143.1,
+    142.4
+   ],
+   "voo_ms": 246,
+   "v_max": 314,
+   "trajetorias": 98,
+   "ruins": [],
+   "ok": true
+  },
+  "anel": {
+   "casos": {
+    "0.0": "passa limpa",
+    "3.0": "passa limpa",
+    "6.25": "passa limpa",
+    "7.3": "bate em anel_flange (Z 114.6)",
+    "12.0": "bate em anel_flange (Z 120.1)",
+    "20.0": "bate em anel_flange (Z 122.1)",
+    "30.0": "bate em ir_dir (Z 122.1)"
+   },
+   "furo": 38.0,
+   "ir_z": 95.4,
+   "ok": true
+  },
+  "bandeja": {
+   "folga_bola_anel": 3.24,
+   "juntas_mm": 0.0,
+   "labio_min": 1.0,
+   "parede_alta_sobra": 5.08,
+   "x_entrada_max": 39.9,
+   "pontos": 287,
+   "falhas": [],
+   "ok": true
+  },
+  "fila": {
+   "sempre_desce": true,
+   "capacidade_bolas": 14,
+   "bolas_na_maquina": 8,
+   "ok": true
+  }
+ },
+ "envelope": {
+  "min": [
+   -210.0,
+   0.5,
+   0.0
+  ],
+  "max": [
+   210.0,
+   199.0,
+   420.0
+  ],
+  "fora": [],
+  "ok": true
+ },
+ "janela": {
+  "z": [
+   109.9,
+   347.2
+  ],
+  "x": [
+   -162.8,
+   172.0
+  ],
+  "tamanho": [
+   335,
+   237
+  ],
+  "bloqueia": [
+   "NEMA 17 A",
+   "Suporte do NEMA de cima"
+  ]
+ }
+}
