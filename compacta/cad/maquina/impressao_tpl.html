@@ -82,6 +82,13 @@ td.q{text-align:center;white-space:nowrap}
 .fotos figure{margin:0;background:var(--card);border:1px solid var(--rule)}
 .fotos img{width:100%;height:auto;display:block;cursor:zoom-in}
 .fotos figcaption{padding:6px 10px;font-size:.84rem;color:var(--muted)}
+.baixar{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font:600 .82rem var(--f-body);
+  padding:6px 12px;border:1.5px solid var(--cor,var(--a));color:var(--cor,var(--a));background:var(--card);border-radius:4px;text-decoration:none}
+.baixar:hover{background:var(--soft)}
+.baixar:focus-visible{outline:2px solid var(--cor,var(--a));outline-offset:2px}
+.baixar.forte{background:var(--cor,var(--a));color:#fff}
+.baixar[aria-disabled="true"]{opacity:.5;cursor:default}
+.downs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .zoom{position:fixed;inset:0;background:rgba(20,26,23,.82);display:flex;align-items:center;justify-content:center;z-index:20;cursor:zoom-out;
   padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .zoom img{max-width:100%;max-height:100%;background:#f4f6f4}
@@ -103,11 +110,14 @@ td.q{text-align:center;white-space:nowrap}
     <div><b>Mesa 01 primeiro</b><span>É o teste de encaixe: monte com as peças compradas antes de seguir.</span></div>
   </div>
 
+  <div class="downs" style="--cor:var(--ink)"><span id="dl-tudo"></span><span class="muted" id="dl-nota"></span></div>
+
   <div class="abas" role="tablist" id="abas"></div>
   <section class="painel" id="painel" role="tabpanel"></section>
 
   <section class="sec">
-    <header><h2>Todas as peças</h2><p class="muted">Arquivos avulsos em <span class="mono">compacta/imprimir/pecas_avulsas/</span>, para reimprimir uma peça só.</p></header>
+    <header><h2>Todas as peças</h2><p class="muted">Arquivos avulsos em <span class="mono">compacta/imprimir/pecas_avulsas/</span>, para reimprimir uma peça só.</p>
+      <div class="downs" id="dl-avulsas"></div></header>
     <div class="tab"><table id="t-pecas"></table></div>
   </section>
 
@@ -132,6 +142,31 @@ const ler = n => { try { return localStorage.getItem("picbox-impresso-" + n) ===
 const gravar = (n, v) => { try { v ? localStorage.setItem("picbox-impresso-" + n, "1") : localStorage.removeItem("picbox-impresso-" + n); } catch (e) {} };
 const peca = nome => D.pecas.find(p => p.peca === nome) || {};
 let atual = "A";
+/* downloads: na pagina publicada, pelo recurso "downloads" (so aceita .zip: cada arquivo vai zipado);
+   aberta do disco (compacta/imprimir/impressao.html), links diretos para os arquivos da pasta */
+let dl = null, dlPronto = false;
+const local = !(window.claude && window.claude.use);
+if (!local) window.claude.use("downloads").then(d => { dl = d; dlPronto = true; desenhar(); botoesFixos(); })
+  .catch(() => { dlPronto = true; botoesFixos(); });
+function blobZip(k) { const s = atob(D.zips[k]), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return new Blob([u]); }
+async function baixar(k, nome) {
+  if (!dl) return;
+  try { await dl.save({filename: nome, data: blobZip(k)}); $("dl-nota").textContent = ""; }
+  catch (e) { const c = e && e.code; if (c === "declined") return;
+    $("dl-nota").textContent = c === "rate_limited" ? "Já há um download esperando confirmação." : "Download indisponível aqui. Os arquivos estão em compacta/imprimir/."; }
+}
+function botao(k, nome, rotulo, hrefLocal, forte) {
+  if (local) return hrefLocal ? `<a class="baixar${forte ? " forte" : ""}" href="${hrefLocal}" download>${rotulo}</a>` : "";
+  if (!dl) return `<span class="baixar" aria-disabled="true">${dlPronto ? "Download indisponível" : "Preparando download…"}</span>`;
+  return `<button class="baixar${forte ? " forte" : ""}" data-k="${k}" data-nome="${nome}">${rotulo}</button>`;
+}
+function ligar(raiz) { raiz.querySelectorAll("button.baixar").forEach(b => b.addEventListener("click", () => baixar(b.dataset.k, b.dataset.nome))); }
+function botoesFixos() {
+  $("dl-tudo").innerHTML = local ? `<span class="muted">Página aberta do disco: clique no arquivo de cada mesa para baixar.</span>`
+    : botao("tudo", "picbox_compacta_impressao_completa.zip", "Baixar tudo (.zip): 3 impressoras + peças avulsas", null, true);
+  $("dl-avulsas").innerHTML = botao("avulsas", "picbox_compacta_pecas_avulsas.zip", "Baixar todas as peças avulsas (.zip)", null);
+  ligar($("dl-tudo")); ligar($("dl-avulsas"));
+}
 try { atual = localStorage.getItem("picbox-aba") || "A"; } catch (e) {}
 
 $("c-mesas").textContent = Object.values(D.placas).reduce((s, v) => s + v.length, 0);
@@ -154,7 +189,8 @@ function painel() {
   const I = IMP[atual], lista = D.placas[atual];
   $("painel").style.setProperty("--cor", I.cor);
   $("painel").innerHTML = `<header><h2 style="color:${I.cor}">${I.nome} — mesas na ordem</h2>
-      <span class="muted">Pasta <span class="mono">compacta/imprimir/${I.pasta}/</span></span></header>` +
+      <span class="downs">${botao("impressora_" + atual, `picbox_${I.pasta}.zip`, `Baixar as ${lista.length} mesas da ${atual} (.zip)`, null, true)}
+      <span class="muted">Pasta <span class="mono">compacta/imprimir/${I.pasta}/</span></span></span></header>` +
     lista.map((p, i) => {
       const nn = String(i + 1).padStart(2, "0"), arq = `${nn}_placa_${p.n}.stl`, ok = ler(p.n);
       const qtd = {}; p.pecas.forEach(x => qtd[x] = (qtd[x] || 0) + 1);
@@ -162,7 +198,8 @@ function painel() {
         <div class="ord"><span class="n">${nn}</span><input type="checkbox" data-n="${p.n}" ${ok ? "checked" : ""} aria-label="Mesa ${nn} impressa"><small>${ok ? "impressa" : "marcar"}</small></div>
         <div class="img"><img src="${D.imgs[p.arquivo]}" alt="Mesa ${nn}" loading="lazy"></div>
         <div class="info">
-          <div class="t1"><h3>Mesa ${nn} <span class="muted">(${p.n})</span></h3><span class="mono">${arq}</span></div>
+          <div class="t1"><h3>Mesa ${nn} <span class="muted">(${p.n})</span></h3>
+            <span class="downs"><span class="mono">${arq}</span>${botao("mesa_" + p.n, arq.replace(".stl", ".zip"), local ? "Baixar .stl" : "Baixar (.zip)", `${I.pasta}/${arq}`)}</span></div>
           <div class="tags"><span class="tag num">${f1(p.horas)} h</span><span class="tag num">altura ${Math.round(p.altura)} mm</span>
             ${p.suporte ? '<span class="tag warn">com suporte + aba (brim) 5 mm</span>' : '<span class="tag ok">sem suporte</span>'}
             ${i === 0 ? '<span class="tag warn">teste de encaixe</span>' : ""}</div>
@@ -174,14 +211,16 @@ function painel() {
         </div></article>`; }).join("");
   document.querySelectorAll("#painel input[type=checkbox]").forEach(c => c.addEventListener("change", () => { gravar(c.dataset.n, c.checked); desenhar(); }));
   document.querySelectorAll("#painel img").forEach(im => im.addEventListener("click", () => zoom(im.src)));
+  ligar($("painel"));
 }
 function desenhar() { abas(); painel(); }
 function zoom(src) { const z = document.createElement("div"); z.className = "zoom"; z.innerHTML = `<img src="${src}" alt="">`;
   z.addEventListener("click", () => z.remove()); document.body.appendChild(z); }
 
 desenhar();
+botoesFixos();
 $("t-pecas").innerHTML = "<thead><tr><th>Peça</th><th>Arquivo avulso</th><th>Qtd</th><th>Mesa</th><th>Posição</th><th>Horas</th></tr></thead><tbody>" +
-  D.pecas.map(p => `<tr><td class="pn">${esc(p.peca)}</td><td class="mono">${esc(p.arquivo)}</td><td class="q num">${p.quantidade}</td><td>${p.placas.join(", ")}</td>
+  D.pecas.map(p => `<tr><td class="pn">${esc(p.peca)}</td><td class="mono">${local ? `<a href="pecas_avulsas/${esc(p.arquivo)}" download>${esc(p.arquivo)}</a>` : esc(p.arquivo)}</td><td class="q num">${p.quantidade}</td><td>${p.placas.join(", ")}</td>
     <td>${POS[p.posicao]}${/^(sim|so)/.test(p.suporte) ? " · com suporte" : ""}</td><td class="num">${f1(p.horas)}</td></tr>`).join("") + "</tbody>";
 $("fotos").innerHTML = D.fotos.map(([t, s]) => `<figure><img src="${s}" alt="${esc(t)}" loading="lazy"><figcaption>${esc(t)}</figcaption></figure>`).join("");
 document.querySelectorAll("#fotos img").forEach(im => im.addEventListener("click", () => zoom(im.src)));
