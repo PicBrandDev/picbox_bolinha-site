@@ -100,7 +100,7 @@ td.q{text-align:center;white-space:nowrap}
     <div><span class="lbl">Mesas</span><span class="v num" id="c-mesas"></span></div>
     <div><span class="lbl">Peças</span><span class="v num" id="c-pecas"></span></div>
     <div><span class="lbl">Material</span><span class="v">PETG</span></div>
-    <div><span class="lbl">Pasta dos arquivos</span><span class="mono">compacta/imprimir/</span></div>
+    <div><span class="lbl">Arquivos</span><span class="v">dentro desta página</span></div>
   </div>
 
   <div class="cfg">
@@ -142,28 +142,32 @@ const ler = n => { try { return localStorage.getItem("picbox-impresso-" + n) ===
 const gravar = (n, v) => { try { v ? localStorage.setItem("picbox-impresso-" + n, "1") : localStorage.removeItem("picbox-impresso-" + n); } catch (e) {} };
 const peca = nome => D.pecas.find(p => p.peca === nome) || {};
 let atual = "A";
-/* downloads: na pagina publicada, pelo recurso "downloads" (so aceita .zip: cada arquivo vai zipado);
-   aberta do disco (compacta/imprimir/impressao.html), links diretos para os arquivos da pasta */
+/* Os arquivos vao DENTRO desta pagina (zips em base64), para ela funcionar sozinha quando enviada a alguem.
+   Aberta direto no navegador: o botao gera o .zip e baixa. Publicada no claude.ai: usa o recurso "downloads". */
 let dl = null, dlPronto = false;
 const local = !(window.claude && window.claude.use);
 if (!local) window.claude.use("downloads").then(d => { dl = d; dlPronto = true; desenhar(); botoesFixos(); })
   .catch(() => { dlPronto = true; botoesFixos(); });
-function blobZip(k) { const s = atob(D.zips[k]), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return new Blob([u]); }
+function blobZip(k) { const s = atob(D.zips[k]), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return new Blob([u], {type: "application/zip"}); }
 async function baixar(k, nome) {
+  if (local) {
+    const url = URL.createObjectURL(blobZip(k)), a = document.createElement("a");
+    a.href = url; a.download = nome; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+    return;
+  }
   if (!dl) return;
   try { await dl.save({filename: nome, data: blobZip(k)}); $("dl-nota").textContent = ""; }
   catch (e) { const c = e && e.code; if (c === "declined") return;
-    $("dl-nota").textContent = c === "rate_limited" ? "Já há um download esperando confirmação." : "Download indisponível aqui. Os arquivos estão em compacta/imprimir/."; }
+    $("dl-nota").textContent = c === "rate_limited" ? "Já há um download esperando confirmação." : "Download indisponível aqui. Baixe o arquivo HTML e abra no navegador."; }
 }
 function botao(k, nome, rotulo, hrefLocal, forte) {
-  if (local) return hrefLocal ? `<a class="baixar${forte ? " forte" : ""}" href="${hrefLocal}" download>${rotulo}</a>` : "";
-  if (!dl) return `<span class="baixar" aria-disabled="true">${dlPronto ? "Download indisponível" : "Preparando download…"}</span>`;
+  if (!local && !dl) return `<span class="baixar" aria-disabled="true">${dlPronto ? "Download indisponível" : "Preparando download…"}</span>`;
   return `<button class="baixar${forte ? " forte" : ""}" data-k="${k}" data-nome="${nome}">${rotulo}</button>`;
 }
 function ligar(raiz) { raiz.querySelectorAll("button.baixar").forEach(b => b.addEventListener("click", () => baixar(b.dataset.k, b.dataset.nome))); }
 function botoesFixos() {
-  $("dl-tudo").innerHTML = local ? `<span class="muted">Página aberta do disco: clique no arquivo de cada mesa para baixar.</span>`
-    : botao("tudo", "picbox_compacta_impressao_completa.zip", "Baixar tudo (.zip): 3 impressoras + peças avulsas", null, true);
+  $("dl-tudo").innerHTML = botao("tudo", "picbox_compacta_impressao_completa.zip", "Baixar tudo (.zip): 3 impressoras + peças avulsas", null, true);
   $("dl-avulsas").innerHTML = botao("avulsas", "picbox_compacta_pecas_avulsas.zip", "Baixar todas as peças avulsas (.zip)", null);
   ligar($("dl-tudo")); ligar($("dl-avulsas"));
 }
@@ -199,7 +203,7 @@ function painel() {
         <div class="img"><img src="${D.imgs[p.arquivo]}" alt="Mesa ${nn}" loading="lazy"></div>
         <div class="info">
           <div class="t1"><h3>Mesa ${nn} <span class="muted">(${p.n})</span></h3>
-            <span class="downs"><span class="mono">${arq}</span>${botao("mesa_" + p.n, arq.replace(".stl", ".zip"), local ? "Baixar .stl" : "Baixar (.zip)", `${I.pasta}/${arq}`)}</span></div>
+            <span class="downs"><span class="mono">${arq}</span>${botao("mesa_" + p.n, arq.replace(".stl", ".zip"), "Baixar (.zip)", `${I.pasta}/${arq}`)}</span></div>
           <div class="tags"><span class="tag num">${f1(p.horas)} h</span><span class="tag num">altura ${Math.round(p.altura)} mm</span>
             ${p.suporte ? '<span class="tag warn">com suporte + aba (brim) 5 mm</span>' : '<span class="tag ok">sem suporte</span>'}
             ${i === 0 ? '<span class="tag warn">teste de encaixe</span>' : ""}</div>
@@ -220,7 +224,7 @@ function zoom(src) { const z = document.createElement("div"); z.className = "zoo
 desenhar();
 botoesFixos();
 $("t-pecas").innerHTML = "<thead><tr><th>Peça</th><th>Arquivo avulso</th><th>Qtd</th><th>Mesa</th><th>Posição</th><th>Horas</th></tr></thead><tbody>" +
-  D.pecas.map(p => `<tr><td class="pn">${esc(p.peca)}</td><td class="mono">${local ? `<a href="pecas_avulsas/${esc(p.arquivo)}" download>${esc(p.arquivo)}</a>` : esc(p.arquivo)}</td><td class="q num">${p.quantidade}</td><td>${p.placas.join(", ")}</td>
+  D.pecas.map(p => `<tr><td class="pn">${esc(p.peca)}</td><td class="mono">${esc(p.arquivo)}</td><td class="q num">${p.quantidade}</td><td>${p.placas.join(", ")}</td>
     <td>${POS[p.posicao]}${/^(sim|so)/.test(p.suporte) ? " · com suporte" : ""}</td><td class="num">${f1(p.horas)}</td></tr>`).join("") + "</tbody>";
 $("fotos").innerHTML = D.fotos.map(([t, s]) => `<figure><img src="${s}" alt="${esc(t)}" loading="lazy"><figcaption>${esc(t)}</figcaption></figure>`).join("");
 document.querySelectorAll("#fotos img").forEach(im => im.addEventListener("click", () => zoom(im.src)));

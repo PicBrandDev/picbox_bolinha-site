@@ -54,7 +54,8 @@ def main():
     dados = dict(placas=plano["placas"], total=plano["total"], pecas=pecas, imgs=imgs, fotos=fotos, zips=zips)
     html = (AQUI / "impressao_tpl.html").read_text(encoding="utf8").replace("__DADOS__", json.dumps(dados, ensure_ascii=False))
     (S / "impressao.html").write_text(html, encoding="utf8")
-    (IMP / "impressao.html").write_text(html, encoding="utf8")
+    (IMP / "impressao.html").unlink(missing_ok=True)
+    (IMP / "PICBOX_compacta_impressao.html").write_text(html, encoding="utf8")   # arquivo unico para enviar
     print("ok", len(html) // 1024, "KB")
 
 
