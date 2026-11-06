@@ -1,0 +1,411 @@
+<meta charset="utf-8">
+<title>Como Funciona a PICBOX</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: caderno de explicacao claro - um bloco por mecanismo, desenho animado a esquerda e o passo a passo a direita */
+:root{
+  color-scheme:light;
+  --bg:#f5f6f4; --card:#ffffff; --ink:#18201c; --muted:#5b6862; --rule:#dde2de; --soft:#eef1ee;
+  --imp:#2f6fd6; --anda:#e07a22; --comp:#8f999e; --correia:#1f2326; --bola:#9aa4ad; --eva:#3f8f5f; --alerta:#b8327a; --ok:#237a47;
+  --f-disp:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+h1,h2,h3{font-family:var(--f-disp);font-weight:700;margin:0;line-height:1.1;text-wrap:balance}
+h1{font-size:2.2rem} h2{font-size:1.45rem;text-transform:uppercase;letter-spacing:.05em} h3{font-size:1.1rem;letter-spacing:.02em}
+p{margin:0;max-width:72ch}
+.muted{color:var(--muted)}
+.mono{font-family:var(--f-mono);font-size:.82rem}
+.lead{display:flex;flex-direction:column;gap:8px}
+.bloco{background:var(--card);border:1px solid var(--rule);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);min-width:0}
+@media (max-width:900px){.bloco{grid-template-columns:minmax(0,1fr)}}
+.bloco .fig{border-right:1px solid var(--rule);padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+@media (max-width:900px){.bloco .fig{border-right:0;border-bottom:1px solid var(--rule)}}
+.bloco.largo{grid-template-columns:minmax(0,1fr)}
+.bloco.largo .fig{border-right:0;border-bottom:1px solid var(--rule)}
+.bloco.largo .txt{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 24px}
+@media (max-width:900px){.bloco.largo .txt{grid-template-columns:minmax(0,1fr)}}
+.bloco .txt{padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.vistas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+svg{width:100%;height:auto;display:block;background:#fbfcfb;border:1px solid var(--rule)}
+.cap{font:600 .74rem var(--f-disp);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:600 .82rem var(--f-body);padding:6px 12px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:4px;cursor:pointer}
+button.pri{background:var(--ink);color:#fff}
+button:focus-visible{outline:2px solid var(--imp);outline-offset:2px}
+ol.passos{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+ol.passos li{padding:4px 8px;border-left:3px solid transparent;border-radius:2px}
+ol.passos li.agora{border-left-color:var(--anda);background:#fdf3ea}
+.leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}
+.leg i{display:inline-block;width:12px;height:12px;margin-right:5px;vertical-align:-1px;border-radius:2px}
+.nota{font-size:.86rem;background:var(--soft);padding:8px 10px;border-radius:4px}
+.ops{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:800px){.ops{grid-template-columns:1fr}}
+.op{background:var(--card);border:1px solid var(--rule);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.op.rec{border:2px solid var(--ok)}
+.op .tag{align-self:flex-start;font:600 .72rem var(--f-disp);letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--soft)}
+.op.rec .tag{background:#e8f5ed;color:var(--ok)}
+.op dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.88rem}
+.op dt{font-weight:600}
+.op dd{margin:0}
+.sec{display:flex;flex-direction:column;gap:12px}
+.sec>header{display:flex;flex-direction:column;gap:4px;border-top:2px solid var(--ink);padding-top:10px}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{padding:6px 8px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{font:600 .72rem var(--f-disp);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);background:var(--soft)}
+.tab{overflow-x:auto;border:1px solid var(--rule);background:var(--card)}
+text{font-family:var(--f-body)}
+</style>
+
+<div class="wrap">
+  <div class="lead">
+    <h1>Como funciona a PICBOX compacta</h1>
+    <p>Desenhos na medida real do projeto, em mm, com animação. Os botões param e avançam passo a passo. <b>Azul</b> é peça impressa parada, <b>laranja</b> é peça impressa que anda, <b>cinza</b> é comprada, <b>preto</b> é correia.</p>
+  </div>
+
+  <!-- 1. elevador -->
+  <section class="sec">
+    <header><h2>1. O elevador e a correia aberta</h2>
+      <p class="muted">A correia não é um anel fechado: são duas pontas, as duas presas na cabine. O motor puxa um lado e a cabine anda junto.</p></header>
+    <div class="bloco largo">
+      <div class="fig">
+        <div class="vistas">
+          <div><div class="cap">De frente (largura ampliada 4×)</div><svg id="sv-elev" viewBox="0 0 300 620" role="img" aria-label="Elevador de frente com a correia"></svg></div>
+          <div><div class="cap">De lado: o caminho da bola</div><svg id="sv-lado" viewBox="0 0 300 620" role="img" aria-label="Caminho da bola de lado"></svg></div>
+        </div>
+        <div class="ctl"><button class="pri" id="bt-play">Pausar</button><button id="bt-passo">Próximo passo</button><span class="muted" id="t-txt"></span></div>
+        <div class="leg"><span><i style="background:var(--imp)"></i>impressa</span><span><i style="background:var(--anda)"></i>anda</span><span><i style="background:var(--comp)"></i>comprada</span><span><i style="background:var(--correia)"></i>correia</span><span><i style="background:var(--alerta)"></i>presilha / sensor</span></div>
+      </div>
+      <div class="txt">
+        <div><h3>Passo a passo de uma bola</h3>
+        <ol class="passos" id="passos"></ol></div>
+        <p class="nota"><b>A correia, sem mistério:</b> a ponta de baixo sai da presilha de baixo da cabine, desce, contorna a polia de baixo, sobe pelo outro lado (o ramo livre), contorna a polia do motor lá em cima e desce até a presilha de cima da cabine. Quando o motor gira, o ramo da cabine sobe e o ramo livre desce, ou o contrário. A cabine nunca chega nas polias: entre elas só passa correia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. eixos -->
+  <section class="sec">
+    <header><h2>2. Os eixos A e B (a mesma ideia, deitada)</h2>
+      <p class="muted">Cada carro corre num trilho MGN12. A correia também é aberta: as duas pontas entram na presilha do carro, uma de cada lado.</p></header>
+    <div class="bloco">
+      <div class="fig">
+        <div class="cap">Eixo de cima, visto de cima (o de baixo é igual)</div>
+        <svg id="sv-eixo" viewBox="0 0 640 210" role="img" aria-label="Eixo visto de cima com a correia"></svg>
+      </div>
+      <div class="txt">
+        <ol class="passos">
+          <li>O motor NEMA 17 fica no canto esquerdo, com o eixo para cima. A polia tensora fica no bloco da direita.</li>
+          <li>Ponta 1: sai da presilha do carro para a esquerda, contorna a polia do motor e volta pela frente.</li>
+          <li>Pela frente ela vai até a tensora, contorna e volta por trás até a presilha. Ali entra a ponta 2.</li>
+          <li>O motor gira, o ramo de trás puxa a presilha e o carro anda. Girando ao contrário, ele volta.</li>
+          <li>Para esticar a correia, a tensora corre num rasgo de 6 mm no bloco da direita.</li>
+          <li>Casa: o carro vai devagar para a esquerda até a placa tocar o fim de curso.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. bolso -->
+  <section class="sec">
+    <header><h2>3. O que segura a bola lá em cima</h2>
+      <p class="muted">Não há nenhuma peça móvel. A bola fica num bolso no fim da rampa e só sai quando o ímã a puxa.</p></header>
+    <div class="bloco">
+      <div class="fig"><div class="cap">Bolso visto de cima</div><svg id="sv-bolso" viewBox="0 0 320 260" role="img" aria-label="Bolso da rampa visto de cima"></svg></div>
+      <div class="txt">
+        <ol class="passos">
+          <li>A rampa desce 6° para a frente e 1,5° para a direita.</li>
+          <li>A bola rola até encostar ao mesmo tempo no batente da frente (com EVA, que corta o quique) e na parede da direita. É sempre o mesmo ponto.</li>
+          <li>O lado esquerdo é aberto: é por onde o ímã leva a bola embora. Sem o ímã, a gravidade empurra a bola contra as paredes e ela não sai.</li>
+          <li>O sensor do bolso (TCRT5000, por baixo do piso) avisa que a bola chegou. Depois que o ímã a leva, ele avisa que ela saiu.</li>
+          <li>O carro A para com o ímã 1 mm acima da bola, liga, a bola sobe 1 mm e gruda. O carro sai para a esquerda.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. anel no patim -->
+  <section class="sec">
+    <header><h2>4. Como o anel prende no patim do trilho</h2></header>
+    <div class="bloco">
+      <div class="fig"><div class="cap">Corte de lado, peças separadas</div><svg id="sv-anel" viewBox="0 0 620 300" role="img" aria-label="Fixação do anel no patim"></svg></div>
+      <div class="txt">
+        <ol class="passos">
+          <li>O perfil 2020 é parafusado nas paredes, com o trilho MGN12 na face de trás.</li>
+          <li>O patim MGN12H corre no trilho. Nunca tire o patim do trilho: as esferas caem.</li>
+          <li>A placa do carro B entra no patim com <b>4 parafusos M3x8</b>, pela face de trás da placa.</li>
+          <li>As costas do anel encostam na placa e prendem com <b>4 M3x12 e porca</b>: 2 embaixo e 2 em cima.</li>
+          <li>A presilha da correia fica na frente da placa, embaixo do patim.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. fins de curso -->
+  <section class="sec">
+    <header><h2>5. Fins de curso e sensores que já estão no projeto</h2></header>
+    <div class="tab"><table id="t-sens"></table></div>
+  </section>
+</div>
+
+<script>
+const M = {"zc": [18.822855689489124, 357.21459818336916], "zp": [12.5, 405.0], "x_bola": 190.8, "y_fila": 142.7, "bolso": [193.3, 72.7, 358.92125663553304], "zs": 359.92125663553304, "zb": 109.92125663553304, "r": 12.7, "y_bola": 73.7, "S": 50.33696040629235, "f40": 29.370192800430395, "f150": 21.67824348664425, "x_motor": -184.0, "x_tens": 195.0, "cA": [-165.0, 166.3], "dA": 26.0};
+const $ = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function el(svg, tag, at, txt) { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; }
+const lerp = (a, b, t) => a + (b - a) * Math.max(0, Math.min(1, t));
+const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, t)));
+
+/* ---------------- linha do tempo (s) ---------------- */
+const T = 14;
+const ETAPAS = [
+  [0.0, 1.4, "Comporta: o servo abaixa a lâmina e uma bola rola da fila para a cabine."],
+  [1.4, 4.6, "Elevador: o motor N20 gira e a correia puxa a cabine para cima (Z 19 → 357)."],
+  [4.6, 5.8, "Topo: a cabine para, o berço fica alinhado com a rampa e a bola rola até o bolso."],
+  [5.8, 7.0, "Pega: o carro A para sobre o bolso, o ímã liga e a bola sobe 1 mm."],
+  [7.0, 9.0, "Jogo: o carro A leva a bola, a cabine desce para buscar a próxima."],
+  [9.0, 9.7, "Soltura: o botão desliga o ímã e a bola cai 250 mm até o anel."],
+  [9.7, 12.6, "Volta: a bola cai na bandeja com EVA, rola para o fundo e entra na fila."],
+  [12.6, 14.0, "A bola anda na fila até encostar nas outras, e o ciclo recomeça."],
+];
+$("passos").innerHTML = ETAPAS.map((e, i) => `<li data-i="${i}">${e[2]}</li>`).join("");
+
+function estado(t) {
+  const zc0 = M.zc[0], zc1 = M.zc[1];
+  let zc = zc0;
+  if (t < 1.4) zc = zc0; else if (t < 4.6) zc = lerp(zc0, zc1, ease((t - 1.4) / 3.2));
+  else if (t < 7.0) zc = zc1; else if (t < 10.0) zc = lerp(zc1, zc0, ease((t - 7.0) / 3.0)); else zc = zc0;
+  const lam = t < 1.4 ? 1 : 0;                          // 1 = lamina baixa (deixa passar)
+  // bola: vista de frente (x, z) e de lado (y, z)
+  const R = M.r;
+  let bf = null, bl = null, ima = "desligado", carroAqui = false;
+  const zBerco = z => z + 12.7;
+  if (t < 1.4) { const k = ease(t / 1.4); bf = [lerp(150, M.x_bola, k), lerp(M.f150 + R, zBerco(zc), k)]; bl = [M.y_fila, bf[1]]; }
+  else if (t < 4.6) { bf = [M.x_bola, zBerco(zc)]; bl = [M.y_fila, bf[1]]; }
+  else if (t < 5.8) { const k = ease((t - 4.6) / 1.2); bl = [lerp(M.y_fila, M.bolso[1], k), lerp(zBerco(zc), M.bolso[2], k)]; bf = [lerp(M.x_bola, M.bolso[0], k), bl[1]]; }
+  else if (t < 7.0) { const k = ease((t - 5.8) / 1.2); carroAqui = true; ima = k > 0.5 ? "ligado" : "chegando";
+    bl = [M.bolso[1] + (k > 0.5 ? 1 : 0), M.bolso[2] + (k > 0.5 ? 1 : 0)]; bf = [M.bolso[0], bl[1]]; }
+  else if (t < 9.0) { ima = "ligado"; bl = [M.y_bola, M.zs]; bf = null; }
+  else if (t < 9.7) { const k = (t - 9.0) / 0.7; const z = M.zs - (M.zs - (M.S + R)) * k * k; bl = [M.y_bola, z]; ima = "desligado"; }
+  else if (t < 12.6) { const k = ease((t - 9.7) / 2.9); bl = [lerp(M.y_bola, M.y_fila, k), k < 0.85 ? lerp(M.S + R, M.S + R + 4, k) : lerp(M.S + R + 4, M.f40 + R, (k - 0.85) / 0.15)]; }
+  else { const k = ease((t - 12.6) / 1.4); bl = [M.y_fila, M.f40 + R]; bf = [lerp(20, 150, k), lerp(M.f40 + R, M.f150 + R, k)]; }
+  return {zc, lam, bf, bl, ima, carroAqui};
+}
+
+/* ---------------- vista de frente do elevador ---------------- */
+const ef = {x0: 150, x1: 215, sx: 300 / 65, sz: 600 / 430, top: 10};
+const fx = x => (x - ef.x0) * ef.sx, fz = z => ef.top + (430 - z) * ef.sz;
+function desenhaFrente(s) {
+  const sv = $("sv-elev"); sv.innerHTML = "";
+  const imp = css("--imp"), anda = css("--anda"), comp = css("--comp"), cor = css("--correia"), al = css("--alerta");
+  el(sv, "rect", {x: 0, y: 0, width: 300, height: 620, fill: "#fbfcfb"});
+  // guia (trilhos em T, atras) e tubo
+  el(sv, "rect", {x: fx(174.5), y: fz(413), width: fx(207.5) - fx(174.5), height: fz(5) - fz(413), fill: imp, opacity: .12});
+  el(sv, "text", {x: fx(200), y: fz(260), "font-size": 11, fill: imp, "text-anchor": "middle", transform: `rotate(-90 ${fx(203)} ${fz(260)})`}, "guia (trilhos em T, atrás)");
+  // fila
+  el(sv, "polygon", {points: `${fx(150)},${fz(M.f150)} ${fx(174)},${fz(20)} ${fx(174)},${fz(17)} ${fx(150)},${fz(M.f150 - 3)}`, fill: imp});
+  el(sv, "text", {x: fx(152), y: fz(M.f150) - 8, "font-size": 11, fill: imp}, "fila");
+  // lamina da comporta
+  const zl = s.lam ? 14 : 27;
+  el(sv, "rect", {x: fx(177.4), y: fz(zl), width: fx(178.9) - fx(177.4), height: fz(zl - 13) - fz(zl), fill: anda});
+  el(sv, "text", {x: fx(176), y: fz(4), "font-size": 10, fill: anda, "text-anchor": "end"}, "lâmina");
+  // polias
+  const rp = 14;
+  el(sv, "circle", {cx: fx(191), cy: fz(M.zp[1]), r: rp, fill: comp, stroke: "#555", "stroke-width": 1});
+  el(sv, "circle", {cx: fx(191), cy: fz(M.zp[0]), r: rp, fill: comp, stroke: "#555", "stroke-width": 1});
+  el(sv, "text", {x: fx(191), y: fz(M.zp[1]) - rp - 6, "font-size": 11, "text-anchor": "middle"}, "polia do motor N20");
+  el(sv, "text", {x: fx(191) + rp + 4, y: fz(M.zp[0]) + 4, "font-size": 11}, "polia de baixo");
+  // cabine
+  const zc = s.zc, cab = [fx(178), fz(zc + 37), fx(205.5) - fx(178), fz(zc - 2) - fz(zc + 37)];
+  el(sv, "rect", {x: cab[0], y: cab[1], width: cab[2], height: cab[3], fill: anda, opacity: .9, rx: 2});
+  el(sv, "text", {x: fx(178) - 4, y: fz(zc + 18), "font-size": 11, fill: anda, "text-anchor": "end"}, "cabine");
+  // correia: ramo livre (esq) inteiro; ramo da cabine em 2 pedacos ate as presilhas
+  const xi = fx(191) + rp, xv = fx(191) - rp, desl = (zc - M.zc[0]) * ef.sz;
+  const dash = {"stroke-dasharray": "10 6", stroke: cor, "stroke-width": 3, fill: "none"};
+  el(sv, "line", Object.assign({x1: xv, y1: fz(M.zp[0]), x2: xv, y2: fz(M.zp[1]), "stroke-dashoffset": desl}, dash));
+  el(sv, "line", Object.assign({x1: xi, y1: fz(M.zp[0]), x2: xi, y2: fz(zc + 12), "stroke-dashoffset": -desl}, dash));
+  el(sv, "line", Object.assign({x1: xi, y1: fz(zc + 35), x2: xi, y2: fz(M.zp[1]), "stroke-dashoffset": -desl}, dash));
+  el(sv, "path", {d: `M ${xv} ${fz(M.zp[1])} A ${rp} ${rp} 0 0 1 ${xi} ${fz(M.zp[1])}`, stroke: cor, "stroke-width": 3, fill: "none"});
+  el(sv, "path", {d: `M ${xv} ${fz(M.zp[0])} A ${rp} ${rp} 0 0 0 ${xi} ${fz(M.zp[0])}`, stroke: cor, "stroke-width": 3, fill: "none"});
+  // presilhas na cabine
+  for (const [z0, z1, t] of [[zc + 10, zc + 21, "presilha de baixo"], [zc + 29, zc + 37, "presilha de cima"]]) {
+    el(sv, "rect", {x: xi - 6, y: fz(z1), width: 12, height: fz(z0) - fz(z1), fill: al, rx: 2});
+    el(sv, "text", {x: xi + 10, y: fz((z0 + z1) / 2) + 4, "font-size": 10, fill: al}, t);
+  }
+  // setas de movimento
+  const subindo = s.vz > 0.01, descendo = s.vz < -0.01;
+  if (subindo || descendo) {
+    const sy = fz(zc + 60);
+    el(sv, "text", {x: xi + 10, y: fz(zc + 70), "font-size": 18, fill: anda}, subindo ? "↑" : "↓");
+    el(sv, "text", {x: xv - 22, y: fz(zc + 70), "font-size": 18, fill: cor}, subindo ? "↓" : "↑");
+  }
+  // rampa e bolso (topo)
+  el(sv, "rect", {x: fx(177), y: fz(374), width: fx(208) - fx(177), height: fz(339) - fz(374), fill: imp, opacity: .35});
+  el(sv, "text", {x: fx(152), y: fz(386), "font-size": 11, fill: imp}, "rampa e bolso (saem para a frente) →");
+  // fins de curso
+  el(sv, "rect", {x: fx(200), y: fz(18.7), width: fx(206.4) - fx(200), height: fz(8.5) - fz(18.7), fill: al});
+  el(sv, "rect", {x: fx(200), y: fz(412), width: fx(206.4) - fx(200), height: fz(401.8) - fz(412), fill: al});
+  el(sv, "text", {x: fx(207), y: fz(28), "font-size": 10, fill: al, "text-anchor": "end"}, "fim de curso");
+  // bola
+  if (s.bf) el(sv, "circle", {cx: fx(s.bf[0]), cy: fz(s.bf[1]), r: M.r * ef.sz, fill: css("--bola"), stroke: "#555"});
+}
+
+/* ---------------- vista de lado ---------------- */
+const el2 = {y0: 30, y1: 205, sy: 300 / 175, sz: 600 / 430, top: 10};
+const ly = y => (y - el2.y0) * el2.sy, lz = z => el2.top + (430 - z) * el2.sz;
+function desenhaLado(s) {
+  const sv = $("sv-lado"); sv.innerHTML = "";
+  const imp = css("--imp"), anda = css("--anda"), comp = css("--comp"), al = css("--alerta"), eva = css("--eva");
+  el(sv, "rect", {x: 0, y: 0, width: 300, height: 620, fill: "#fbfcfb"});
+  el(sv, "line", {x1: ly(200), y1: lz(0), x2: ly(200), y2: lz(430), stroke: "#7a8", "stroke-width": 3});
+  el(sv, "text", {x: ly(199), y: lz(425), "font-size": 11, "text-anchor": "end", fill: "#5a6"}, "tela");
+  el(sv, "text", {x: ly(31), y: lz(425), "font-size": 11}, "← jogador");
+  // coluna do elevador
+  el(sv, "rect", {x: ly(128), y: lz(413), width: ly(199) - ly(128), height: lz(5) - lz(413), fill: imp, opacity: .1});
+  // cabine
+  el(sv, "rect", {x: ly(130.5), y: lz(s.zc + 37), width: ly(199) - ly(130.5), height: lz(s.zc - 2) - lz(s.zc + 37), fill: anda, opacity: .85, rx: 2});
+  // rampa
+  el(sv, "polygon", {points: `${ly(128)},${lz(352)} ${ly(55)},${lz(344.3)} ${ly(55)},${lz(339)} ${ly(128)},${lz(339)}`, fill: imp});
+  el(sv, "rect", {x: ly(55), y: lz(374), width: ly(60) - ly(55), height: lz(344) - lz(374), fill: eva});
+  el(sv, "text", {x: ly(92), y: lz(332), "font-size": 11, fill: imp, "text-anchor": "middle"}, "rampa → bolso");
+  // perfis / carros (de lado)
+  el(sv, "rect", {x: ly(30), y: lz(415), width: ly(36) - ly(30), height: lz(395) - lz(415), fill: comp});
+  el(sv, "rect", {x: ly(30), y: lz(91), width: ly(36) - ly(30), height: lz(71) - lz(91), fill: comp});
+  const imaCor = s.ima === "ligado" ? al : "#777";
+  el(sv, "rect", {x: ly(41), y: lz(392.6), width: ly(86) - ly(41), height: lz(387.6) - lz(392.6), fill: anda});
+  el(sv, "rect", {x: ly(63.7), y: lz(387.6), width: ly(83.7) - ly(63.7), height: lz(372.6) - lz(387.6), fill: imaCor});
+  el(sv, "text", {x: ly(88), y: lz(384), "font-size": 11, fill: imaCor}, `ímã ${s.ima}`);
+  el(sv, "text", {x: ly(41), y: lz(400), "font-size": 10, fill: anda}, "carro A (anda em X)");
+  // anel no carro B
+  el(sv, "rect", {x: ly(47.7), y: lz(M.zb), width: ly(54.7) - ly(47.7), height: lz(M.zb - 22) - lz(M.zb), fill: anda});
+  el(sv, "rect", {x: ly(92.7), y: lz(M.zb), width: ly(99.7) - ly(92.7), height: lz(M.zb - 22) - lz(M.zb), fill: anda});
+  el(sv, "rect", {x: ly(41), y: lz(M.zb), width: ly(46) - ly(41), height: lz(49) - lz(M.zb), fill: anda});
+  el(sv, "text", {x: ly(101), y: lz(M.zb - 8), "font-size": 11, fill: anda}, "anel (carro B)");
+  // bandeja e fila
+  el(sv, "polygon", {points: `${ly(51)},${lz(M.S + 3.8)} ${ly(127.5)},${lz(M.S - 1.5)} ${ly(127.5)},${lz(M.S - 10)} ${ly(51)},${lz(M.S - 5)}`, fill: eva});
+  el(sv, "text", {x: ly(60), y: lz(M.S - 18), "font-size": 11, fill: eva}, "bandeja + EVA");
+  el(sv, "rect", {x: ly(130), y: lz(M.f40 - 0.5), width: ly(156.5) - ly(130), height: 4, fill: imp});
+  el(sv, "rect", {x: ly(156.5), y: lz(105), width: ly(158.1) - ly(156.5), height: lz(0) - lz(105), fill: imp});
+  el(sv, "text", {x: ly(132), y: lz(M.f40 - 12), "font-size": 11, fill: imp}, "fila");
+  if (s.bl) el(sv, "circle", {cx: ly(s.bl[0]), cy: lz(s.bl[1]), r: M.r * el2.sz, fill: css("--bola"), stroke: "#555"});
+}
+
+/* ---------------- eixo visto de cima ---------------- */
+const ex = x => 20 + (x + 215) * 600 / 430, ey = y => 20 + (100 - y) * 1.7;
+let eixoT = 0;
+function desenhaEixo(c) {
+  const sv = $("sv-eixo"); sv.innerHTML = "";
+  const imp = css("--imp"), anda = css("--anda"), comp = css("--comp"), cor = css("--correia"), al = css("--alerta");
+  el(sv, "rect", {x: 0, y: 0, width: 640, height: 210, fill: "#fbfcfb"});
+  el(sv, "rect", {x: ex(-200), y: ey(28), width: ex(200) - ex(-200), height: ey(8) - ey(28), fill: comp, opacity: .6});
+  el(sv, "text", {x: ex(0), y: ey(8) + 14, "font-size": 11, "text-anchor": "middle"}, "perfil 2020 (frente)");
+  el(sv, "rect", {x: ex(-200), y: ey(36), width: ex(200) - ex(-200), height: ey(28) - ey(36), fill: "#6f787d"});
+  el(sv, "text", {x: ex(-120), y: ey(36) - 4, "font-size": 10, fill: "#555"}, "trilho MGN12");
+  el(sv, "rect", {x: ex(-210), y: ey(46), width: ex(-200) - ex(-210), height: ey(4) - ey(46), fill: imp});
+  el(sv, "rect", {x: ex(200), y: ey(44), width: ex(210) - ex(200), height: ey(4) - ey(44), fill: imp});
+  const rp = 6.37 * 1.7, xm = ex(M.x_motor), xt = ex(M.x_tens), yc = ey(22);
+  el(sv, "rect", {x: ex(M.x_motor - 21), y: ey(43), width: ex(M.x_motor + 21) - ex(M.x_motor - 21), height: ey(1) - ey(43), fill: comp, opacity: .35});
+  el(sv, "circle", {cx: xm, cy: yc, r: rp + 3, fill: comp, stroke: "#555"});
+  el(sv, "circle", {cx: xt, cy: yc, r: rp + 3, fill: comp, stroke: "#555"});
+  el(sv, "text", {x: xm, y: ey(1) + 14, "font-size": 11, "text-anchor": "middle"}, "motor NEMA 17");
+  el(sv, "text", {x: xt, y: ey(1) + 14, "font-size": 11, "text-anchor": "middle"}, "tensora");
+  // carro
+  const cx = ex(c), cw = ex(22.7) - ex(0);
+  el(sv, "rect", {x: cx - cw, y: ey(41), width: 2 * cw, height: ey(31) - ey(41), fill: comp});
+  el(sv, "rect", {x: ex(c - 22), y: ey(86), width: ex(c + 38) - ex(c - 22), height: ey(41) - ey(86), fill: anda, opacity: .85});
+  el(sv, "circle", {cx: ex(c + M.dA), cy: ey(M.y_bola), r: 10 * 1.4, fill: al, opacity: .8});
+  el(sv, "text", {x: ex(c + M.dA), y: ey(M.y_bola) + 4, "font-size": 10, "text-anchor": "middle", fill: "#fff"}, "ímã");
+  el(sv, "text", {x: ex(c - 22), y: ey(86) - 4, "font-size": 11, fill: anda}, "carro A");
+  // correia: frente inteira, tras em 2 pedacos ate a presilha
+  const yf = ey(22 - 6.37), yt = ey(22 + 6.37), desl = (c - M.cA[0]) * 600 / 430;
+  const dash = {"stroke-dasharray": "10 6", stroke: cor, "stroke-width": 3, fill: "none"};
+  el(sv, "line", Object.assign({x1: xm, y1: yf, x2: xt, y2: yf, "stroke-dashoffset": desl}, dash));
+  el(sv, "line", Object.assign({x1: xm, y1: yt, x2: ex(c - 8), y2: yt, "stroke-dashoffset": -desl}, dash));
+  el(sv, "line", Object.assign({x1: ex(c + 8), y1: yt, x2: xt, y2: yt, "stroke-dashoffset": -desl}, dash));
+  el(sv, "path", {d: `M ${xm} ${yt} A ${yf - yc} ${yf - yc} 0 0 0 ${xm} ${yf}`, stroke: cor, "stroke-width": 3, fill: "none"});
+  el(sv, "path", {d: `M ${xt} ${yt} A ${yf - yc} ${yf - yc} 0 0 1 ${xt} ${yf}`, stroke: cor, "stroke-width": 3, fill: "none"});
+  el(sv, "rect", {x: ex(c - 8), y: ey(41), width: ex(c + 8) - ex(c - 8), height: ey(25.5) - ey(41), fill: al, opacity: .9});
+  el(sv, "text", {x: ex(c), y: ey(46), "font-size": 10, "text-anchor": "middle", fill: al}, "presilha: as 2 pontas");
+  el(sv, "text", {x: ex(-200) - 2, y: ey(50), "font-size": 10, fill: al}, "fim de curso");
+}
+
+/* ---------------- bolso ---------------- */
+function desenhaBolso() {
+  const sv = $("sv-bolso"); const imp = css("--imp"), eva = css("--eva"), al = css("--alerta");
+  const bx = x => 20 + (x - 172) * 7, by = y => 20 + (130 - y) * 2.9;
+  el(sv, "rect", {x: 0, y: 0, width: 320, height: 260, fill: "#fbfcfb"});
+  el(sv, "rect", {x: bx(189), y: by(88), width: bx(206) - bx(189), height: by(60) - by(88), fill: imp, opacity: .25});
+  el(sv, "rect", {x: bx(177.5), y: by(128), width: bx(206) - bx(177.5), height: by(88) - by(128), fill: imp, opacity: .25});
+  el(sv, "rect", {x: bx(206), y: by(128), width: bx(208) - bx(206), height: by(51) - by(128), fill: imp});
+  el(sv, "rect", {x: bx(175.5), y: by(128), width: bx(177.5) - bx(175.5), height: by(88) - by(128), fill: imp});
+  el(sv, "rect", {x: bx(189), y: by(60), width: bx(206) - bx(189), height: by(55) - by(60), fill: eva});
+  el(sv, "rect", {x: bx(195.6), y: by(77.8), width: bx(201.4) - bx(195.6), height: by(67.6) - by(77.8), fill: al, opacity: .7});
+  el(sv, "ellipse", {cx: bx(193.3), cy: by(72.7), rx: 12.7 * 7, ry: 12.7 * 2.9, fill: css("--bola"), opacity: .75, stroke: "#555"});
+  el(sv, "text", {x: bx(193.3), y: by(72.7) + 4, "font-size": 11, "text-anchor": "middle"}, "bola");
+  el(sv, "text", {x: bx(191), y: by(110), "font-size": 11, "text-anchor": "middle", fill: imp}, "vem do elevador ↓");
+  el(sv, "text", {x: bx(184), y: by(56) + 16, "font-size": 11, "text-anchor": "middle", fill: eva}, "batente + EVA (frente)");
+  el(sv, "text", {x: bx(176), y: by(72), "font-size": 11, "text-anchor": "end"}, "aberto: o ímã");
+  el(sv, "text", {x: bx(176), y: by(72) + 14, "font-size": 11, "text-anchor": "end"}, "leva para cá ←");
+  el(sv, "text", {x: bx(207), y: by(132), "font-size": 10, fill: imp, "text-anchor": "middle"}, "parede");
+  el(sv, "text", {x: bx(198.5), y: by(78) - 4, "font-size": 10, fill: al, "text-anchor": "middle"}, "sensor");
+}
+
+/* ---------------- anel no patim ---------------- */
+function desenhaAnel() {
+  const sv = $("sv-anel"), imp = css("--imp"), anda = css("--anda"), comp = css("--comp");
+  const ay = y => 20 + y * 5.2, az = z => 280 - (z - 40) * 3.4;
+  el(sv, "rect", {x: 0, y: 0, width: 620, height: 300, fill: "#fbfcfb"});
+  const pecas = [[8, 28, 71, 91, comp, "perfil 2020"], [28, 36, 75, 87, "#6f787d", "trilho"], [31, 41, 67.5, 94.5, comp, "patim MGN12H"],
+    [41, 46, 49, 104, anda, "placa do carro B"], [46, 50, 50, 110, anda, "costas do anel"], [50, 54, 88, 110, anda, ""], [93, 99.7, 88, 110, anda, ""]];
+  const sep = [0, 0, 0, 12, 24, 24, 24];
+  pecas.forEach((p, i) => { el(sv, "rect", {x: ay(p[0]) + sep[i] * 1.0, y: az(p[3]), width: ay(p[1]) - ay(p[0]), height: az(p[2]) - az(p[3]), fill: p[4], opacity: .9});
+    if (p[5]) el(sv, "text", {x: ay(p[0]) + sep[i] + (ay(p[1]) - ay(p[0])) / 2, y: az(p[2]) + 16, "font-size": 11, "text-anchor": "middle"}, p[5]); });
+  el(sv, "text", {x: ay(75) + 24, y: az(114), "font-size": 12, "text-anchor": "middle", fill: anda}, "anel (furo 38)");
+  for (const z of [71, 91]) el(sv, "line", {x1: ay(36), y1: az(z), x2: ay(46) + 12, y2: az(z), stroke: "#111", "stroke-width": 2, "stroke-dasharray": "4 3"});
+  el(sv, "text", {x: ay(46) + 16, y: az(91) - 6, "font-size": 11}, "4 × M3x8: placa → patim");
+  for (const z of [60, 100]) el(sv, "line", {x1: ay(39), y1: az(z), x2: ay(50) + 24, y2: az(z), stroke: "#b8327a", "stroke-width": 2, "stroke-dasharray": "4 3"});
+  el(sv, "text", {x: ay(50) + 28, y: az(60) + 4, "font-size": 11, fill: "#b8327a"}, "4 × M3x12 + porca: costas → placa");
+}
+
+/* ---------------- sensores ---------------- */
+const SENS = [
+  ["Fim de curso do eixo A", "KW10 (de toque)", "Bloco esquerdo de cima, X −197", "A placa do carro A aperta a alavanca na casa (X −165)"],
+  ["Fim de curso do eixo B", "KW10 (de toque)", "Bloco esquerdo de baixo, X −197", "A placa do carro B aperta a alavanca na casa"],
+  ["Fim de curso de baixo do elevador", "KW10 (de toque)", "No pé da guia, Z 8 a 19", "A cabine aperta quando chega no batente"],
+  ["Fim de curso de cima do elevador", "KW10 (de toque)", "Na cabeça da guia, Z 402 a 412", "A cabine aperta no topo: hora de a bola rolar"],
+  ["Sensor do bolso", "TCRT5000 (óptico refletivo)", "Embaixo do piso do bolso", "Vê a bola parada no bolso; confirma a pega"],
+  ["Barreira do anel", "LED IR + fototransistor 5 mm", "Nas laterais do anel, Z 95", "A bola corta o feixe ao passar: conta o acerto"],
+];
+$("t-sens").innerHTML = "<thead><tr><th>Sensor</th><th>Tipo hoje</th><th>Onde</th><th>O que faz</th></tr></thead><tbody>" +
+  SENS.map(r => `<tr>${r.map((c, i) => `<td${i === 0 ? ' style="font-weight:600"' : ""}>${c}</td>`).join("")}</tr>`).join("") + "</tbody>";
+
+/* ---------------- animacao ---------------- */
+let t = 0, rodando = !matchMedia("(prefers-reduced-motion: reduce)").matches, ult = null, zcAnt = null;
+function quadro(ts) {
+  if (ult === null) ult = ts;
+  const dt = Math.min(0.05, (ts - ult) / 1000); ult = ts;
+  if (rodando) { t = (t + dt) % T; eixoT += dt; }
+  const s = estado(t);
+  s.vz = zcAnt === null ? 0 : s.zc - zcAnt; zcAnt = s.zc;
+  desenhaFrente(s); desenhaLado(s);
+  const cA = M.cA[0] + 20 + (M.cA[1] - M.cA[0] - 40) * (0.5 - 0.5 * Math.cos(eixoT * 2 * Math.PI / 6));
+  desenhaEixo(cA);
+  const i = ETAPAS.findIndex(e => t >= e[0] && t < e[1]);
+  document.querySelectorAll("#passos li").forEach(li => li.classList.toggle("agora", +li.dataset.i === i));
+  $("t-txt").textContent = `${(i + 1)}/${ETAPAS.length}`;
+  requestAnimationFrame(quadro);
+}
+$("bt-play").textContent = rodando ? "Pausar" : "Animar";
+$("bt-play").addEventListener("click", () => { rodando = !rodando; $("bt-play").textContent = rodando ? "Pausar" : "Animar"; });
+$("bt-passo").addEventListener("click", () => { rodando = false; $("bt-play").textContent = "Animar";
+  const i = ETAPAS.findIndex(e => t >= e[0] && t < e[1]); t = ETAPAS[(i + 1) % ETAPAS.length][0] + 0.6; });
+desenhaBolso(); desenhaAnel();
+requestAnimationFrame(quadro);
+</script>
