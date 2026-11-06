@@ -8,7 +8,7 @@ Máquina A inteira dentro do gabinete de 420 × 420 × 200 (tela no fundo), bola
 | `imprimir/A_impressora_grande/` | Mesas da impressora boa, de 260 × 260: peças de precisão e as que ficam à vista. |
 | `imprimir/B_creality_1/`, `imprimir/C_creality_2/` | Mesas das Creality, de 220 × 220: peças grandes e simples. |
 | `imprimir/pecas_avulsas/` | Uma STL por peça, para reimprimir só uma. `__x2` no nome quer dizer imprimir 2 cópias. |
-| `pagina/picbox_compacta.html` | Página com o 3D, a explicação de cada peça, a montagem passo a passo, os cabos e as checagens. Abra no navegador. |
+| `pagina/PICBOX_compacta_visualizacao.html` | Página com o 3D, a explicação de cada peça, a montagem passo a passo, os cabos e as checagens. Abra no navegador. |
 | `imagens/` | Imagens da montagem feitas com as peças reais. |
 | `step/` | Cada peça na posição de montagem, para abrir num CAD e editar. |
 | `cad/` | Código que gera tudo. Só precisa abrir para mudar o projeto. |

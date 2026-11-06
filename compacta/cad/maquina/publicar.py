@@ -67,7 +67,7 @@ def main():
     if (S / "impressao.html").exists():
         shutil.copy2(S / "impressao.html", imp / "PICBOX_compacta_impressao.html")
     limpa(C / "pagina")
-    shutil.copy2(S / "picbox_compacta_r1.html", C / "pagina" / "picbox_compacta.html")
+    shutil.copy2(S / "picbox_compacta_r1.html", C / "pagina" / "PICBOX_compacta_visualizacao.html")
     print("\n".join(geral))
 
 
