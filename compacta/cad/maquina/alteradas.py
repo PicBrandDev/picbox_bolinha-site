@@ -16,12 +16,12 @@ LEIA = """PICBOX COMPACTA - PECAS ALTERADAS (R1.1)
 Imprima so estas. Elas substituem as de mesmo nome das mesas A1, A4, B1 e C1.
 PETG, bico 0,4, camada 0,2, 4 perimetros, 25%. Nao use orientacao automatica.
 
-1) A_impressora_grande__carros_e_anel.stl   (impressora A, ~6 h)
-   - Carro A  -> COM SUPORTE em arvore so embaixo da presilha, da prateleira e da nervura. Aba 5 mm.
+A_impressora_grande__todas_as_alteradas.stl   (impressora A, uma mesa so, ~9 h, altura 66 mm)
+   - Carro A  -> COM SUPORTE em arvore so embaixo da presilha, da prateleira e da nervura.
    - Carro B
    - Anel
-2) B_ou_C_creality__2x_bloco_esquerdo.stl   (qualquer Creality, ~3 h)
    - Bloco esquerdo x2
+   Aba (brim) de 5 mm. Se o fatiador juntar tudo, use 'Dividir em objetos'.
 
 pecas_avulsas/ = as mesmas pecas, uma por arquivo.
 
@@ -70,8 +70,8 @@ def main():
     (D / "pecas_avulsas").mkdir(parents=True)
     for f in AVULSAS:
         shutil.copy2(IMP / "pecas_avulsas" / f"{f}.stl", D / "pecas_avulsas")
-    mesa(["carro_a", "carro_b", "anel"], "A_impressora_grande__carros_e_anel.stl", 260)
-    mesa(["bloco_esquerdo__x2", "bloco_esquerdo__x2"], "B_ou_C_creality__2x_bloco_esquerdo.stl", 220)
+    mesa(["carro_a", "carro_b", "anel", "bloco_esquerdo__x2", "bloco_esquerdo__x2"],
+         "A_impressora_grande__todas_as_alteradas.stl", 260)
     (D / "LEIA-ME.txt").write_text(LEIA, encoding="utf8")
     with zipfile.ZipFile(ZIP, "w", zipfile.ZIP_DEFLATED) as z:
         for p in sorted(D.rglob("*")):

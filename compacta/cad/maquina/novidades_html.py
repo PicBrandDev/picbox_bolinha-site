@@ -112,7 +112,7 @@ def main():
 <tr><td>Carro A</td><td>{A}</td><td>Presilha com bolso do fixador; copo do ímã; prateleira 2 mm mais alta (arruela)</td><td class="num">A · com suporte</td></tr>
 <tr><td>Carro B</td><td>{A}</td><td>Presilha com bolso do fixador</td><td class="num">A</td></tr>
 <tr><td>Anel</td><td>{A}</td><td>0,7 mm mais alto (bola 1,1 mm mais alta no ímã)</td><td class="num">A</td></tr>
-<tr><td>Bloco esquerdo ×2</td><td>{A}</td><td>Braço para o fim de curso</td><td class="num">B ou C</td></tr>
+<tr><td>Bloco esquerdo ×2</td><td>{A}</td><td>Braço para o fim de curso</td><td class="num">A</td></tr>
 <tr><td>Fixador de correia ×2</td><td>{N}</td><td>Comprado, alumínio 40 × 9 × 5</td><td class="num">—</td></tr>
 <tr><td>Arruela M10 de aço</td><td>{N}</td><td>Comprada</td><td class="num">—</td></tr>
 <tr><td>Fim de curso KW10 ×4</td><td>{N}</td><td>2 nos eixos (novos) + 2 no elevador</td><td class="num">—</td></tr>
