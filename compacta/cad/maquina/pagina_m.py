@@ -168,6 +168,30 @@ def cena(m):
     return dict(geo=geo, est=est)
 
 
+def novidades(m):
+    """Pecas novas/alteradas da R1.1 e pontos de vista para o botao 'Novidades R1.1'."""
+    casa, xe, yf = m.c_casa, m.c_casa + L.FIX[0] - 2, 28.37 - 0.7 - 4.5
+    zcA, zcB = m.zpA - 22, m.zpB - 22
+    f = lambda nome, alvo, d, a, b, txt: dict(nome=nome, alvo=[round(v, 2) for v in alvo], dir=d, a=round(a, 2), b=round(b, 2), txt=txt)
+    return dict(
+        compradas=["Fixador de correia", "Arruela M10 de aco", "Fim de curso", "LED IR / fototransistor 5 mm"],
+        alteradas=["Carro A", "Carro B", "Anel", "Bloco esquerdo"],
+        focos=[
+            f("Fixador carro A", (casa - 6, yf, zcA), (-0.3, -0.8, 1.0), casa + m.dA, 0,
+              "Fixador de alumínio 40 × 9 × 5 deitado no bolso da presilha; a correia passa entre ele e a parede, as duas pontas se encontram no meio; M3x12 + porca."),
+            f("Fixador carro B", (casa - 6, yf, zcB), (-0.3, -0.8, 1.0), 0, casa,
+              "Igual ao do carro A, no eixo de baixo."),
+            f("Fim de curso A", (xe, 36, m.zpA - 20), (0.25, -1.0, 0.55), casa + m.dA, 0,
+              f"KW10 no braço do bloco esquerdo (2 M2x12). Na casa (X {casa:.0f}) a presilha aperta a alavanca."),
+            f("Fim de curso B", (xe, 36, m.zpB - 20), (0.25, -1.0, 0.55), 0, casa,
+              "Igual ao do eixo A, no bloco esquerdo de baixo."),
+            f("Arruela no ímã", (m.x_pega, m.y_bola, m.face_ima), (-0.45, -1.0, 0.12), m.x_pega, 0,
+              "Arruela M10 de aço colada embaixo do ímã, dentro do copo impresso. A bola sobe e encaixa 1,1 mm no furo."),
+            f("Barreira IR", (0, m.y_bola, m.zb - 14.5), (-0.5, -1.0, 0.7), casa + m.dA, 0,
+              "Par emissor/receptor 5 mm pronto, nos dois furos laterais do anel (os mesmos de antes)."),
+        ])
+
+
 def main(saida):
     m = L.M()
     el = m.el
@@ -210,6 +234,7 @@ def main(saida):
         imagens=[dict(t=t, src="data:image/png;base64," + base64.b64encode((AQUI / "saida" / "imagens" / a).read_bytes()).decode())
                  for a, t in IMAGENS],
         faq=FAQ, cabos=CABOS,
+        novo=novidades(m),
         m=dict(cA=m.cA, cB=m.cB, dA=m.dA, zc=[el.zc_min, el.zc_max], piv=list(el.piv), ang=el.ang_baixa, zs=m.zs, zb=m.zb,
                yb=m.y_bola, r=L.R, x_pega=m.x_pega, bolso=m.bola_bolso.tolist(), curso=m.curso),
     )

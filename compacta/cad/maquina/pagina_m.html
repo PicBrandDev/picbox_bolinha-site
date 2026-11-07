@@ -9,7 +9,7 @@
   --paper:#f1f3f0; --sheet:#fbfcfa; --ink:#1b231f; --muted:#5d6a63; --rule:#d3dad5; --line:#97a39c;
   --accent:#2753d6; --accent2:#c8601e; --ok:#2b7a4c; --bad:#b4382a; --warn:#9a6510;
   --m-preto:#3b413e; --m-metal:#a9b0b3; --m-transp:#9cc3e6; --m-correia:#24282a; --m-eva:#3f7d5b; --m-bola:#c9ced6;
-  --scene:#e9ece9; --imp:#2f6fd6; --imp-anda:#e07a22;
+  --scene:#e9ece9; --imp:#2f6fd6; --imp-anda:#e07a22; --nova:#d6246e; --alt:#f2a516; --fade:#aab3ba;
   --f-disp:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
@@ -18,12 +18,12 @@
   --paper:#101412; --sheet:#161b18; --ink:#e1e8e3; --muted:#99a69f; --rule:#2b332f; --line:#6b766f;
   --accent:#7f9dff; --accent2:#ef9150; --ok:#5cc08a; --bad:#ef7a6b; --warn:#e0a84a;
   --m-preto:#6c7470; --m-metal:#c3c9cc; --m-transp:#6f9cc4; --m-correia:#141617; --m-eva:#5ea57d; --m-bola:#e2e6ec;
-  --scene:#1c2220; --imp:#5a8cf0; --imp-anda:#f0913f; color-scheme:dark }}
+  --scene:#1c2220; --imp:#5a8cf0; --imp-anda:#f0913f; --nova:#ff5c9a; --alt:#f2b636; --fade:#56616a; color-scheme:dark }}
 :root[data-theme="dark"]{
   --paper:#101412; --sheet:#161b18; --ink:#e1e8e3; --muted:#99a69f; --rule:#2b332f; --line:#6b766f;
   --accent:#7f9dff; --accent2:#ef9150; --ok:#5cc08a; --bad:#ef7a6b; --warn:#e0a84a;
   --m-preto:#6c7470; --m-metal:#c3c9cc; --m-transp:#6f9cc4; --m-correia:#141617; --m-eva:#5ea57d; --m-bola:#e2e6ec;
-  --scene:#1c2220; --imp:#5a8cf0; --imp-anda:#f0913f; color-scheme:dark }
+  --scene:#1c2220; --imp:#5a8cf0; --imp-anda:#f0913f; --nova:#ff5c9a; --alt:#f2b636; --fade:#56616a; color-scheme:dark }
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--f-body);margin:0;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
@@ -85,6 +85,8 @@ tr.sel td{background:color-mix(in srgb,var(--accent) 10%,transparent)}
 .duas{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
 ul.lista{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;max-width:74ch}
 .small{font-size:.84rem;color:var(--muted)}
+.focos{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 0 0}
+.focos p{flex-basis:100%;margin:4px 0 0;font-size:.85rem;color:var(--muted);max-width:70ch}
 .leg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.8rem;color:var(--muted)}
 .leg i{display:inline-block;width:11px;height:11px;margin-right:5px;vertical-align:-1px;border:1px solid var(--line)}
 .fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
@@ -104,7 +106,7 @@ ul.lista{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;
   <div class="carimbo" role="group" aria-label="Carimbo do desenho">
     <div><span class="lbl">Desenho</span><h1>PICBOX Compacta R1</h1></div>
     <div><span class="lbl">Projeto</span><span class="v">Máquina A completa</span></div>
-    <div><span class="lbl">Revisão</span><span class="v">R1 · para imprimir</span></div>
+    <div><span class="lbl">Revisão</span><span class="v">R1.1 · para imprimir</span></div>
     <div><span class="lbl">Data</span><span class="v">06/11/2026</span></div>
     <div><span class="lbl">Espaço livre</span><span class="v">420 × 420 × 200</span></div>
     <div><span class="lbl">Unidade</span><span class="v">mm</span></div>
@@ -144,12 +146,14 @@ ul.lista{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;
       <canvas id="v3d" aria-label="Máquina completa em 3D: arraste para girar, role para aproximar, clique numa peça"></canvas>
       <div class="barra">
         <button class="pri" id="bt-anim" type="button" aria-pressed="false">Animar jogada</button>
+        <button id="bt-novo" type="button" aria-pressed="false">Novidades R1.1</button>
         <button id="bt-comp" type="button" aria-pressed="false">Esconder compradas</button>
         <button id="bt-frente" type="button">Frente</button>
         <button id="bt-lado" type="button">Lado</button>
         <button id="bt-iso" type="button">3/4</button>
         <span class="small" id="dica">Arraste para girar · role para aproximar · clique numa peça</span>
       </div>
+      <div class="focos" id="focos" hidden></div>
     </figure>
     <aside class="painel" aria-label="Posição dos carros e peça selecionada">
       <h3>Posição</h3>
@@ -431,6 +435,38 @@ bC.addEventListener("click", () => {
   bC.setAttribute("aria-pressed", String(on));
   if (cena3d) cena3d.sc.traverse(o => { if (o.isMesh && o.userData.comprada) o.visible = !on; });
 });
+
+/* novidades R1.1: destaca o que mudou e leva a camera ate cada ponto */
+const bN = $("bt-novo"), fo = $("focos");
+function novidades(on) {
+  bN.setAttribute("aria-pressed", String(on)); fo.hidden = !on;
+  if (!cena3d) return;
+  const N = D.novo, mk = (k, op) => new THREE.MeshStandardMaterial({color: new THREE.Color(css(k)), roughness: .5, metalness: .1,
+    transparent: op < 1, opacity: op, depthWrite: op >= 1, side: THREE.DoubleSide});
+  const mN = mk("--nova", 1), mA = mk("--alt", 1), mF = mk("--fade", .13);
+  cena3d.sc.traverse(o => {
+    if (!o.isMesh || !o.userData.peca) return;
+    if (!o.userData.mat0) o.userData.mat0 = o.material;
+    const pc = o.userData.peca;
+    const novo = !on ? o.userData.mat0 : N.compradas.includes(pc) ? mN : N.alteradas.includes(pc) ? mA :
+      pc.startsWith("Bolas") || pc.startsWith("Correia") ? o.userData.mat0 : mF;
+    o.material = novo === o.userData.mat0 ? novo : novo.clone();      // clone: o destaque do clique fica so na peca
+  });
+  $("leg").innerHTML = (on ? [["--nova", "comprada nova (R1.1)"], ["--alt", "impressa alterada (R1.1)"], ["--fade", "sem mudança"]] : LEG)
+    .map(([k, t]) => `<span><i style="background:${css(k)}"></i>${t}</span>`).join("");
+}
+function irPara(f) {
+  pararAnim(); sA.value = f.a; sB.value = f.b; pose();
+  const {cam, ctl} = cena3d, d = new THREE.Vector3(...f.dir).normalize().multiplyScalar(170);
+  cam.position.set(f.alvo[0] + d.x, f.alvo[1] + d.y, f.alvo[2] + d.z);
+  if (ctl) { ctl.target.set(...f.alvo); ctl.update(); } else cam.lookAt(...f.alvo);
+  $("foco-txt").textContent = f.nome + ": " + f.txt;
+}
+fo.innerHTML = D.novo.focos.map((f, i) => `<button type="button" data-i="${i}">${esc(f.nome)}</button>`).join("") +
+  '<button type="button" id="bt-geral">Ver tudo</button><p id="foco-txt">Escolha um ponto para a câmera ir até ele. Rosa = comprada nova, amarelo = impressa alterada.</p>';
+fo.querySelectorAll("button[data-i]").forEach(b => b.addEventListener("click", () => cena3d && irPara(D.novo.focos[+b.dataset.i])));
+$("bt-geral").addEventListener("click", () => { vistaCam("iso"); $("foco-txt").textContent = "Rosa = comprada nova, amarelo = impressa alterada."; });
+bN.addEventListener("click", () => novidades(bN.getAttribute("aria-pressed") !== "true"));
 
 /* legenda */
 const LEG = [["--imp", "impressa, parada"], ["--imp-anda", "impressa, anda (carros, cabine, comporta)"],
