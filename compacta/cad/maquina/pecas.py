@@ -227,9 +227,13 @@ def detalhes(m, peca, el):
         zp = m.zpA if k == "A" else m.zpB
         zcor = zp + m.dz_correia
         yr = m.y_correia + 20 * 2 / (2 * math.pi)
-        # bolsao do fixador com 0,9 mm de folga para empurrar ele contra a correia antes de apertar
-        cut.append(cq.Solid.makeBox(L.FIX[1] - L.FIX[0] + 0.6, 9.9, 7.0,
-                                    pnt=cq.Vector(L.FIX[0] - 0.3, yr - 0.7 - 9.9, zcor - 3.2)))
+        # porca M3 do fixador presa na presilha: sextavado 5,9 entre faces, 2,8 de fundo, 4,9 mm atras da parede
+        # (parede = costas da correia); entra por baixo por uma fenda
+        xm, ys = (L.FIX[0] + L.FIX[1]) / 2, yr + 0.7 + 4.9
+        hexa = (cq.Workplane(cq.Plane(origin=(xm, ys, zcor), xDir=(1, 0, 0), normal=(0, 1, 0)))
+                .polygon(6, 5.9 / math.cos(math.pi / 6)).extrude(2.8).val())
+        cut.append(hexa)
+        cut.append(cq.Solid.makeBox(5.9, 2.8, 12.0, pnt=cq.Vector(xm - 2.95, ys, zcor - 10.5)))
     if peca == "Cabine":
         # presilhas da correia no bloco da direita: fenda de 1,9 mm no ramo preso (x_ida), dentes do lado da polia
         xi = el.x_ida

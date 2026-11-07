@@ -194,29 +194,17 @@
  },
  {
   "stl": "carro_a.stl",
-  "menor_mm": 0.28,
-  "pct_abaixo_0_8": 0.02,
-  "pct_abaixo_0_45": 0.02,
-  "pontos_finos": [
-   [
-    15.6,
-    -34.3,
-    18.9
-   ]
-  ]
+  "menor_mm": 1.66,
+  "pct_abaixo_0_8": 0.0,
+  "pct_abaixo_0_45": 0.0,
+  "pontos_finos": []
  },
  {
   "stl": "carro_b.stl",
-  "menor_mm": 0.28,
-  "pct_abaixo_0_8": 0.02,
-  "pct_abaixo_0_45": 0.02,
-  "pontos_finos": [
-   [
-    -8.8,
-    -14.5,
-    28.5
-   ]
-  ]
+  "menor_mm": 2.31,
+  "pct_abaixo_0_8": 0.0,
+  "pct_abaixo_0_45": 0.0,
+  "pontos_finos": []
  },
  {
   "stl": "espacador.stl",

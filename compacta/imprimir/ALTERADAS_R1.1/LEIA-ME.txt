@@ -13,9 +13,12 @@ A_impressora_grande__todas_as_alteradas.stl   (impressora A, uma mesa so, ~9 h, 
 pecas_avulsas/ = as mesmas pecas, uma por arquivo.
 
 O QUE MUDOU
-- Carro A e Carro B: no lugar dos dentes impressos, uma presilha com encaixe para o
-  fixador de correia de aluminio (40 x 9 x 5). O fixador entra no bolso, a correia
-  fica entre ele e a parede (as duas pontas se encontram no meio), e um M3x12 + porca aperta.
+- Carro A e Carro B: no lugar dos dentes impressos, uma presilha para o fixador de correia
+  de aluminio (40 x 9 x 5). O fixador fica EM PE, com a face dentada direto na face dentada
+  da correia; as costas lisas da correia encostam na parede da presilha. Um M3x16 entra de
+  frente pelo furo do meio do fixador (entre as duas pontas da correia) e a porca M3, presa
+  na fenda da presilha (entra por baixo), aperta tudo. Aperte com a tensora solta, afastando
+  o ramo da frente com o dedo; depois estique na tensora do bloco direito.
   A face esquerda da presilha aperta o fim de curso (casa em X = -146).
 - Bloco esquerdo: ganhou o braco que segura o fim de curso KW10 de cada eixo
   (2 parafusos M2x12).
@@ -25,7 +28,7 @@ O QUE MUDOU
 - Elevador: sem mudanca.
 
 COMPRAR / SEPARAR
-- 2 fixadores de correia GT2 de aluminio (os da foto) + 2 M3x12 + 2 porcas M3
+- 2 fixadores de correia GT2 de aluminio (os da foto) + 2 M3x16 + 2 porcas M3
 - 1 arruela M10 lisa de ACO comum (nao inox, inox nao gruda no ima)
 - 1 par de barreira infravermelha 5 mm (emissor + receptor com saida digital)
 - 4 fins de curso KW10 (eixo A, eixo B, elevador embaixo e em cima) + 8 M2x12

@@ -42,13 +42,14 @@ def casos(m: L.M):
     m_carroA = 0.015 + 0.030 + M_BOLA + 0.025
     F_norm = T0 + m_carroA * a
     F_falha = T0 + F_TRAVA
-    # 1. dentes da presilha (4 dentes de cada lado, 8 mm de correia)
-    area = 4 * 0.9 * 6.0
+    # 1. fixador de aluminio: a correia fica presa nos dentes dele; o plastico so segura a porca do M3
+    #    (sextavado 5,9 com 4,9 mm de parede ate a correia: arranca um "cilindro" de plastico de perimetro ~20 mm)
+    area_porca = math.pi * 6.4 * 4.9
     for k in ("A", "B"):
-        out.append(caso(f"Carro {k}", "dentes da presilha da correia", "normal", F_norm, F_norm / area, PETG["fluencia"],
-                        "cisalhamento entre camadas", "carga permanente da correia: compara com 10 MPa"))
-        out.append(caso(f"Carro {k}", "dentes da presilha da correia", "falha", F_falha, F_falha / area, PETG["tau_z"],
-                        "cisalhamento entre camadas", f"NEMA travado ({TORQUE_NEMA} N.m) puxa {F_TRAVA:.0f} N"))
+        out.append(caso(f"Carro {k}", "parede da porca do fixador (aperto firme do M3)", "normal", 150.0, 150.0 / area_porca,
+                        PETG["fluencia"], "cisalhamento em volta da porca", "aperto que segura a correia: carga permanente"))
+        out.append(caso(f"Carro {k}", "parede da porca do fixador (aperto exagerado)", "falha", 400.0, 400.0 / area_porca,
+                        PETG["tau_z"], "cisalhamento em volta da porca", "M3 apertado demais"))
         # bloco da presilha em balanco da placa (16 x 14, braco 12,6 ate a correia)
         A_, I, c = secao([(-8, 8, 0, 14.1)], "x")
         out.append(caso(f"Carro {k}", "raiz do bloco da presilha", "falha", F_falha, F_falha * 12.6 * c / I, PETG["sr_z"],

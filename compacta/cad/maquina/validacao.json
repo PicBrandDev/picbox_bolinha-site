@@ -1318,25 +1318,25 @@
   },
   {
    "nome": "fixador_A",
-   "tipo": "M3x12 + porca",
+   "tipo": "M3x16 + porca",
    "etapa": 12,
-   "prende": "Carro A",
-   "rosca": "Fixador de correia",
-   "pega": 5.0,
+   "prende": "Fixador de correia",
+   "rosca": "Carro A",
+   "pega": 9.6,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
     -6.0,
-    23.166197723675815,
-    374.5
+    22.666197723675815,
+    383.0
    ],
    "dir": [
     0,
-    0,
-    1
+    1,
+    0
    ],
-   "L": 12,
+   "L": 16,
    "corpo": "carroA"
   },
   {
@@ -2150,25 +2150,25 @@
   },
   {
    "nome": "fixador_B",
-   "tipo": "M3x12 + porca",
+   "tipo": "M3x16 + porca",
    "etapa": 12,
-   "prende": "Carro B",
-   "rosca": "Fixador de correia",
-   "pega": 5.0,
+   "prende": "Fixador de correia",
+   "rosca": "Carro B",
+   "pega": 9.6,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
     -6.0,
-    23.166197723675815,
-    50.5
+    22.666197723675815,
+    59.0
    ],
    "dir": [
     0,
-    0,
-    1
+    1,
+    0
    ],
-   "L": 12,
+   "L": 16,
    "corpo": "carroB"
   },
   {
@@ -3160,6 +3160,19 @@
     "nota": "elo da ponta da esteira preso no suporte"
    },
    {
+    "a": "presilha_A",
+    "pa": "Carro A",
+    "b": "correia_tras_A",
+    "pb": "Correia A",
+    "folga": -0.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": "as costas da correia ficam apertadas contra a parede da presilha"
+   },
+   {
     "a": "fixador_A",
     "pa": "Fixador de correia",
     "b": "correia_tras_A",
@@ -3170,7 +3183,7 @@
      "cB": -146.0
     },
     "ok": true,
-    "nota": "a correia fica presa nos dentes do fixador"
+    "nota": "os dentes do fixador apertam a face dentada da correia"
    },
    {
     "a": "est_fixA",
@@ -3186,6 +3199,19 @@
     "nota": "elo da ponta da esteira preso no suporte"
    },
    {
+    "a": "presilha_B",
+    "pa": "Carro B",
+    "b": "correia_tras_B",
+    "pb": "Correia B",
+    "folga": -0.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": "as costas da correia ficam apertadas contra a parede da presilha"
+   },
+   {
     "a": "fixador_B",
     "pa": "Fixador de correia",
     "b": "correia_tras_B",
@@ -3196,7 +3222,7 @@
      "cB": -146.0
     },
     "ok": true,
-    "nota": "a correia fica presa nos dentes do fixador"
+    "nota": "os dentes do fixador apertam a face dentada da correia"
    },
    {
     "a": "est_fixB",
@@ -3223,32 +3249,6 @@
     },
     "ok": true,
     "nota": "elo da ponta da esteira preso no suporte"
-   },
-   {
-    "a": "presilha_A",
-    "pa": "Carro A",
-    "b": "correia_tras_A",
-    "pb": "Correia A",
-    "folga": 0.15,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": "a correia passa na fenda dentada da presilha"
-   },
-   {
-    "a": "presilha_B",
-    "pa": "Carro B",
-    "b": "correia_tras_B",
-    "pb": "Correia B",
-    "folga": 0.15,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": "a correia passa na fenda dentada da presilha"
    },
    {
     "a": "est_curvaB_0",
@@ -3288,32 +3288,6 @@
     },
     "ok": true,
     "nota": "o patim abraca o trilho"
-   },
-   {
-    "a": "presilha_piso_B",
-    "pa": "Carro B",
-    "b": "correia_tras_B",
-    "pb": "Correia B",
-    "folga": 0.2,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": "a correia apoia no piso da presilha, entrando no fixador"
-   },
-   {
-    "a": "presilha_piso_A",
-    "pa": "Carro A",
-    "b": "correia_tras_A",
-    "pb": "Correia A",
-    "folga": 0.2,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": "a correia apoia no piso da presilha, entrando no fixador"
    },
    {
     "a": "patim_fl1_A",
@@ -3888,32 +3862,6 @@
     "nota": ""
    },
    {
-    "a": "ponte_B",
-    "pa": "Carro B",
-    "b": "correia_tras_B",
-    "pb": "Correia B",
-    "folga": 0.8,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "ponte_A",
-    "pa": "Carro A",
-    "b": "correia_tras_A",
-    "pb": "Correia A",
-    "folga": 0.8,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "alav_ponte",
     "pa": "Braco da comporta",
     "b": "fila_piso",
@@ -4236,32 +4184,6 @@
     "nota": ""
    },
    {
-    "a": "presilha_piso_A",
-    "pa": "Carro A",
-    "b": "correia_frente_A",
-    "pb": "Correia A",
-    "folga": 1.17,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "presilha_piso_B",
-    "pa": "Carro B",
-    "b": "correia_frente_B",
-    "pb": "Correia B",
-    "folga": 1.17,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "alav_barra",
     "pa": "Braco da comporta",
     "b": "fila_frente_baixo",
@@ -4454,6 +4376,32 @@
     "nota": ""
    },
    {
+    "a": "presilha_piso_A",
+    "pa": "Carro A",
+    "b": "correia_frente_A",
+    "pb": "Correia A",
+    "folga": 1.8,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "presilha_piso_A",
+    "pa": "Carro A",
+    "b": "correia_tras_A",
+    "pb": "Correia A",
+    "folga": 1.8,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": "a correia apoia no piso da presilha, entrando no fixador"
+   },
+   {
     "a": "copoA",
     "pa": "Carro A",
     "b": "rampa_dir",
@@ -4465,6 +4413,32 @@
     },
     "ok": true,
     "nota": ""
+   },
+   {
+    "a": "presilha_piso_B",
+    "pa": "Carro B",
+    "b": "correia_frente_B",
+    "pb": "Correia B",
+    "folga": 1.8,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "presilha_piso_B",
+    "pa": "Carro B",
+    "b": "correia_tras_B",
+    "pb": "Correia B",
+    "folga": 1.8,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": "a correia apoia no piso da presilha, entrando no fixador"
    },
    {
     "a": "costasB",
@@ -4549,6 +4523,19 @@
     "pa": "Carro A",
     "b": "fdc_A",
     "pb": "Fim de curso",
+    "folga": 2.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponte_A",
+    "pa": "Carro A",
+    "b": "correia_tras_A",
+    "pb": "Correia A",
     "folga": 2.0,
     "onde": {
      "cA": -146.0,
@@ -4870,6 +4857,19 @@
     "nota": ""
    },
    {
+    "a": "ponte_B",
+    "pa": "Carro B",
+    "b": "correia_tras_B",
+    "pb": "Correia B",
+    "folga": 2.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
     "a": "alav_ponte",
     "pa": "Braco da comporta",
     "b": "fila_frente",
@@ -4990,32 +4990,6 @@
     "onde": {
      "zc": 18.8,
      "cA": 166.3
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "fixador_A",
-    "pa": "Fixador de correia",
-    "b": "correia_frente_A",
-    "pb": "Correia A",
-    "folga": 2.33,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "fixador_B",
-    "pa": "Fixador de correia",
-    "b": "correia_frente_B",
-    "pb": "Correia B",
-    "folga": 2.33,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
     },
     "ok": true,
     "nota": ""
@@ -5567,32 +5541,6 @@
     "nota": ""
    },
    {
-    "a": "presilha_piso_A",
-    "pa": "Carro A",
-    "b": "fdc_A",
-    "pb": "Fim de curso",
-    "folga": 2.78,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "presilha_piso_B",
-    "pa": "Carro B",
-    "b": "fdc_B",
-    "pb": "Fim de curso",
-    "folga": 2.78,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "costas",
     "pa": "Cabine",
     "b": "fdc_cima",
@@ -5748,6 +5696,32 @@
     "nota": "a esteira A desliza deitada na prateleira"
    },
    {
+    "a": "presilha_piso_A",
+    "pa": "Carro A",
+    "b": "fdc_A",
+    "pb": "Fim de curso",
+    "folga": 2.93,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "presilha_piso_B",
+    "pa": "Carro B",
+    "b": "fdc_B",
+    "pb": "Fim de curso",
+    "folga": 2.93,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
     "a": "berco_dir",
     "pa": "Cabine",
     "b": "band_eva_2",
@@ -5798,7 +5772,7 @@
     "nota": ""
    }
   ],
-  "segundos": 84.1,
+  "segundos": 202.0,
   "posicoes": {
    "A": 106,
    "B": 90

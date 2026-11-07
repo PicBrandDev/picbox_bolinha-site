@@ -84,11 +84,11 @@ def main():
     fichas = [
         ficha("02_presilha.png", "Fixador de alumínio na presilha dos carros",
               ["Atrás de cada carro (A em cima, B embaixo), na altura da correia.",
-               "O fixador fica deitado no bolso da presilha, na frente do ramo de trás da correia."],
-              ["Passe a correia entre o fixador e a parede da presilha, dentes contra dentes.",
+               "O fixador fica em pé, na frente do ramo de trás da correia, com a face dentada encostada na face dentada da correia."],
+              ["Encaixe a porca M3 por baixo, na fenda da presilha.", "Encoste as costas lisas da correia na parede da presilha e o fixador por cima, dentes nos dentes.",
                "As duas pontas da correia se encontram no meio: 20 mm de dente para cada ponta.",
-               "Aperte o M3x12 por baixo, com a porca em cima do fixador. A tensão vem da polia tensora."],
-              ["2 fixadores GT2 de alumínio 40 × 9 × 5 (os da foto)", "2 M3x12 + 2 porcas M3"]),
+               "Passe o M3x16 de frente pelo furo do meio do fixador, entre as pontas, e aperte firme. Faça isso com a tensora solta, afastando o ramo da frente com o dedo; depois estique na tensora."],
+              ["2 fixadores GT2 de alumínio 40 × 9 × 5 (os da foto)", "2 M3x16 + 2 porcas M3"]),
         ficha("03_fim_de_curso.png", "Fim de curso dos eixos A e B",
               [f"No braço novo do bloco esquerdo, ao lado do motor. Um para cada eixo.",
                f"Casa (home) em X = {casa} mm: a face esquerda da presilha aperta a alavanca."],
@@ -109,8 +109,8 @@ def main():
     ]
     tabela = f"""<div class="tabela"><table>
 <tr><th>Peça</th><th>Status</th><th>O que mudou</th><th>Impressora</th></tr>
-<tr><td>Carro A</td><td>{A}</td><td>Presilha com bolso do fixador; copo do ímã; prateleira 2 mm mais alta (arruela)</td><td class="num">A · com suporte</td></tr>
-<tr><td>Carro B</td><td>{A}</td><td>Presilha com bolso do fixador</td><td class="num">A</td></tr>
+<tr><td>Carro A</td><td>{A}</td><td>Presilha com parede de aperto e porca presa do fixador; copo do ímã; prateleira 2 mm mais alta (arruela)</td><td class="num">A · com suporte</td></tr>
+<tr><td>Carro B</td><td>{A}</td><td>Presilha com parede de aperto e porca presa do fixador</td><td class="num">A</td></tr>
 <tr><td>Anel</td><td>{A}</td><td>0,7 mm mais alto (bola 1,1 mm mais alta no ímã)</td><td class="num">A</td></tr>
 <tr><td>Bloco esquerdo ×2</td><td>{A}</td><td>Braço para o fim de curso</td><td class="num">A</td></tr>
 <tr><td>Fixador de correia ×2</td><td>{N}</td><td>Comprado, alumínio 40 × 9 × 5</td><td class="num">—</td></tr>

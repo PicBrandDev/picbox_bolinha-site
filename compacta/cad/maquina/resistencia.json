@@ -2,29 +2,29 @@
  "casos": [
   {
    "peca": "Carro A",
-   "ponto": "dentes da presilha da correia",
+   "ponto": "parede da porca do fixador (aperto firme do M3)",
    "regime": "normal",
-   "carga_N": 15.1,
-   "tensao_MPa": 0.7,
+   "carga_N": 150.0,
+   "tensao_MPa": 1.5,
    "limite_MPa": 10.0,
-   "direcao": "cisalhamento entre camadas",
-   "fs": 14.3,
+   "direcao": "cisalhamento em volta da porca",
+   "fs": 6.6,
    "fs_min": 3.0,
    "ok": true,
-   "nota": "carga permanente da correia: compara com 10 MPa"
+   "nota": "aperto que segura a correia: carga permanente"
   },
   {
    "peca": "Carro A",
-   "ponto": "dentes da presilha da correia",
+   "ponto": "parede da porca do fixador (aperto exagerado)",
    "regime": "falha",
-   "carga_N": 81.0,
-   "tensao_MPa": 3.7,
+   "carga_N": 400.0,
+   "tensao_MPa": 4.1,
    "limite_MPa": 15.0,
-   "direcao": "cisalhamento entre camadas",
-   "fs": 4.0,
+   "direcao": "cisalhamento em volta da porca",
+   "fs": 3.7,
    "fs_min": 1.5,
    "ok": true,
-   "nota": "NEMA travado (0.42 N.m) puxa 66 N"
+   "nota": "M3 apertado demais"
   },
   {
    "peca": "Carro A",
@@ -41,29 +41,29 @@
   },
   {
    "peca": "Carro B",
-   "ponto": "dentes da presilha da correia",
+   "ponto": "parede da porca do fixador (aperto firme do M3)",
    "regime": "normal",
-   "carga_N": 15.1,
-   "tensao_MPa": 0.7,
+   "carga_N": 150.0,
+   "tensao_MPa": 1.5,
    "limite_MPa": 10.0,
-   "direcao": "cisalhamento entre camadas",
-   "fs": 14.3,
+   "direcao": "cisalhamento em volta da porca",
+   "fs": 6.6,
    "fs_min": 3.0,
    "ok": true,
-   "nota": "carga permanente da correia: compara com 10 MPa"
+   "nota": "aperto que segura a correia: carga permanente"
   },
   {
    "peca": "Carro B",
-   "ponto": "dentes da presilha da correia",
+   "ponto": "parede da porca do fixador (aperto exagerado)",
    "regime": "falha",
-   "carga_N": 81.0,
-   "tensao_MPa": 3.7,
+   "carga_N": 400.0,
+   "tensao_MPa": 4.1,
    "limite_MPa": 15.0,
-   "direcao": "cisalhamento entre camadas",
-   "fs": 4.0,
+   "direcao": "cisalhamento em volta da porca",
+   "fs": 3.7,
    "fs_min": 1.5,
    "ok": true,
-   "nota": "NEMA travado (0.42 N.m) puxa 66 N"
+   "nota": "M3 apertado demais"
   },
   {
    "peca": "Carro B",

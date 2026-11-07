@@ -37,7 +37,7 @@ def main():
     casa = m.c_casa
     zcA, zcB = m.zpA - 22, m.zpB - 22
     xe = casa + L.FIX[0] - 2
-    yfix = 28.37 - 0.7 - 4.5
+    yfix = 28.37 - 0.7 - L.FIX_E / 2
 
     # 1. geral
     cg = -20.0
@@ -54,12 +54,12 @@ def main():
     esc = ("Perfil 2020", "Prateleira", "Esteira", "Gancho", "Ponta fixa", "Bandeja", "EVA", "Tubo", "Fila")
     # 2. presilha + fixador (carro A, visto de baixo/frente, sem o perfil)
     it = pinta(R.cena(m, el.zc_min, el.ang_baixa, casa, 60.0), 0.25)
-    rot = [("Fixador de aluminio 40x9x5", (casa - 6, yfix - 3, zcA - 1)),
-           ("Correia presa entre fixador e parede", (casa - 20, 28.4, zcA + 3)),
-           ("M3x12 + porca por baixo", (casa - 6, yfix, zcA - 8.5)),
+    rot = [("Fixador em pe: dentes contra os dentes da correia", (casa - 18, yfix, zcA + 4.5)),
+           ("Parede lisa da presilha (costas da correia)", (casa + 12, 29.5, zcA + 5)),
+           ("M3x16 de frente, porca presa atras", (casa - 6, 21.0, zcA)),
            ("Carro A", (casa + 10, 40, zcA + 14))]
-    R.foto("02_presilha.png", it, (casa - 6, 28, zcA + 2), (-0.3, -0.8, 1.0), 34, [], rot,
-           titulo="Presilha do carro A: o fixador de aluminio prende a correia (o carro B e igual)",
+    R.foto("02_presilha.png", it, (casa - 6, 26, zcA), (-0.4, -1.0, 0.75), 32, [], rot,
+           titulo="Presilha do carro A: o M3 aperta a correia entre o fixador e a parede (carro B igual)",
            esconde=esc + ("Bloco esquerdo", "Fim de curso", "Trilho", "Patim", "Polia", "NEMA", "Suporte do NEMA"), vidro=("Carro A",))
     # 3. fim de curso (carro na casa, apertando a alavanca)
     rot = [("Fim de curso KW10", (xe - 7, 35, m.zpA - 14)), ("Braco do bloco esquerdo", (-200, 41, m.zpA - 12)),

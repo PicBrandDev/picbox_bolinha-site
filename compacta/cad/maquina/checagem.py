@@ -37,16 +37,16 @@ PREVISTO.add(frozenset(("Rampa", "Sensor do bolso")))       # o sensor fica num 
 PREVISTO |= {frozenset(("EVA 5 mm", p)) for p in ("Bandeja esquerda", "Bandeja do meio", "Bandeja direita", "Rampa")}
 # contatos de carros/esteiras que sao a funcao da peca
 CONTATO_MOVEL = {
-    ("presilha_A", "correia_tras_A"): "a correia passa na fenda dentada da presilha",
-    ("presilha_B", "correia_tras_B"): "a correia passa na fenda dentada da presilha",
+    ("presilha_A", "correia_tras_A"): "as costas da correia ficam apertadas contra a parede da presilha",
+    ("presilha_B", "correia_tras_B"): "as costas da correia ficam apertadas contra a parede da presilha",
     ("presilha_A", "fdc_alav_A"): "fim de curso do eixo A: a presilha aperta a alavanca na casa",
     ("presilha_B", "fdc_alav_B"): "fim de curso do eixo B: a presilha aperta a alavanca na casa",
     ("presilha_piso_A", "fdc_alav_A"): "fim de curso do eixo A: a presilha aperta a alavanca na casa",
     ("presilha_piso_B", "fdc_alav_B"): "fim de curso do eixo B: a presilha aperta a alavanca na casa",
     ("presilha_piso_A", "correia_tras_A"): "a correia apoia no piso da presilha, entrando no fixador",
     ("presilha_piso_B", "correia_tras_B"): "a correia apoia no piso da presilha, entrando no fixador",
-    ("fixador_A", "correia_tras_A"): "a correia fica presa nos dentes do fixador",
-    ("fixador_B", "correia_tras_B"): "a correia fica presa nos dentes do fixador",
+    ("fixador_A", "correia_tras_A"): "os dentes do fixador apertam a face dentada da correia",
+    ("fixador_B", "correia_tras_B"): "os dentes do fixador apertam a face dentada da correia",
 }
 CONTATO_MOVEL.update(ME.CONTATO_PREVISTO)
 for _k in ("A", "B"):

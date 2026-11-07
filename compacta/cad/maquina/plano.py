@@ -45,8 +45,8 @@ FUNCAO = {
                      "esticar. São 2 iguais.",
     "Suporte do NEMA de cima": "Segura o motor NEMA 17 do eixo de cima, com o eixo virado para cima, na parede esquerda.",
     "Suporte do NEMA de baixo": "Segura o motor NEMA 17 do eixo de baixo, apoiado no piso.",
-    "Carro A": "Vai parafusado no patim do trilho de cima. Prende a correia na fenda dentada e leva o eletroímã que segura e solta a bola.",
-    "Carro B": "Vai parafusado no patim do trilho de baixo. Prende a correia e leva o anel.",
+    "Carro A": "Vai parafusado no patim do trilho de cima. Prende a correia com o fixador de alumínio e leva o eletroímã que segura e solta a bola.",
+    "Carro B": "Vai parafusado no patim do trilho de baixo. Prende a correia com o fixador de alumínio e leva o anel.",
     "Anel": "O alvo do jogo: a bola tem que passar pelo furo de 38 mm. Nos furos laterais vão o LED infravermelho e o "
             "fototransistor que contam o acerto.",
     "Bandeja esquerda": "Piso inclinado que recebe a bola depois da queda e a leva para a fila. O EVA 5 mm vai colado em cima.",

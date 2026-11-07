@@ -372,18 +372,21 @@ def patim(g, corpo, zp, k):
     caixa(g, f"patim_fl2_{k}", corpo, -22.7, 22.7, 31, 36.2, zp - 13.5, zp - 6.4, f"Patim MGN12H {k}", "metal")
 
 
-FIX = (-26.0, 14.0)              # fixador de correia (aluminio 40 x 9 x 5, dentes GT2 numa borda) em X do carro
+FIX = (-26.0, 14.0)              # fixador de correia (aluminio 40 x 9 x 5, face 40 x 9 dentada) em X do carro
+FIX_E = 5.0                      # espessura do fixador (Y)
 
 
 def presilha(g, corpo, zc, k, pc):
-    """Presilha da correia embaixo do patim, para o fixador de aluminio 40 x 9 x 5 (comprado): ele fica deitado com os
-    dentes contra o ramo de tras da correia, que passa entre os dentes e uma parede impressa. 1 M3 por baixo prende o
-    fixador; as duas pontas da correia se encontram no meio dele."""
-    yr = 22.0 + 20 * 2 / (2 * math.pi)                  # ramo de tras (Y 28,37)
-    caixa(g, f"presilha_piso_{k}", corpo, FIX[0] - 2, FIX[1] + 2, 17.5, yr + 0.85, zc - 8.5, zc - 3.2, pc, "acento")
-    caixa(g, f"presilha_{k}", corpo, FIX[0] - 2, FIX[1] + 2, yr + 0.85, 41, zc - 8.5, zc + 3.8, pc, "acento")
-    caixa(g, f"ponte_{k}", corpo, -8, 8, yr + 0.85, 41, zc + 3.8, zc + 8.1, pc, "acento")
-    caixa(g, f"fixador_{k}", corpo, FIX[0], FIX[1], yr - 0.7 - 9.0, yr - 0.7, zc - 3.2, zc + 1.8, "Fixador de correia",
+    """Presilha da correia embaixo do patim, para o fixador de aluminio 40 x 9 x 5 (comprado). O fixador fica EM PE,
+    com a face dentada direto na face dentada do ramo de tras da correia; 1 M3x16 atravessa o fixador (entre as duas
+    pontas da correia, que se encontram no meio) e a porca presa na presilha puxa tudo: a correia fica apertada entre
+    os dentes de aluminio e a parede lisa da presilha."""
+    yr = 22.0 + 20 * 2 / (2 * math.pi)                  # ramo de tras (Y 28,37): dentes para -Y, costas para +Y
+    yp = yr + 0.7                                       # parede = costas da correia
+    caixa(g, f"presilha_piso_{k}", corpo, FIX[0] - 2, FIX[1] + 2, 17.5, yp, zc - 8.5, zc - 4.8, pc, "acento")
+    caixa(g, f"presilha_{k}", corpo, FIX[0] - 2, FIX[1] + 2, yp, 41, zc - 8.5, zc + 5.0, pc, "acento")
+    caixa(g, f"ponte_{k}", corpo, -8, 8, yp, 41, zc + 5.0, zc + 8.1, pc, "acento")
+    caixa(g, f"fixador_{k}", corpo, FIX[0], FIX[1], yr - 0.7 - FIX_E, yr - 0.7, zc - 4.5, zc + 4.5, "Fixador de correia",
           "metal")
 
 
@@ -604,14 +607,14 @@ PECAS_NOVAS = {
     "Correia A": ("comprada", "GT2 6 mm aberta, ~820 mm", 12, "as 2 pontas na fenda dentada da presilha do carro A + abracadeira"),
     "Correia B": ("comprada", "GT2 6 mm aberta, ~820 mm", 12, "as 2 pontas na fenda dentada da presilha do carro B + abracadeira"),
     "Carro A": ("impressa", "PETG preto", 12, "4 M3x8 no patim; eletroima no copo com 1 M3x8 por cima; arruela colada na face do ima; "
-                                             "fixador de correia com 1 M3x12 por baixo"),
+                                             "fixador de correia em pe, 1 M3x16 de frente + porca presa na presilha"),
     "Fixador de correia": ("comprada", "fixador de correia de aluminio 40 x 9 x 5 com dentes GT2 (o que voces compraram), 1 por carro", 12,
-                           "deitado na presilha, dentes contra a correia; 1 M3x12 por baixo (porca em cima se o furo nao tiver rosca)"),
+                           "em pe, face dentada direto na face dentada da correia; 1 M3x16 de frente pelo furo do meio, porca M3 presa na presilha; a correia fica apertada contra a parede lisa"),
     "Arruela M10 de aco": ("comprada", "arruela lisa M10 de aco (DIN 125: 20 x 10,5 x 2), NAO inox", 12,
                            "colada (super cola ou epoxi) na face do eletroima, dentro do copo do carro A"),
     "Eletroima P20/15": ("comprada", "eletroima 12 V P20/15 (voces ja tem); a arruela de aco vai colada na face", 12,
                          "entra no copo do carro A por baixo; 1 M3x8 na rosca do topo"),
-    "Carro B": ("impressa", "PETG preto", 12, "4 M3x8 no patim; o anel prende atras com 4 M3x12 + porca; fixador de correia com 1 M3x12 por baixo"),
+    "Carro B": ("impressa", "PETG preto", 12, "4 M3x8 no patim; o anel prende atras com 4 M3x12 + porca; fixador de correia em pe, 1 M3x16 de frente + porca presa na presilha"),
     "Anel": ("impressa", "PETG preto", 13, "costas com 4 M3x12 + porca na placa do carro B; LED IR e fototransistor de 5 mm nos furos laterais"),
     "LED IR / fototransistor 5 mm": ("comprada", "par de barreira infravermelha 5 mm com cabo (emissor + receptor com saida digital)", 12,
                                      "entram justos nos furos do anel, com uma gota de cola quente"),
@@ -705,9 +708,11 @@ def fixadores(m: M):
         for i, dz in enumerate((-4.75, 4.75)):
             add(f"fdc_{k}_{i}", "M2x12", (xe - 9.3, 32.0, zp - 20.1 + dz), (0, 1, 0), 12, "Fim de curso", "Bloco esquerdo", 9,
                 cab=3.8, bancada=True)
-        add(f"fixador_{k}", "M3x12 + porca", ((FIX[0] + FIX[1]) / 2, 22.0 + 20 * 2 / (2 * math.pi) - 0.7 - 4.5,
-                                             zp + m.dz_correia - 8.5), (0, 0, 1), 12, f"Carro {k}", "Fixador de correia", 12,
-            corpo="carro" + k, corredor=40)
+        # M3x16 de frente: cabeca no fixador, atravessa a correia entre as pontas, porca presa na presilha.
+        # Aperta com a tensora solta (ramo da frente afastado com o dedo), depois estica na tensora.
+        add(f"fixador_{k}", "M3x16 + porca", ((FIX[0] + FIX[1]) / 2, 22.0 + 20 * 2 / (2 * math.pi) - 0.7 - FIX_E,
+                                             zp + m.dz_correia), (0, 1, 0), 16, "Fixador de correia", f"Carro {k}", 12,
+            corpo="carro" + k, atravessa=(f"Correia {k}",), acesso=(f"Correia {k}",), corredor=15)
     # carros nos patins
     for k, zp in (("A", m.zpA), ("B", m.zpB)):
         for i, (dx, dz) in enumerate(((-10, -10), (10, -10), (10, 10), (-10, 10))):
