@@ -68,6 +68,11 @@ def main():
         shutil.copy2(S / "impressao.html", imp / "PICBOX_compacta_impressao.html")
     limpa(C / "pagina")
     shutil.copy2(S / "picbox_compacta_r1.html", C / "pagina" / "PICBOX_compacta_visualizacao.html")
+    for orig, dest in (("explica.html", "PICBOX_como_funciona.html"), ("novidades.html", "PICBOX_novidades_R1.1.html")):
+        if (S / orig).exists():
+            shutil.copy2(S / orig, C / "pagina" / dest)
+    import alteradas
+    alteradas.main()
     print("\n".join(geral))
 
 

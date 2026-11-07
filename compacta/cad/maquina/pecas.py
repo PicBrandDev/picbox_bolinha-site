@@ -227,7 +227,9 @@ def detalhes(m, peca, el):
         zp = m.zpA if k == "A" else m.zpB
         zcor = zp + m.dz_correia
         yr = m.y_correia + 20 * 2 / (2 * math.pi)
-        cut += dentes(-8, 8, yr - 0.95, -1, zcor - 3.3, zcor + 3.3)
+        # bolsao do fixador com 0,9 mm de folga para empurrar ele contra a correia antes de apertar
+        cut.append(cq.Solid.makeBox(L.FIX[1] - L.FIX[0] + 0.6, 9.9, 7.0,
+                                    pnt=cq.Vector(L.FIX[0] - 0.3, yr - 0.7 - 9.9, zcor - 3.2)))
     if peca == "Cabine":
         # presilhas da correia no bloco da direita: fenda de 1,9 mm no ramo preso (x_ida), dentes do lado da polia
         xi = el.x_ida

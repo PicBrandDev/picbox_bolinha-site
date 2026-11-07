@@ -1,4 +1,4 @@
-# PICBOX compacta (R1)
+# PICBOX compacta (R1.1)
 
 Máquina A inteira dentro do gabinete de 420 × 420 × 200 (tela no fundo), bola de aço de 1" (25,4 mm, 67 g).
 
@@ -7,8 +7,10 @@ Máquina A inteira dentro do gabinete de 420 × 420 × 200 (tela no fundo), bola
 | `imprimir/` | **Arquivos para imprimir.** Abra `impressao.html` (mesas por impressora, na ordem, com imagem) ou leia `ORDEM_DE_IMPRESSAO.txt`. |
 | `imprimir/A_impressora_grande/` | Mesas da impressora boa, de 260 × 260: peças de precisão e as que ficam à vista. |
 | `imprimir/B_creality_1/`, `imprimir/C_creality_2/` | Mesas das Creality, de 220 × 220: peças grandes e simples. |
+| `imprimir/ALTERADAS_R1.1/` | **Só as peças que mudaram na R1.1** (carros, anel, bloco esquerdo) + o que comprar. Zip: `imprimir/PICBOX_alteradas_R1.1.zip`. |
 | `imprimir/pecas_avulsas/` | Uma STL por peça, para reimprimir só uma. `__x2` no nome quer dizer imprimir 2 cópias. |
 | `pagina/PICBOX_compacta_visualizacao.html` | Página com o 3D, a explicação de cada peça, a montagem passo a passo, os cabos e as checagens. Abra no navegador. |
+| `pagina/PICBOX_novidades_R1.1.html` | Onde fica cada coisa nova da R1.1 (fixador de correia, fins de curso, arruela do ímã, barreira IR). |
 | `imagens/` | Imagens da montagem feitas com as peças reais. |
 | `step/` | Cada peça na posição de montagem, para abrir num CAD e editar. |
 | `cad/` | Código que gera tudo. Só precisa abrir para mudar o projeto. |
@@ -38,6 +40,8 @@ python render_mesas.py
 python impressao_html.py
 python pagina_m.py
 python publicar.py
+python render_novo.py
+python novidades_html.py
 ```
 
 `publicar.py` copia o resultado para `imprimir/`, `pagina/`, `imagens/` e `step/`.

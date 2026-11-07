@@ -39,8 +39,14 @@ PREVISTO |= {frozenset(("EVA 5 mm", p)) for p in ("Bandeja esquerda", "Bandeja d
 CONTATO_MOVEL = {
     ("presilha_A", "correia_tras_A"): "a correia passa na fenda dentada da presilha",
     ("presilha_B", "correia_tras_B"): "a correia passa na fenda dentada da presilha",
-    ("placaA", "fdc_alav_A"): "fim de curso do eixo A: a placa aperta a alavanca na casa",
-    ("placaB", "fdc_alav_B"): "fim de curso do eixo B: a placa aperta a alavanca na casa",
+    ("presilha_A", "fdc_alav_A"): "fim de curso do eixo A: a presilha aperta a alavanca na casa",
+    ("presilha_B", "fdc_alav_B"): "fim de curso do eixo B: a presilha aperta a alavanca na casa",
+    ("presilha_piso_A", "fdc_alav_A"): "fim de curso do eixo A: a presilha aperta a alavanca na casa",
+    ("presilha_piso_B", "fdc_alav_B"): "fim de curso do eixo B: a presilha aperta a alavanca na casa",
+    ("presilha_piso_A", "correia_tras_A"): "a correia apoia no piso da presilha, entrando no fixador",
+    ("presilha_piso_B", "correia_tras_B"): "a correia apoia no piso da presilha, entrando no fixador",
+    ("fixador_A", "correia_tras_A"): "a correia fica presa nos dentes do fixador",
+    ("fixador_B", "correia_tras_B"): "a correia fica presa nos dentes do fixador",
 }
 CONTATO_MOVEL.update(ME.CONTATO_PREVISTO)
 for _k in ("A", "B"):
@@ -166,9 +172,10 @@ def bola(c: Cena):
     # b. carro A chega na pega: ima a gap do topo da bola, resto do carro longe da bola e da rampa
     c.pose(cA=m.cA[1], cB=0)
     dists = {n: round(c.dist("bola", n, 5), 2) for n in c.nomes("carroA")}
-    out["pega"] = dict(ima_ate_bola=dists["ima"], gap_pedido=m.gap_pega,
-                       resto_min=min(v for k, v in dists.items() if k != "ima"),
-                       ok=abs(dists["ima"] - m.gap_pega) < 0.15 and min(v for k, v in dists.items() if k != "ima") >= FOLGA)
+    da = min(v for k, v in dists.items() if k.startswith("arruela"))
+    resto = min(v for k, v in dists.items() if not k.startswith("arruela") and k != "ima")
+    out["pega"] = dict(ima_ate_bola=da, gap_pedido=m.gap_pega, resto_min=resto,
+                       ok=da >= FOLGA and resto >= FOLGA)    # o ima passa por cima sem encostar
     # c. bola presa (1 mm acima, 1 mm afastada dos batentes) indo da pega ate a casa
     pior = (99, None, None)
     for ca in np.arange(m.cA[1], m.cA[0] - 0.01, -1.0):

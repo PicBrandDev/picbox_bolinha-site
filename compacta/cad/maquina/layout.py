@@ -74,11 +74,13 @@ class M:
     x_tensora: float = 195.0
     dA: float = 26.0                   # eletroima a direita do centro do patim
     curso: float = 120.0               # curso de jogo dos dois carros: +-120 (bola e anel)
-    c_casa: float = -165.0             # centro do patim no fim de curso da esquerda (os dois eixos)
+    c_casa: float = -146.0             # centro do patim no fim de curso da esquerda (os dois eixos)
+    arruela_e: float = 2.0             # arruela de aco M10 (20 x 10,5 x 2) colada na face do ima
+    arruela_furo: float = 10.5
     # bola, pega e queda
     x_pega: float = 192.3              # eixo do eletroima na pega (1 mm a esquerda da bola no bolso)
     y_bola: float = 73.7               # plano da bola (eixo do eletroima; 1 mm atras da bola no bolso)
-    gap_pega: float = 1.0              # ima ate o topo da bola no bolso
+    gap_pega: float = 0.6              # face de baixo da arruela ate o topo da bola no bolso
     queda: float = 250.0               # centro da bola presa ate o topo do anel
     folga_limpa: float = 6.3
     r_flange: float = 26.0
@@ -127,8 +129,13 @@ class M:
         return float(self.bola_bolso[2] + R + self.gap_pega)
 
     @property
-    def zs(self):                      # centro da bola presa
-        return self.face_ima - R
+    def assento(self):                 # quanto o topo da bola entra no furo da arruela
+        a = self.arruela_furo / 2
+        return R - math.sqrt(R * R - a * a)
+
+    @property
+    def zs(self):                      # centro da bola presa (encaixada no furo da arruela)
+        return self.face_ima + self.assento - R
 
     @property
     def zb(self):                      # topo do anel
@@ -320,10 +327,12 @@ def eixo_linear(g, m: M, k):
         if s < 0:
             # braco do fim de curso: KW10 com o comprimento (19,8) em Z, a altura (10,2) em X com a alavanca para +X,
             # e a espessura (6,4) em Y, encostada na parede do braco; a placa do carro aperta a alavanca na casa
-            caixa(g, f"bloco_braco_{k}", "mundo", -210, -190, 32, 38, zp - 30, zp - 9, pc, "preto")
-            caixa(g, f"bloco_braco2_{k}", "mundo", -210, -200, 38, 46, zp - 30, zp - 14, pc, "preto")
-            caixa(g, f"fdc_{k}", "mundo", -200, -189.8, 38, 44.4, zp - 29, zp - 9.2, "Fim de curso", "metal")
-            caixa(g, f"fdc_alav_{k}", "mundo", -189.8, -187.2, 41.5, 44.4, zp - 17, zp - 14, "Fim de curso", "metal")
+            # braco do fim de curso: KW10 de pe (19,8 em Z), 10,2 em X com a alavanca para +X, 6,4 em Y; a face
+            # esquerda da presilha do carro (X c-28) aperta a alavanca na casa (c = -146)
+            xe = m.c_casa + FIX[0] - 2                    # face esquerda da presilha na casa (X -174)
+            caixa(g, f"bloco_braco_{k}", "mundo", -210, xe - 2.0, 38.4, 44.4, zp - 30, zp - 10, pc, "preto")
+            caixa(g, f"fdc_{k}", "mundo", xe - 12.2, xe - 2.0, 32, 38.4, zp - 30, zp - 10.2, "Fim de curso", "metal")
+            caixa(g, f"fdc_alav_{k}", "mundo", xe - 2.0, xe + 0.5, 33, 37, zp - 24, zp - 21, "Fim de curso", "metal")
         else:
             # bracos da polia tensora (eixo vertical M5), com rasgo de 6 mm em X para esticar
             caixa(g, f"tens_alma_{k}", "mundo", 200, 210, 13, 30, zc - 11.0, zp - 14, pc, "preto")
@@ -363,10 +372,19 @@ def patim(g, corpo, zp, k):
     caixa(g, f"patim_fl2_{k}", corpo, -22.7, 22.7, 31, 36.2, zp - 13.5, zp - 6.4, f"Patim MGN12H {k}", "metal")
 
 
+FIX = (-26.0, 14.0)              # fixador de correia (aluminio 40 x 9 x 5, dentes GT2 numa borda) em X do carro
+
+
 def presilha(g, corpo, zc, k, pc):
-    """Bloco da correia embaixo do patim: fenda de 1,6 mm com dentes GT2 no ramo de tras (pecas iguais nos 2 carros)."""
-    caixa(g, f"ponte_{k}", corpo, -8, 8, 25.5, 41, zc + 3.8, zc + 8.1, pc, "acento")
-    caixa(g, f"presilha_{k}", corpo, -8, 8, 25.5, 41, zc - 6, zc + 3.8, pc, "acento")
+    """Presilha da correia embaixo do patim, para o fixador de aluminio 40 x 9 x 5 (comprado): ele fica deitado com os
+    dentes contra o ramo de tras da correia, que passa entre os dentes e uma parede impressa. 1 M3 por baixo prende o
+    fixador; as duas pontas da correia se encontram no meio dele."""
+    yr = 22.0 + 20 * 2 / (2 * math.pi)                  # ramo de tras (Y 28,37)
+    caixa(g, f"presilha_piso_{k}", corpo, FIX[0] - 2, FIX[1] + 2, 17.5, yr + 0.85, zc - 8.5, zc - 3.2, pc, "acento")
+    caixa(g, f"presilha_{k}", corpo, FIX[0] - 2, FIX[1] + 2, yr + 0.85, 41, zc - 8.5, zc + 3.8, pc, "acento")
+    caixa(g, f"ponte_{k}", corpo, -8, 8, yr + 0.85, 41, zc + 3.8, zc + 8.1, pc, "acento")
+    caixa(g, f"fixador_{k}", corpo, FIX[0], FIX[1], yr - 0.7 - 9.0, yr - 0.7, zc - 3.2, zc + 1.8, "Fixador de correia",
+          "metal")
 
 
 def carro_a(g, m: M):
@@ -374,12 +392,16 @@ def carro_a(g, m: M):
     zp, f = m.zpA, m.face_ima
     pc = "Carro A"
     patim(g, "carroA", zp, "A")
-    caixa(g, "placaA", "carroA", -22, 30, 41, 46, f + 15, zp + 13.5, pc, "acento")
-    caixa(g, "prateleiraA", "carroA", m.dA - 12, m.dA + 12, 46, m.y_bola + 12.3, f + 15, f + 20, pc, "acento")
-    caixa(g, "nervuraA", "carroA", m.dA - 14, m.dA - 10.5, 46, 62, f + 3, f + 15, pc, "acento")
+    e = m.arruela_e
+    caixa(g, "placaA", "carroA", -22, 30, 41, 46, f + e + 15, zp + 13.5, pc, "acento")
+    caixa(g, "prateleiraA", "carroA", m.dA - 12, m.dA + 12, 46, m.y_bola + 12.3, f + e + 15, f + e + 20, pc, "acento")
+    caixa(g, "nervuraA", "carroA", m.dA - 14, m.dA - 10.5, 46, 62, f + e + 3, f + e + 15, pc, "acento")
+    # copo: abraca o ima e a arruela; o fundo dele fica no mesmo plano da arruela (nada desce alem dela)
+    anel(g, "copoA", "carroA", (m.dA, m.y_bola), 10.2, 11.9, f, f + e + 15, pc, "acento")
+    anel(g, "arruela", "carroA", (m.dA, m.y_bola), m.arruela_furo / 2, 10.0, f, f + e, "Arruela M10 de aco", "metal")
     presilha(g, "carroA", zp + m.dz_correia, "A", pc)
     caixa(g, "ponta_estA", "carroA", -22, -14, 46, 46 + m.est_h + 1, 401, 400.5 + m.est_w, pc, "acento")
-    cil(g, "ima", "carroA", (m.dA, m.y_bola, f + 7.5), 10.0, 7.5, "z", "Eletroima P20/15", "metal")
+    cil(g, "ima", "carroA", (m.dA, m.y_bola, f + m.arruela_e + 7.5), 10.0, 7.5, "z", "Eletroima P20/15", "metal")
 
 
 def carro_b(g, m: M):
@@ -574,18 +596,24 @@ PECAS_NOVAS = {
     "NEMA 17 A": ("comprada", "NEMA 17 da maquina antiga + TMC2209 (fora do gabinete)", 11, "4 M3x8 na placa do suporte"),
     "NEMA 17 B": ("comprada", "NEMA 17 da maquina antiga + TMC2209 (fora do gabinete)", 11, "4 M3x8 na placa do suporte"),
     "Suporte do NEMA de cima": ("impressa", "PETG preto", 11, "aba com 3 parafusos de madeira 3,5x16 na parede esquerda"),
-    "Suporte do NEMA de baixo": ("impressa", "PETG preto", 11, "pe com 2 parafusos de madeira 3,5x16 no piso"),
+    "Suporte do NEMA de baixo": ("impressa", "PETG preto", 8, "pe com 2 parafusos de madeira 3,5x16 no piso"),
     "Polia GT2 20T A": ("comprada", "GT2 20T furo 5 (maquina antiga)", 11, "parafuso sem cabeca no lado chato do eixo"),
     "Polia GT2 20T B": ("comprada", "GT2 20T furo 5 (maquina antiga)", 11, "parafuso sem cabeca no lado chato do eixo"),
     "Polia tensora A": ("comprada", "tensora GT2 20T furo 5 com rolamento (maquina antiga)", 11, "M5x25 + porca nylon nos bracos do bloco direito"),
     "Polia tensora B": ("comprada", "tensora GT2 20T furo 5 com rolamento (maquina antiga)", 11, "M5x25 + porca nylon nos bracos do bloco direito"),
     "Correia A": ("comprada", "GT2 6 mm aberta, ~820 mm", 12, "as 2 pontas na fenda dentada da presilha do carro A + abracadeira"),
     "Correia B": ("comprada", "GT2 6 mm aberta, ~820 mm", 12, "as 2 pontas na fenda dentada da presilha do carro B + abracadeira"),
-    "Carro A": ("impressa", "PETG preto", 12, "4 M3x8 no patim; eletroima com 1 M3x8 por cima da prateleira"),
-    "Eletroima P20/15": ("comprada", "eletroima 12 V P20/15 (voces ja tem) + kapton 0,1 mm na face", 12, "1 M3x8 na rosca do topo"),
-    "Carro B": ("impressa", "PETG preto", 12, "4 M3x8 no patim; o anel prende atras com 4 M3x12 + porca"),
+    "Carro A": ("impressa", "PETG preto", 12, "4 M3x8 no patim; eletroima no copo com 1 M3x8 por cima; arruela colada na face do ima; "
+                                             "fixador de correia com 1 M3x12 por baixo"),
+    "Fixador de correia": ("comprada", "fixador de correia de aluminio 40 x 9 x 5 com dentes GT2 (o que voces compraram), 1 por carro", 12,
+                           "deitado na presilha, dentes contra a correia; 1 M3x12 por baixo (porca em cima se o furo nao tiver rosca)"),
+    "Arruela M10 de aco": ("comprada", "arruela lisa M10 de aco (DIN 125: 20 x 10,5 x 2), NAO inox", 12,
+                           "colada (super cola ou epoxi) na face do eletroima, dentro do copo do carro A"),
+    "Eletroima P20/15": ("comprada", "eletroima 12 V P20/15 (voces ja tem); a arruela de aco vai colada na face", 12,
+                         "entra no copo do carro A por baixo; 1 M3x8 na rosca do topo"),
+    "Carro B": ("impressa", "PETG preto", 12, "4 M3x8 no patim; o anel prende atras com 4 M3x12 + porca; fixador de correia com 1 M3x12 por baixo"),
     "Anel": ("impressa", "PETG preto", 13, "costas com 4 M3x12 + porca na placa do carro B; LED IR e fototransistor de 5 mm nos furos laterais"),
-    "LED IR / fototransistor 5 mm": ("comprada", "LED IR 940 nm 5 mm + fototransistor 5 mm (par)", 12,
+    "LED IR / fototransistor 5 mm": ("comprada", "par de barreira infravermelha 5 mm com cabo (emissor + receptor com saida digital)", 12,
                                      "entram justos nos furos do anel, com uma gota de cola quente"),
     "Sensor do bolso": ("comprada", "TCRT5000 (so o componente, 10 x 6 x 7 mm) ou o modulo sem a placa", 8,
                         "entra por baixo no bolso da rampa, olhando para cima pela janela; uma gota de cola quente"),
@@ -665,17 +693,21 @@ def fixadores(m: M):
         else:
             for i, x in enumerate((-183.0, -170.0)):
                 add(f"sup_nema_{k}_{i}", "madeira 3,5x16", (x, m.y_correia + 25.5, 4.0), (0, 0, -1), 16, pcs, "Gabinete",
-                    11, cab=7.0)
+                    8, cab=7.0)
             for i, z in enumerate((14.0, 36.0)):
                 add(f"sup_nema_parede_{k}_{i}", "madeira 3,5x16", (-205.5, m.y_correia + 25.3, z), (-1, 0, 0), 16, pcs,
-                    "Gabinete", 11, cab=7.0)
+                    "Gabinete", 8, cab=7.0)
         # tensora
         add(f"eixo_tens_{k}", "M5x25 + porca nylon", (m.x_tensora, m.y_correia, zc + 8.0), (0, 0, -1), 25, "Bloco direito",
             "Bloco direito", 11, atravessa=(f"Polia tensora {k}",), cab=8.5, bancada=True)
         # fim de curso no braco do bloco esquerdo
+        xe = m.c_casa + FIX[0] - 2
         for i, dz in enumerate((-4.75, 4.75)):
-            add(f"fdc_{k}_{i}", "M2x12", (-197.1, 44.4, zp - 19.1 + dz), (0, -1, 0), 12, "Fim de curso", "Bloco esquerdo", 9,
+            add(f"fdc_{k}_{i}", "M2x12", (xe - 9.3, 32.0, zp - 20.1 + dz), (0, 1, 0), 12, "Fim de curso", "Bloco esquerdo", 9,
                 cab=3.8, bancada=True)
+        add(f"fixador_{k}", "M3x12 + porca", ((FIX[0] + FIX[1]) / 2, 22.0 + 20 * 2 / (2 * math.pi) - 0.7 - 4.5,
+                                             zp + m.dz_correia - 8.5), (0, 0, 1), 12, f"Carro {k}", "Fixador de correia", 12,
+            corpo="carro" + k, corredor=40)
     # carros nos patins
     for k, zp in (("A", m.zpA), ("B", m.zpB)):
         for i, (dx, dz) in enumerate(((-10, -10), (10, -10), (10, 10), (-10, 10))):
@@ -684,7 +716,7 @@ def fixadores(m: M):
     for i, (dx, z) in enumerate(((-16.0, 60.0), (16.0, 60.0), (-16.0, m.zb - 10.0), (16.0, m.zb - 10.0))):
         add(f"anel_placa_{i}", "M3x12 + porca", (dx, 50.0, z), (0, -1, 0), 12, "Anel", "Carro B", 13, corpo="carroB",
             corredor=40)
-    add("ima", "M3x8", (m.dA, m.y_bola, m.face_ima + 20), (0, 0, -1), 8, "Carro A", "Eletroima P20/15", 12,
+    add("ima", "M3x8", (m.dA, m.y_bola, m.face_ima + m.arruela_e + 20), (0, 0, -1), 8, "Carro A", "Eletroima P20/15", 12,
         corpo="carroA", bancada=True)
     # prateleira da esteira e ganchos
     for i, x in enumerate(GANCHOS):

@@ -7,8 +7,8 @@ Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
 
 As 3 impressoras trabalham ao mesmo tempo. Em cada uma, imprima na ordem dos numeros.
 
-IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a vista  -  total 34.5 h   (pasta A_impressora_grande)
-  01_placa_A1.stl        3.4 h  altura 60 mm  COM SUPORTE
+IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a vista  -  total 35.6 h   (pasta A_impressora_grande)
+  01_placa_A1.stl        4.0 h  altura 66 mm  COM SUPORTE
         - Cabine
         - Carro A
   02_placa_A2.stl       13.6 h  altura 29 mm
@@ -23,40 +23,40 @@ IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a 
         - Rampa
         - Suporte do servo
         - Braco da comporta
-  04_placa_A4.stl        4.7 h  altura 60 mm
+  04_placa_A4.stl        5.2 h  altura 61 mm
         - Braco da comporta
         - Braco da comporta
         - Carro B
         - Anel
 
-IMPRESSORA B - Creality 220 x 220  -  total 24.4 h   (pasta B_creality_1)
-  01_placa_B1.stl        4.9 h  altura 48 mm
+IMPRESSORA B - Creality 220 x 220  -  total 25.8 h   (pasta B_creality_1)
+  01_placa_B1.stl        8.7 h  altura 48 mm
+        - Bloco esquerdo
+        - Bloco direito
         - Bloco direito
         - Suporte do NEMA de cima
-        - Suporte do NEMA de baixo
+        - Prateleira da esteira esquerda
   02_placa_B2.stl        6.3 h  altura 105 mm
         - Fila
-  03_placa_B3.stl        8.1 h  altura 77 mm
-        - Bandeja esquerda
+  03_placa_B3.stl        5.7 h  altura 77 mm
+        - Bandeja do meio
   04_placa_B4.stl        5.1 h  altura 77 mm
         - Bandeja direita
 
-IMPRESSORA C - Creality 220 x 220  -  total 22.3 h   (pasta C_creality_2)
-  01_placa_C1.stl       10.0 h  altura 105 mm
+IMPRESSORA C - Creality 220 x 220  -  total 20.9 h   (pasta C_creality_2)
+  01_placa_C1.stl        8.6 h  altura 105 mm
         - Fila esquerda
+        - Suporte do NEMA de baixo
         - Bloco esquerdo
-        - Bloco esquerdo
-        - Bloco direito
-  02_placa_C2.stl        6.6 h  altura 16 mm
-        - Prateleira da esteira esquerda
+  02_placa_C2.stl        4.2 h  altura 16 mm
         - Prateleira da esteira direita
         - Gancho da prateleira
         - Gancho da prateleira
         - Gancho da prateleira
         - Ponta fixa da esteira A (prateleira)
         - Ponta fixa da esteira B (piso)
-  03_placa_C3.stl        5.7 h  altura 77 mm
-        - Bandeja do meio
+  03_placa_C3.stl        8.1 h  altura 77 mm
+        - Bandeja esquerda
 
 Pecas avulsas (uma por arquivo, para reimprimir so uma): pasta pecas_avulsas.
 No nome, __x2 / __x3 = imprimir 2 / 3 copias.

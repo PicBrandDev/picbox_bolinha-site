@@ -81,7 +81,7 @@
   {
    "stl": "bloco_esquerdo__x2.stl",
    "z0": 0.0,
-   "apoio_cm2": 13.8,
+   "apoio_cm2": 12.5,
    "fechada": true,
    "corpos": 1,
    "ok": 1.0,
@@ -108,7 +108,7 @@
   {
    "stl": "carro_a.stl",
    "z0": 0.0,
-   "apoio_cm2": 2.7,
+   "apoio_cm2": 2.1,
    "fechada": true,
    "corpos": 1,
    "ok": 1.0,
@@ -117,7 +117,7 @@
   {
    "stl": "carro_b.stl",
    "z0": 0.0,
-   "apoio_cm2": 23.5,
+   "apoio_cm2": 23.8,
    "fechada": true,
    "corpos": 1,
    "ok": 1.0,

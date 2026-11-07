@@ -1,11 +1,11 @@
-IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a vista  -  total 34.5 h
+IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a vista  -  total 35.6 h
 
 Configuracao: PETG, bico 0,4, camada 0,2, 4 perimetros, 25% de preenchimento.
 Os arquivos ja vem com as pecas arrumadas na mesa e na posicao certa: NAO use orientacao automatica.
 Se o fatiador juntar tudo num objeto so, use 'Dividir em objetos' (Split to objects).
 Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
 
-  01_placa_A1.stl        3.4 h  altura 60 mm  COM SUPORTE
+  01_placa_A1.stl        4.0 h  altura 66 mm  COM SUPORTE
         - Cabine
         - Carro A
   02_placa_A2.stl       13.6 h  altura 29 mm
@@ -20,7 +20,7 @@ Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
         - Rampa
         - Suporte do servo
         - Braco da comporta
-  04_placa_A4.stl        4.7 h  altura 60 mm
+  04_placa_A4.stl        5.2 h  altura 61 mm
         - Braco da comporta
         - Braco da comporta
         - Carro B
