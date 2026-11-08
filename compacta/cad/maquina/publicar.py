@@ -32,6 +32,8 @@ def limpa(p):
 
 
 def main():
+    import bucha_n20
+    bucha_n20.main()                        # bucha da polia do N20 (peca pequena, fora das mesas)
     plano = json.loads((S / "plano.json").read_text(encoding="utf8"))
     imp = C / "imprimir"
     limpa(imp)
@@ -68,7 +70,8 @@ def main():
         shutil.copy2(S / "impressao.html", imp / "PICBOX_compacta_impressao.html")
     limpa(C / "pagina")
     shutil.copy2(S / "picbox_compacta_r1.html", C / "pagina" / "PICBOX_compacta_visualizacao.html")
-    for orig, dest in (("explica.html", "PICBOX_como_funciona.html"), ("novidades.html", "PICBOX_novidades_R1.1.html")):
+    for orig, dest in (("explica.html", "PICBOX_como_funciona.html"), ("novidades.html", "PICBOX_novidades_R1.1.html"),
+                       ("bucha_n20.html", "PICBOX_bucha_polia_n20.html")):
         if (S / orig).exists():
             shutil.copy2(S / orig, C / "pagina" / dest)
     import alteradas
