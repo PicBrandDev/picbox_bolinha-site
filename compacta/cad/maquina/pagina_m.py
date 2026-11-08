@@ -169,25 +169,42 @@ def cena(m):
 
 
 def novidades(m):
-    """Pecas novas/alteradas da R1.1 e pontos de vista para o botao 'Novidades R1.1'."""
+    """Pecas novas/alteradas da R1.1 e da R1.2 e pontos de vista para o botao 'O que mudou'."""
+    el = m.el
     casa, xe, yf = m.c_casa, m.c_casa + L.FIX[0] - 2, 28.37 - 0.7 - L.FIX_E / 2
     zcA, zcB = m.zpA - 22, m.zpB - 22
-    f = lambda nome, alvo, d, a, b, txt: dict(nome=nome, alvo=[round(v, 2) for v in alvo], dir=d, a=round(a, 2), b=round(b, 2), txt=txt)
+    def f(nome, alvo, d, a, b, txt, z=None, dist=170):
+        return dict(nome=nome, alvo=[round(v, 2) for v in alvo], dir=d, a=round(a, 2), b=round(b, 2), txt=txt,
+                    z=None if z is None else round(z, 2), dist=dist)
+    xb = el.x_bola
+    z_saida = el.zc_max + el.z_piso_berco(xb, 130.5)
     return dict(
         compradas=["Fixador de correia", "Arruela M10 de aco", "Fim de curso", "LED IR / fototransistor 5 mm"],
-        alteradas=["Carro A", "Carro B", "Anel", "Bloco esquerdo"],
+        alteradas=["Carro A", "Carro B", "Anel", "Bloco esquerdo", "Cabine", "Rampa", "Suporte do motor"],
         focos=[
-            f("Fixador carro A", (casa - 6, yf, zcA), (-0.4, -1.0, 0.75), casa + m.dA, 0,
+            f("R1.2 · Degrau cabine → rampa", (xb, 129, z_saida), (-1.0, -0.45, 0.3), -60, 0,
+              f"Com a cabine no topo, a saída dela fica 1 mm acima da rampa (era 3,5 mm). A cabine é que mudou: ela para 2,5 mm mais baixo.",
+              z=el.zc_max, dist=95),
+            f("R1.2 · Cabine: parede do fim de curso", (205.2, 182.5, el.zc_max + el.caixa_z[1] + el.batente_fdc), (-0.5, -1.0, 0.35),
+              -60, 0, "A parede de fora da cabine (a que aperta a alavanca do fim de curso de cima) ficou 2,5 mm mais alta. "
+              "O fim de curso dispara antes e a cabine para com a bola na altura da rampa.", z=el.zc_max, dist=90),
+            f("R1.2 · Bolso mais largo", (L.X_BOLSO + 6, 70, m.z_rampa(190, 70)), (-0.25, -0.45, 1.0), -60, 0,
+              "O piso do bolso ficou 3 mm mais largo do lado de fora (X 186 em vez de 189), com o batente junto. Tira de EVA de 20 mm.",
+              z=el.zc_min, dist=120),
+            f("R1.2 · Suporte do motor", (191, 150, 408), (-0.55, -0.8, -0.55), -60, 0,
+              "Placa reforçada por baixo (faixa de 10 mm na frente, travessa e nervuras de 12 mm), paredes de 3 mm em volta do motor, "
+              "orelha presa na placa por um braço e 2 almas, 2 parafusos de madeira na parede.", z=el.zc_min, dist=210),
+            f("R1.1 · Fixador carro A", (casa - 6, yf, zcA), (-0.4, -1.0, 0.75), casa + m.dA, 0,
               "Fixador de alumínio 40 × 9 × 5 em pé, com os dentes direto nos dentes da correia. O M3x16 entra de frente pelo furo do meio, entre as duas pontas, e a porca presa na presilha aperta a correia contra a parede lisa."),
-            f("Fixador carro B", (casa - 6, yf, zcB), (-0.4, -1.0, 0.75), 0, casa,
+            f("R1.1 · Fixador carro B", (casa - 6, yf, zcB), (-0.4, -1.0, 0.75), 0, casa,
               "Igual ao do carro A, no eixo de baixo."),
-            f("Fim de curso A", (xe, 36, m.zpA - 20), (0.25, -1.0, 0.55), casa + m.dA, 0,
+            f("R1.1 · Fim de curso A", (xe, 36, m.zpA - 20), (0.25, -1.0, 0.55), casa + m.dA, 0,
               f"KW10 no braço do bloco esquerdo (2 M2x12). Na casa (X {casa:.0f}) a presilha aperta a alavanca."),
-            f("Fim de curso B", (xe, 36, m.zpB - 20), (0.25, -1.0, 0.55), 0, casa,
+            f("R1.1 · Fim de curso B", (xe, 36, m.zpB - 20), (0.25, -1.0, 0.55), 0, casa,
               "Igual ao do eixo A, no bloco esquerdo de baixo."),
-            f("Arruela no ímã", (m.x_pega, m.y_bola, m.face_ima), (-0.45, -1.0, 0.12), m.x_pega, 0,
+            f("R1.1 · Arruela no ímã", (m.x_pega, m.y_bola, m.face_ima), (-0.45, -1.0, 0.12), m.x_pega, 0,
               "Arruela M10 de aço colada embaixo do ímã, dentro do copo impresso. A bola sobe e encaixa 1,1 mm no furo."),
-            f("Barreira IR", (0, m.y_bola, m.zb - 14.5), (-0.5, -1.0, 0.7), casa + m.dA, 0,
+            f("R1.1 · Barreira IR", (0, m.y_bola, m.zb - 14.5), (-0.5, -1.0, 0.7), casa + m.dA, 0,
               "Par emissor/receptor 5 mm pronto, nos dois furos laterais do anel (os mesmos de antes)."),
         ])
 

@@ -95,6 +95,9 @@ ul.lista{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;
 .fotos img{width:100%;height:auto;display:block;cursor:zoom-in}
 .fotos figcaption{padding:6px 10px;font-size:.84rem;color:var(--muted)}
 .fotos figure.grande{grid-column:1/-1}
+.aviso{border:2px solid var(--accent2);background:var(--sheet);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.aviso .duas-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px 24px}
+.aviso a{color:var(--accent);font-weight:600}
 .faq{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
 .faq details{border:1px solid var(--rule);background:var(--sheet);padding:10px 14px}
 .faq summary{font-weight:600;cursor:pointer}
@@ -104,13 +107,30 @@ ul.lista{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;
 
 <div class="wrap">
   <div class="carimbo" role="group" aria-label="Carimbo do desenho">
-    <div><span class="lbl">Desenho</span><h1>PICBOX Compacta R1</h1></div>
+    <div><span class="lbl">Desenho</span><h1>PICBOX Compacta R1.2</h1></div>
     <div><span class="lbl">Projeto</span><span class="v">Máquina A completa</span></div>
-    <div><span class="lbl">Revisão</span><span class="v">R1.1 · para imprimir</span></div>
+    <div><span class="lbl">Revisão</span><span class="v">R1.2 · para imprimir</span></div>
     <div><span class="lbl">Data</span><span class="v">06/11/2026</span></div>
     <div><span class="lbl">Espaço livre</span><span class="v">420 × 420 × 200</span></div>
     <div><span class="lbl">Unidade</span><span class="v">mm</span></div>
   </div>
+
+  <section class="aviso" aria-label="O que mudou">
+    <h2>O que mudou</h2>
+    <div class="duas-col">
+      <div><b>R1.2 · elevador</b><ul class="lista">
+        <li>Cabine: a parede de fora ficou 2,5 mm mais alta e a cabine para com a bola na altura da rampa (degrau de 1 mm, era 3,5).</li>
+        <li>Rampa: piso do bolso 3 mm mais largo do lado de fora.</li>
+        <li>Suporte do motor: placa reforçada, paredes de 3 mm no motor, orelha travada com 2 parafusos.</li>
+        <li>Bucha da polia do N20 com furo redondo de 3,2 mm.</li></ul></div>
+      <div><b>R1.1 · eixos e ímã</b><ul class="lista">
+        <li>Correia presa com fixador de alumínio em pé nos carros A e B.</li>
+        <li>Fim de curso nos dois eixos, no bloco esquerdo.</li>
+        <li>Arruela M10 de aço e copo no ímã do carro A.</li>
+        <li>Barreira infravermelha pronta no anel.</li></ul></div>
+    </div>
+    <p><a href="#v3d">Ver no 3D ↓</a> · as peças alteradas aparecem em amarelo e as compradas novas em rosa; os botões embaixo do 3D levam a câmera até cada uma.</p>
+  </section>
 
   <div class="intro">
     <p>A máquina inteira dentro do gabinete, com o elevador R0.6 que já estava pronto. O <b>carro A</b> corre num trilho MGN12 no alto da frente e pega a bola de aço no bolso da rampa do elevador com o eletroímã, a 1 mm de distância. Depois ele vai e volta no curso de jogo, ±120 mm. Quando o jogador aperta o botão, o ímã solta e a bola cai 250 mm até o <b>anel</b> do carro B, que corre no trilho de baixo. Uma barreira de infravermelho no anel conta o acerto.</p>
@@ -146,7 +166,7 @@ ul.lista{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;
       <canvas id="v3d" aria-label="Máquina completa em 3D: arraste para girar, role para aproximar, clique numa peça"></canvas>
       <div class="barra">
         <button class="pri" id="bt-anim" type="button" aria-pressed="false">Animar jogada</button>
-        <button id="bt-novo" type="button" aria-pressed="false">Novidades R1.1</button>
+        <button id="bt-novo" type="button" aria-pressed="true">O que mudou (R1.1 e R1.2)</button>
         <button id="bt-comp" type="button" aria-pressed="false">Esconder compradas</button>
         <button id="bt-frente" type="button">Frente</button>
         <button id="bt-lado" type="button">Lado</button>
@@ -452,12 +472,12 @@ function novidades(on) {
       pc.startsWith("Bolas") || pc.startsWith("Correia") ? o.userData.mat0 : mF;
     o.material = novo === o.userData.mat0 ? novo : novo.clone();      // clone: o destaque do clique fica so na peca
   });
-  $("leg").innerHTML = (on ? [["--nova", "comprada nova (R1.1)"], ["--alt", "impressa alterada (R1.1)"], ["--fade", "sem mudança"]] : LEG)
+  $("leg").innerHTML = (on ? [["--nova", "comprada nova"], ["--alt", "impressa alterada (R1.1 e R1.2)"], ["--fade", "sem mudança"]] : LEG)
     .map(([k, t]) => `<span><i style="background:${css(k)}"></i>${t}</span>`).join("");
 }
 function irPara(f) {
-  pararAnim(); sA.value = f.a; sB.value = f.b; pose();
-  const {cam, ctl} = cena3d, d = new THREE.Vector3(...f.dir).normalize().multiplyScalar(170);
+  pararAnim(); sA.value = f.a; sB.value = f.b; if (f.z !== null && f.z !== undefined) sZ.value = f.z; pose();
+  const {cam, ctl} = cena3d, d = new THREE.Vector3(...f.dir).normalize().multiplyScalar(f.dist || 170);
   cam.position.set(f.alvo[0] + d.x, f.alvo[1] + d.y, f.alvo[2] + d.z);
   if (ctl) { ctl.target.set(...f.alvo); ctl.update(); } else cam.lookAt(...f.alvo);
   $("foco-txt").textContent = f.nome + ": " + f.txt;
@@ -559,4 +579,5 @@ $("t-cabos").innerHTML = "<thead><tr><th>Cabo</th><th>Caminho</th><th>Furo</th><
   D.cabos.map(([a, b, c]) => `<tr><td>${esc(a)}</td><td>${esc(b)}</td><td class="mono">${esc(c)}</td></tr>`).join("") + "</tbody>";
 pose();
 iniciar();
+novidades(true);          // a pagina abre mostrando o que mudou (botao desliga)
 </script>

@@ -16,7 +16,7 @@ IMG = AQUI / "saida" / "imagens_novo"
 
 def jpg(nome):
     b = io.BytesIO()
-    Image.open(IMG / nome).convert("RGB").save(b, "JPEG", quality=84, optimize=True)
+    Image.open(nome if isinstance(nome, Path) else IMG / nome).convert("RGB").save(b, "JPEG", quality=84, optimize=True)
     return "data:image/jpeg;base64," + base64.b64encode(b.getvalue()).decode()
 
 
@@ -63,6 +63,8 @@ th{font-family:var(--f-num);font-size:.72rem;letter-spacing:.08em;text-transform
 tr:last-child td{border-bottom:0}
 td.num{font-family:var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
 .semmuda{color:var(--suave)}
+h2.sec{font-size:1.6rem;border-top:2px solid var(--tinta);padding-top:14px}
+.mono{font-family:var(--f-num)}
 """
 
 
@@ -119,18 +121,47 @@ def main():
 <tr><td>Barreira IR 5 mm</td><td>{N}</td><td>Par pronto no lugar do LED solto</td><td class="num">—</td></tr>
 <tr class="semmuda"><td>Elevador</td><td>sem mudança</td><td>Continua com as presilhas dentadas impressas na cabine e KW10 embaixo e em cima</td><td class="num">—</td></tr>
 </table></div>"""
-    html = f"""<title>PICBOX R1.1 novidades</title>
+    I12, IB = AQUI / "saida" / "imagens_r12", AQUI / "saida" / "imagens_bucha"
+    fichas12 = [
+        ficha(I12 / "01_degrau_rampa.png", "R1.2 · Cabine para na altura da rampa",
+              ["Cabine do elevador, no topo, na parede de fora do lado direito (a que aperta a alavanca do fim de curso de cima)."],
+              ["A bola caía 3,5 mm da cabine na rampa: o fim de curso de cima disparava 3 mm acima do ponto de entrega.",
+               "A parede de fora ficou 2,5 mm mais alta: o fim de curso dispara antes e a cabine para 2,5 mm mais baixo. O degrau cai para 1 mm.",
+               "A guia de cima e o fim de curso não mudam. Se ainda sobrar degrau, dobre de leve a alavanca do fim de curso de cima para baixo."],
+              ["Nada novo: só reimprimir a cabine"]),
+        ficha(I12 / "02_bolso.png", "R1.2 · Bolso da rampa mais largo",
+              ["No fim da rampa, onde a bola espera o ímã."],
+              ["O piso do bolso ficou 3 mm mais largo do lado de fora (X 186 em vez de 189), com o batente junto.",
+               "A rampa inclina só 1,5° para a parede: a força que segura a bola encostada é pequena, por isso ela ficava no limite."],
+              ["Tira de EVA do batente com 20 mm de largura (era 17)"]),
+        ficha(I12 / "03_suporte_motor.png", "R1.2 · Suporte do motor reforçado",
+              ["No topo do elevador, embaixo do teto, segurando o motor N20."],
+              ["Placa reforçada por baixo: faixa de 10 mm na frente, travessa atrás do motor e nervuras de 12 mm dos lados.",
+               "Paredes de 3 mm em volta do motor (eram 1,5).",
+               "A orelha da parede, que só ficava presa por um pedaço de 4 × 8 mm, agora é ligada à placa por um braço e 2 almas, e vai com 2 parafusos."],
+              ["+1 parafuso de madeira 3,5x16"]),
+        ficha(IB / "04_corte.png", "R1.2 · Bucha da polia do N20",
+              ["Entre o eixo de 3 mm do N20 e o furo de 5 mm da polia GT2 do topo."],
+              ["Furo redondo de 3,2 mm: serve no eixo redondo ou com lado chato.",
+               "O parafuso sem cabeça da polia passa pelo rasgo da bucha e aperta direto no eixo."],
+              ["4 buchas na mesa (2 de reserva), 100% de preenchimento"]),
+    ]
+    html = f"""<title>PICBOX novidades</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;600&display=swap">
 <style>{CSS}</style>
 <main>
-<header class="topo"><span class="rev">PICBOX compacta · revisão R1.1</span>
+<header class="topo"><span class="rev">PICBOX compacta · revisões R1.2 e R1.1</span>
 <h1>Onde fica cada coisa nova</h1>
-<p>Correia presa com fixador de alumínio, fim de curso nos dois eixos, arruela de aço no ímã e barreira infravermelha pronta no anel. Todas as checagens passaram: 0 interferências, 128 de 128 parafusos com acesso, varredura dos dois eixos limpa.</p>
+<p><b>R1.2 (elevador):</b> cabine para na altura da rampa, bolso mais largo, suporte do motor reforçado e bucha da polia com furo redondo. Arquivos: <span class="mono">ALTERADAS_R1.2</span>, uma mesa só na impressora A.</p>
+<p><b>R1.1:</b> correia presa com fixador de alumínio, fim de curso nos dois eixos, arruela de aço no ímã e barreira infravermelha pronta no anel. Todas as checagens passaram: 0 interferências, 128 de 128 parafusos com acesso, varredura dos dois eixos limpa.</p>
 <div class="legenda"><span class="chip"><i style="background:#d6246e"></i>comprada nova</span>
 <span class="chip"><i style="background:#f2a516"></i>impressa alterada</span>
 <span class="chip"><i style="background:#c9d0d6"></i>sem mudança</span></div></header>
 <section class="ficha"><figure><img src="{jpg('01_onde_fica.png')}" alt="Máquina inteira com as novidades destacadas"></figure></section>
+<h2 class="sec">R1.2 · elevador</h2>
+{''.join(fichas12)}
+<h2 class="sec">R1.1 · eixos e ímã</h2>
 {tabela}
 {''.join(fichas)}
 </main>"""
