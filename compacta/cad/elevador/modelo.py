@@ -75,7 +75,7 @@ PECAS_IMPRESSA.update({
     "Cabine": ("impressa", "PETG preto", 2, "2 alojamentos em C deslizam nos trilhos em T (folga 0,5 mm por lado); entra pelo topo da guia de baixo"),
     "Guia impressa superior": ("impressa", "PETG preto", 3, "2 trilhos em T + cabeca, numa peca so; encaixa na de baixo por 2 pinos impressos e fica presa pelo suporte do motor"),
     "Suporte do motor": ("impressa", "PETG preto", 5, "2 M3x16 de cima atravessando o suporte, rosqueados no topo da guia de cima; "
-                                                      "orelha na frente com 1 parafuso de madeira 3,5x16 na parede direita do gabinete"),
+                                                      "orelha na frente com 2 parafusos de madeira 3,5x16 na parede direita do gabinete"),
     "Fim de curso": ("comprada", "microchave KW10 (as que voce ja tem): 2 usadas, 1 de reserva", 1,
                      "uma num rebaixo do pe (fundo) e outra num rebaixo da cabeca (topo); 2 M2x12 de lado em cada"),
     "Polia do motor": ("comprada", "GT2 20T furo 5 mm + bucha impressa 5 -> 3 mm em D", 5,
@@ -137,7 +137,7 @@ class P:
 
     @property
     def fundo_cabeca(self):       # 1,1 mm acima dos alojamentos com a cabine no topo
-        return self.z_cabeca if self.guia == "eixos" else self.zc_max + self.caixa_z[1] + 1.1
+        return self.z_cabeca if self.guia == "eixos" else self.zc_max_guia + self.caixa_z[1] + 1.1
 
     @property
     def topo_cabeca(self):
@@ -168,8 +168,16 @@ class P:
         return self.zc_topo - self.desce_espera
 
     @property
-    def zc_max(self):
+    def zc_max_guia(self):        # limite de cima usado para desenhar a cabeca da guia e o rebaixo do fim de curso
         return self.zc_topo + 3.0
+
+    @property
+    def zc_max(self):             # onde a cabine para: o fim de curso de cima dispara 0,5 mm acima do ponto de entrega
+        return self.zc_topo + 0.5     # (antes disparava em zc_topo + 3 e a bola caia 3,5 mm na rampa)
+
+    @property
+    def batente_fdc(self):        # quanto o C direito sobe acima dos outros para apertar a alavanca mais cedo
+        return self.zc_max_guia - self.zc_max
 
     @property
     def patim_z(self):            # faixa do patim relativa a Zc: no fundo o patim encosta no inicio do trilho
@@ -248,7 +256,7 @@ def geometria(p: P):
         # fins de curso: microchave KW10 (19,8 x 6,4 x 10,2) num rebaixo do pe e da cabeca, a alavanca toca o C direito
         hz0, hz1 = p.caixa_z
         z_alav_b = p.zc_min + hz0 + 0.6            # 0,6 mm acima do fundo do C com a cabine no batente
-        z_alav_c = p.zc_max + hz1 - 0.4            # 0,4 mm abaixo do topo do C com a cabine no limite de cima
+        z_alav_c = p.zc_max_guia + hz1 - 0.4       # alavanca onde sempre esteve (a guia de cima nao muda)
         caixa(g, "fdc_baixo", "mundo", 200, 206.4, 177, 196.8, 8.5, 18.7, "visual", "Fim de curso", "metal")
         caixa(g, "fdc_baixo_alav", "mundo", 204.4, 206, 179, 186, 18.7, z_alav_b, "visual", "Fim de curso", "metal")
         caixa(g, "fdc_cima", "mundo", 200, 206.4, 177, 196.8, 401.8, 412.0, "visual", "Fim de curso", "metal")
@@ -280,7 +288,9 @@ def geometria(p: P):
         caixa(g, "costas", "carro", 178, 203.5, 173, ye - a1 + 0.0, hz0, hz1, "carro", "Cabine", "acento")
         for lado, xr in zip(("esq", "dir"), p.x_eixos):
             caixa(g, f"aloj_{lado}_a", "carro", xr - a1, xr - a0, ye - a1, ye + a1, hz0, hz1, "carro", "Cabine", "acento")
-            caixa(g, f"aloj_{lado}_b", "carro", xr + a0, xr + a1, ye - a1, ye + a1, hz0, hz1, "carro", "Cabine", "acento")
+            # o C direito (lado de fora) sobe 2,5 mm: aperta a alavanca do fim de curso de cima com a bola na altura da rampa
+            hb = hz1 + (p.batente_fdc if lado == "dir" else 0.0)
+            caixa(g, f"aloj_{lado}_b", "carro", xr + a0, xr + a1, ye - a1, ye + a1, hz0, hb, "carro", "Cabine", "acento")
             caixa(g, f"aloj_{lado}_c", "carro", xr - a1, xr + a1, ye - a1, ye - a0, hz0, hz1, "carro", "Cabine", "acento")
             caixa(g, f"aloj_{lado}_d", "carro", xr - a1, xr - 2 - c, ye + a0, ye + a1, hz0, hz1, "carro", "Cabine", "acento")
             caixa(g, f"aloj_{lado}_e", "carro", xr + 2 + c, xr + a1, ye + a0, ye + a1, hz0, hz1, "carro", "Cabine", "acento")
@@ -305,14 +315,25 @@ def geometria(p: P):
     if E:
         caixa(g, "sup_placa", "mundo", 172, 209, 127, 199, 415, 419, "visual", "Suporte do motor", "preto")
         caixa(g, "sup_perna", "mundo", 174.5, 207.5, 176.5, 199, p.topo_cabeca, 415, "visual", "Suporte do motor", "preto")
+        # orelha na parede direita (2 parafusos de madeira), presa na placa por um braco em cima e 2 almas de lado
+        # que deixam livre o caminho da chave dos parafusos
         caixa(g, "sup_orelha", "mundo", 205, 210, 106, 135, 397, 419, "visual", "Suporte do motor", "preto")
-        # nervuras embaixo da placa, dos blocos do tubo ate a cabeca da guia (fora da polia e da correia)
-        caixa(g, "sup_nervura_esq", "mundo", 172, 176, 150, 176.5, 409, 415, "visual", "Suporte do motor", "preto")
-        caixa(g, "sup_nervura_dir", "mundo", 205, 209, 150, 176.5, 409, 415, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_orelha_baixo", "mundo", 205, 210, 106, 129.5, 393, 397, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_braco_orelha", "mundo", 199, 209, 106, 135, 413, 419, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_alma_orelha_0", "mundo", 201, 205, 106, 110, 395, 413, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_alma_orelha_1", "mundo", 201, 205, 123, 127, 395, 413, "visual", "Suporte do motor", "preto")
+        # reforcos embaixo da placa (a placa de 4 mm torcia ao apertar os parafusos): faixa da frente com 10 mm,
+        # travessa atras do motor e nervuras de 12 mm dos lados ate a cabeca da guia (fora da polia e da correia)
+        caixa(g, "sup_frente", "mundo", 172, 209, 127, 140, 409, 415, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_travessa", "mundo", 172, 209, 150, 155.5, 410.5, 415, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_nervura_esq", "mundo", 172, 176, 150, 176.5, 403, 415, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_nervura_dir", "mundo", 205, 209, 150, 176.5, 403, 415, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_nervura_esq_f", "mundo", 172, 176, 127, 140, 403, 409, "visual", "Suporte do motor", "preto")
+        caixa(g, "sup_nervura_dir_f", "mundo", 205, 209, 127, 140, 403, 409, "visual", "Suporte do motor", "preto")
     else:
         caixa(g, "sup_placa", "mundo", 183, 199, 127, 196, 415, 419, "visual", "Suporte do motor", "preto")
         caixa(g, "sup_perna", "mundo", 183, 199, 188, 196, 396, 415, "visual", "Suporte do motor", "preto")
-    caixa(g, "sup_abraco", "mundo", 183.5, 198.5, 127, 155, zt - 6.5, 415, "visual", "Suporte do motor", "preto")
+    caixa(g, "sup_abraco", "mundo", 182.0, 200.0, 127, 155, zt - 6.5, 415, "visual", "Suporte do motor", "preto")   # paredes de 3 mm
     caixa(g, "motor", "mundo", 185, 197, 124.5, 157, zt - 5, zt + 5, "visual", "Motor N20", "metal")
     cilindro(g, "polia_cima", "mundo", (p.x_polia, yc, zt), 9.0, 4.0, "y", "visual", "Polia do motor", "metal")
     cilindro(g, "cubo_cima", "mundo", (p.x_polia, 161.0, zt), 4.5, 3.5, "y", "visual", "Polia do motor", "metal")
@@ -427,8 +448,9 @@ def fixadores_eixos(p: P, add):
             "Base", 4, insert=False, atravessa=("Espacador", "Polia de baixo"))
         for i, x in enumerate((186.0, 196.0)):
             add(f"suporte_guia_{i}", "M3x16", (x, 195.5, 419.0), (0, 0, -1), 16.0, "Suporte do motor", gs, 5)
-        add("orelha_parede", "madeira 3,5x16", (205.0, 116.5, 405.0), (1, 0, 0), 16, "Suporte do motor", "Gabinete", 5,
-            insert=False, cab=7.0)
+        for i, z in enumerate((399.0, 409.0)):
+            add(f"orelha_parede_{i}", "madeira 3,5x16", (205.0, 116.5, z), (1, 0, 0), 16, "Suporte do motor", "Gabinete", 5,
+                insert=False, cab=7.0)
         for nome, z, pc, et in (("fdc_baixo", 13.6, gi, 1), ("fdc_cima", 406.9, gs, 3)):
             for i, y in enumerate((182.15, 191.65)):
                 add(f"{nome}_{i}", "M2x12", (207.5, y, z), (-1, 0, 0), 12.0, "Fim de curso", pc, et, insert=False,

@@ -3,9 +3,9 @@
   "ok": true,
   "ruins": [],
   "n_ruins": 0,
-  "previstas": 41,
-  "encostam": 195,
-  "pares": 27966
+  "previstas": 42,
+  "encostam": 206,
+  "pares": 29890
  },
  "parafusos": [
   {
@@ -178,7 +178,7 @@
    "corpo": "mundo"
   },
   {
-   "nome": "orelha_parede",
+   "nome": "orelha_parede_0",
    "tipo": "madeira 3,5x16",
    "etapa": 5,
    "prende": "Suporte do motor",
@@ -190,7 +190,30 @@
    "p0": [
     205.0,
     116.5,
-    405.0
+    399.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "orelha_parede_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 5,
+   "prende": "Suporte do motor",
+   "rosca": "Gabinete",
+   "pega": 11.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    205.0,
+    116.5,
+    409.0
    ],
    "dir": [
     1,
@@ -3134,19 +3157,6 @@
     "nota": "fim de curso do eixo B: a presilha aperta a alavanca na casa"
    },
    {
-    "a": "aloj_dir_b",
-    "pa": "Cabine",
-    "b": "fdc_cima_alav",
-    "pb": "Fim de curso",
-    "folga": -0.01,
-    "onde": {
-     "zc": 356.8,
-     "cA": 166.3
-    },
-    "ok": true,
-    "nota": "fim de curso de cima: a cabine aperta a alavanca no topo"
-   },
-   {
     "a": "est_movA",
     "pa": "Esteira A",
     "b": "ponta_estA",
@@ -4133,19 +4143,6 @@
     "nota": ""
    },
    {
-    "a": "aloj_dir_c",
-    "pa": "Cabine",
-    "b": "fdc_cima_alav",
-    "pb": "Fim de curso",
-    "folga": 1.0,
-    "onde": {
-     "zc": 356.8,
-     "cA": 166.3
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "aloj_dir_e",
     "pa": "Cabine",
     "b": "fdc_baixo_alav",
@@ -4153,19 +4150,6 @@
     "folga": 1.0,
     "onde": {
      "zc": 18.8,
-     "cA": 166.3
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "aloj_dir_e",
-    "pa": "Cabine",
-    "b": "fdc_cima_alav",
-    "pb": "Fim de curso",
-    "folga": 1.0,
-    "onde": {
-     "zc": 356.8,
      "cA": 166.3
     },
     "ok": true,
@@ -4246,6 +4230,19 @@
     },
     "ok": true,
     "nota": "a esteira A desliza deitada na prateleira"
+   },
+   {
+    "a": "aloj_dir_b",
+    "pa": "Cabine",
+    "b": "fdc_cima_alav",
+    "pb": "Fim de curso",
+    "folga": 1.49,
+    "onde": {
+     "zc": 352.8,
+     "cA": 166.3
+    },
+    "ok": true,
+    "nota": "fim de curso de cima: a cabine aperta a alavanca no topo"
    },
    {
     "a": "patim_topo_A",
@@ -5541,58 +5538,6 @@
     "nota": ""
    },
    {
-    "a": "costas",
-    "pa": "Cabine",
-    "b": "fdc_cima",
-    "pb": "Fim de curso",
-    "folga": 2.8,
-    "onde": {
-     "zc": 356.8,
-     "cA": 166.3
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "aloj_dir_b",
-    "pa": "Cabine",
-    "b": "fdc_cima",
-    "pb": "Fim de curso",
-    "folga": 2.8,
-    "onde": {
-     "zc": 356.8,
-     "cA": 166.3
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "aloj_dir_c",
-    "pa": "Cabine",
-    "b": "fdc_cima",
-    "pb": "Fim de curso",
-    "folga": 2.8,
-    "onde": {
-     "zc": 356.8,
-     "cA": 166.3
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "aloj_dir_e",
-    "pa": "Cabine",
-    "b": "fdc_cima",
-    "pb": "Fim de curso",
-    "folga": 2.8,
-    "onde": {
-     "zc": 356.8,
-     "cA": 166.3
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "est_curvaA_6",
     "pa": "Esteira A",
     "b": "prat_aba_1",
@@ -5772,7 +5717,7 @@
     "nota": ""
    }
   ],
-  "segundos": 202.0,
+  "segundos": 49.9,
   "posicoes": {
    "A": 106,
    "B": 90

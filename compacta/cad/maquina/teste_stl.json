@@ -30,7 +30,7 @@
    "apoio_cm2": 12.3,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -39,7 +39,7 @@
    "apoio_cm2": 33.0,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -48,7 +48,7 @@
    "apoio_cm2": 55.3,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -57,7 +57,7 @@
    "apoio_cm2": 71.7,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -66,7 +66,7 @@
    "apoio_cm2": 22.7,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -75,7 +75,7 @@
    "apoio_cm2": 14.2,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -84,7 +84,7 @@
    "apoio_cm2": 12.5,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -93,8 +93,17 @@
    "apoio_cm2": 6.6,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
+  },
+  {
+   "stl": "bucha_da_polia_do_n20__x4.stl",
+   "z0": -0.0,
+   "apoio_cm2": 0.4,
+   "fechada": true,
+   "corpos": 4,
+   "ok": true,
+   "nota": "pecas pequenas: aba (brim) de 5 mm"
   },
   {
    "stl": "cabine.stl",
@@ -102,7 +111,7 @@
    "apoio_cm2": 6.2,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -111,7 +120,7 @@
    "apoio_cm2": 2.1,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": "com suporte e aba (brim)"
   },
   {
@@ -120,7 +129,7 @@
    "apoio_cm2": 23.8,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -129,7 +138,7 @@
    "apoio_cm2": 0.1,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -138,7 +147,7 @@
    "apoio_cm2": 11.3,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -147,7 +156,7 @@
    "apoio_cm2": 10.2,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -156,7 +165,7 @@
    "apoio_cm2": 1.3,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -165,7 +174,7 @@
    "apoio_cm2": 64.0,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -174,7 +183,7 @@
    "apoio_cm2": 70.4,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -183,7 +192,7 @@
    "apoio_cm2": 1.3,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -192,7 +201,7 @@
    "apoio_cm2": 2.6,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -201,7 +210,7 @@
    "apoio_cm2": 68.4,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -210,25 +219,25 @@
    "apoio_cm2": 68.3,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
    "stl": "rampa.stl",
    "z0": 0.0,
-   "apoio_cm2": 20.6,
+   "apoio_cm2": 21.7,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
    "stl": "suporte_do_motor.stl",
    "z0": 0.0,
-   "apoio_cm2": 27.5,
+   "apoio_cm2": 28.7,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -237,7 +246,7 @@
    "apoio_cm2": 23.1,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -246,7 +255,7 @@
    "apoio_cm2": 31.1,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -255,7 +264,7 @@
    "apoio_cm2": 9.1,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -264,7 +273,7 @@
    "apoio_cm2": 8.0,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   },
   {
@@ -273,7 +282,7 @@
    "apoio_cm2": 8.0,
    "fechada": true,
    "corpos": 1,
-   "ok": 1.0,
+   "ok": true,
    "nota": ""
   }
  ]

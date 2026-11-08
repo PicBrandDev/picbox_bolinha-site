@@ -7,7 +7,7 @@ Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
 
 As 3 impressoras trabalham ao mesmo tempo. Em cada uma, imprima na ordem dos numeros.
 
-IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a vista  -  total 35.4 h   (pasta A_impressora_grande)
+IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a vista  -  total 36.0 h   (pasta A_impressora_grande)
   01_placa_A1.stl        3.9 h  altura 66 mm  COM SUPORTE
         - Cabine
         - Carro A
@@ -16,7 +16,7 @@ IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a 
         - Base
         - Guia impressa superior
         - Espacador
-  03_placa_A3.stl       12.8 h  altura 52 mm
+  03_placa_A3.stl       13.4 h  altura 52 mm
         - Suporte do motor
         - Tubo superior
         - Tubo inferior

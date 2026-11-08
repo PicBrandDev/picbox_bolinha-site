@@ -239,27 +239,30 @@ def geometria(m: M):
     return g
 
 
+X_BOLSO = 186.0      # borda de fora do piso do bolso (era 189: a bola ficava no limite de cair)
+
+
 def rampa(g, m: M):
     e = m.el
     Rr, n, pt = m.plano_rampa()
     zr = e.z_rampa
     tr = math.tan(math.radians(e.incl_rampa))
     zt = lambda x, y: m.z_rampa(x, y)
-    # piso inteiro de Y 88 a 128; no bolso (Y 60..88) so de X 189 a 206, para a bola sair pela esquerda no ima
+    # piso inteiro de Y 88 a 128; no bolso (Y 60..88) so de X 186 a 206 (a bola sai pela esquerda, por cima, presa no ima)
     zb0 = zr - 70 * tr - 6
     # piso macico (impresso em pe sem suporte): embaixo da placa do piso, ate a base da rampa
     placa_plano(g, "rampa", "mundo", 177.0, 206.6, 88, 127.7, 3, Rr, zt, "Rampa", "preto")
-    placa_plano(g, "rampa_bolso", "mundo", 189.0, 206.6, 60, 88, 3, Rr, zt, "Rampa", "preto")
+    placa_plano(g, "rampa_bolso", "mundo", X_BOLSO, 206.6, 60, 88, 3, Rr, zt, "Rampa", "preto")
     # macico com o topo seguindo o piso (0,1 mm dentro dele); o STL corta embaixo em Z = zb0 (base plana)
-    for nm, x0, x1, y0, y1 in (("rampa_macico", 177.0, 206.6, 88, 126.8), ("rampa_macico_bolso", 189.0, 206.6, 60, 88.5),
-                               ("rampa_macico_fim", 189.0, 206.6, 54.6, 60.5)):
+    for nm, x0, x1, y0, y1 in (("rampa_macico", 177.0, 206.6, 88, 126.8), ("rampa_macico_bolso", X_BOLSO, 206.6, 60, 88.5),
+                               ("rampa_macico_fim", X_BOLSO, 206.6, 54.6, 60.5)):
         topo = (lambda x, y: m.z_rampa(x, y) - 2.9) if nm != "rampa_macico_fim" else (lambda x, y: m.z_rampa(x, y) - 4.5)
         esp = max(topo(x, y) for x in (x0, x1) for y in (y0, y1)) - zb0
         placa_plano(g, nm, "mundo", x0, x1, y0, y1, esp, Rr, topo, "Rampa", "preto")
     caixa(g, "rampa_esq", "mundo", 175.5, 177.5, 88, 128, zb0, zr + 22, "Rampa", "transp")
     caixa(g, "rampa_dir", "mundo", 206.0, 208.0, 58, 128, zb0, zr + 22, "Rampa", "transp")
-    caixa(g, "rampa_fim", "mundo", 189.0, 206.0, 51, 55, zb0, zr + 22, "Rampa", "acento")
-    caixa(g, "eva_bolso", "mundo", 189.0, 206.0, 55, 60, m.z_rampa(197, 60) - 2, zr + 14, "EVA 5 mm", "eva")
+    caixa(g, "rampa_fim", "mundo", X_BOLSO, 206.0, 51, 55, zb0, zr + 22, "Rampa", "acento")
+    caixa(g, "eva_bolso", "mundo", X_BOLSO, 206.0, 55, 60, m.z_rampa(197, 60) - 2, zr + 14, "EVA 5 mm", "eva")
     caixa(g, "rampa_fim_lado", "mundo", 206.0, 208.0, 51, 58, zb0, zr + 22, "Rampa", "transp")
     caixa(g, "rampa_aba", "mundo", 208.0, 210.0, 62, 126, zb0, zr + 22, "Rampa", "preto")
     zs_top = m.z_rampa(SENSOR_BOLSO[0], SENSOR_BOLSO[1]) - 1.0

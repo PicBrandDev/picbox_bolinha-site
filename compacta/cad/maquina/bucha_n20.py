@@ -1,9 +1,9 @@
-"""Bucha da polia do motor N20: polia GT2 20T furo 5 mm no eixo de 3 mm em D do N20.
+"""Bucha da polia do motor N20: polia GT2 20T furo 5 mm no eixo de 3 mm do N20.
 
   python bucha_n20.py  ->  saida/stl/bucha_da_polia_do_n20__x4.stl  (+ imagens e pagina)
                            compacta/pagina/PICBOX_bucha_polia_n20.html (copiada pelo publicar.py)
 
-Medidas (N20): eixo 3,0 mm com lado chato a 2,5 mm (chato a 1,0 do centro), 10 mm de comprimento.
+Medidas (N20): eixo de 3,0 mm (redondo ou com lado chato), 10 mm de comprimento. Furo redondo serve nos dois.
 Polia GT2 20T furo 5: cubo de 7 mm com o parafuso sem cabeca M3 no meio do cubo.
 """
 import base64
@@ -22,13 +22,11 @@ ARQ = "bucha_da_polia_do_n20__x4.stl"
 L_B = 9.5          # comprimento (eixo do N20 tem 10)
 R_FORA = 2.45      # 4,9 de diametro: entra no furo de 5 da polia
 R_FURO = 1.6       # 3,2 de diametro: o eixo de 3 entra sem forcar
-X_CHATO = 1.05     # chato do furo a 1,05 do centro (o do eixo esta a 1,0)
-RASGO_W, RASGO_L = 3.3, 6.0   # rasgo no lado chato, aberto na ponta do motor: o parafuso da polia passa por ele
+RASGO_W, RASGO_L = 3.3, 6.0   # rasgo aberto na ponta do motor: o parafuso da polia passa por ele e aperta no eixo
 
 
 def bucha():
-    furo = (cq.Workplane("XY").circle(R_FURO).extrude(L_B)
-            .intersect(cq.Workplane("XY").center(X_CHATO - 5, 0).rect(10, 10).extrude(L_B)))
+    furo = cq.Workplane("XY").circle(R_FURO).extrude(L_B)
     corpo = cq.Workplane("XY").circle(R_FORA).extrude(L_B).cut(furo)
     rasgo = cq.Workplane("XY").center(R_FORA, 0).rect(2 * R_FORA, RASGO_W).extrude(RASGO_L)
     return corpo.cut(rasgo)
@@ -105,22 +103,22 @@ def imagens(pecas):
 
     b = mal["bucha"]
     foto("01_bucha.png", [("bucha", b, 1)], (0, 0, L_B / 2), (1, -0.9, 0.7), 7.5,
-         [("Rasgo: o parafuso da polia passa aqui", (R_FORA, 0, 3.0)), ("Furo em D (eixo do N20)", (0, 0, L_B)),
-          ("Fora 4,9 (furo da polia 5)", (-R_FORA, 0, 7.0))], "Bucha: fora 4,9 mm, furo 3,2 em D, 9,5 mm de altura")
+         [("Rasgo: o parafuso da polia passa aqui", (R_FORA, 0, 3.0)), ("Furo redondo 3,2 (eixo do N20)", (0, 0, L_B)),
+          ("Fora 4,9 (furo da polia 5)", (-R_FORA, 0, 7.0))], "Bucha: fora 4,9 mm, furo 3,2 mm, 9,5 mm de altura")
     foto("02_topo.png", [("bucha", b, 1)], (0, 0, L_B), (0, 0, 1), 3.6,
-         [("Lado chato (encosta no chato do eixo)", (X_CHATO, 0, L_B))], "Vista de cima: o furo em D", up=(0, 1, 0))
+         [("Furo 3,2: o eixo de 3 entra sem forcar", (1.6, 0, L_B))], "Vista de cima", up=(0, 1, 0))
     sobe = lambda me, dz=0, dx=0: me.translate((dx, 0, dz), inplace=False)
     foto("03_explodida.png", [("motor", mal["motor"], 1), ("eixo", mal["eixo"], 1), ("bucha", sobe(b, 14), 1),
                               ("polia", sobe(mal["polia"], 28), 1), ("parafuso", sobe(mal["parafuso"], 28, 9), 1)],
          (0, 0, 16), (1, -1.1, 0.45), 26,
-         [("1. eixo do N20 (3 mm em D)", (1.5, 0, 9)), ("2. bucha: rasgo para o lado chato", (R_FORA, 0, 16)),
+         [("1. eixo do N20 (3 mm)", (1.5, 0, 9)), ("2. bucha: rasgo na ponta do motor", (R_FORA, 0, 16)),
           ("3. polia GT2 20T furo 5, cubo para baixo", (8, 0, 38)), ("4. parafuso sem cabeca M3", (14, 0, 31.5))],
-         "Montagem: a bucha entra no eixo, a polia entra na bucha, o parafuso passa pelo rasgo e aperta no chato")
+         "Montagem: a bucha entra no eixo, a polia entra na bucha, o parafuso passa pelo rasgo e aperta no eixo")
     corte = lambda me: me.clip(normal=(0, -1, 0), origin=(0, 0, 0))
     foto("04_corte.png", [("motor", corte(mal["motor"]), 1), ("eixo", corte(mal["eixo"]), 1), ("bucha", corte(b), 1),
                           ("polia", corte(mal["polia"]), 1), ("parafuso", corte(mal["parafuso"]), 1)],
          (2, 0, 6), (0.25, -1, 0.15), 11,
-         [("Parafuso aperta direto no chato do eixo", (4.5, 0, 3.5)), ("Bucha entre eixo e polia", (-2.0, 0, 9.0)),
+         [("Parafuso aperta direto no eixo", (4.5, 0, 3.5)), ("Bucha entre eixo e polia", (-2.0, 0, 9.0)),
           ("Polia", (-7.5, 0, 12))], "Corte montado")
 
 
@@ -150,7 +148,7 @@ button{{font:600 .9rem var(--f);background:var(--acento);color:#fff;border:0;bor
 <main>
 <header style="display:flex;flex-direction:column;gap:8px"><span class="rot">PICBOX compacta · elevador</span>
 <h1>Bucha da polia do motor N20</h1>
-<p>Adapta a polia GT2 20T de furo 5 mm ao eixo de 3 mm em D do N20. O parafuso sem cabeça da polia passa pelo rasgo da bucha e aperta direto no lado chato do eixo, então a polia não patina.</p></header>
+<p>Adapta a polia GT2 20T de furo 5 mm ao eixo de 3 mm do N20. O parafuso sem cabeça da polia passa pelo rasgo da bucha e aperta direto no eixo, então a polia não patina.</p></header>
 <div class="g">
 <figure class="l"><img src="{img('03_explodida.png')}" alt="Montagem explodida"></figure>
 <figure><img src="{img('01_bucha.png')}" alt="Bucha"></figure>
@@ -159,7 +157,6 @@ button{{font:600 .9rem var(--f);background:var(--acento);color:#fff;border:0;bor
 <div class="c"><h2>Medidas</h2><table>
 <tr><td>Diâmetro de fora</td><td class="n">4,9 mm</td></tr>
 <tr><td>Furo (eixo do N20 de 3 mm)</td><td class="n">3,2 mm</td></tr>
-<tr><td>Lado chato do furo, do centro</td><td class="n">1,05 mm</td></tr>
 <tr><td>Altura</td><td class="n">9,5 mm</td></tr>
 <tr><td>Rasgo do parafuso (largura × altura)</td><td class="n">3,3 × 6 mm</td></tr>
 </table></div>
@@ -167,15 +164,15 @@ button{{font:600 .9rem var(--f);background:var(--acento);color:#fff;border:0;bor
 <div class="g">
 <div class="c"><h2>Imprimir</h2><ul>
 <li>Arquivo <span class="mono">{ARQ}</span>: 4 buchas em pé (2 de reserva), rasgo para cima, sem suporte.</li>
-<li>PETG, bico 0,4, camada 0,12 ou 0,16, 100% de preenchimento, velocidade baixa.</li>
+<li>PETG, bico 0,4, camada 0,12 ou 0,16, 100% de preenchimento, velocidade baixa, com aba (brim) de 5 mm para não soltar da mesa.</li>
 <li>Peça muito pequena: imprima junto com outra peça na mesma mesa, para cada camada ter tempo de esfriar.</li>
 <li>Se ficar justa na polia, lixe de leve por fora. Se o eixo não entrar, passe uma broca de 3 mm no furo.</li>
 </ul></div>
 <div class="c"><h2>Montar</h2><ol>
-<li>Empurre a bucha no eixo do N20, com o lado chato do furo no lado chato do eixo e o rasgo na ponta do motor.</li>
+<li>Empurre a bucha no eixo do N20, com o rasgo na ponta do motor.</li>
 <li>Empurre a polia na bucha, com o cubo (lado do parafuso) virado para o motor.</li>
 <li>Gire a polia até o parafuso ficar alinhado com o rasgo.</li>
-<li>Aperte o parafuso sem cabeça: ele passa pelo rasgo e trava no chato do eixo.</li>
+<li>Aperte o parafuso sem cabeça: ele passa pelo rasgo e trava direto no eixo (se o eixo tiver um lado chato, deixe o parafuso nele).</li>
 </ol></div>
 </div>
 <div class="c"><h2>Arquivo</h2><p>O STL está dentro desta página.</p><button type="button" id="bx">Baixar {ARQ}</button>

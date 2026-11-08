@@ -1,4 +1,4 @@
-# PICBOX compacta (R1.1)
+# PICBOX compacta (R1.2)
 
 Máquina A inteira dentro do gabinete de 420 × 420 × 200 (tela no fundo), bola de aço de 1" (25,4 mm, 67 g).
 
@@ -8,6 +8,7 @@ Máquina A inteira dentro do gabinete de 420 × 420 × 200 (tela no fundo), bola
 | `imprimir/A_impressora_grande/` | Mesas da impressora boa, de 260 × 260: peças de precisão e as que ficam à vista. |
 | `imprimir/B_creality_1/`, `imprimir/C_creality_2/` | Mesas das Creality, de 220 × 220: peças grandes e simples. |
 | `imprimir/ALTERADAS_R1.1/` | **Só as peças que mudaram na R1.1** (carros, anel, bloco esquerdo) + o que comprar. Zip: `imprimir/PICBOX_alteradas_R1.1.zip`. |
+| `imprimir/ALTERADAS_R1.2/` | **Só as peças do elevador que mudaram na R1.2** (cabine, rampa, suporte do motor, bucha da polia do N20). Zip: `imprimir/PICBOX_alteradas_R1.2.zip`. |
 | `imprimir/pecas_avulsas/` | Uma STL por peça, para reimprimir só uma. `__x2` no nome quer dizer imprimir 2 cópias. |
 | `pagina/PICBOX_compacta_visualizacao.html` | Página com o 3D, a explicação de cada peça, a montagem passo a passo, os cabos e as checagens. Abra no navegador. |
 | `pagina/PICBOX_novidades_R1.1.html` | Onde fica cada coisa nova da R1.1 (fixador de correia, fins de curso, arruela do ímã, barreira IR). |

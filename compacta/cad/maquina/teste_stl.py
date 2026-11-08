@@ -126,9 +126,11 @@ def main():
         apoio = ar[(n[:, 2] < -0.99) & (c[:, 2] < z0 + 0.05)].sum()
         mesa.append(dict(stl=arq.name, z0=round(float(z0), 3), apoio_cm2=round(float(apoio) / 100, 1),
                          fechada=bool(me.is_watertight), corpos=len(me.split(only_watertight=False)),
-                         ok=abs(z0) < 0.01 and me.is_watertight and (
-                             apoio > 0.3 * min(2000.0, float(np.prod(me.extents[:2]))) or (suporte.get(arq.name) and apoio > 100)),
-                         nota="com suporte e aba (brim)" if suporte.get(arq.name) else ""))
+                         ok=bool(abs(z0) < 0.01 and me.is_watertight and (
+                             apoio > 0.3 * min(2000.0, float(np.prod(me.extents[:2]))) or (suporte.get(arq.name) and apoio > 100)
+                             or (arq.name.startswith("bucha") and apoio > 30))),     # buchas: anel inteiro na mesa
+                         nota="com suporte e aba (brim)" if suporte.get(arq.name) else
+                         "pecas pequenas: aba (brim) de 5 mm" if arq.name.startswith("bucha") else ""))
     res["mesa"] = mesa
     for l in mesa:
         if not l["ok"]:
