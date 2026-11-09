@@ -4,8 +4,8 @@
   "ruins": [],
   "n_ruins": 0,
   "previstas": 40,
-  "encostam": 217,
-  "pares": 34716
+  "encostam": 211,
+  "pares": 34453
  },
  "parafusos": [
   {
@@ -388,7 +388,7 @@
    "nome": "servo_piso_0",
    "tipo": "madeira 3,5x16",
    "etapa": 8,
-   "prende": "Suporte do servo",
+   "prende": "Fila",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
@@ -411,7 +411,7 @@
    "nome": "servo_piso_1",
    "tipo": "madeira 3,5x16",
    "etapa": 8,
-   "prende": "Suporte do servo",
+   "prende": "Fila",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
@@ -618,7 +618,7 @@
    "nome": "bloco_esq_A_0",
    "tipo": "madeira 3,5x16",
    "etapa": 9,
-   "prende": "Bloco esquerdo",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "Gabinete",
    "pega": 9.0,
    "ok": true,
@@ -641,7 +641,7 @@
    "nome": "bloco_esq_A_1",
    "tipo": "madeira 3,5x16",
    "etapa": 9,
-   "prende": "Bloco esquerdo",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "Gabinete",
    "pega": 9.0,
    "ok": true,
@@ -664,7 +664,7 @@
    "nome": "luva_esq_A_0",
    "tipo": "M5x10 + martelo",
    "etapa": 10,
-   "prende": "Bloco esquerdo",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "Perfil 2020 A",
    "pega": 6.0,
    "ok": true,
@@ -687,7 +687,7 @@
    "nome": "luva_esq_A_1",
    "tipo": "M5x10 + martelo",
    "etapa": 10,
-   "prende": "Bloco esquerdo",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "Perfil 2020 A",
    "pega": 6.0,
    "ok": true,
@@ -1170,7 +1170,7 @@
    "nome": "nema_A_0",
    "tipo": "M3x8",
    "etapa": 11,
-   "prende": "Suporte do NEMA de cima",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "NEMA 17 A",
    "pega": 4.0,
    "ok": true,
@@ -1193,7 +1193,7 @@
    "nome": "nema_A_1",
    "tipo": "M3x8",
    "etapa": 11,
-   "prende": "Suporte do NEMA de cima",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "NEMA 17 A",
    "pega": 4.0,
    "ok": true,
@@ -1216,7 +1216,7 @@
    "nome": "nema_A_2",
    "tipo": "M3x8",
    "etapa": 11,
-   "prende": "Suporte do NEMA de cima",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "NEMA 17 A",
    "pega": 4.0,
    "ok": true,
@@ -1239,7 +1239,7 @@
    "nome": "nema_A_3",
    "tipo": "M3x8",
    "etapa": 11,
-   "prende": "Suporte do NEMA de cima",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "NEMA 17 A",
    "pega": 4.0,
    "ok": true,
@@ -1262,7 +1262,7 @@
    "nome": "sup_nema_A_0",
    "tipo": "madeira 3,5x16",
    "etapa": 11,
-   "prende": "Suporte do NEMA de cima",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "Gabinete",
    "pega": 11.5,
    "ok": true,
@@ -1285,7 +1285,7 @@
    "nome": "sup_nema_A_1",
    "tipo": "madeira 3,5x16",
    "etapa": 11,
-   "prende": "Suporte do NEMA de cima",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "Gabinete",
    "pega": 11.5,
    "ok": true,
@@ -1308,7 +1308,7 @@
    "nome": "sup_nema_A_2",
    "tipo": "madeira 3,5x16",
    "etapa": 11,
-   "prende": "Suporte do NEMA de cima",
+   "prende": "Bloco esquerdo de cima",
    "rosca": "Gabinete",
    "pega": 11.5,
    "ok": true,
@@ -1355,7 +1355,7 @@
    "tipo": "M2x12",
    "etapa": 9,
    "prende": "Fim de curso",
-   "rosca": "Bloco esquerdo",
+   "rosca": "Bloco esquerdo de cima",
    "pega": 5.6,
    "ok": true,
    "problemas": [],
@@ -1405,7 +1405,7 @@
    "tipo": "M2x12",
    "etapa": 9,
    "prende": "Fim de curso",
-   "rosca": "Bloco esquerdo",
+   "rosca": "Bloco esquerdo de cima",
    "pega": 5.6,
    "ok": true,
    "problemas": [],
@@ -1477,7 +1477,7 @@
    "nome": "bloco_esq_B_0",
    "tipo": "madeira 3,5x16",
    "etapa": 9,
-   "prende": "Bloco esquerdo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "Gabinete",
    "pega": 9.0,
    "ok": true,
@@ -1500,7 +1500,7 @@
    "nome": "bloco_esq_B_1",
    "tipo": "madeira 3,5x16",
    "etapa": 9,
-   "prende": "Bloco esquerdo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "Gabinete",
    "pega": 9.0,
    "ok": true,
@@ -1523,7 +1523,7 @@
    "nome": "luva_esq_B_0",
    "tipo": "M5x10 + martelo",
    "etapa": 10,
-   "prende": "Bloco esquerdo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "Perfil 2020 B",
    "pega": 6.0,
    "ok": true,
@@ -1546,7 +1546,7 @@
    "nome": "luva_esq_B_1",
    "tipo": "M5x10 + martelo",
    "etapa": 10,
-   "prende": "Bloco esquerdo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "Perfil 2020 B",
    "pega": 6.0,
    "ok": true,
@@ -2029,7 +2029,7 @@
    "nome": "nema_B_0",
    "tipo": "M3x8",
    "etapa": 11,
-   "prende": "Suporte do NEMA de baixo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "NEMA 17 B",
    "pega": 4.0,
    "ok": true,
@@ -2052,7 +2052,7 @@
    "nome": "nema_B_1",
    "tipo": "M3x8",
    "etapa": 11,
-   "prende": "Suporte do NEMA de baixo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "NEMA 17 B",
    "pega": 4.0,
    "ok": true,
@@ -2075,7 +2075,7 @@
    "nome": "nema_B_2",
    "tipo": "M3x8",
    "etapa": 11,
-   "prende": "Suporte do NEMA de baixo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "NEMA 17 B",
    "pega": 4.0,
    "ok": true,
@@ -2098,7 +2098,7 @@
    "nome": "nema_B_3",
    "tipo": "M3x8",
    "etapa": 11,
-   "prende": "Suporte do NEMA de baixo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "NEMA 17 B",
    "pega": 4.0,
    "ok": true,
@@ -2121,7 +2121,7 @@
    "nome": "sup_nema_B_0",
    "tipo": "madeira 3,5x16",
    "etapa": 8,
-   "prende": "Suporte do NEMA de baixo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
@@ -2144,7 +2144,7 @@
    "nome": "sup_nema_B_1",
    "tipo": "madeira 3,5x16",
    "etapa": 8,
-   "prende": "Suporte do NEMA de baixo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
@@ -2167,7 +2167,7 @@
    "nome": "sup_nema_parede_B_0",
    "tipo": "madeira 3,5x16",
    "etapa": 8,
-   "prende": "Suporte do NEMA de baixo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "Gabinete",
    "pega": 11.5,
    "ok": true,
@@ -2190,7 +2190,7 @@
    "nome": "sup_nema_parede_B_1",
    "tipo": "madeira 3,5x16",
    "etapa": 8,
-   "prende": "Suporte do NEMA de baixo",
+   "prende": "Bloco esquerdo de baixo",
    "rosca": "Gabinete",
    "pega": 11.5,
    "ok": true,
@@ -2237,7 +2237,7 @@
    "tipo": "M2x12",
    "etapa": 9,
    "prende": "Fim de curso",
-   "rosca": "Bloco esquerdo",
+   "rosca": "Bloco esquerdo de baixo",
    "pega": 5.6,
    "ok": true,
    "problemas": [],
@@ -2287,7 +2287,7 @@
    "tipo": "M2x12",
    "etapa": 9,
    "prende": "Fim de curso",
-   "rosca": "Bloco esquerdo",
+   "rosca": "Bloco esquerdo de baixo",
    "pega": 5.6,
    "ok": true,
    "problemas": [],
@@ -2540,98 +2540,6 @@
    "corpo": "carroB"
   },
   {
-   "nome": "anel_placa_0",
-   "tipo": "M3x12 + porca",
-   "etapa": 13,
-   "prende": "Anel",
-   "rosca": "Carro B",
-   "pega": 8.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [],
-   "p0": [
-    -16.0,
-    50.0,
-    60.0
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 12,
-   "corpo": "carroB"
-  },
-  {
-   "nome": "anel_placa_1",
-   "tipo": "M3x12 + porca",
-   "etapa": 13,
-   "prende": "Anel",
-   "rosca": "Carro B",
-   "pega": 10.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [],
-   "p0": [
-    16.0,
-    50.0,
-    60.0
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 12,
-   "corpo": "carroB"
-  },
-  {
-   "nome": "anel_placa_2",
-   "tipo": "M3x12 + porca",
-   "etapa": 13,
-   "prende": "Anel",
-   "rosca": "Carro B",
-   "pega": 5.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [],
-   "p0": [
-    -16.0,
-    50.0,
-    106.15719593005423
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 12,
-   "corpo": "carroB"
-  },
-  {
-   "nome": "anel_placa_3",
-   "tipo": "M3x12 + porca",
-   "etapa": 13,
-   "prende": "Anel",
-   "rosca": "Carro B",
-   "pega": 5.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [],
-   "p0": [
-    16.0,
-    50.0,
-    106.15719593005423
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 12,
-   "corpo": "carroB"
-  },
-  {
    "nome": "ima",
    "tipo": "M3x8",
    "etapa": 12,
@@ -2658,15 +2566,15 @@
    "nome": "gancho_teto_0_0",
    "tipo": "madeira 3,5x16",
    "etapa": 13,
-   "prende": "Gancho da prateleira",
+   "prende": "Prateleira da esteira",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
-    -179.5,
-    113.5,
+    -180.0,
+    111.5,
     426.0
    ],
    "dir": [
@@ -2675,46 +2583,21 @@
     1
    ],
    "L": 16,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "gancho_prat_0_0",
-   "tipo": "M3x10",
-   "etapa": 13,
-   "prende": "Gancho da prateleira",
-   "rosca": "Prateleira da esteira",
-   "pega": 6.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [
-    "parede de 1,5 mm em volta da rosca: 100% cheia"
-   ],
-   "p0": [
-    -179.5,
-    108.0,
-    408.5
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 10,
    "corpo": "mundo"
   },
   {
    "nome": "gancho_teto_0_1",
    "tipo": "madeira 3,5x16",
    "etapa": 13,
-   "prende": "Gancho da prateleira",
+   "prende": "Prateleira da esteira",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
-    -170.5,
-    113.5,
+    -170.0,
+    111.5,
     426.0
    ],
    "dir": [
@@ -2723,46 +2606,21 @@
     1
    ],
    "L": 16,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "gancho_prat_0_1",
-   "tipo": "M3x10",
-   "etapa": 13,
-   "prende": "Gancho da prateleira",
-   "rosca": "Prateleira da esteira",
-   "pega": 6.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [
-    "parede de 1,5 mm em volta da rosca: 100% cheia"
-   ],
-   "p0": [
-    -170.5,
-    108.0,
-    408.5
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 10,
    "corpo": "mundo"
   },
   {
    "nome": "gancho_teto_1_0",
    "tipo": "madeira 3,5x16",
    "etapa": 13,
-   "prende": "Gancho da prateleira",
+   "prende": "Prateleira da esteira",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
-    -4.5,
-    113.5,
+    -17.0,
+    111.5,
     426.0
    ],
    "dir": [
@@ -2771,46 +2629,21 @@
     1
    ],
    "L": 16,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "gancho_prat_1_0",
-   "tipo": "M3x10",
-   "etapa": 13,
-   "prende": "Gancho da prateleira",
-   "rosca": "Prateleira da esteira",
-   "pega": 6.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [
-    "parede de 1,5 mm em volta da rosca: 100% cheia"
-   ],
-   "p0": [
-    -4.5,
-    108.0,
-    408.5
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 10,
    "corpo": "mundo"
   },
   {
    "nome": "gancho_teto_1_1",
    "tipo": "madeira 3,5x16",
    "etapa": 13,
-   "prende": "Gancho da prateleira",
+   "prende": "Prateleira da esteira",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
-    4.5,
-    113.5,
+    -7.0,
+    111.5,
     426.0
    ],
    "dir": [
@@ -2819,46 +2652,21 @@
     1
    ],
    "L": 16,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "gancho_prat_1_1",
-   "tipo": "M3x10",
-   "etapa": 13,
-   "prende": "Gancho da prateleira",
-   "rosca": "Prateleira da esteira",
-   "pega": 6.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [
-    "parede de 1,5 mm em volta da rosca: 100% cheia"
-   ],
-   "p0": [
-    4.5,
-    108.0,
-    408.5
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 10,
    "corpo": "mundo"
   },
   {
    "nome": "gancho_teto_2_0",
    "tipo": "madeira 3,5x16",
    "etapa": 13,
-   "prende": "Gancho da prateleira",
+   "prende": "Prateleira da esteira",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
-    145.5,
-    113.5,
+    7.0,
+    111.5,
     426.0
    ],
    "dir": [
@@ -2867,46 +2675,21 @@
     1
    ],
    "L": 16,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "gancho_prat_2_0",
-   "tipo": "M3x10",
-   "etapa": 13,
-   "prende": "Gancho da prateleira",
-   "rosca": "Prateleira da esteira",
-   "pega": 6.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [
-    "parede de 1,5 mm em volta da rosca: 100% cheia"
-   ],
-   "p0": [
-    145.5,
-    108.0,
-    408.5
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 10,
    "corpo": "mundo"
   },
   {
    "nome": "gancho_teto_2_1",
    "tipo": "madeira 3,5x16",
    "etapa": 13,
-   "prende": "Gancho da prateleira",
+   "prende": "Prateleira da esteira",
    "rosca": "Gabinete",
    "pega": 12.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
-    154.5,
-    113.5,
+    17.0,
+    111.5,
     426.0
    ],
    "dir": [
@@ -2918,72 +2701,47 @@
    "corpo": "mundo"
   },
   {
-   "nome": "gancho_prat_2_1",
-   "tipo": "M3x10",
+   "nome": "gancho_teto_3_0",
+   "tipo": "madeira 3,5x16",
    "etapa": 13,
-   "prende": "Gancho da prateleira",
-   "rosca": "Prateleira da esteira",
-   "pega": 6.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [
-    "parede de 1,5 mm em volta da rosca: 100% cheia"
-   ],
-   "p0": [
-    154.5,
-    108.0,
-    408.5
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 10,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "est_fixaA_0",
-   "tipo": "M3x16 + porca",
-   "etapa": 13,
-   "prende": "Ponta fixa da esteira",
-   "rosca": "Prateleira da esteira",
-   "pega": 3.0,
+   "prende": "Prateleira da esteira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
-    -13.099999999999994,
-    92.0,
-    415.5
+    170.0,
+    111.5,
+    426.0
    ],
    "dir": [
     0,
     0,
-    -1
+    1
    ],
    "L": 16,
    "corpo": "mundo"
   },
   {
-   "nome": "est_fixaA_1",
-   "tipo": "M3x16 + porca",
+   "nome": "gancho_teto_3_1",
+   "tipo": "madeira 3,5x16",
    "etapa": 13,
-   "prende": "Ponta fixa da esteira",
-   "rosca": "Prateleira da esteira",
-   "pega": 3.0,
+   "prende": "Prateleira da esteira",
+   "rosca": "Gabinete",
+   "pega": 12.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
-    -7.099999999999994,
-    92.0,
-    415.5
+    180.0,
+    111.5,
+    426.0
    ],
    "dir": [
     0,
     0,
-    -1
+    1
    ],
    "L": 16,
    "corpo": "mundo"
@@ -3271,8 +3029,8 @@
    237
   ],
   "bloqueia": [
-   "NEMA 17 A",
-   "Suporte do NEMA de cima"
+   "Bloco esquerdo de cima",
+   "NEMA 17 A"
   ]
  },
  "varredura": {
@@ -3399,7 +3157,7 @@
     "a": "est_fixA",
     "pa": "Esteira A",
     "b": "est_fixaA",
-    "pb": "Ponta fixa da esteira",
+    "pb": "Prateleira da esteira",
     "folga": -0.0,
     "onde": {
      "cA": -146.0,
@@ -3997,7 +3755,7 @@
     "a": "alav_braco",
     "pa": "Braco da comporta",
     "b": "suporte_servo",
-    "pb": "Suporte do servo",
+    "pb": "Fila",
     "folga": 0.5,
     "onde": {
      "th": 5.5,
@@ -4140,7 +3898,7 @@
     "a": "alav_chifre",
     "pa": "Servo",
     "b": "suporte_servo",
-    "pb": "Suporte do servo",
+    "pb": "Fila",
     "folga": 0.99,
     "onde": {
      "th": 7.5,
@@ -4255,7 +4013,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_frente_0",
     "pb": "Bandeja esquerda",
     "folga": 1.0,
@@ -4268,7 +4026,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_frente_1",
     "pb": "Bandeja do meio",
     "folga": 1.0,
@@ -4281,7 +4039,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_1_3_0",
     "pb": "Bandeja do meio",
     "folga": 1.0,
@@ -4294,7 +4052,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_1_4_0",
     "pb": "Bandeja do meio",
     "folga": 1.0,
@@ -4307,7 +4065,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_frente_2",
     "pb": "Bandeja direita",
     "folga": 1.0,
@@ -4320,7 +4078,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_2_0_0",
     "pb": "Bandeja direita",
     "folga": 1.0,
@@ -4333,7 +4091,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_2_1_0",
     "pb": "Bandeja direita",
     "folga": 1.0,
@@ -5113,7 +4871,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_2_0_0_topo",
     "pb": "Bandeja direita",
     "folga": 1.14,
@@ -5126,7 +4884,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_2_1_0_topo",
     "pb": "Bandeja direita",
     "folga": 1.14,
@@ -5139,7 +4897,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_1_4_0_topo",
     "pb": "Bandeja do meio",
     "folga": 1.15,
@@ -5295,7 +5053,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_0_1_topo",
     "pb": "Bandeja esquerda",
     "folga": 1.28,
@@ -5321,7 +5079,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_1_3_0_topo",
     "pb": "Bandeja do meio",
     "folga": 1.32,
@@ -5438,7 +5196,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_0_2_topo",
     "pb": "Bandeja esquerda",
     "folga": 1.49,
@@ -5711,7 +5469,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_1_2_topo",
     "pb": "Bandeja do meio",
     "folga": 1.59,
@@ -5776,7 +5534,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_0_3_topo",
     "pb": "Bandeja esquerda",
     "folga": 1.71,
@@ -5893,7 +5651,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_1_1_topo",
     "pb": "Bandeja do meio",
     "folga": 1.79,
@@ -6064,7 +5822,7 @@
     "a": "presilha_A",
     "pa": "Carro A",
     "b": "bloco_braco_A",
-    "pb": "Bloco esquerdo",
+    "pb": "Bloco esquerdo de cima",
     "folga": 2.0,
     "onde": {
      "cA": -146.0,
@@ -6376,7 +6134,7 @@
     "a": "presilha_B",
     "pa": "Carro B",
     "b": "bloco_braco_B",
-    "pb": "Bloco esquerdo",
+    "pb": "Bloco esquerdo de baixo",
     "folga": 2.0,
     "onde": {
      "cA": -146.0,
@@ -6621,7 +6379,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_eva_0",
     "pb": "EVA 5 mm",
     "folga": 2.14,
@@ -6894,7 +6652,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_eva_1",
     "pb": "EVA 5 mm",
     "folga": 2.31,
@@ -7063,7 +6821,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_eva_2",
     "pb": "EVA 5 mm",
     "folga": 2.46,
@@ -7078,7 +6836,7 @@
     "a": "presilha_piso_A",
     "pa": "Carro A",
     "b": "sup_nema_placa_A",
-    "pb": "Suporte do NEMA de cima",
+    "pb": "Bloco esquerdo de cima",
     "folga": 2.5,
     "onde": {
      "cA": -146.0,
@@ -7091,7 +6849,7 @@
     "a": "presilha_A",
     "pa": "Carro A",
     "b": "sup_nema_placa_A",
-    "pb": "Suporte do NEMA de cima",
+    "pb": "Bloco esquerdo de cima",
     "folga": 2.5,
     "onde": {
      "cA": -146.0,
@@ -7104,7 +6862,7 @@
     "a": "presilha_piso_B",
     "pa": "Carro B",
     "b": "sup_nema_placa_B",
-    "pb": "Suporte do NEMA de baixo",
+    "pb": "Bloco esquerdo de baixo",
     "folga": 2.5,
     "onde": {
      "cA": -146.0,
@@ -7117,7 +6875,7 @@
     "a": "presilha_B",
     "pa": "Carro B",
     "b": "sup_nema_placa_B",
-    "pb": "Suporte do NEMA de baixo",
+    "pb": "Bloco esquerdo de baixo",
     "folga": 2.5,
     "onde": {
      "cA": -146.0,
@@ -7245,7 +7003,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_placa_0",
     "pb": "Bandeja esquerda",
     "folga": 2.53,
@@ -7258,7 +7016,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_placa_2",
     "pb": "Bandeja direita",
     "folga": 2.55,
@@ -7310,7 +7068,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_placa_1",
     "pb": "Bandeja do meio",
     "folga": 2.7,
@@ -7323,7 +7081,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_0_4_topo",
     "pb": "Bandeja esquerda",
     "folga": 2.7,
@@ -7336,7 +7094,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_1_0_topo",
     "pb": "Bandeja do meio",
     "folga": 2.76,
@@ -7349,7 +7107,7 @@
    },
    {
     "a": "costasB",
-    "pa": "Anel",
+    "pa": "Carro B",
     "b": "band_nerv_0_1",
     "pb": "Bandeja esquerda",
     "folga": 2.76,
@@ -7504,7 +7262,7 @@
     "nota": ""
    }
   ],
-  "segundos": 127.5,
+  "segundos": 58.1,
   "posicoes": {
    "A": 105,
    "B": 99

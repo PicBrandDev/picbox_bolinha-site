@@ -73,8 +73,6 @@ def main():
                 continue
             if peca in PC.SO_EIXO_A and ("_B_" in f["nome"] or f["nome"].endswith("_B")):
                 continue                              # o STL e o do eixo A (o do B e igual)
-            if peca == "Gancho da prateleira" and not f["nome"].startswith(("gancho_teto_0", "gancho_prat_0")):
-                continue
             chave = re.sub(r"[^a-z0-9]+", "_", peca.lower().translate(str.maketrans("áàãâéêíóôõúç", "aaaaeeiooouc"))).strip("_")
             cand = [k for k in malhas if k.startswith(chave)]
             if not cand:
@@ -106,13 +104,13 @@ def main():
     q = trimesh.proximity.ProximityQuery(r)
     dmin = float(np.min(np.abs(q.signed_distance(b1.vertices))))
     out["bolso"] = dict(entra_mm3=round(v, 2), menor_dist=round(dmin, 2), ok=v < 2.0)
-    a = malhas["anel"]
+    a = malhas["carro_b"]
     for dlt in (0.0, 6.0):
         piores = []
         for z in np.arange(m.zb + 15, m.zb - m.h_anel - 15, -1.0):
             b2 = bola.copy()
             b2.apply_translation((dlt, m.y_bola, z))
-            piores.append((man(b2) ^ mans["anel"]).volume())
+            piores.append((man(b2) ^ mans["carro_b"]).volume())
         out[f"anel_{dlt}"] = dict(entra_mm3=round(max(piores), 2), ok=max(piores) < 0.01)
     res["bola"] = out
     print("BOLA", out)

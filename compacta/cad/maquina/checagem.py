@@ -32,16 +32,16 @@ SOBREPOSICAO_PREVISTA = {
     frozenset(("Torre superior", "Sensor de fenda")): "a placa do sensor passa pela janela da placa de tras",
     frozenset(("Polia de baixo", "Correia")): "a correia abraca a polia",
     frozenset(("Polia do motor", "Correia")): "a correia abraca a polia",
-    frozenset(("Servo", "Suporte do servo")): "o servo entra no suporte",
+    frozenset(("Servo", "Fila")): "o servo entra no suporte (impresso junto com a fila)",
     frozenset(("Torre superior", "Polia do motor")): "a polia do motor passa por uma janela no teto da torre",
 }
 PREVISTO = {frozenset(k) for k in SOBREPOSICAO_PREVISTA}
 for k in ("A", "B"):
     PREVISTO |= {frozenset(p) for p in [
-        (f"NEMA 17 {k}", f"Suporte do NEMA {'de cima' if k == 'A' else 'de baixo'}"),
+        (f"NEMA 17 {k}", f"Bloco esquerdo {'de cima' if k == 'A' else 'de baixo'}"),
         (f"Polia GT2 20T {k}", f"Correia {k}"), (f"Polia tensora {k}", f"Correia {k}"),
         (f"Polia tensora {k}", "Bloco direito"), (f"Polia GT2 20T {k}", f"NEMA 17 {k}"),
-        (f"Esteira {k}", "Ponta fixa da esteira"),
+        (f"Esteira {k}", "Ponta fixa da esteira"), (f"Esteira {k}", "Prateleira da esteira"),
     ]}
 PREVISTO.add(frozenset(("Rampa", "Sensor do bolso")))       # o sensor fica num bolsao da rampa
 PREVISTO |= {frozenset(("EVA 5 mm", p)) for p in ("Bandeja esquerda", "Bandeja do meio", "Bandeja direita", "Rampa")}
@@ -167,8 +167,8 @@ def varredura(c: Cena, passo=3.0):
     for (a, b), (d, st) in sorted(minimo.items(), key=lambda kv: kv[1][0]):
         prev = CONTATO_MOVEL.get((a, b)) or CONTATO_MOVEL.get((b, a))
         pa, pb = c.peca.get(a, c.peca.get(a + "#0", "?")), c.peca.get(b, c.peca.get(b + "#0", "?"))
-        if prev is None and ((a.startswith("est_") and pb in ("Carro A", "Carro B", "Ponta fixa da esteira")) or
-                             (b.startswith("est_") and pa in ("Carro A", "Carro B", "Ponta fixa da esteira"))):
+        if prev is None and ((a.startswith("est_") and pb in ("Carro A", "Carro B", "Ponta fixa da esteira", "Prateleira da esteira")) or
+                             (b.startswith("est_") and pa in ("Carro A", "Carro B", "Ponta fixa da esteira", "Prateleira da esteira"))):
             # esteira presa na ponta do carro / na ponta fixa: so o elo da ponta encosta
             if ("ponta" in a or "ponta" in b or "est_fixa" in a or "est_fixa" in b):
                 prev = "elo da ponta da esteira preso no suporte"

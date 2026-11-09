@@ -127,6 +127,9 @@ As 2 torres: aba (brim) de 5 mm, sem suporte (a de cima ja vem de cabeca para ba
 A bucha da polia do N20 nao mudou (pecas_avulsas/bucha_da_polia_do_n20__x4.stl).
 
 O QUE MUDOU
+- PECAS JUNTADAS (de 29 para 19 arquivos de impressao, menos parafusos e encaixes):
+  bloco esquerdo + suporte do NEMA (1 por eixo), anel + carro B, suporte do servo + fila,
+  prateleira + 3 ganchos + ponta fixa da esteira A (2 metades com 2 ganchos cada).
 - Elevador: 2 pecas (torre de baixo e torre de cima) no lugar de base, 2 guias, 2 tubos,
   suporte do motor, espacador e batente. Motor, correia, trilhos, polias, sensores e
   frente do tubo ficam na propria torre. As 2 encaixam por 3 pinos + 4 M3x8.
@@ -157,7 +160,7 @@ COMPRAR / SEPARAR (alem do que ja tinha na R1.2)
 - 1 M5x30 + 1 porca M5 + 1 porca M5 de nylon + 2 arruelas M5 (eixo da polia de baixo)
 - 2 M2x6 (motor N20)
 - 4 M3x8 (emenda das torres) + 2 M3x8 + 2 porcas (sensores) + 4 M3x12 + 4 porcas (rampa)
-- 8 parafusos de madeira 3,5x16 (torre: 2 no piso + 4 na parede; suporte do servo: 2)
+- 8 parafusos de madeira 3,5x16 (torre: 2 no piso + 4 na parede; servo/fila: 2) + 2 a mais no teto (agora 4 ganchos)
 - Correia GT2 6 mm do elevador: ~860 mm
 - 4 KW10 nos eixos (os 2 do elevador + os 2 que ja estavam nos eixos) + 4 M2x12
 

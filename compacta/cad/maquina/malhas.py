@@ -15,7 +15,7 @@ import layout as L
 AQUI = Path(__file__).parent
 S = AQUI / "saida"
 
-CORPO = {"Cabine": "carro", "Braco da comporta": "alavanca", "Carro A": "carroA", "Carro B": "carroB", "Anel": "carroB"}
+CORPO = {"Cabine": "carro", "Braco da comporta": "alavanca", "Carro A": "carroA", "Carro B": "carroB"}
 
 
 def main():
@@ -34,10 +34,8 @@ def main():
             if base.endswith(suf) and base[:-len(suf)] in L.PECAS:
                 base = base[:-len(suf)]
         copias = [[0, 0, 0]]
-        if base in ("Bloco esquerdo", "Bloco direito"):
+        if base == "Bloco direito":
             copias.append([0, 0, m.zpB - m.zpA])
-        if base == "Gancho da prateleira":
-            copias = [[x - L.GANCHOS[0], 0, 0] for x in L.GANCHOS]
         out.append(dict(peca=base, nome=l["peca"], arquivo=l["arquivo"], corpo=CORPO.get(base, "mundo"), copias=copias,
                         v=base64.b64encode(V.tobytes()).decode(), t=base64.b64encode(T.tobytes()).decode(),
                         nv=len(V), nt=len(T)))

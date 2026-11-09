@@ -105,7 +105,7 @@
    "nota": "esbarrao de 10 N no ima"
   },
   {
-   "peca": "Anel",
+   "peca": "Carro B",
    "ponto": "borda do anel (bola caindo 250 mm)",
    "regime": "normal",
    "carga_N": 225.3,
@@ -118,7 +118,7 @@
    "nota": "k em serie 154 N/mm; FS 3 tambem cobre a fadiga de muitas batidas"
   },
   {
-   "peca": "Anel",
+   "peca": "Carro B",
    "ponto": "raiz do braco do anel",
    "regime": "normal",
    "carga_N": 225.3,
@@ -126,32 +126,6 @@
    "limite_MPa": 45.0,
    "direcao": "flexao no plano da camada",
    "fs": 3.8,
-   "fs_min": 3.0,
-   "ok": true,
-   "nota": ""
-  },
-  {
-   "peca": "Anel",
-   "ponto": "porca do parafuso das costas (esmaga a placa)",
-   "regime": "normal",
-   "carga_N": 117.1,
-   "tensao_MPa": 4.0,
-   "limite_MPa": 25.0,
-   "direcao": "compressao embaixo da porca com arruela 7 mm",
-   "fs": 6.3,
-   "fs_min": 3.0,
-   "ok": true,
-   "nota": "M3 passante com porca e arruela"
-  },
-  {
-   "peca": "Anel",
-   "ponto": "parafuso M3 das costas",
-   "regime": "normal",
-   "carga_N": 117.1,
-   "tensao_MPa": 23.3,
-   "limite_MPa": 340.0,
-   "direcao": "tracao no aco 4.8",
-   "fs": 14.6,
    "fs_min": 3.0,
    "ok": true,
    "nota": ""
@@ -222,7 +196,7 @@
    "nota": "bola a 0.32 m/s"
   },
   {
-   "peca": "Suporte do NEMA de cima",
+   "peca": "Bloco esquerdo de cima",
    "ponto": "canto aba/placa",
    "regime": "normal",
    "carga_N": 30.0,
@@ -235,7 +209,7 @@
    "nota": ""
   },
   {
-   "peca": "Suporte do NEMA de cima",
+   "peca": "Bloco esquerdo de cima",
    "ponto": "parafuso de madeira mais carregado",
    "regime": "normal",
    "carga_N": 83.9,
@@ -248,7 +222,7 @@
    "nota": "12 mm no MDF"
   },
   {
-   "peca": "Suporte do NEMA de cima",
+   "peca": "Bloco esquerdo de cima",
    "ponto": "canto aba/placa",
    "regime": "falha",
    "carga_N": 96.0,
@@ -261,7 +235,7 @@
    "nota": ""
   },
   {
-   "peca": "Suporte do NEMA de cima",
+   "peca": "Bloco esquerdo de cima",
    "ponto": "parafuso de madeira mais carregado",
    "regime": "falha",
    "carga_N": 268.6,
@@ -274,7 +248,7 @@
    "nota": "12 mm no MDF"
   },
   {
-   "peca": "Suporte do NEMA de baixo",
+   "peca": "Bloco esquerdo de baixo",
    "ponto": "parafuso de madeira da parede (o de cima)",
    "regime": "normal",
    "carga_N": 42.7,
@@ -287,7 +261,7 @@
    "nota": "12 mm no MDF; os 2 do piso ajudam e nao entram"
   },
   {
-   "peca": "Suporte do NEMA de baixo",
+   "peca": "Bloco esquerdo de baixo",
    "ponto": "parafuso de madeira da parede (o de cima)",
    "regime": "falha",
    "carga_N": 136.6,

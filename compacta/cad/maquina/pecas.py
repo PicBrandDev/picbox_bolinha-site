@@ -41,29 +41,25 @@ POS = {
     "Cabine": ("Z", 1, "sim: arvore so embaixo do bloco do fixador e dos 2 ressaltos da bandeira"),
     "Fila": ("Z", 1, "nao (nervuras embaixo do piso)"),
     "Rampa": ("Z", 1, "nao (piso macico)"),
-    "Suporte do servo": ("Z", 1, "nao"),
     "Braco da comporta": ("Z-", 3, "nao"),
     "Fila esquerda": ("Z", 1, "nao (nervuras embaixo do piso)"),
-    "Bloco esquerdo": ("-X", 2, "nao"),
+    "Bloco esquerdo de cima": ("-X", 1, "nao (deitado na face da parede)"),
+    "Bloco esquerdo de baixo": ("-X", 1, "nao (deitado na face da parede)"),
     "Bloco direito": ("+X", 2, "nao"),
-    "Suporte do NEMA de cima": ("-X", 1, "nao"),
-    "Suporte do NEMA de baixo": ("-X", 1, "nao"),
     "Carro A": ("-X", 1, "sim: embaixo da presilha, da prateleira e da nervura"),
-    "Carro B": ("+Y", 1, "nao"),
-    "Anel": ("Z-", 1, "nao"),
+    "Carro B": ("Z-", 1, "sim: arvore so embaixo da presilha, do batedor e da barra da esteira"),
     "Bandeja esquerda": ("-Y", 1, "nao (impressa em pe, frente na mesa)"),
     "Bandeja do meio": ("-Y", 1, "nao (impressa em pe, frente na mesa)"),
     "Bandeja direita": ("-Y", 1, "nao (impressa em pe, frente na mesa)"),
     "Prateleira da esteira": ("Z", 1, "nao"),
-    "Gancho da prateleira": ("Z-", 3, "nao (pe na mesa)"),
     "Ponta fixa da esteira": ("Z", 1, "nao"),
 }
 # pecas iguais: so a instancia do eixo A vira STL (a do B e a mesma, contada em POS)
-SO_EIXO_A = {"Bloco esquerdo", "Bloco direito"}
+SO_EIXO_A = {"Bloco direito"}
 # instancias que viram arquivos separados (mesmo nome de peca, formas diferentes)
-SEPARAR = {"Prateleira da esteira": ("prat_estA_0", "prat_estA_0_fora", "prat_aba_0") +
-           tuple(f"prat_estA_0_trav_{j}" for j in range(5)), "Ponta fixa da esteira": ("est_fixaA",)}
-SEPARAR_NOME = {"Prateleira da esteira": ("esquerda", "direita"), "Ponta fixa da esteira": ("A (prateleira)", "B (piso)")}
+SEPARAR = {"Prateleira da esteira": ("prat_estA_0", "prat_estA_0_fora", "prat_aba_0", "gancho_0", "gancho_1", "est_fixaA") +
+           tuple(f"prat_estA_0_trav_{j}" for j in range(5))}
+SEPARAR_NOME = {"Prateleira da esteira": ("esquerda", "direita")}
 
 
 def rot_mesa(k):
@@ -253,14 +249,14 @@ def detalhes(m, peca, el):
         a2, c2 = detalhes_elevador(m, peca, el)
         add += a2
         cut += c2
-    if peca == "Suporte do servo":
+    if peca == "Fila":                     # orelhas do servo (o suporte do servo e impresso junto com a fila)
         for xa, xb, xh in ((84.0, 88.5, 86.1), (111.5, 116.0, 113.9)):
             add.append(cq.Solid.makeBox(xb - xa, 7.9, 12.0, pnt=cq.Vector(xa, 96.0, 21.0)))
             cut.append(cq.Solid.makeCylinder(0.9, 9.0, pnt=cq.Vector(xh, 104.5, 27.0), dir=cq.Vector(0, -1, 0)))
     if peca == "Braco da comporta":
         for x in (104.0, 107.0):
             cut.append(cq.Solid.makeCylinder(0.75, 12.0, pnt=cq.Vector(x, 115.0, 25.0), dir=cq.Vector(0, 1, 0)))
-    if peca == "Anel":
+    if peca == "Carro B":                  # o anel e impresso junto com o carro B
         for x in (-10.0, 10.0):              # cabecas dos M3x8 do patim ficam embaixo das costas
             for z in (m.zpB - 10, m.zpB + 10):
                 cut.append(cq.Solid.makeCylinder(3.6, 5.0, pnt=cq.Vector(x, 45.5, z), dir=cq.Vector(0, 1, 0)))
@@ -272,12 +268,12 @@ def detalhes(m, peca, el):
         # janela do sensor no piso do bolso e canal dos fios ate embaixo da rampa
         cut.append(cq.Solid.makeBox(4.8, 9.4, 12.0, pnt=cq.Vector(sx - 2.4, sy - 4.7, zt - 8.0)))
         cut.append(cq.Solid.makeBox(4.0, 6.0, 40.0, pnt=cq.Vector(sx - 2.0, sy - 3.0, zb0 - 5.0)))
-    if peca.startswith("Suporte do NEMA"):     # ressalto de 22 mm da face do NEMA 17 (2 mm de altura): furo de 23 na placa
+    if peca.startswith("Bloco esquerdo de"):    # ressalto de 22 mm da face do NEMA 17 (2 mm de altura): furo de 23 na placa
         zf = (m.zpA if peca.endswith("cima") else m.zpB) + m.dz_correia - 15.0
         cut.append(cq.Solid.makeCylinder(11.5, 4.4, pnt=cq.Vector(m.x_motor, m.y_correia, zf - 0.2)))
-    if peca == "Suporte do NEMA de cima":     # furo do cabo do motor (aba e parede)
+    if peca == "Bloco esquerdo de cima":     # furo do cabo do motor (aba e parede)
         cut.append(cq.Solid.makeCylinder(5.0, 10.0, pnt=cq.Vector(-212.0, m.y_correia, 312.0), dir=cq.Vector(1, 0, 0)))
-    if peca == "Suporte do NEMA de baixo":    # furo do cabo do motor e do fim de curso de baixo
+    if peca == "Bloco esquerdo de baixo":    # furo do cabo do motor e do fim de curso de baixo
         cut.append(cq.Solid.makeCylinder(4.0, 10.0, pnt=cq.Vector(-212.0, m.y_correia + 25.3, 25.0), dir=cq.Vector(1, 0, 0)))
     return add, cut
 
@@ -351,8 +347,6 @@ def construir(m, peca, so=None, fx=None, geo=None):
     proprios = [e for e in geo if e["peca"] in junta and (so is None or e["nome"] in so)]
     if peca in SO_EIXO_A:
         proprios = [e for e in proprios if e["nome"].endswith("_A")]
-    if peca == "Gancho da prateleira":          # os 3 sao iguais: so o primeiro
-        proprios = [e for e in proprios if e["nome"].endswith("_0")]
     if not proprios:
         return None
     lo = np.min([aabb(e)[0] for e in proprios], 0) - 1

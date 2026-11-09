@@ -50,13 +50,13 @@ NOTAS_ETAPA = {
        "na parede, antes do perfil. Centro do perfil: Z 410 (cima) e Z 81 (baixo).",
     10: "Na bancada: corte os perfis em 400 mm e prenda o trilho MGN12 de 400 na fenda de tras com 16 M3x8 + porca martelo. "
         "O trilho fica para tras (lado da tela). Encaixe o perfil nas luvas e aperte 2 M5x10 + martelo pela frente de cada luva.",
-    11: "Motor no suporte na bancada (4 M3x8), polia GT2 20T no eixo. Suporte de cima: 3 parafusos de madeira na parede "
-        "esquerda. Suporte de baixo: 2 no piso e 2 na parede. Tensora no bloco direito com M5x25 e porca nylon, solta no rasgo.",
+    11: "Motor no bloco esquerdo na bancada (4 M3x8), polia GT2 20T no eixo. Bloco de cima: 3 parafusos de madeira a mais "
+        "na aba do motor. Bloco de baixo: 2 no piso e 2 na parede. Tensora no bloco direito com M5x25 e porca nylon, solta no rasgo.",
     12: "Carro A: eletroima no copo com 1 M3x8 por cima, arruela M10 de aco colada na face. Cada carro leva 4 M3x8 no patim. "
         "Correia: as 2 pontas se encontram no meio do fixador de aluminio; M3x16 de frente, porca na fenda da presilha. "
         "Estique na tensora do bloco direito.",
-    13: "Anel: LED IR de um lado e receptor do outro (cola quente). Costas do anel na placa do carro B com 4 M3x12 + porca. "
-        "Esteiras: ponta movel no carro, ponta fixa na prateleira (A) ou no piso (B).",
+    13: "Anel (ja vem no carro B): LED IR de um lado e receptor do outro, com cola quente. Prateleira: 2 parafusos de madeira "
+        "no teto por gancho. Esteiras: ponta movel no carro, ponta fixa na prateleira (A) ou no piso (B).",
     14: "Fila esquerda encostada na direita em X -30. Bandejas: 2 parafusos de madeira cada, pelo furo da placa; depois cole o "
         "EVA 5 mm por cima (cobre os furos) e a tira de EVA no batente do bolso.",
 }
@@ -114,8 +114,9 @@ CABOS = [
 
 FAQ = [
     ("O que mudou na R2?",
-     "Gabinete novo (440 × 430 × 230). O elevador virou uma torre de 2 peças (antes eram 8): base, guias, tubos, suporte do "
-     "motor, espaçador e batente foram juntados. A cabine corre com 1 mm de folga por lado (era 0,5), a correia prende no "
+     "Gabinete novo (440 × 430 × 230). Peças juntadas: o elevador virou uma torre de 2 peças (antes eram 8); cada bloco "
+     "esquerdo já leva o motor NEMA 17; o anel é impresso com o carro B; o suporte do servo com a fila; a prateleira da "
+     "esteira com os ganchos e a ponta fixa. De 29 para 19 arquivos de impressão. A cabine corre com 1 mm de folga por lado (era 0,5), a correia prende no "
      "mesmo fixador de alumínio dos carros, os fins de curso do elevador viraram sensores ópticos de fenda com ajuste fino por "
      "parafuso, a rampa sobe e desce em rasgos para acertar a pega, e a fila e a bandeja ganharam 1° a mais de queda."),
     ("Quais folgas a R2 usa?",
@@ -198,7 +199,8 @@ def novidades(m):
     return dict(
         compradas=["Sensor de fenda", "Bandeira", "Fixador da cabine", "Fim de curso"],
         alteradas=["Torre inferior", "Torre superior", "Cabine", "Rampa", "Fila", "Fila esquerda", "Bandeja esquerda",
-                   "Bandeja do meio", "Bandeja direita", "Bloco direito", "Carro B"],
+                   "Bandeja do meio", "Bandeja direita", "Bloco direito", "Carro B", "Bloco esquerdo de cima",
+                   "Bloco esquerdo de baixo", "Prateleira da esteira"],
         focos=[
             f("Torre do elevador", (192, 165, 215), (-1.0, -0.9, 0.35), -60, 0,
               "O elevador virou 2 peças: a torre de baixo (pé, trilhos, frente, polia de baixo, sensor) e a de cima (motor, "
@@ -221,6 +223,10 @@ def novidades(m):
               dist=110),
             f("Batedor do carro B", (m.cB_seg + 25, 36, m.zpB - 25), (0.1, -1.0, 0.5), casa + m.dA, m.cB_seg - 1.5,
               "O bloco direito é igual nos 2 eixos; o carro B aperta a mesma alavanca 21 mm antes, por este batedor.", dist=110),
+            f("Bloco esquerdo + motor", (m.x_motor, 22, m.zpA - 30), (-0.3, -1.0, 0.5), casa + m.dA, 0,
+              "Cada bloco esquerdo agora segura o perfil, o motor NEMA 17 e o fim de curso numa peça só.", dist=170),
+            f("Anel no carro B", (0, m.y_bola, m.zb), (-0.5, -1.0, 0.7), casa + m.dA, 0,
+              "O anel e a barreira infravermelha são impressos junto com o carro B: sem os 4 parafusos das costas.", dist=150),
             f("Passagem de cabos no piso", (36, 140, 5), (-0.4, -1.0, 0.6), -60, 0,
               "Entalhe de 9 mm na fila e na bandeja em X 30..42: os cabos da esquerda e da frente vão para o fundo por baixo.",
               z=el.zc_min, dist=120),

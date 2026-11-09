@@ -53,8 +53,6 @@ PECAS = {
     "Bandeira": ("comprada", "parafuso M3x25 + porca (2 conjuntos)", 2,
                  "rosqueado no ressalto da cabine: girar ajusta a parada; travar com a porca"),
     "Servo": ("comprada", "SG90 (o que voce ja tem)", 8, "2 parafusos do proprio servo no suporte"),
-    "Suporte do servo": ("impressa", "PETG preto", 8,
-                         "2 parafusos de madeira 3,5x16 no piso, nos rasgos (ajuste de +-3 mm em X para centrar a lamina)"),
     "Braco da comporta": ("impressa", "PETG preto", 8, "aparafusado no chifre do servo (2 parafusos do chifre)"),
     "Bolas de aco 1 pol": ("comprada", "8 bolas de aco de 25,4 mm", 8, "6 na fila, 1 na cabine e 1 no carro A"),
 }
@@ -393,9 +391,11 @@ def geometria(p: P):
     cilindro(g, "bandeira_cima", "carro", (X_BANDEIRA, Y_BANDEIRA, zc_ - 12.5), 1.5, 12.5, "z", "carro_vis", "Bandeira", "metal")
     cilindro(g, "bandeira_cima_cab", "carro", (X_BANDEIRA, Y_BANDEIRA, zc_ - 26.5), 2.75, 1.5, "z", "carro_vis", "Bandeira", "metal")
     # ------------------------------------------------ comporta (igual a R1)
-    caixa(g, "suporte_servo", "mundo", 84, 116, 88, 116.5, 0, 21, "visual", "Suporte do servo", "preto")
+    # suporte do servo impresso junto com a fila (ponte no piso ate a frente da fila)
+    caixa(g, "suporte_servo", "mundo", 84, 116, 88, 116.5, 0, 21, "visual", "Fila", "preto")
+    caixa(g, "suporte_servo_ponte", "mundo", 84, 116, 116.5, 128.0, 0, 4, "visual", "Fila", "preto")
     for i, (x0, x1) in enumerate(((70.0, 84.0), (116.0, 130.0))):
-        caixa(g, f"suporte_servo_aba_{i}", "mundo", x0, x1, 92, 112.5, 0, 4, "visual", "Suporte do servo", "preto")
+        caixa(g, f"suporte_servo_aba_{i}", "mundo", x0, x1, 92, 112.5, 0, 4, "visual", "Fila", "preto")
     caixa(g, "servo", "mundo", 88.6, 111.4, 88, 116.5, 21, 33, "visual", "Servo", "metal")
     px, py, pz = p.piv
     L = lambda x0, x1, y0, y1, z0, z1: (x0 - px, x1 - px, y0 - py, y1 - py, z0 - pz, z1 - pz)
@@ -459,6 +459,6 @@ def fixadores(p: P):
         corpo="carro", atravessa=("Fixador da cabine", "Correia"), bancada=True, corredor=12)
     # comporta: suporte do servo no piso (rasgos de +-3 mm em X)
     for i, x in enumerate((77.0, 123.0)):
-        add(f"servo_piso_{i}", "madeira 3,5x16", (x, 102.25, 4.0), (0, 0, -1), 16, "Suporte do servo", "Gabinete", 8,
-            cab=7.0, rasgo_c=(6.0, 0, 0), corredor=30)
+        add(f"servo_piso_{i}", "madeira 3,5x16", (x, 102.25, 4.0), (0, 0, -1), 16, "Fila", "Gabinete", 8,
+            cab=7.0, corredor=30)
     return f

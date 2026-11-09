@@ -17,8 +17,7 @@ S = AQUI / "saida"
 GAP = 8.0
 
 # impressora A (a boa): precisao (encaixes que deslizam, dentes, furos pequenos) e pecas que o jogador ve de perto
-NA_A = ["Torre inferior", "Torre superior", "Suporte do servo", "Braco da comporta", "Rampa", "Carro B", "Anel", "Cabine",
-        "Carro A"]
+NA_A = ["Torre inferior", "Torre superior", "Braco da comporta", "Rampa", "Carro B", "Cabine", "Carro A"]
 
 FUNCAO = {
     "Torre inferior": "Metade de baixo do elevador, numa peça só: pé no piso, orelha na parede direita, os 2 trilhos em T, "
@@ -28,31 +27,28 @@ FUNCAO = {
                       "sensor de fenda de cima, pilares da rampa e orelha na parede. Encaixa na de baixo por 3 pinos e 4 M3.",
     "Cabine": "Leva uma bola por vez para cima. Desliza nos 2 trilhos em T com 1 mm de folga. Atrás tem o bolso do fixador "
               "de alumínio da correia e os 2 ressaltos dos parafusos-bandeira dos sensores.",
-    "Fila": "Calha onde as bolas esperam a vez de subir. Desce para a direita até a comporta. Na frente, à esquerda de X 40, "
+    "Fila": "Calha onde as bolas esperam a vez de subir. O suporte do servo da comporta vem impresso junto, na frente. Desce para a direita até a comporta. Na frente, à esquerda de X 40, "
             "tem um lábio baixo por onde a bola entra vindo da bandeja.",
     "Fila esquerda": "Continuação da fila até a parede esquerda. Recebe as bolas que caem no lado esquerdo da bandeja.",
     "Rampa": "Recebe a bola que sai da cabine lá em cima e a leva rolando até o bolso, onde o ímã do carro A pega. "
              "Presa nos pilares da torre por rasgos de ±4 mm: é ali que se acerta a altura da pega. "
              "O piso cai para a direita para a bola encostar sempre no mesmo lugar.",
-    "Suporte do servo": "Segura o servo SG90 que mexe a comporta, no piso, na frente da fila.",
     "Braco da comporta": "Braço no servo com a lâmina que deixa passar uma bola por vez para a cabine. A ponta da lâmina "
                          "tem 0,8 mm (por isso imprimir 3 e escolher a melhor).",
-    "Bloco esquerdo": "Prende a ponta esquerda do perfil 2020 na parede esquerda. Leva o fim de curso KW10 que dá a posição "
-                      "zero do carro. São 2 iguais: eixo de cima e de baixo.",
+    "Bloco esquerdo de cima": "Ponta esquerda do eixo de cima numa peça só: prende o perfil 2020 na parede, segura o motor "
+                              "NEMA 17 com a polia e leva o fim de curso KW10 da casa.",
+    "Bloco esquerdo de baixo": "Igual ao de cima, no eixo de baixo: perfil, motor NEMA 17 (apoiado no piso) e fim de curso da casa.",
     "Bloco direito": "Prende a ponta direita do perfil na parede direita. Leva a polia tensora da correia, num rasgo para "
                      "esticar, e o fim de curso KW10 de segurança. São 2 iguais.",
-    "Suporte do NEMA de cima": "Segura o motor NEMA 17 do eixo de cima, com o eixo virado para cima, na parede esquerda.",
-    "Suporte do NEMA de baixo": "Segura o motor NEMA 17 do eixo de baixo, apoiado no piso.",
     "Carro A": "Vai parafusado no patim do trilho de cima. Prende a correia com o fixador de alumínio e leva o eletroímã que segura e solta a bola.",
-    "Carro B": "Vai parafusado no patim do trilho de baixo. Prende a correia com o fixador de alumínio e leva o anel.",
-    "Anel": "O alvo do jogo: a bola tem que passar pelo furo de 38 mm. Nos furos laterais vão o LED infravermelho e o "
-            "fototransistor que contam o acerto.",
+    "Carro B": "Vai parafusado no patim do trilho de baixo. Prende a correia com o fixador de alumínio. O anel (alvo de "
+               "38 mm, com os furos da barreira infravermelha) é impresso junto.",
     "Bandeja esquerda": "Piso inclinado que recebe a bola depois da queda e a leva para a fila. O EVA 5 mm vai colado em cima.",
     "Bandeja do meio": "Parte do meio da bandeja (embaixo do anel).",
     "Bandeja direita": "Parte da direita da bandeja. Leva a bola para a esquerda, até a entrada da fila.",
-    "Prateleira da esteira": "Apoio deitado da esteira porta-cabo do carro A, perto do teto. São 2 metades.",
-    "Gancho da prateleira": "Pendura a prateleira no teto do gabinete. São 3 iguais.",
-    "Ponta fixa da esteira": "Onde a ponta parada de cada esteira porta-cabo é parafusada: a A na prateleira e a B no piso.",
+    "Prateleira da esteira": "Apoio deitado da esteira porta-cabo do carro A, perto do teto. São 2 metades, cada uma com "
+                             "os seus 2 ganchos para o teto; a da esquerda já tem a ponta fixa da esteira.",
+    "Ponta fixa da esteira": "Onde a ponta parada da esteira porta-cabo do carro B é parafusada, no piso.",
 }
 POR_QUE_POSICAO = {
     "Z": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
@@ -71,7 +67,8 @@ ESPECIAL = {
                "Precisa de suporte embaixo da presilha, da prateleira e da nervura, e de aba (brim) de 5 mm.",
     "Fila": "Em pé como monta: as nervuras embaixo do piso seguram o piso inclinado durante a impressão.",
     "Fila esquerda": "Em pé como monta, igual à fila da direita.",
-    "Anel": "De cabeça para baixo: a borda do anel (a parte que leva as batidas da bola) sai na mesa, plana e forte.",
+    "Carro B": "De cabeça para baixo: a borda do anel (a parte que leva as batidas da bola) sai na mesa, plana e forte. "
+               "Suporte em árvore só embaixo da presilha da correia, do batedor e da barra da esteira.",
     "Braco da comporta": "De cabeça para baixo: o topo da lâmina fica na mesa, então a ponta de 0,8 mm sai inteira.",
 }
 
@@ -158,7 +155,7 @@ def main():
     # em B, a placa dos blocos e suportes do NEMA vai primeiro: e o teste de encaixe do perfil, do motor e da tensora
     for k in ("B", "C"):
         for i, pp in enumerate(pl[k]):
-            if any(x["base"] in ("Suporte do NEMA de cima", "Bloco direito") for x in pp):
+            if any(x["base"] in ("Bloco esquerdo de cima", "Bloco direito") for x in pp):
                 pl[k].insert(0, pl[k].pop(i))
                 break
     # STL de cada placa

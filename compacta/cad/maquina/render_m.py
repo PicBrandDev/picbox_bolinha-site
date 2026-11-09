@@ -119,36 +119,36 @@ def main():
     rot = [("Carro A + eletroima", (-40, 60, 395)), ("Anel no carro B", (55, m.y_bola, m.zb + 4)),
            ("Bandeja (EVA)", (-120, 90, 70)), ("Fila", (40, 145, 65)), ("Torre do elevador", (192, 150, 250)),
            ("Bolso de pega", (193, 72, 380)), ("Motor eixo A", (m.x_motor, 22, 350)), ("Motor eixo B", (m.x_motor, 22, 20))]
-    foto("01_geral.png", it, (0, 100, 210), (-0.75, -1.0, 0.62), 255, bolas, rot, titulo="Montagem completa (azul = impressa, laranja = impressa que anda, cinza = comprada)")
-    foto("02_frente.png", it, (0, 100, 210), (0, -1, 0.0001), 228, bolas, (), titulo="De frente, como o jogador ve")
-    foto("03_lado.png", it, (0, 100, 210), (1, 0, 0.0001), 228, bolas, (), titulo="Lado direito (a tela fica a direita da imagem)")
+    foto("01_geral.png", it, (0, 115, 215), (-0.75, -1.0, 0.62), 300, bolas, rot, titulo="Montagem completa (azul = impressa, laranja = impressa que anda, cinza = comprada)")
+    foto("02_frente.png", it, (0, 100, 215), (0, -1, 0.0001), 245, bolas, (), titulo="De frente, como o jogador ve")
+    foto("03_lado.png", it, (0, 115, 215), (1, 0, 0.0001), 245, bolas, (), titulo="Lado direito (a tela fica a direita da imagem)")
     # 2. pega no bolso
     it = cena(m, el.zc_max, el.ang_baixa, m.cA[1], 0.0)
     rot = [("Eletroima (1 mm acima da bola)", (m.x_pega, m.y_bola, m.face_ima + 7)), ("Bola no bolso", bolso),
            ("Batente com EVA", (197, 56, 362)), ("Sensor do bolso", (198.5, 72.7, 352)),
            ("Rampa (vem do elevador)", (192, 110, 360)), ("Carro A", (m.cA[1], 43, 400))]
     foto("04_pega.png", it, (192, 75, 365), (-0.45, -1.0, 0.35), 45, [bolso], rot, vidro=("Carro A",), titulo="Pega: o carro A para em cima do bolso e liga o ima (sem o perfil e o trilho de cima)",
-         esconde=("Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Gancho", "Bloco direito", "Bloco esquerdo", "Correia A", "Polia tensora A", "Ponta fixa"))
+         esconde=("Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Bloco direito", "Bloco esquerdo", "Correia A", "Polia tensora A", "Ponta fixa"))
     # 3. elevador no topo
     cab = (el.x_bola, el.y_bola, el.zc_max + el.z_piso_berco(el.x_bola, el.y_bola) + L.R)
     it = cena(m, el.zc_max, el.ang_baixa, -60.0, 0.0)
     rot = [("Cabine no topo (o berco inclina para a frente)", cab), ("Rampa ate o bolso", (192, 100, 352)),
            ("Motor N20", (191, 160, 419)), ("Sensor de fenda de cima", (207, 192, 416))]
     foto("05_elevador_topo.png", it, (190, 140, 375), (-1.0, -0.6, 0.7), 80, [cab, bolso], rot, titulo="Elevador no topo: a bola rola da cabine para a rampa (sem o perfil de cima e sem a torre de cima)",
-         esconde=("Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Gancho", "Bloco direito", "Bloco esquerdo", "Correia A", "Polia tensora A", "Ponta fixa", "Torre superior", "Carro A", "Eletroima"))
+         esconde=("Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Bloco direito", "Bloco esquerdo", "Correia A", "Polia tensora A", "Ponta fixa", "Torre superior", "Carro A", "Eletroima"))
     # 4. fila e comporta
     cab0 = (el.x_bola, el.y_bola, el.zc_min + el.z_piso_berco(el.x_bola, el.y_bola) + L.R)
     it = cena(m, el.zc_min, el.ang_baixa, -60.0, 0.0)
     rot = [("Lamina da comporta (servo)", (178, 142, 30)), ("Cabine embaixo", cab0), ("Fila", (120, 143, 50)),
            ("Servo", (100, 100, 30))]
     foto("06_comporta.png", it, (155, 135, 30), (-0.7, -1.0, 0.9), 62, [cab0] + fila, rot, titulo="Comporta: o servo deixa passar uma bola por vez para a cabine (sem a bandeja e a torre de baixo)",
-         esconde=("Bandeja", "EVA", "Torre inferior", "Perfil 2020 B", "Trilho MGN12 B", "Correia B", "Carro B", "Anel", "Patim MGN12H B", "Esteira B", "Bloco direito", "LED"))
+         esconde=("Bandeja", "EVA", "Torre inferior", "Perfil 2020 B", "Trilho MGN12 B", "Correia B", "Carro B", "Patim MGN12H B", "Esteira B", "Bloco direito", "LED"))
     # 5. carro B, anel e bandeja
     it = cena(m, el.zc_min, el.ang_baixa, -60.0, 0.0)
     rot = [("Anel (furo 38)", (0, m.y_bola, m.zb + 3)), ("LED / sensor IR", (27.5, m.y_bola, m.zb - 14.5)),
            ("Carro B", (0, 43, 81)), ("Esteira B", (60, 6, 45)), ("Bandeja + EVA", (-60, 100, 60))]
     foto("07_anel.png", it, (0, 70, 80), (-0.6, -1.0, 0.8), 80, [], rot, titulo="Carro B: o anel e a barreira infravermelha que conta o acerto",
-         esconde=("Perfil 2020 A", "Trilho MGN12 A", "Prateleira", "Esteira A", "Gancho", "Carro A", "Patim MGN12H A", "Eletroima", "Correia A"))
+         esconde=("Perfil 2020 A", "Trilho MGN12 A", "Prateleira", "Esteira A", "Carro A", "Patim MGN12H A", "Eletroima", "Correia A"))
     # 6. torre: pe (polia de baixo, sensor de baixo) e topo (motor, sensor de cima), sem as torres
     import elevador2 as E
     it = cena(m, el.zc_min, el.ang_baixa, -60.0, 0.0)
@@ -157,13 +157,13 @@ def main():
            ("Cabine embaixo", cab0), ("Fixador de aluminio", (194, 192, el.zc_min + sum(el.fix_z) / 2))]
     foto("08_torre_baixo.png", it, (192, 170, 35), (0.55, 0.9, 0.55), 62, [cab0], rot,
          titulo="Pe da torre (escondida): polia de baixo, sensor de fenda e a bandeira da cabine",
-         esconde=("Torre inferior", "Torre superior", "Bandeja", "EVA", "Fila", "Perfil 2020 B", "Trilho MGN12 B", "Carro B", "Anel", "Patim MGN12H B", "Esteira B", "Bloco direito", "LED", "Correia B"))
+         esconde=("Torre inferior", "Torre superior", "Bandeja", "EVA", "Fila", "Perfil 2020 B", "Trilho MGN12 B", "Carro B", "Patim MGN12H B", "Esteira B", "Bloco direito", "LED", "Correia B"))
     it = cena(m, el.zc_max, el.ang_baixa, -60.0, 0.0)
     rot = [("Motor N20 (2 M2 na placa)", (191, 160, el.z_polia_cima)), ("Polia do motor", (191, 192, el.z_polia_cima + 9)),
            ("Sensor de fenda de cima", (E.X_BANDEIRA, E.Y_BANDEIRA, 418)), ("Cabine no topo", cab)]
     foto("09_torre_cima.png", it, (195, 175, 405), (0.55, 0.9, 0.35), 60, [cab], rot,
          titulo="Topo da torre (escondida): motor N20, polia e sensor de fenda de cima",
-         esconde=("Torre inferior", "Torre superior", "Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Gancho", "Bloco direito", "Correia A", "Carro A", "Eletroima", "Rampa"))
+         esconde=("Torre inferior", "Torre superior", "Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Bloco direito", "Correia A", "Carro A", "Eletroima", "Rampa"))
     it = cena(m, el.zc_min + 120, el.ang_baixa, -60.0, 0.0)
     zf = el.zc_min + 120 + sum(el.fix_z) / 2
     rot = [("Fixador 40x9x5 (dentes na correia)", (194, 192, zf + 15)), ("M3x14 pela direita", (204, 192, zf)),

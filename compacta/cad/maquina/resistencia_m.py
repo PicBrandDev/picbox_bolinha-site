@@ -68,19 +68,13 @@ def casos(m: L.M):
     k_anel = 6 * PETG["E"] * Ia / (2 * rf) ** 3
     k_perfil = 48 * E_AL * I_2020 / m.L_perfil ** 3
     F_anel, k = impacto(v, [k_anel, k_perfil, 1000.0])
-    out.append(caso("Anel", "borda do anel (bola caindo 250 mm)", "normal", F_anel, F_anel / 2 * 2 * rf * ca / Ia,
+    out.append(caso("Carro B", "borda do anel (bola caindo 250 mm)", "normal", F_anel, F_anel / 2 * 2 * rf * ca / Ia,
                     PETG["sr_xy"], "flexao no plano da camada (anel impresso deitado)",
                     f"k em serie {k:.0f} N/mm; FS 3 tambem cobre a fadiga de muitas batidas"))
     braco = m.y_bola + rf - 46
     A_, Ib, cb = secao([(0, 24, 0, h - 6)], "y")
-    out.append(caso("Anel", "raiz do braco do anel", "normal", F_anel, F_anel * braco * cb / Ib, PETG["sr_xy"],
+    out.append(caso("Carro B", "raiz do braco do anel", "normal", F_anel, F_anel * braco * cb / Ib, PETG["sr_xy"],
                     "flexao no plano da camada"))
-    zs = (60.0, m.zb - 10.0)
-    F_par = F_anel * braco / (zs[1] - zs[0] + 6) / 2
-    area_arruela = math.pi / 4 * (7.0 ** 2 - 3.4 ** 2)
-    out.append(caso("Anel", "porca do parafuso das costas (esmaga a placa)", "normal", F_par, F_par / area_arruela,
-                    PETG["sr_z"], "compressao embaixo da porca com arruela 7 mm", "M3 passante com porca e arruela"))
-    out.append(caso("Anel", "parafuso M3 das costas", "normal", F_par, F_par / 5.03, RE.ACO_M3_48, "tracao no aco 4.8"))
     M_pat = F_anel * (m.y_bola + rf - 36) / 1000
     out.append(caso("Patim MGN12H B", "momento no patim na batida", "falha", F_anel, M_pat, MGN12H_M,
                     "momento estatico de catalogo (N.m)", "impacto curto; o patim aguenta 23,7 N.m parado"))
@@ -111,18 +105,18 @@ def casos(m: L.M):
         A2, In, cn = secao([(0, 3.85, 0, 35.5)], "y")
         W = Is / cs + In / cn
         lim = PETG["fluencia"] if regime == "normal" else PETG["sr_xy"]
-        out.append(caso("Suporte do NEMA de cima", "canto aba/placa", regime, F, F * 17 / W, lim,
+        out.append(caso("Bloco esquerdo de cima", "canto aba/placa", regime, F, F * 17 / W, lim,
                         "flexao no plano da camada (aba na mesa)"))
         d = [10.0, 10.0, 22.0]
         Mp = F * (15 + 72)
         Fp = Mp * max(d) / sum(x * x for x in d)
-        out.append(caso("Suporte do NEMA de cima", "parafuso de madeira mais carregado", regime, Fp, Fp / 12,
+        out.append(caso("Bloco esquerdo de cima", "parafuso de madeira mais carregado", regime, Fp, Fp / 12,
                         PULL_MADEIRA, "arrancamento (N por mm de rosca)", "12 mm no MDF"))
     # 6b. suporte do NEMA de baixo: correia a 59 mm do piso; 2 parafusos na parede (Z 14 e 36) seguram o tombo
     for regime, F in (("normal", 2 * T0), ("falha", T0 + F_falha)):
         Mb = F * (m.zpB + m.dz_correia)
         Fp = Mb * 36.0 / (14.0 ** 2 + 36.0 ** 2)
-        out.append(caso("Suporte do NEMA de baixo", "parafuso de madeira da parede (o de cima)", regime, Fp, Fp / 12,
+        out.append(caso("Bloco esquerdo de baixo", "parafuso de madeira da parede (o de cima)", regime, Fp, Fp / 12,
                         PULL_MADEIRA, "arrancamento (N por mm de rosca)", "12 mm no MDF; os 2 do piso ajudam e nao entram"))
     # 7. tensora: bracos do bloco direito (o de baixo, 5,5 mm, leva quase tudo), rasgo no fim (8 mm)
     t1, t2 = 3.0, 5.5

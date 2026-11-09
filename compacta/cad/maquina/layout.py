@@ -338,12 +338,12 @@ def eixo_linear(g, m: M, k):
     caixa(g, f"trilho_{k}", "mundo", -h, h, yb, yb + 8, zp - 6, zp + 6, f"Trilho MGN12 {k}", "metal")
     # blocos de ponta: corpo na parede + luva em volta do perfil (frente, cima e baixo; atras fica o trilho)
     for lado, s in (("esq", -1), ("dir", 1)):
-        pc = "Bloco esquerdo" if s < 0 else "Bloco direito"
+        pc = f"Bloco esquerdo {'de cima' if k == 'A' else 'de baixo'}" if s < 0 else "Bloco direito"
         x_par, x_ini = GX * s, 200 * s
         xa, xb = sorted((x_par, x_ini))
         y_fim = 46.0 if s < 0 else 44.0
         caixa(g, f"bloco_{lado}_{k}", "mundo", xa, xb, 4, y_fim, zp - 14, zp + 14, pc, "preto")
-        xl0, xl1 = sorted((x_ini, 188 * s))
+        xl0, xl1 = sorted((x_ini, 186 * s))           # luva 2 mm mais comprida: o rebaixo do M5 nao fura a ponta
         caixa(g, f"luva_frente_{lado}_{k}", "mundo", xl0, xl1, 4, ya, zp - 14, zp + 14, pc, "preto")
         caixa(g, f"luva_cima_{lado}_{k}", "mundo", xl0, xl1, ya, yb, zp + 10, zp + 14, pc, "preto")
         caixa(g, f"luva_baixo_{lado}_{k}", "mundo", xl0, xl1, ya, yb, zp - 14, zp - 10, pc, "preto")
@@ -373,15 +373,16 @@ def eixo_linear(g, m: M, k):
           f"NEMA 17 {k}", "metal")
     cil(g, f"polia_{k}", "mundo", (xm, m.y_correia, zc), 8.0, 8.0, "z", f"Polia GT2 20T {k}", "metal")
     cil(g, f"eixo_motor_{k}", "mundo", (xm, m.y_correia, zf + 4), 2.5, 4.0, "z", f"NEMA 17 {k}", "metal")
-    pc = f"Suporte do NEMA {'de cima' if k == 'A' else 'de baixo'}"
+    pc = f"Bloco esquerdo {'de cima' if k == 'A' else 'de baixo'}"     # R2: o suporte do motor e o bloco sao 1 peca
     caixa(g, f"sup_nema_placa_{k}", "mundo", -215.5, -172, m.y_correia - 21.15, m.y_correia + 21.15, zf, zf + 4, pc, "preto")
     if k == "A":
-        caixa(g, f"sup_nema_aba_{k}", "mundo", -GX, -215.5, m.y_correia - 21.15, m.y_correia + 21.15, zf - 72, zf + 4, pc,
-              "preto")
+        caixa(g, f"sup_nema_aba_{k}", "mundo", -GX, -215.5, m.y_correia - 21.15, m.y_correia + 21.15, zf - 72, zp - 14,
+              pc, "preto")
         caixa(g, f"sup_nema_nerv_{k}", "mundo", -215.5, -180, m.y_correia + 21.15, m.y_correia + 25.0, zf - 30, zf + 4, pc,
               "preto")
     else:
-        caixa(g, f"sup_nema_aba_{k}", "mundo", -GX, -215.5, m.y_correia - 21.15, m.y_correia + 21.15, 0, zf + 4, pc, "preto")
+        caixa(g, f"sup_nema_aba_{k}", "mundo", -GX, -215.5, m.y_correia - 21.15, m.y_correia + 21.15, 0, zp - 14, pc,
+              "preto")
         caixa(g, f"sup_nema_pe_{k}", "mundo", -215.5, -175, m.y_correia + 21.15, m.y_correia + 29.5, 0, 4, pc, "preto")
         caixa(g, f"sup_nema_aba2_{k}", "mundo", -GX, -215.5, m.y_correia + 21.15, m.y_correia + 28.5, 0, zf + 4, pc,
               "preto")
@@ -442,8 +443,8 @@ def carro_b(g, m: M):
     yb = m.y_bola
     pc = "Carro B"
     patim(g, "carroB", zp, "B")
-    caixa(g, "placaB", "carroB", -22, 22, 41, 46, 49, zb - 6, pc, "acento")
-    pa = "Anel"
+    caixa(g, "placaB", "carroB", -22, 22, 41, 46, 49, zb, pc, "acento")
+    pa = pc                                   # R2: o anel e impresso junto com o carro B
     caixa(g, "bracoB", "carroB", -12, 12, 46, yb - m.r_tubo + 1.0, zb - m.h_anel, zb - 6, pa, "anel")
     caixa(g, "costasB", "carroB", -20, 20, 46, 50, 50, zb, pa, "anel")
     anel(g, "anel_flange", "carroB", (0, yb), m.r_furo, m.r_flange, zb - 6, zb, pa, "anel")
@@ -520,7 +521,7 @@ NERVURAS = ((-185.0, -150.0, -115.0, -80.0, -36.0),
 ABAS_BANDEJA = ((-150.0, -80.0), (12.0, 84.0), (124.0, 183.0))
 
 
-GANCHOS = (-175.0, 0.0, 150.0)
+GANCHOS = (-175.0, -12.0, 12.0, 175.0)      # 2 em cada metade da prateleira (cada metade fica em pe sozinha)
 
 
 def _R_normal(n):
@@ -545,11 +546,11 @@ def suporte_esteira(g, m: M):
     for i, (x0, x1) in enumerate(((xa, 0), (0, xb))):
         caixa(g, f"prat_aba_{i}", "mundo", x0, x1, 98, 104, 397 + d, 410 + d, "Prateleira da esteira", "preto")
     for i, x in enumerate(GANCHOS):
-        caixa(g, f"gancho_{i}", "mundo", x - 8, x + 8, 104, 108, 397 + d, GZ, "Gancho da prateleira", "preto")
-        caixa(g, f"gancho_pe_{i}", "mundo", x - 7.5, x + 7.5, 108, 119, GZ - 4, GZ, "Gancho da prateleira", "preto")
+        # gancho macico (sem aba em balanco): sai da prateleira e encosta no teto; 2 parafusos de madeira por baixo
+        caixa(g, f"gancho_{i}", "mundo", x - 10, x + 10, 104, 119, 397 + d, GZ, "Prateleira da esteira", "preto")
     xf = esteira_fixos(m)
     caixa(g, "est_fixaA", "mundo", xf["A"] - 12, xf["A"], 98 - m.est_h - 1, 98, 400.5 + d, 400.5 + d + m.est_w,
-          "Ponta fixa da esteira", "acento")
+          "Prateleira da esteira", "acento")
     caixa(g, "est_fixaB", "mundo", xf["B"] - 12, xf["B"], 0.5, 11.5, 0, 0.5 + m.est_h + 1, "Ponta fixa da esteira",
           "acento")
     caixa(g, "est_fixaB_aba", "mundo", xf["B"] - 26, xf["B"] - 12, 0.5, 11.5, 0, 4, "Ponta fixa da esteira", "acento")
@@ -626,8 +627,10 @@ PECAS_NOVAS = {
                                          "de +-4 mm: suba ou desca a rampa ate a bola quase encostar na arruela do ima"),
     "Fila": ("impressa", "PETG preto", 8, "a do elevador, mais comprida ate X -30; 2 parafusos de madeira 3,5x16 nos pes de tras"),
     "Fila esquerda": ("impressa", "PETG preto", 14, "encosta na fila da direita em X -30; 2 parafusos de madeira 3,5x16 nos pes"),
-    "Bloco esquerdo": ("impressa", "PETG preto", 9, "2 parafusos de madeira 3,5x16 na parede esquerda; 2 M5x10 + porca martelo no perfil; "
-                                                     "fim de curso da casa (KW10) com 2 M2x12"),
+    "Bloco esquerdo de cima": ("impressa", "PETG preto", 9, "pega o perfil, o motor NEMA 17 e o fim de curso da casa numa peca so: "
+                               "2 parafusos de madeira 3,5x16 no bloco + 3 na aba do motor, na parede esquerda; 2 M5x10 + martelo no perfil"),
+    "Bloco esquerdo de baixo": ("impressa", "PETG preto", 9, "pega o perfil, o motor NEMA 17 e o fim de curso da casa numa peca so: "
+                                "2 parafusos de madeira no bloco + 2 na parede e 2 no piso; 2 M5x10 + martelo no perfil"),
     "Bloco direito": ("impressa", "PETG preto", 9, "2 parafusos de madeira 3,5x16 na parede direita; 2 M5x10 + porca martelo no perfil; "
                                                     "fim de curso de seguranca (KW10) com 2 M2x12"),
     "Perfil 2020 A": ("comprada", "perfil 2020 da maquina antiga, cortado em 400 mm", 10, "nas luvas dos blocos"),
@@ -638,8 +641,6 @@ PECAS_NOVAS = {
     "Patim MGN12H B": ("comprada", "vem no trilho", 10, "nunca tirar do trilho"),
     "NEMA 17 A": ("comprada", "NEMA 17 da maquina antiga + TMC2209 (fora do gabinete)", 11, "4 M3x8 na placa do suporte"),
     "NEMA 17 B": ("comprada", "NEMA 17 da maquina antiga + TMC2209 (fora do gabinete)", 11, "4 M3x8 na placa do suporte"),
-    "Suporte do NEMA de cima": ("impressa", "PETG preto", 11, "aba com 3 parafusos de madeira 3,5x16 na parede esquerda"),
-    "Suporte do NEMA de baixo": ("impressa", "PETG preto", 8, "pe com 2 parafusos de madeira 3,5x16 no piso e 2 na parede"),
     "Polia GT2 20T A": ("comprada", "GT2 20T furo 5 (maquina antiga)", 11, "parafuso sem cabeca no lado chato do eixo"),
     "Polia GT2 20T B": ("comprada", "GT2 20T furo 5 (maquina antiga)", 11, "parafuso sem cabeca no lado chato do eixo"),
     "Polia tensora A": ("comprada", "tensora GT2 20T furo 5 com rolamento (maquina antiga)", 11, "M5x25 + porca nylon nos bracos do bloco direito"),
@@ -654,8 +655,8 @@ PECAS_NOVAS = {
                            "colada (super cola ou epoxi) na face do eletroima, dentro do copo do carro A"),
     "Eletroima P20/15": ("comprada", "eletroima 12 V P20/15 (voces ja tem); a arruela de aco vai colada na face", 12,
                          "entra no copo do carro A por baixo; 1 M3x8 na rosca do topo"),
-    "Carro B": ("impressa", "PETG preto", 12, "4 M3x8 no patim; o anel prende atras com 4 M3x12 + porca; fixador de correia em pe, 1 M3x16 de frente + porca presa na presilha"),
-    "Anel": ("impressa", "PETG preto", 13, "costas com 4 M3x12 + porca na placa do carro B; LED IR e fototransistor de 5 mm nos furos laterais"),
+    "Carro B": ("impressa", "PETG preto", 12, "anel, barreira IR e batedor na mesma peca; 4 M3x8 no patim; fixador de correia em pe, "
+                                             "1 M3x16 de frente + porca presa na presilha; LED IR e receptor de 5 mm nos furos do anel"),
     "LED IR / fototransistor 5 mm": ("comprada", "par de barreira infravermelha 5 mm com cabo (emissor + receptor com saida digital)", 12,
                                      "entram justos nos furos do anel, com uma gota de cola quente"),
     "Sensor do bolso": ("comprada", "TCRT5000 (so o componente, 10 x 6 x 7 mm) ou o modulo sem a placa", 9,
@@ -663,9 +664,9 @@ PECAS_NOVAS = {
     "Fim de curso": ("comprada", "microchave KW10: 4 (casa e seguranca em cada eixo)", 9, "2 M2x12 de lado no braco do bloco"),
     "Esteira A": ("comprada", "esteira porta-cabo 7x7, ~250 mm", 13, "ponta movel no carro A, ponta fixa na prateleira"),
     "Esteira B": ("comprada", "esteira porta-cabo 7x7, ~210 mm", 13, "ponta movel no carro B, ponta fixa no piso"),
-    "Prateleira da esteira": ("impressa", "PETG preto", 13, "2 metades, 2 M3x10 em cada gancho"),
-    "Gancho da prateleira": ("impressa", "PETG preto", 13, "2 parafusos de madeira 3,5x16 no teto"),
-    "Ponta fixa da esteira": ("impressa", "PETG preto", 13, "A: 2 M3x16 + porca na prateleira; B: 2 parafusos de madeira no piso"),
+    "Prateleira da esteira": ("impressa", "PETG preto", 13, "2 metades, cada uma com 2 ganchos e (a esquerda) a ponta fixa da esteira A: "
+                                                             "2 parafusos de madeira 3,5x16 no teto por gancho"),
+    "Ponta fixa da esteira": ("impressa", "PETG preto", 13, "a da esteira B: 2 parafusos de madeira no piso (a da A ja vem na prateleira)"),
     "Bandeja esquerda": ("impressa", "PETG preto", 14, "4 pes; 2 parafusos de madeira 3,5x16 no piso"),
     "Bandeja do meio": ("impressa", "PETG preto", 14, "5 pes; 2 parafusos de madeira 3,5x16 no piso"),
     "Bandeja direita": ("impressa", "PETG preto", 14, "4 pes; 2 parafusos de madeira 3,5x16 no piso"),
@@ -709,7 +710,7 @@ def fixadores(m: M):
         zc = zp + m.dz_correia
         # blocos nas paredes
         for lado, s in (("esq", -1), ("dir", 1)):
-            pc = "Bloco esquerdo" if s < 0 else "Bloco direito"
+            pc = f"Bloco esquerdo {'de cima' if k == 'A' else 'de baixo'}" if s < 0 else "Bloco direito"
             for i, dz in enumerate((-3.0, 9.0)):
                 add(f"bloco_{lado}_{k}_{i}", "madeira 3,5x16", (213.0 * s, 39.0 if s < 0 else 37.0, zp + dz), (s, 0, 0), 16,
                     pc, "Gabinete", 9, cab=7.0)
@@ -722,7 +723,7 @@ def fixadores(m: M):
             add(f"trilho_{k}_{i}", "M3x8 + martelo", (x, 33.0, zp), (0, -1, 0), 8, f"Trilho MGN12 {k}", f"Perfil 2020 {k}",
                 10, bancada=True)
         # motor no suporte (bancada) e suporte na parede/piso
-        pcs = f"Suporte do NEMA {'de cima' if k == 'A' else 'de baixo'}"
+        pcs = f"Bloco esquerdo {'de cima' if k == 'A' else 'de baixo'}"
         zf = zc - 15
         for i, (dx, dy) in enumerate(((-15.5, -15.5), (15.5, -15.5), (15.5, 15.5), (-15.5, 15.5))):
             add(f"nema_{k}_{i}", "M3x8", (m.x_motor + dx, m.y_correia + dy, zf + 4), (0, 0, -1), 8, pcs, f"NEMA 17 {k}", 11,
@@ -743,7 +744,7 @@ def fixadores(m: M):
         # fim de curso no braco do bloco esquerdo
         xe = m.c_casa + FIX[0] - 2
         for i, dz in enumerate((-4.75, 4.75)):
-            add(f"fdc_{k}_{i}", "M2x12", (xe - 9.3, 32.0, zp - 20.1 + dz), (0, 1, 0), 12, "Fim de curso", "Bloco esquerdo", 9,
+            add(f"fdc_{k}_{i}", "M2x12", (xe - 9.3, 32.0, zp - 20.1 + dz), (0, 1, 0), 12, "Fim de curso", pcs, 9,
                 cab=3.8, bancada=True)
             add(f"fdc_dir_{k}_{i}", "M2x12", (m.x_fdc_dir + 9.8, 32.0, zp - 25.1 + dz), (0, 1, 0), 12, "Fim de curso",
                 "Bloco direito", 9, cab=3.8, bancada=True)
@@ -757,23 +758,14 @@ def fixadores(m: M):
         for i, (dx, dz) in enumerate(((-10, -10), (10, -10), (10, 10), (-10, 10))):
             add(f"carro{k}_patim_{i}", "M3x8", (dx, 46.0, zp + dz), (0, -1, 0), 8, f"Carro {k}", f"Patim MGN12H {k}", 12,
                 corpo="carro" + k, corredor=60)
-    for i, (dx, z) in enumerate(((-16.0, 60.0), (16.0, 60.0), (-16.0, m.zb - 10.0), (16.0, m.zb - 10.0))):
-        add(f"anel_placa_{i}", "M3x12 + porca", (dx, 50.0, z), (0, -1, 0), 12, "Anel", "Carro B", 13, corpo="carroB",
-            corredor=40)
     add("ima", "M3x8", (m.dA, m.y_bola, m.face_ima + m.arruela_e + 20), (0, 0, -1), 8, "Carro A", "Eletroima P20/15", 12,
         corpo="carroA", bancada=True)
     # prateleira da esteira e ganchos
     for i, x in enumerate(GANCHOS):
-        for j, dx in enumerate((-4.5, 4.5)):
-            add(f"gancho_teto_{i}_{j}", "madeira 3,5x16", (x + dx, 113.5, GZ - 4), (0, 0, 1), 16, "Gancho da prateleira",
-                "Gabinete", 13, cab=7.0, bancada=True)
-            xs = x + dx                              # o do meio pega as duas metades (1 parafuso em cada)
-            add(f"gancho_prat_{i}_{j}", "M3x10", (xs, 108.0, 403.5 + m.dZ), (0, -1, 0), 10, "Gancho da prateleira",
-                "Prateleira da esteira", 13, corredor=60)
+        for j, dx in enumerate((-5.0, 5.0)):
+            add(f"gancho_teto_{i}_{j}", "madeira 3,5x16", (x + dx, 111.5, GZ - 4), (0, 0, 1), 16, "Prateleira da esteira",
+                "Gabinete", 13, cab=7.0, corredor=24)
     xf = esteira_fixos(m)
-    for j, dx in enumerate((-9.0, -3.0)):
-        add(f"est_fixaA_{j}", "M3x16 + porca", (xf["A"] + dx, 92.0, 410.5 + m.dZ), (0, 0, -1), 16, "Ponta fixa da esteira",
-            "Prateleira da esteira", 13, bancada=True)
     for j, dx in enumerate((-22.0, -16.0)):
         add(f"est_fixaB_{j}", "madeira 3,5x16", (xf["B"] + dx, 6.0, 4.0), (0, 0, -1), 16, "Ponta fixa da esteira",
             "Gabinete", 13, cab=7.0, corredor=60)
