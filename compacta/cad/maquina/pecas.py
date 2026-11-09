@@ -4,7 +4,7 @@
   python pecas.py Base Anel  # so algumas
 
 Cada peca = uniao das caixas/cilindros/aneis dela no modelo (layout.geometria)
-           - pecas compradas que entram nela (motor, fim de curso, correia, eixo da tensora...) com 0,25 mm de folga
+           - pecas compradas que entram nela (motor, fim de curso, correia, eixo da tensora...) com 0,4 mm de folga
            - furos dos parafusos (passante, piloto para rosquear no PETG, rebaixo e corredor da chave na propria peca)
            - detalhes que o modelo de caixas nao tem (dentes das presilhas, pinos, rasgos, orelhas do servo...).
 Depois gira para a posicao de impressao, assenta em Z 0 e exporta. Saida: saida/stl/<peca>__xN.stl e saida/step/.
@@ -24,23 +24,21 @@ import layout as L
 
 AQUI = Path(__file__).resolve().parent
 SAIDA = AQUI / "saida"
-FOLGA_COMPRADA = 0.25
+FOLGA_COMPRADA = 0.4          # R2: era 0,25 (o PETG fecha os furos e as bolsas na impressao)
 LASCAS = {}
 
-PASSANTE = {"M2": 2.4, "M3": 3.4, "M5": 5.5, "madeira": 4.0}
+# R2: furos passantes e cabecas mais folgados; piloto (rosca direto no PETG) igual
+PASSANTE = {"M2": 2.5, "M3": 3.5, "M5": 5.6, "madeira": 4.5}
 PILOTO = {"M2": 1.8, "M3": 2.7, "M5": 4.2, "madeira": 2.8}
-CABECA = {"M2": (4.4, 2.3), "M3": (6.2, 3.3), "M5": (9.2, 5.3), "madeira": (7.6, 3.6)}
+CABECA = {"M2": (4.6, 2.3), "M3": (6.6, 3.4), "M5": (9.6, 5.3), "madeira": (8.0, 3.8)}
+PORCA_M3 = (6.3, 3.2)        # sextavado entre faces e espessura da bolsa (porca 5,5 x 2,4)
+EXCLUI_RECORTE = ("Gabinete", "Tela", "EVA 5 mm", "Bandeira")
 
 # como cada peca vai na mesa: (rotacao maquina -> mesa, quantidade, observacao de suporte)
 POS = {
-    "Base": ("Z", 1, "nao"),
-    "Guia impressa inferior": ("+Y", 1, "nao (aba do T de 2 mm sem suporte)"),
-    "Guia impressa superior": ("+Y", 1, "nao"),
-    "Cabine": ("Z", 1, "so embaixo do bloco da correia"),
-    "Espacador": ("+Y", 1, "nao"),
-    "Suporte do motor": ("Z-", 1, "nao"),
-    "Tubo inferior": ("+Y", 1, "nao"),
-    "Tubo superior": ("+Y", 1, "nao"),
+    "Torre inferior": ("Z", 1, "nao (em pe, como monta)"),
+    "Torre superior": ("Z-", 1, "nao (de cabeca para baixo: o teto fica na mesa)"),
+    "Cabine": ("Z", 1, "sim: arvore so embaixo do bloco do fixador e dos 2 ressaltos da bandeira"),
     "Fila": ("Z", 1, "nao (nervuras embaixo do piso)"),
     "Rampa": ("Z", 1, "nao (piso macico)"),
     "Suporte do servo": ("Z", 1, "nao"),
@@ -57,7 +55,7 @@ POS = {
     "Bandeja do meio": ("-Y", 1, "nao (impressa em pe, frente na mesa)"),
     "Bandeja direita": ("-Y", 1, "nao (impressa em pe, frente na mesa)"),
     "Prateleira da esteira": ("Z", 1, "nao"),
-    "Gancho da prateleira": ("-X", 3, "nao"),
+    "Gancho da prateleira": ("Z-", 3, "nao (pe na mesa)"),
     "Ponta fixa da esteira": ("Z", 1, "nao"),
 }
 # pecas iguais: so a instancia do eixo A vira STL (a do B e a mesma, contada em POS)
@@ -174,33 +172,50 @@ def furos(m, peca, fx, el):
         porca = "porca" in f["tipo"] or "martelo" in f["tipo"]
         auto = f.get("insert") if f.get("insert") is not None else (
             L.PECAS.get(f["rosca"], ("?",))[0] == "impressa" and not porca)
-        rasgo = None
-        if f["nome"] == "eixo_polia_baixo" and peca in ("Guia impressa inferior", "Base"):
-            rasgo = (0, 0, -2.0)                   # esticador da correia: o parafuso desce 2 mm
+        rasgo, desloc = None, None
         if f["nome"].startswith("eixo_tens_") and peca == "Bloco direito":
             rasgo = (-6.0, 0, 0)                  # esticador: a tensora anda 6 mm para a esquerda
+        alvo = f.get("rasgo_em") or f["prende"]
+        if f.get("rasgo") and peca == alvo:
+            rasgo = tuple(f["rasgo"])
+        if f.get("rasgo_c") and peca == alvo:     # rasgo centrado: +-metade para cada lado
+            rasgo = tuple(f["rasgo_c"])
+            desloc = -np.array(rasgo) / 2
         if peca == f["rosca"] and auto and peca != f["prende"]:
             c = cilindro(PILOTO[b], p0, d, 0, Lm + 0.6)
         else:
             c = cilindro(PASSANTE[b], p0, d, -0.5, Lm + 0.5)
         if rasgo:
-            c = varrer(c.translate(cq.Vector(*(-np.array(rasgo) * 0))), rasgo)
+            if desloc is not None:
+                c = c.translate(cq.Vector(*desloc))
+            c = varrer(c, rasgo)
         cut.append(c)
         if peca == f["prende"]:
             dc, hc = CABECA[b]
             corr = f.get("corredor", 60.0) if f["nome"].startswith("band_") else 40.0
             cab = cilindro(dc, p0, d, -corr, 0.0)
             if rasgo:
+                if desloc is not None:
+                    cab = cab.translate(cq.Vector(*desloc))
                 cab = varrer(cab, rasgo)
             cut.append(cab)
-        if f["nome"] == "eixo_polia_baixo" and peca == "Base":
-            # porca M3 presa na bochecha: sextavado de 5,9 entre faces, aberto para cima (a porca entra de cima)
-            pz = p0 + d * (Lm - 3.6)
-            hexa = (cq.Workplane(cq.Plane(origin=tuple(pz), xDir=(1, 0, 0), normal=tuple(d)))
-                    .polygon(6, 5.9 / math.cos(math.pi / 6)).extrude(2.8).val())
-            fenda = cq.Solid.makeBox(5.9, 2.8, 20, pnt=cq.Vector(pz[0] - 2.95, pz[1] - 2.8, pz[2] - 2.0))
-            cut.append(varrer(hexa.fuse(fenda), (0, 0, -2.0)))
     return cut
+
+
+def bolsa_porca(centro, normal, xdir, abre, comp, af=PORCA_M3[0], esp=PORCA_M3[1]):
+    """Bolsa sextavada da porca M3 (centrada no eixo do parafuso, espessura esp ao longo de normal) + fenda de
+    entrada da largura af na direcao 'abre' ate 'comp' mm."""
+    c = np.array(centro, float)
+    n = np.array(normal, float)
+    a = np.array(abre, float)
+    # cantos do sextavado apontando para a fenda: assim a largura entre faces (af) e a largura da fenda
+    hexa = (cq.Workplane(cq.Plane(origin=tuple(c - n * esp / 2), xDir=tuple(a), normal=tuple(n)))
+            .polygon(6, af / math.cos(math.pi / 6)).extrude(esp).val())
+    lado = np.cross(n, a)
+    p = c - n * esp / 2 - lado * af / 2
+    pl = cq.Plane(origin=tuple(p), xDir=tuple(lado), normal=tuple(a))
+    fenda = cq.Workplane(pl).rect(af, esp, centered=False).extrude(comp).val()
+    return hexa.fuse(fenda)
 
 
 def dentes(x0, x1, y_face, sentido, z0, z1, eixo="x"):
@@ -231,31 +246,13 @@ def detalhes(m, peca, el):
         # (parede = costas da correia); entra por baixo por uma fenda
         xm, ys = (L.FIX[0] + L.FIX[1]) / 2, yr + 0.7 + 4.9
         hexa = (cq.Workplane(cq.Plane(origin=(xm, ys, zcor), xDir=(1, 0, 0), normal=(0, 1, 0)))
-                .polygon(6, 5.9 / math.cos(math.pi / 6)).extrude(2.8).val())
+                .polygon(6, PORCA_M3[0] / math.cos(math.pi / 6)).extrude(PORCA_M3[1]).val())
         cut.append(hexa)
-        cut.append(cq.Solid.makeBox(5.9, 2.8, 12.0, pnt=cq.Vector(xm - 2.95, ys, zcor - 10.5)))
-    if peca == "Cabine":
-        # presilhas da correia no bloco da direita: fenda de 1,9 mm no ramo preso (x_ida), dentes do lado da polia
-        xi = el.x_ida
-        y0, y1 = el.y_correia[0] - 0.3, el.y_correia[1] + 0.3
-        for z0, z1 in ((9.5, 21.0), (29.0, 37.5)):         # abertas embaixo e em cima do bloco (Z 10..37)
-            cut.append(cq.Solid.makeBox(1.9, y1 - y0, z1 - z0, pnt=cq.Vector(xi - 0.95, y0, zc + z0)))
-            for d in dentes(z0 + zc, z1 + zc, xi - 0.95, -1, y0, y1, eixo="z"):
-                cut.append(d)
-    if peca == "Guia impressa inferior":
-        for x in (178.0, 204.0):
-            add.append(cq.Solid.makeCylinder(2.0, 6.0, pnt=cq.Vector(x, 195.5, 200.0)))
-    if peca == "Guia impressa superior":
-        for x in (178.0, 204.0):
-            cut.append(cq.Solid.makeCylinder(2.25, 7.0, pnt=cq.Vector(x, 195.5, 199.5)))
-    if peca in ("Tubo inferior", "Tubo superior"):
-        for x in (181.0, 199.0):
-            if peca == "Tubo inferior":
-                add.append(cq.Solid.makeBox(6, 4, 10, pnt=cq.Vector(x, 124.0, 190.0)))
-                add.append(cq.Solid.makeCylinder(1.4, 5.0, pnt=cq.Vector(x + 3, 126.0, 200.0)))
-            else:
-                add.append(cq.Solid.makeBox(6, 4, 10, pnt=cq.Vector(x, 124.0, 200.0)))
-                cut.append(cq.Solid.makeCylinder(1.65, 6.0, pnt=cq.Vector(x + 3, 126.0, 199.5)))
+        cut.append(cq.Solid.makeBox(PORCA_M3[0], PORCA_M3[1], 12.0, pnt=cq.Vector(xm - PORCA_M3[0] / 2, ys, zcor - 10.5)))
+    if peca in ("Torre inferior", "Torre superior", "Cabine"):
+        a2, c2 = detalhes_elevador(m, peca, el)
+        add += a2
+        cut += c2
     if peca == "Suporte do servo":
         for xa, xb, xh in ((84.0, 88.5, 86.1), (111.5, 116.0, 113.9)):
             add.append(cq.Solid.makeBox(xb - xa, 7.9, 12.0, pnt=cq.Vector(xa, 96.0, 21.0)))
@@ -282,9 +279,67 @@ def detalhes(m, peca, el):
         cut.append(cq.Solid.makeCylinder(5.0, 10.0, pnt=cq.Vector(-212.0, m.y_correia, 312.0), dir=cq.Vector(1, 0, 0)))
     if peca == "Suporte do NEMA de baixo":    # furo do cabo do motor e do fim de curso de baixo
         cut.append(cq.Solid.makeCylinder(4.0, 10.0, pnt=cq.Vector(-212.0, m.y_correia + 25.3, 25.0), dir=cq.Vector(1, 0, 0)))
-    if peca == "Base":
-        for x in (186.0, 196.0):          # cabecas dos M3x12 da guia ficam embutidas por baixo
-            cut.append(cq.Solid.makeCylinder(3.1, 4.3, pnt=cq.Vector(x, 195.5, -1.0)))
+    return add, cut
+
+
+def caixa_cq(x0, x1, y0, y1, z0, z1):
+    return cq.Solid.makeBox(x1 - x0, y1 - y0, z1 - z0, pnt=cq.Vector(x0, y0, z0))
+
+
+def detalhes_elevador(m, peca, el):
+    """Torre (pinos da emenda, janelas, bolsas de porca, rasgos dos sensores) e cabine (bolso do fixador, porca,
+    furos das bandeiras)."""
+    import elevador2 as E
+    add, cut = [], []
+    zj = el.z_junta
+    zr = el.z_rampa
+    pinos = [((175.0, 206.0), 2.0), ((205.0, 206.0), 2.0), ((216.75, 150.0), 1.5)]
+    if peca == "Torre inferior":
+        for (x, y), r in pinos:
+            add.append(cq.Solid.makeCylinder(r, 5.0, pnt=cq.Vector(x, y, zj - 0.5)))
+        # janela de tras embaixo: a placa do sensor passa e o parafuso dela fica a vista
+        cut.append(caixa_cq(E.X_CANAL[0], E.X_SENSOR[1], E.Y_PLACA[0] - 0.5, E.Y_PLACA[1] + 0.5, 5.0, 14.0))
+        # janela na parede direita para a chave do fixador da cabine (com a cabine embaixo, na bancada)
+        k0, k1 = el.fix_z
+        zf = el.zc_min + (k0 + k1) / 2
+        cut.append(caixa_cq(E.X_PAR_D[0] - 0.5, E.X_PAR_D[1] + 0.5, 186.0, 198.0, zf - 7, zf + 7))
+        # canal da porca do sensor de baixo, por baixo do pe (a porca anda junto no rasgo)
+        cut.append(caixa_cq(E.X_BANDEIRA - 3.15, E.X_BANDEIRA + 3.15, 205.0 - 8 - 3.5, 205.0 + 8 + 3.5, -0.1, 3.0))
+    if peca == "Torre superior":
+        for (x, y), r in pinos:
+            cut.append(cq.Solid.makeCylinder(r + 0.3, 6.0, pnt=cq.Vector(x, y, zj - 0.1)))
+        # janela de tras em cima: fios do motor, do sensor de cima e do sensor do bolso vao para a canaleta
+        cut.append(caixa_cq(177.0, E.X_SENSOR[1], E.Y_PLACA[0] - 0.5, E.Y_PLACA[1] + 0.5, 406.0, E.Z_TETO_TORRE[0] - 0.01))
+        # teto vazado em cima da polia do motor
+        cut.append(caixa_cq(el.x_polia - 10, el.x_polia + 10, 186.5, 197.5, E.Z_TETO_TORRE[0] - 1, E.Z_TETO_TORRE[1] + 1))
+        # eixo e bucha do N20 pela placa do motor
+        cut.append(cq.Solid.makeCylinder(2.6, 6.0, pnt=cq.Vector(el.x_polia, E.Y_FACE_MOTOR - 1, el.z_polia_cima),
+                                         dir=cq.Vector(0, 1, 0)))
+        # canal da porca do sensor de cima, no teto (por cima)
+        cut.append(caixa_cq(E.X_BANDEIRA - 3.15, E.X_BANDEIRA + 3.15, 205.0 - 8 - 3.5, 205.0 + 8 + 3.5,
+                            E.Z_TETO_TORRE[1] - 3.0, E.Z_TETO_TORRE[1] + 0.1))
+        # porcas da rampa presas nos pilares (entram por uma fenda que desce do teto da torre)
+        for x in (170.0, 212.0):
+            for dz in (-6.0, 14.0):
+                cut.append(bolsa_porca((x, 134.8, zr + dz), (0, 1, 0), (1, 0, 0), (0, 0, 1),
+                                       E.Z_TETO_TORRE[1] + 1 - (zr + dz)))
+        # passagem do fio do sensor do bolso: furo de 7 mm na frente da torre, embaixo do pilar direito (o fio sobe por
+        # dentro, no corredor da direita, ate a janela de tras no topo)
+        cut.append(cq.Solid.makeCylinder(3.5, 5.0, pnt=cq.Vector(211.0, 126.5, zr - 32.5), dir=cq.Vector(0, 1, 0)))
+    if peca == "Cabine":
+        zc = el.zc_min
+        k0, k1 = el.fix_z
+        zf = zc + (k0 + k1) / 2
+        xf1 = el.x_ida - 0.7
+        f = FOLGA_COMPRADA
+        # bolso do fixador + correia aberto em cima (o fixador entra por cima) e embaixo (a ponta de baixo da correia)
+        cut.append(caixa_cq(xf1 - 5.0 - f, xf1 + 1.4 + f, E.Y_FIXADOR[0] - f, E.Y_FIXADOR[1] + f, zc + k0 + 1.0, zc + k1 + 1.0))
+        cut.append(caixa_cq(xf1 - f, xf1 + 1.4 + f, el.y_correia[0] - f, el.y_correia[1] + f, zc + k0 - 1.0, zc + k1 + 1.0))
+        # porca M3 presa atras do fixador (encosta nele), entra por cima
+        cut.append(bolsa_porca((xf1 - 5.0 - 1.6 - f, E.Y_BANDEIRA, zf), (1, 0, 0), (0, 1, 0), (0, 0, 1), k1 - (k0 + k1) / 2 + 1))
+        # bandeiras: furo piloto M3 (2,7) atravessando os 2 ressaltos (o parafuso rosca no PETG e trava com porca)
+        for z0, z1 in (E.Z_RESSALTO_B, E.Z_RESSALTO_C):
+            cut.append(cq.Solid.makeCylinder(1.35, z1 - z0 + 1, pnt=cq.Vector(E.X_BANDEIRA, E.Y_BANDEIRA, zc + z0 - 0.5)))
     return add, cut
 
 
@@ -292,7 +347,7 @@ def construir(m, peca, so=None, fx=None, geo=None):
     el = m.el
     geo = geo or mundo(m)
     fx = fx or L.fixadores(m)
-    junta = {"Base": ("Base", "Batente")}.get(peca, (peca,))          # o batente e impresso junto com a base
+    junta = (peca,)
     proprios = [e for e in geo if e["peca"] in junta and (so is None or e["nome"] in so)]
     if peca in SO_EIXO_A:
         proprios = [e for e in proprios if e["nome"].endswith("_A")]
@@ -312,7 +367,7 @@ def construir(m, peca, so=None, fx=None, geo=None):
     # compradas que entram na peca
     for e in geo:
         tp = L.PECAS.get(e["peca"], ("?",))[0]
-        if tp == "impressa" or e["peca"] in ("Gabinete", "Tela", "EVA 5 mm") or e["corpo"].startswith("esteira"):
+        if tp == "impressa" or e["peca"] in EXCLUI_RECORTE or e["corpo"].startswith("esteira"):
             continue
         a, b = aabb(e)
         if not (np.all(b > lo) and np.all(a < hi)):

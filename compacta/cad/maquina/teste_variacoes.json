@@ -8,40 +8,40 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.78,
+  "pega_mm": 0.96,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 114.6)",
-   "12.0": "bate em anel_flange (Z 120.1)",
-   "20.0": "bate em anel_flange (Z 122.1)",
-   "30.0": "bate em ir_dir (Z 122.1)"
+   "7.3": "bate em anel_flange (Z 120.9)",
+   "12.0": "bate em anel_flange (Z 126.4)",
+   "20.0": "bate em anel_flange (Z 128.9)",
+   "30.0": "bate em ir_dir (Z 128.9)"
   },
-  "folga_bola_anel": 3.24
+  "folga_bola_anel": 2.33
  },
  "ima 0,5 mm mais perto": {
   "interferencias": 0,
   "bolso": true,
   "pega": true,
-  "levando": false,
+  "levando": true,
   "queda": true,
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 0.5,
-  "levando_mm": 0.29,
+  "pega_mm": 0.86,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 114.1)",
-   "12.0": "bate em anel_flange (Z 119.6)",
-   "20.0": "bate em anel_flange (Z 121.6)",
-   "30.0": "bate em ir_dir (Z 121.6)"
+   "7.3": "bate em anel_flange (Z 120.8)",
+   "12.0": "bate em anel_flange (Z 126.3)",
+   "20.0": "bate em anel_flange (Z 128.8)",
+   "30.0": "bate em ir_dir (Z 128.8)"
   },
-  "folga_bola_anel": 2.74
+  "folga_bola_anel": 2.23
  },
  "ima 1,5 mm mais longe": {
   "interferencias": 0,
@@ -52,18 +52,18 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.5,
-  "levando_mm": 1.0,
+  "pega_mm": 1.84,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 115.1)",
-   "12.0": "bate em anel_flange (Z 120.6)",
-   "20.0": "bate em anel_flange (Z 123.1)",
-   "30.0": "bate em ir_dir (Z 123.1)"
+   "7.3": "bate em anel_flange (Z 121.8)",
+   "12.0": "bate em anel_flange (Z 127.3)",
+   "20.0": "bate em anel_flange (Z 129.8)",
+   "30.0": "bate em ir_dir (Z 129.8)"
   },
-  "folga_bola_anel": 3.74
+  "folga_bola_anel": 3.23
  },
  "ima 0,5 mm para a esquerda": {
   "interferencias": 0,
@@ -74,18 +74,18 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.78,
+  "pega_mm": 0.88,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 114.6)",
-   "12.0": "bate em anel_flange (Z 120.1)",
-   "20.0": "bate em anel_flange (Z 122.1)",
-   "30.0": "bate em ir_dir (Z 122.1)"
+   "7.3": "bate em anel_flange (Z 120.9)",
+   "12.0": "bate em anel_flange (Z 126.4)",
+   "20.0": "bate em anel_flange (Z 128.9)",
+   "30.0": "bate em ir_dir (Z 128.9)"
   },
-  "folga_bola_anel": 3.24
+  "folga_bola_anel": 2.33
  },
  "ima 0,5 mm para a direita": {
   "interferencias": 0,
@@ -96,18 +96,18 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.5,
+  "pega_mm": 1.04,
+  "levando_mm": 1.0,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 114.6)",
-   "12.0": "bate em anel_flange (Z 120.1)",
-   "20.0": "bate em anel_flange (Z 122.1)",
-   "30.0": "bate em ir_dir (Z 122.1)"
+   "7.3": "bate em anel_flange (Z 120.9)",
+   "12.0": "bate em anel_flange (Z 126.4)",
+   "20.0": "bate em anel_flange (Z 128.9)",
+   "30.0": "bate em ir_dir (Z 128.9)"
   },
-  "folga_bola_anel": 3.24
+  "folga_bola_anel": 2.33
  },
  "ima 0,5 mm para a frente": {
   "interferencias": 0,
@@ -118,40 +118,40 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.5,
+  "pega_mm": 1.04,
+  "levando_mm": 1.0,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 114.6)",
-   "12.0": "bate em anel_flange (Z 120.1)",
-   "20.0": "bate em anel_flange (Z 122.1)",
-   "30.0": "bate em ir_dir (Z 122.1)"
+   "7.3": "bate em anel_flange (Z 120.9)",
+   "12.0": "bate em anel_flange (Z 126.4)",
+   "20.0": "bate em anel_flange (Z 128.9)",
+   "30.0": "bate em ir_dir (Z 128.9)"
   },
-  "folga_bola_anel": 3.2
+  "folga_bola_anel": 2.29
  },
  "ima 0,5 mm para tras": {
   "interferencias": 0,
   "bolso": true,
   "pega": true,
-  "levando": true,
+  "levando": false,
   "queda": true,
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.73,
+  "pega_mm": 0.88,
+  "levando_mm": 0.6,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 114.6)",
-   "12.0": "bate em anel_flange (Z 120.1)",
-   "20.0": "bate em anel_flange (Z 122.1)",
-   "30.0": "bate em ir_dir (Z 122.1)"
+   "7.3": "bate em anel_flange (Z 120.9)",
+   "12.0": "bate em anel_flange (Z 126.4)",
+   "20.0": "bate em anel_flange (Z 128.9)",
+   "30.0": "bate em ir_dir (Z 128.9)"
   },
-  "folga_bola_anel": 3.27
+  "folga_bola_anel": 2.37
  },
  "rampa 1 grau de queda para a direita": {
   "interferencias": 0,
@@ -162,18 +162,18 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.82,
+  "pega_mm": 0.96,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 114.6)",
-   "12.0": "bate em anel_flange (Z 120.1)",
-   "20.0": "bate em anel_flange (Z 122.1)",
-   "30.0": "bate em ir_dir (Z 122.1)"
+   "7.3": "bate em anel_flange (Z 120.9)",
+   "12.0": "bate em anel_flange (Z 126.4)",
+   "20.0": "bate em anel_flange (Z 128.9)",
+   "30.0": "bate em ir_dir (Z 128.9)"
   },
-  "folga_bola_anel": 3.25
+  "folga_bola_anel": 2.34
  },
  "rampa 2 graus de queda para a direita": {
   "interferencias": 0,
@@ -184,18 +184,18 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.75,
+  "pega_mm": 0.96,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 114.6)",
-   "12.0": "bate em anel_flange (Z 120.1)",
-   "20.0": "bate em anel_flange (Z 122.1)",
-   "30.0": "bate em ir_dir (Z 122.1)"
+   "7.3": "bate em anel_flange (Z 120.8)",
+   "12.0": "bate em anel_flange (Z 126.3)",
+   "20.0": "bate em anel_flange (Z 128.8)",
+   "30.0": "bate em ir_dir (Z 128.8)"
   },
-  "folga_bola_anel": 3.23
+  "folga_bola_anel": 2.32
  },
  "queda 248 (perfil de cima 2 mm abaixo)": {
   "interferencias": 0,
@@ -206,18 +206,18 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.78,
+  "pega_mm": 0.96,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 116.6)",
-   "12.0": "bate em anel_flange (Z 122.1)",
-   "20.0": "bate em anel_flange (Z 124.6)",
-   "30.0": "bate em ir_dir (Z 124.6)"
+   "7.3": "bate em anel_flange (Z 122.9)",
+   "12.0": "bate em anel_flange (Z 128.4)",
+   "20.0": "bate em anel_flange (Z 130.9)",
+   "30.0": "bate em ir_dir (Z 130.9)"
   },
-  "folga_bola_anel": 5.24
+  "folga_bola_anel": 4.33
  },
  "anel 1 mm mais alto (queda 249)": {
   "interferencias": 0,
@@ -228,18 +228,18 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.78,
+  "pega_mm": 0.96,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "6.25": "passa limpa",
-   "7.3": "bate em anel_flange (Z 115.6)",
-   "12.0": "bate em anel_flange (Z 121.1)",
-   "20.0": "bate em anel_flange (Z 123.6)",
-   "30.0": "bate em ir_dir (Z 123.6)"
+   "7.3": "bate em anel_flange (Z 121.9)",
+   "12.0": "bate em anel_flange (Z 127.4)",
+   "20.0": "bate em anel_flange (Z 129.9)",
+   "30.0": "bate em ir_dir (Z 129.9)"
   },
-  "folga_bola_anel": 4.24
+  "folga_bola_anel": 3.33
  },
  "folga limpa 5,8": {
   "interferencias": 0,
@@ -250,17 +250,17 @@
   "anel": true,
   "bandeja": true,
   "fila": true,
-  "pega_mm": 1.0,
-  "levando_mm": 0.78,
+  "pega_mm": 0.96,
+  "levando_mm": 1.1,
   "anel_ok": {
    "0.0": "passa limpa",
    "3.0": "passa limpa",
    "5.75": "passa limpa",
-   "6.8": "bate em anel_flange (Z 114.6)",
-   "12.0": "bate em anel_flange (Z 120.6)",
-   "20.0": "bate em anel_flange (Z 122.1)",
-   "30.0": "bate em ir_dir (Z 122.1)"
+   "6.8": "bate em anel_flange (Z 120.9)",
+   "12.0": "bate em anel_flange (Z 126.9)",
+   "20.0": "bate em anel_flange (Z 128.9)",
+   "30.0": "bate em ir_dir (Z 128.9)"
   },
-  "folga_bola_anel": 3.24
+  "folga_bola_anel": 2.33
  }
 }

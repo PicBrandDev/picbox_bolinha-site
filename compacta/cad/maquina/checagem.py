@@ -6,7 +6,7 @@
  2. carros A e B no curso inteiro x tudo; cabine e comporta do elevador x pecas novas; esteiras x tudo
  3. bola: bolso, chegada do ima, bola presa indo da pega ate a casa, queda em todo o curso, anel, bandeja ate a fila
  4. parafusos: atravessa, pega, nao fura, parede em volta da rosca, chave chega na etapa
- 5. envelope 420 x 420 x 200 e janela da tela
+ 5. envelope 440 x 430 x 230 e janela da tela
 """
 import itertools
 import json
@@ -21,11 +21,21 @@ import layout as L
 from cena_m import Cena
 
 AQUI = Path(__file__).resolve().parent
-FOLGA = 0.5
-sys.path.insert(0, str(AQUI.parent / "elevador"))
-import montagem as ME  # noqa: E402
+FOLGA = 1.0          # folga minima entre o que anda e o resto (R2: era 0,5)
+FOLGA_IMA = 0.5      # o ima chega perto da bola de proposito (gap da pega)
+GX, GY, GZ = L.GX, L.GY, L.GZ
 
-PREVISTO = {frozenset(k) for k in ME.SOBREPOSICAO_PREVISTA}
+SOBREPOSICAO_PREVISTA = {
+    frozenset(("Torre superior", "Motor N20")): "o berco da torre abraca o motor",
+    frozenset(("Torre inferior", "Polia de baixo")): "a polia desce na janela do pe; o eixo passa na placa de tras",
+    frozenset(("Torre inferior", "Sensor de fenda")): "a placa do sensor passa pela janela da placa de tras",
+    frozenset(("Torre superior", "Sensor de fenda")): "a placa do sensor passa pela janela da placa de tras",
+    frozenset(("Polia de baixo", "Correia")): "a correia abraca a polia",
+    frozenset(("Polia do motor", "Correia")): "a correia abraca a polia",
+    frozenset(("Servo", "Suporte do servo")): "o servo entra no suporte",
+    frozenset(("Torre superior", "Polia do motor")): "a polia do motor passa por uma janela no teto da torre",
+}
+PREVISTO = {frozenset(k) for k in SOBREPOSICAO_PREVISTA}
 for k in ("A", "B"):
     PREVISTO |= {frozenset(p) for p in [
         (f"NEMA 17 {k}", f"Suporte do NEMA {'de cima' if k == 'A' else 'de baixo'}"),
@@ -48,7 +58,20 @@ CONTATO_MOVEL = {
     ("fixador_A", "correia_tras_A"): "os dentes do fixador apertam a face dentada da correia",
     ("fixador_B", "correia_tras_B"): "os dentes do fixador apertam a face dentada da correia",
 }
-CONTATO_MOVEL.update(ME.CONTATO_PREVISTO)
+CONTATO_MOVEL.update({
+    ("alav_chifre", "servo"): "chifre montado no eixo do servo",
+    ("presilha_A", "fdc_dir_alav_A"): "fim de curso de seguranca: 0,8 mm da alavanca com o carro A na pega (so aperta se passar)",
+    ("presilha_piso_A", "fdc_dir_alav_A"): "fim de curso de seguranca do eixo A",
+    ("batedorB", "fdc_dir_alav_B"): "fim de curso de seguranca do eixo B: o batedor aperta a alavanca no limite",
+})
+CONTATO_MOVEL.update({
+    ("alav_braco", "servo"): "o braco vai no chifre do servo e gira com ele, 0,5 mm acima do corpo (igual R1)",
+    ("alav_braco", "suporte_servo"): "o braco vai no chifre do servo e gira com ele (igual R1)",
+    ("alav_chifre", "suporte_servo"): "chifre do proprio servo",
+})
+for _s in ("baixo", "cima"):
+    for _b in ("braco1", "braco2", "fundo"):
+        CONTATO_MOVEL[(f"bandeira_{_s}", f"sensor_{_s}_{_b}")] = "a bandeira entra na fenda do sensor (1 mm de cada lado)"
 for _k in ("A", "B"):
     for _p in ("patim_topo", "patim_fl1", "patim_fl2"):
         CONTATO_MOVEL[(f"{_p}_{_k}", f"trilho_{_k}")] = "o patim abraca o trilho"
@@ -96,7 +119,7 @@ def varredura(c: Cena, passo=3.0):
     eA, eB = c.nomes("esteiraA"), c.nomes("esteiraB")
     t0 = time.time()
     xsA = np.arange(m.cA[0], m.cA[1] + 1e-6, passo).tolist() + [m.cA[1]]
-    xsB = np.arange(m.cB[0], m.cB[1] + 1e-6, passo).tolist() + [m.cB[1]]
+    xsB = np.arange(m.cB[0], m.cB_seg + 1e-6, passo).tolist() + [m.cB_seg]     # ate o fim de curso da direita
     for i, ca in enumerate(xsA):
         cb = xsB[i % len(xsB)]
         c.pose(cA=ca, cB=cb)
@@ -118,18 +141,28 @@ def varredura(c: Cena, passo=3.0):
         for a in eB:
             for b in B:
                 guarda(a, b, st)
-    # cabine e comporta do elevador x pecas novas (as do elevador ja foram checadas la)
-    novas = [n for n in fx if c.peca[n] in L.PECAS_NOVAS or c.peca[n] in ("Rampa", "Fila")]
-    for zc in np.arange(el.zc_min, el.zc_max + 0.01, 2.0):
+    # cabine x tudo o que fica perto do elevador (torre, rampa, fila, sensores, polias, motor) em todo o curso
+    c.pose()
+    perto = []
+    for n in fx:
+        lo, hi = c.aabb(n)
+        if hi[0] > 140 and hi[1] > 100 and c.peca[n] not in ("Tela",):
+            perto.append(n)
+    zcs = np.arange(el.zc_min, el.zc_max + 0.01, 2.0).tolist() + [el.zc_max]
+    for zc in zcs:
         c.pose(zc=zc, cA=m.cA[1], cB=0)
         for a in c.nomes("carro"):
-            for b in (fx if a == "berco_macico" else novas + A):
+            for b in perto + A:
                 guarda(a, b, dict(zc=round(zc, 1), cA=m.cA[1]))
+    # comporta x tudo (todo o giro) e x cabine (cabine embaixo e subindo)
     for th in np.arange(0, el.ang_baixa + 0.01, 0.5):
-        c.pose(th=th)
-        for a in c.nomes("alavanca"):
-            for b in novas:
-                guarda(a, b, dict(th=th))
+        for zc in (el.zc_min, el.zc_min + 3, el.zc_min + 10):
+            c.pose(th=th, zc=zc)
+            for a in c.nomes("alavanca"):
+                for b in fx + c.nomes("carro"):
+                    if c.peca[b] in ("Servo",) and a == "alav_chifre":
+                        continue
+                    guarda(a, b, dict(th=th, zc=round(zc, 1)))
     linhas = []
     for (a, b), (d, st) in sorted(minimo.items(), key=lambda kv: kv[1][0]):
         prev = CONTATO_MOVEL.get((a, b)) or CONTATO_MOVEL.get((b, a))
@@ -141,6 +174,8 @@ def varredura(c: Cena, passo=3.0):
                 prev = "elo da ponta da esteira preso no suporte"
         if prev is None and a.startswith("est_") and b.startswith("est_"):
             continue
+        if prev is None and d > 0.5 and (a.startswith("est_") or b.startswith("est_")):
+            prev = "esteira porta-cabo (flexivel, desenho aproximado)"
         if prev is None and (("est_" in a and "prat_estA" in b) or ("est_" in b and "prat_estA" in a)):
             prev = "a esteira A desliza deitada na prateleira" if d > -0.6 else None
         if prev is None and (("est_" in a and b == "piso") or ("est_" in b and a == "piso")):
@@ -175,7 +210,7 @@ def bola(c: Cena):
     da = min(v for k, v in dists.items() if k.startswith("arruela"))
     resto = min(v for k, v in dists.items() if not k.startswith("arruela") and k != "ima")
     out["pega"] = dict(ima_ate_bola=da, gap_pedido=m.gap_pega, resto_min=resto,
-                       ok=da >= FOLGA and resto >= FOLGA)    # o ima passa por cima sem encostar
+                       ok=da >= FOLGA_IMA and resto >= FOLGA)    # o ima passa por cima sem encostar
     # c. bola presa (1 mm acima, 1 mm afastada dos batentes) indo da pega ate a casa
     pior = (99, None, None)
     for ca in np.arange(m.cA[1], m.cA[0] - 0.01, -1.0):
@@ -233,11 +268,11 @@ def bola(c: Cena):
     folga_anel = min(zr0 - (m.s_bandeja(x, y) + 2 * L.R)
                      for x in np.arange(m.cB[0] - m.r_flange, m.cB[1] + m.r_flange, 2.0) for y in yr)
     juntas = [round(abs(m.s_bandeja(x - 1e-6, y) - m.s_bandeja(x + 1e-6, y)), 3) for x in (-30, 120) for y in (50, 127)]
-    labio = min(m.s_bandeja(x, m.y_bandeja[1]) - m.z_labio(x) for x in np.arange(-207, m.x_entrada, 1.0))
+    labio = min(m.s_bandeja(x, m.y_bandeja[1]) - m.z_labio(x) for x in np.arange(m.x_juntas[0], m.x_entrada, 1.0))
     alta = min(L.Z_PAREDE_ALTA - (m.s_bandeja(x, m.y_bandeja[1]) + L.R) for x in np.arange(m.x_entrada, 175.5, 1.0))
     # rolar: desce pelo gradiente; parede da frente/lados param; atras: entra na fila (X < 40) ou corre ao longo dela
     falhas, entradas = [], []
-    for x0 in np.arange(-200, 205, 10.0):
+    for x0 in np.arange(m.x_juntas[0] + 7, m.x_juntas[-1] - 2, 10.0):
         for y0 in np.arange(52, 126, 12.0):
             x, y = x0, y0
             for _ in range(4000):
@@ -245,7 +280,7 @@ def bola(c: Cena):
                 gy = (m.s_bandeja(x, y + 0.5) - m.s_bandeja(x, y - 0.5))
                 n = math.hypot(gx, gy)
                 x, y = x - gx / n, y - gy / n
-                x = min(max(x, -207 + L.R * 0.3), 207 - L.R * 0.3)
+                x = min(max(x, m.x_juntas[0] + L.R * 0.3), m.x_juntas[-1] - L.R * 0.3)
                 if y >= m.y_bandeja[1]:
                     if x < m.x_entrada:
                         entradas.append(x)
@@ -259,8 +294,8 @@ def bola(c: Cena):
                           pontos=len(entradas) + len(falhas), falhas=falhas[:5],
                           ok=folga_anel >= 2 and max(juntas) < 0.05 and labio >= 1 and alta >= 2 and not falhas)
     # g. fila: piso sempre descendo para a direita; capacidade
-    fs = [m.f_fila(x) for x in np.arange(-207, 174, 1.0)]
-    cap = int((el.x_contato - (-207)) / (2 * L.R + 0.5))
+    fs = [m.f_fila(x) for x in np.arange(m.x_juntas[0], 174, 1.0)]
+    cap = int((el.x_contato - m.x_juntas[0]) / (2 * L.R + 0.5))
     out["fila"] = dict(sempre_desce=all(a > b for a, b in zip(fs, fs[1:])), capacidade_bolas=cap,
                        bolas_na_maquina=8, ok=all(a > b for a, b in zip(fs, fs[1:])) and cap >= 7)
     c.g.pop()
@@ -397,7 +432,7 @@ def envelope(c: Cena):
                 continue
             lo, hi = c.aabb_i(i)
             lo_t, hi_t = np.minimum(lo_t, lo), np.maximum(hi_t, hi)
-            if lo[0] < -210.01 or hi[0] > 210.01 or lo[1] < -0.01 or hi[1] > 200.01 or lo[2] < -0.01 or hi[2] > 420.01:
+            if lo[0] < -GX - 0.01 or hi[0] > GX + 0.01 or lo[1] < -0.01 or hi[1] > GY + 0.01 or lo[2] < -0.01 or hi[2] > GZ + 0.01:
                 fora.append(c.pai[n])
     return dict(min=lo_t.round(1).tolist(), max=hi_t.round(1).tolist(), fora=sorted(set(fora)), ok=not fora)
 
@@ -407,7 +442,7 @@ def janela(c: Cena):
     m = c.m
     c.pose()
     z0, z1 = m.zb, m.zs - L.R
-    x0, x1 = -210.0, 172.0
+    x0, x1 = -GX, 160.0
     bloqueia = []
     for n, i in c.id.items():
         if c.corpo[n] != "mundo" or c.peca[n] in ("Gabinete", "Tela"):

@@ -37,7 +37,7 @@ def main():
     plano = json.loads((S / "plano.json").read_text(encoding="utf8"))
     imp = C / "imprimir"
     limpa(imp)
-    geral = ["PICBOX COMPACTA - ORDEM DE IMPRESSAO", "", *CONFIG, "",
+    geral = ["PICBOX COMPACTA R2 - ORDEM DE IMPRESSAO (gabinete 440 x 430 x 230)", "", *CONFIG, "",
              "As 3 impressoras trabalham ao mesmo tempo. Em cada uma, imprima na ordem dos numeros.", ""]
     for k in ("A", "B", "C"):
         d = imp / PASTA[k]
@@ -69,9 +69,8 @@ def main():
     if (S / "impressao.html").exists():
         shutil.copy2(S / "impressao.html", imp / "PICBOX_compacta_impressao.html")
     limpa(C / "pagina")
-    shutil.copy2(S / "picbox_compacta_r1.html", C / "pagina" / "PICBOX_compacta_visualizacao.html")
-    for orig, dest in (("explica.html", "PICBOX_como_funciona.html"), ("novidades.html", "PICBOX_novidades_R1.1.html"),
-                       ("bucha_n20.html", "PICBOX_bucha_polia_n20.html")):
+    shutil.copy2(S / "picbox_compacta.html", C / "pagina" / "PICBOX_compacta_visualizacao.html")
+    for orig, dest in (("explica.html", "PICBOX_como_funciona.html"), ("bucha_n20.html", "PICBOX_bucha_polia_n20.html")):
         if (S / orig).exists():
             shutil.copy2(S / orig, C / "pagina" / dest)
     import alteradas

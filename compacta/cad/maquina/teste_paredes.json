@@ -1,34 +1,34 @@
 [
  {
   "stl": "anel.stl",
-  "menor_mm": 0.02,
-  "pct_abaixo_0_8": 1.4,
-  "pct_abaixo_0_45": 0.43,
+  "menor_mm": 0.01,
+  "pct_abaixo_0_8": 0.73,
+  "pct_abaixo_0_45": 0.37,
   "pontos_finos": [
    [
-    18.8,
-    -14.7,
-    8.7
+    -12.9,
+    -14.8,
+    8.9
    ],
    [
-    -16.6,
-    -17.1,
-    12.5
+    13.5,
+    12.4,
+    12.3
    ],
    [
-    -16.9,
-    -17.1,
-    11.1
+    -13.1,
+    12.9,
+    8.1
    ],
    [
-    -13.0,
-    -14.9,
-    9.4
+    -19.1,
+    -14.6,
+    11.7
    ],
    [
-    16.7,
-    -17.4,
-    10.8
+    -19.5,
+    -13.9,
+    10.2
    ]
   ]
  },
@@ -41,7 +41,7 @@
  },
  {
   "stl": "bandeja_do_meio.stl",
-  "menor_mm": 1.01,
+  "menor_mm": 1.63,
   "pct_abaixo_0_8": 0.0,
   "pct_abaixo_0_45": 0.0,
   "pontos_finos": []
@@ -54,101 +54,68 @@
   "pontos_finos": []
  },
  {
-  "stl": "base.stl",
-  "menor_mm": 0.42,
-  "pct_abaixo_0_8": 0.32,
-  "pct_abaixo_0_45": 0.08,
-  "pontos_finos": [
-   [
-    -5.2,
-    43.1,
-    2.4
-   ],
-   [
-    -4.6,
-    43.1,
-    1.3
-   ],
-   [
-    5.1,
-    43.1,
-    1.6
-   ],
-   [
-    5.2,
-    43.1,
-    2.6
-   ],
-   [
-    -4.6,
-    43.1,
-    3.2
-   ]
-  ]
- },
- {
   "stl": "bloco_direito__x2.stl",
-  "menor_mm": 0.26,
-  "pct_abaixo_0_8": 0.6,
-  "pct_abaixo_0_45": 0.18,
+  "menor_mm": 0.21,
+  "pct_abaixo_0_8": 0.25,
+  "pct_abaixo_0_45": 0.15,
   "pontos_finos": [
    [
-    9.1,
-    -19.7,
-    22.0
+    23.0,
+    -6.9,
+    32.0
    ],
    [
-    8.5,
-    -18.0,
-    22.0
+    10.6,
+    -19.4,
+    31.8
    ],
    [
-    9.9,
-    -17.3,
-    21.7
+    9.5,
+    -17.0,
+    31.6
    ],
    [
-    -1.0,
-    -6.5,
-    22.0
+    10.4,
+    -17.6,
+    32.0
    ],
    [
-    9.1,
-    -17.2,
-    22.0
+    -13.4,
+    5.6,
+    19.8
    ]
   ]
  },
  {
   "stl": "bloco_esquerdo__x2.stl",
-  "menor_mm": 0.26,
-  "pct_abaixo_0_8": 0.45,
+  "menor_mm": 0.24,
+  "pct_abaixo_0_8": 0.27,
   "pct_abaixo_0_45": 0.12,
   "pontos_finos": [
    [
-    -8.8,
-    -19.4,
-    22.0
+    -8.6,
+    -17.5,
+    32.0
    ],
    [
-    -8.7,
+    -7.9,
+    -19.8,
+    25.8
+   ],
+   [
+    -8.1,
     -18.7,
-    22.0
+    26.2
    ],
    [
     -7.5,
-    -17.8,
-    21.7
+    -18.0,
+    31.8
    ],
    [
-    -7.2,
-    -18.6,
-    21.6
-   ],
-   [
-    -7.1,
-    -19.8,
-    22.0
+    -7.0,
+    -18.7,
+    32.0
    ]
   ]
  },
@@ -160,271 +127,83 @@
   "pontos_finos": []
  },
  {
-  "stl": "bucha_da_polia_do_n20__x4.stl",
-  "menor_mm": 0.0,
-  "pct_abaixo_0_8": 19.32,
-  "pct_abaixo_0_45": 5.15,
-  "pontos_finos": [
-   [
-    16.0,
-    0.5,
-    4.7
-   ],
-   [
-    3.7,
-    16.1,
-    9.1
-   ],
-   [
-    3.9,
-    12.5,
-    4.5
-   ],
-   [
-    15.7,
-    16.1,
-    5.0
-   ],
-   [
-    16.2,
-    0.8,
-    4.4
-   ]
-  ]
- },
- {
   "stl": "cabine.stl",
-  "menor_mm": 0.01,
-  "pct_abaixo_0_8": 0.33,
-  "pct_abaixo_0_45": 0.22,
-  "pontos_finos": [
-   [
-    5.2,
-    10.6,
-    42.5
-   ],
-   [
-    5.8,
-    10.1,
-    15.5
-   ],
-   [
-    13.6,
-    24.9,
-    8.0
-   ],
-   [
-    5.7,
-    6.2,
-    15.5
-   ],
-   [
-    13.5,
-    22.6,
-    8.0
-   ]
-  ]
+  "menor_mm": 1.01,
+  "pct_abaixo_0_8": 0.0,
+  "pct_abaixo_0_45": 0.0,
+  "pontos_finos": []
  },
  {
   "stl": "carro_a.stl",
-  "menor_mm": 1.66,
+  "menor_mm": 1.51,
   "pct_abaixo_0_8": 0.0,
   "pct_abaixo_0_45": 0.0,
   "pontos_finos": []
  },
  {
   "stl": "carro_b.stl",
-  "menor_mm": 2.31,
-  "pct_abaixo_0_8": 0.0,
-  "pct_abaixo_0_45": 0.0,
-  "pontos_finos": []
- },
- {
-  "stl": "espacador.stl",
-  "menor_mm": 0.81,
+  "menor_mm": 2.26,
   "pct_abaixo_0_8": 0.0,
   "pct_abaixo_0_45": 0.0,
   "pontos_finos": []
  },
  {
   "stl": "fila.stl",
-  "menor_mm": 0.22,
-  "pct_abaixo_0_8": 0.36,
-  "pct_abaixo_0_45": 0.25,
-  "pontos_finos": [
-   [
-    82.5,
-    13.2,
-    5.0
-   ],
-   [
-    83.5,
-    13.5,
-    28.2
-   ],
-   [
-    -93.9,
-    13.2,
-    8.6
-   ],
-   [
-    -95.2,
-    13.2,
-    36.9
-   ],
-   [
-    82.9,
-    13.5,
-    35.6
-   ]
-  ]
+  "menor_mm": 1.63,
+  "pct_abaixo_0_8": 0.0,
+  "pct_abaixo_0_45": 0.0,
+  "pontos_finos": []
  },
  {
   "stl": "fila_esquerda.stl",
-  "menor_mm": 0.21,
-  "pct_abaixo_0_8": 0.42,
-  "pct_abaixo_0_45": 0.25,
-  "pontos_finos": [
-   [
-    71.6,
-    13.2,
-    40.8
-   ],
-   [
-    -74.9,
-    13.5,
-    38.0
-   ],
-   [
-    70.6,
-    13.2,
-    11.7
-   ],
-   [
-    70.1,
-    13.5,
-    28.2
-   ],
-   [
-    -73.6,
-    13.6,
-    14.0
-   ]
-  ]
+  "menor_mm": 1.63,
+  "pct_abaixo_0_8": 0.0,
+  "pct_abaixo_0_45": 0.0,
+  "pontos_finos": []
  },
  {
   "stl": "gancho_da_prateleira__x3.stl",
-  "menor_mm": 0.23,
-  "pct_abaixo_0_8": 0.1,
-  "pct_abaixo_0_45": 0.07,
+  "menor_mm": 0.21,
+  "pct_abaixo_0_8": 0.77,
+  "pct_abaixo_0_45": 0.03,
   "pontos_finos": [
    [
-    -7.5,
-    6.0,
-    3.6
+    8.0,
+    3.5,
+    21.5
    ],
    [
-    -7.5,
-    6.0,
-    11.0
-   ],
-   [
-    -7.5,
-    5.6,
-    5.2
-   ],
-   [
-    -7.5,
-    2.5,
-    15.8
-   ]
-  ]
- },
- {
-  "stl": "guia_impressa_inferior.stl",
-  "menor_mm": 0.26,
-  "pct_abaixo_0_8": 0.23,
-  "pct_abaixo_0_45": 0.22,
-  "pontos_finos": [
-   [
-    13.8,
-    -91.3,
-    22.3
-   ],
-   [
-    9.0,
-    -93.9,
-    22.5
-   ],
-   [
-    12.3,
-    -91.3,
-    22.3
-   ],
-   [
-    11.1,
-    -94.7,
-    22.3
-   ],
-   [
-    9.4,
-    -90.5,
-    22.3
-   ]
-  ]
- },
- {
-  "stl": "guia_impressa_superior.stl",
-  "menor_mm": 0.26,
-  "pct_abaixo_0_8": 0.85,
-  "pct_abaixo_0_45": 0.27,
-  "pontos_finos": [
-   [
-    11.5,
-    100.1,
-    22.5
-   ],
-   [
-    13.9,
-    102.1,
-    22.3
-   ],
-   [
-    14.0,
-    103.9,
-    22.3
-   ],
-   [
-    9.6,
-    96.7,
-    22.5
-   ],
-   [
-    11.0,
-    96.3,
-    22.3
+    -7.8,
+    3.5,
+    21.4
    ]
   ]
  },
  {
   "stl": "ponta_fixa_da_esteira_a_prateleira.stl",
-  "menor_mm": 0.22,
+  "menor_mm": 0.32,
   "pct_abaixo_0_8": 0.02,
   "pct_abaixo_0_45": 0.02,
   "pontos_finos": [
    [
-    6.0,
-    -1.4,
+    -5.8,
+    -1.8,
     10.0
    ]
   ]
  },
  {
   "stl": "ponta_fixa_da_esteira_b_piso.stl",
-  "menor_mm": 0.49,
+  "menor_mm": 0.28,
   "pct_abaixo_0_8": 0.02,
-  "pct_abaixo_0_45": 0.0,
-  "pontos_finos": []
+  "pct_abaixo_0_45": 0.02,
+  "pontos_finos": [
+   [
+    -13.0,
+    -1.4,
+    4.0
+   ]
+  ]
  },
  {
   "stl": "prateleira_da_esteira_direita.stl",
@@ -435,91 +214,47 @@
  },
  {
   "stl": "prateleira_da_esteira_esquerda.stl",
-  "menor_mm": 2.61,
+  "menor_mm": 3.03,
   "pct_abaixo_0_8": 0.0,
   "pct_abaixo_0_45": 0.0,
   "pontos_finos": []
  },
  {
   "stl": "rampa.stl",
-  "menor_mm": 0.18,
-  "pct_abaixo_0_8": 0.18,
-  "pct_abaixo_0_45": 0.1,
+  "menor_mm": 0.05,
+  "pct_abaixo_0_8": 0.1,
+  "pct_abaixo_0_45": 0.05,
   "pontos_finos": [
    [
-    -1.1,
-    38.3,
-    0.0
+    -20.9,
+    35.5,
+    0.1
    ],
    [
-    8.5,
-    -21.2,
+    6.1,
+    -21.7,
     6.9
    ],
    [
-    7.4,
-    -21.9,
+    10.3,
+    -19.8,
     6.8
-   ],
-   [
-    3.2,
-    -21.3,
-    6.6
-   ],
-   [
-    4.3,
-    -21.9,
-    6.9
    ]
   ]
  },
  {
-  "stl": "suporte_do_motor.stl",
-  "menor_mm": 1.26,
+  "stl": "suporte_do_nema_de_baixo.stl",
+  "menor_mm": 0.96,
   "pct_abaixo_0_8": 0.0,
   "pct_abaixo_0_45": 0.0,
   "pontos_finos": []
  },
  {
-  "stl": "suporte_do_nema_de_baixo.stl",
-  "menor_mm": 0.05,
-  "pct_abaixo_0_8": 0.13,
-  "pct_abaixo_0_45": 0.07,
-  "pontos_finos": [
-   [
-    -3.6,
-    24.3,
-    0.2
-   ],
-   [
-    -3.4,
-    24.3,
-    2.5
-   ],
-   [
-    1.5,
-    24.3,
-    2.6
-   ],
-   [
-    1.5,
-    24.3,
-    1.8
-   ]
-  ]
- },
- {
   "stl": "suporte_do_nema_de_cima.stl",
-  "menor_mm": 0.02,
-  "pct_abaixo_0_8": 0.03,
-  "pct_abaixo_0_45": 0.02,
-  "pontos_finos": [
-   [
-    17.2,
-    -0.4,
-    2.2
-   ]
-  ]
+  "menor_mm": 3.88,
+  "pct_abaixo_0_8": 0.0,
+  "pct_abaixo_0_45": 0.0,
+  "pontos_finos": []
  },
  {
   "stl": "suporte_do_servo.stl",
@@ -529,23 +264,23 @@
   "pontos_finos": []
  },
  {
-  "stl": "tubo_inferior.stl",
-  "menor_mm": 1.81,
-  "pct_abaixo_0_8": 0.0,
-  "pct_abaixo_0_45": 0.0,
-  "pontos_finos": []
- },
- {
-  "stl": "tubo_superior.stl",
-  "menor_mm": 0.37,
-  "pct_abaixo_0_8": 0.03,
+  "stl": "torre_inferior.stl",
+  "menor_mm": 0.41,
+  "pct_abaixo_0_8": 0.02,
   "pct_abaixo_0_45": 0.02,
   "pontos_finos": [
    [
-    -6.2,
-    -107.0,
-    48.1
+    -19.9,
+    37.9,
+    200.2
    ]
   ]
+ },
+ {
+  "stl": "torre_superior.stl",
+  "menor_mm": 0.67,
+  "pct_abaixo_0_8": 0.08,
+  "pct_abaixo_0_45": 0.0,
+  "pontos_finos": []
  }
 ]

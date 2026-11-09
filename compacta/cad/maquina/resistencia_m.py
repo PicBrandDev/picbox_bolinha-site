@@ -132,6 +132,23 @@ def casos(m: L.M):
         lim = PETG["fluencia"] if regime == "normal" else PETG["sr_z"]
         out.append(caso("Bloco direito", "braco de baixo da tensora", regime, F * parte, F * parte * 8 * ca2 / Ia2, lim,
                         "flexao entre camadas (bloco impresso de lado)"))
+    # 9. elevador R2: fixador da cabine, bloco do fixador, eixo da polia de baixo, motor na placa, orelhas da torre
+    F_el = RE.F_TRAVA                                   # N20 travado puxando a correia (pior caso)
+    A_cab = math.pi * 6.6 * 2.5                         # cabeca do M3 sobre 2,5 mm de parede (arranca um anel)
+    out.append(caso("Cabine", "parede sob a cabeca do M3 do fixador (aperto firme)", "normal", 150.0, 150.0 / A_cab,
+                    PETG["fluencia"], "cisalhamento em volta da cabeca", "aperto que segura a correia: carga permanente"))
+    out.append(caso("Cabine", "parede sob a cabeca do M3 do fixador (aperto exagerado)", "falha", 400.0, 400.0 / A_cab,
+                    PETG["tau_z"], "cisalhamento em volta da cabeca", "M3 apertado demais"))
+    A_, Ib, cb = secao([(0, 17.2, 0, 44.0)], "y")
+    out.append(caso("Cabine", "raiz do bloco do fixador (correia a 12 mm da alma)", "falha", F_el, F_el * 12 * cb / Ib,
+                    PETG["sr_xy"], "flexao no plano da camada (cabine em pe)", "N20 travado"))
+    M_eixo = (2 * 10.0 + F_el) * 10.5                   # N.mm no eixo M5 na face da placa (correia ~10 N por ramo)
+    out.append(caso("Polia de baixo", "eixo M5 em balanco (10,5 mm)", "falha", 2 * 10.0 + F_el, M_eixo * 2.5 / (math.pi * 4.0 ** 4 / 64),
+                    RE.ACO_M3_48, "flexao no nucleo do M5 (4 mm), aco 4.8", "a porca aperta o eixo na placa de 6 mm"))
+    out.append(caso("Torre superior", "2 M2 da face do N20 (torque travado)", "falha", 0.235 / 0.009 / 1, 0.235 / 0.009 / 2 / 2.1,
+                    RE.ACO_M3_48 * 0.6, "cisalhamento no M2 (2,1 mm2)", "2,4 kgf.cm travado"))
+    out.append(caso("Torre inferior", "4 parafusos de madeira das orelhas (peso + esbarrao 20 N)", "falha", 0.7 * G + 20.0,
+                    (0.7 * G + 20.0) / 4 / 12, PULL_MADEIRA, "cisalhamento no MDF (N por mm)"))
     # 8. bloco nas paredes: 2 parafusos de madeira em cisalhamento
     out.append(caso("Bloco direito", "parafusos de madeira na parede", "falha", T0 + F_falha, (T0 + F_falha) / 2 / 12,
                     PULL_MADEIRA * 2, "cisalhamento no MDF (N por mm)"))

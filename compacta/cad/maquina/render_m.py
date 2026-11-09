@@ -50,7 +50,7 @@ def cena(m, zc, th, cA, cB):
             if o["corpo"] == "alavanca" and th:
                 mm.rotate_vector((0, 1, 0), -th, point=el.piv, inplace=True)
             mm.translate(off, inplace=True)
-            cor = COR["transp"] if o["peca"] in ("Tubo inferior", "Tubo superior") else (
+            cor = COR["transp"] if o["peca"] in () else (
                 COR["anda"] if o["corpo"] in ANDA else COR["imp"])
             itens.append((mm, cor, 0.45 if cor == COR["transp"] else 1.0, o["peca"]))
     c = Cena(m)
@@ -58,7 +58,7 @@ def cena(m, zc, th, cA, cB):
     for n, i in c.id.items():
         pc = c.peca[n]
         tp = L.PECAS.get(pc, ("?",))[0]
-        if tp == "impressa" or pc in ("Gabinete", "Tela", "Batente") or c.tipo[i] == "sphere":
+        if tp == "impressa" or pc in ("Gabinete", "Tela") or c.tipo[i] == "sphere":
             continue
         cc, R, h = c._c[i], c._R[i], c.meio[i]
         T = np.eye(4)
@@ -69,7 +69,7 @@ def cena(m, zc, th, cA, cB):
             me = pv.Cylinder(center=(0, 0, 0), direction=(0, 0, 1), radius=h[0], height=2 * h[1], resolution=32)
         me = me.transform(T, inplace=False)
         cor = COR["eva"] if pc.startswith("EVA") else COR["correia"] if pc.startswith(("Correia", "Esteira")) else \
-            COR["sensor"] if pc in ("Sensor do bolso", "LED IR / fototransistor 5 mm") else COR["comp"]
+            COR["sensor"] if pc in ("Sensor do bolso", "LED IR / fototransistor 5 mm", "Sensor de fenda", "Fim de curso") else COR["comp"]
         itens.append((me, cor, 1.0, pc))
     return itens
 
@@ -117,8 +117,8 @@ def main():
     fila = [(x, el.y_bola, m.f_fila(x) + L.R) for x in (150.0, 124.0, 98.0, 72.0)]
     bolas = [presa, bolso] + fila
     rot = [("Carro A + eletroima", (-40, 60, 395)), ("Anel no carro B", (55, m.y_bola, m.zb + 4)),
-           ("Bandeja (EVA)", (-120, 90, 70)), ("Fila", (40, 145, 65)), ("Elevador", (192, 150, 250)),
-           ("Bolso de pega", (193, 72, 380)), ("Motor eixo A", (-184, 22, 340)), ("Motor eixo B", (-184, 22, 20))]
+           ("Bandeja (EVA)", (-120, 90, 70)), ("Fila", (40, 145, 65)), ("Torre do elevador", (192, 150, 250)),
+           ("Bolso de pega", (193, 72, 380)), ("Motor eixo A", (m.x_motor, 22, 350)), ("Motor eixo B", (m.x_motor, 22, 20))]
     foto("01_geral.png", it, (0, 100, 210), (-0.75, -1.0, 0.62), 255, bolas, rot, titulo="Montagem completa (azul = impressa, laranja = impressa que anda, cinza = comprada)")
     foto("02_frente.png", it, (0, 100, 210), (0, -1, 0.0001), 228, bolas, (), titulo="De frente, como o jogador ve")
     foto("03_lado.png", it, (0, 100, 210), (1, 0, 0.0001), 228, bolas, (), titulo="Lado direito (a tela fica a direita da imagem)")
@@ -133,22 +133,44 @@ def main():
     cab = (el.x_bola, el.y_bola, el.zc_max + el.z_piso_berco(el.x_bola, el.y_bola) + L.R)
     it = cena(m, el.zc_max, el.ang_baixa, -60.0, 0.0)
     rot = [("Cabine no topo (o berco inclina para a frente)", cab), ("Rampa ate o bolso", (192, 100, 352)),
-           ("Motor N20", (191, 140, 405)), ("Tubo transparente", (178, 129, 300))]
-    foto("05_elevador_topo.png", it, (190, 110, 360), (-1.0, -0.6, 0.7), 70, [cab, bolso], rot, titulo="Elevador no topo: a bola rola da cabine para a rampa (sem o perfil de cima e sem o tubo de cima)",
-         esconde=("Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Gancho", "Bloco direito", "Bloco esquerdo", "Correia A", "Polia tensora A", "Ponta fixa", "Tubo superior", "Carro A", "Eletroima"))
+           ("Motor N20", (191, 160, 419)), ("Sensor de fenda de cima", (207, 192, 416))]
+    foto("05_elevador_topo.png", it, (190, 140, 375), (-1.0, -0.6, 0.7), 80, [cab, bolso], rot, titulo="Elevador no topo: a bola rola da cabine para a rampa (sem o perfil de cima e sem a torre de cima)",
+         esconde=("Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Gancho", "Bloco direito", "Bloco esquerdo", "Correia A", "Polia tensora A", "Ponta fixa", "Torre superior", "Carro A", "Eletroima"))
     # 4. fila e comporta
     cab0 = (el.x_bola, el.y_bola, el.zc_min + el.z_piso_berco(el.x_bola, el.y_bola) + L.R)
     it = cena(m, el.zc_min, el.ang_baixa, -60.0, 0.0)
     rot = [("Lamina da comporta (servo)", (178, 142, 30)), ("Cabine embaixo", cab0), ("Fila", (120, 143, 50)),
            ("Servo", (100, 100, 30))]
-    foto("06_comporta.png", it, (155, 135, 30), (-0.7, -1.0, 0.9), 62, [cab0] + fila, rot, titulo="Comporta: o servo deixa passar uma bola por vez para a cabine (sem a bandeja e o tubo de baixo)",
-         esconde=("Bandeja", "EVA", "Tubo inferior", "Perfil 2020 B", "Trilho MGN12 B", "Correia B", "Carro B", "Anel", "Patim MGN12H B", "Esteira B", "Bloco direito", "LED"))
+    foto("06_comporta.png", it, (155, 135, 30), (-0.7, -1.0, 0.9), 62, [cab0] + fila, rot, titulo="Comporta: o servo deixa passar uma bola por vez para a cabine (sem a bandeja e a torre de baixo)",
+         esconde=("Bandeja", "EVA", "Torre inferior", "Perfil 2020 B", "Trilho MGN12 B", "Correia B", "Carro B", "Anel", "Patim MGN12H B", "Esteira B", "Bloco direito", "LED"))
     # 5. carro B, anel e bandeja
     it = cena(m, el.zc_min, el.ang_baixa, -60.0, 0.0)
     rot = [("Anel (furo 38)", (0, m.y_bola, m.zb + 3)), ("LED / sensor IR", (27.5, m.y_bola, m.zb - 14.5)),
            ("Carro B", (0, 43, 81)), ("Esteira B", (60, 6, 45)), ("Bandeja + EVA", (-60, 100, 60))]
     foto("07_anel.png", it, (0, 70, 80), (-0.6, -1.0, 0.8), 80, [], rot, titulo="Carro B: o anel e a barreira infravermelha que conta o acerto",
          esconde=("Perfil 2020 A", "Trilho MGN12 A", "Prateleira", "Esteira A", "Gancho", "Carro A", "Patim MGN12H A", "Eletroima", "Correia A"))
+    # 6. torre: pe (polia de baixo, sensor de baixo) e topo (motor, sensor de cima), sem as torres
+    import elevador2 as E
+    it = cena(m, el.zc_min, el.ang_baixa, -60.0, 0.0)
+    rot = [("Polia de baixo (eixo M5, rasgo de 6 mm)", (el.x_polia, 192, el.z_polia_baixo)),
+           ("Sensor de fenda de baixo", (E.X_BANDEIRA, E.Y_BANDEIRA, 16)), ("Bandeira (M3x25)", (E.X_BANDEIRA, E.Y_BANDEIRA, 26)),
+           ("Cabine embaixo", cab0), ("Fixador de aluminio", (194, 192, el.zc_min + sum(el.fix_z) / 2))]
+    foto("08_torre_baixo.png", it, (192, 170, 35), (0.55, 0.9, 0.55), 62, [cab0], rot,
+         titulo="Pe da torre (escondida): polia de baixo, sensor de fenda e a bandeira da cabine",
+         esconde=("Torre inferior", "Torre superior", "Bandeja", "EVA", "Fila", "Perfil 2020 B", "Trilho MGN12 B", "Carro B", "Anel", "Patim MGN12H B", "Esteira B", "Bloco direito", "LED", "Correia B"))
+    it = cena(m, el.zc_max, el.ang_baixa, -60.0, 0.0)
+    rot = [("Motor N20 (2 M2 na placa)", (191, 160, el.z_polia_cima)), ("Polia do motor", (191, 192, el.z_polia_cima + 9)),
+           ("Sensor de fenda de cima", (E.X_BANDEIRA, E.Y_BANDEIRA, 418)), ("Cabine no topo", cab)]
+    foto("09_torre_cima.png", it, (195, 175, 405), (0.55, 0.9, 0.35), 60, [cab], rot,
+         titulo="Topo da torre (escondida): motor N20, polia e sensor de fenda de cima",
+         esconde=("Torre inferior", "Torre superior", "Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Gancho", "Bloco direito", "Correia A", "Carro A", "Eletroima", "Rampa"))
+    it = cena(m, el.zc_min + 120, el.ang_baixa, -60.0, 0.0)
+    zf = el.zc_min + 120 + sum(el.fix_z) / 2
+    rot = [("Fixador 40x9x5 (dentes na correia)", (194, 192, zf + 15)), ("M3x14 pela direita", (204, 192, zf)),
+           ("Ramo livre da correia", (el.x_volta, 192, zf + 40))]
+    foto("10_fixador_cabine.png", it, (195, 185, zf), (0.8, 0.75, 0.4), 45, [], rot, vidro=("Cabine",),
+         titulo="Atras da cabine: o fixador de aluminio prende as 2 pontas da correia (cabine transparente)",
+         esconde=("Torre inferior", "Torre superior", "Perfil 2020", "Trilho MGN12", "Bloco direito", "Rampa"))
     print(sorted(x.name for x in IMG.glob("*.png")))
 
 

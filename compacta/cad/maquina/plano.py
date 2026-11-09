@@ -17,24 +17,22 @@ S = AQUI / "saida"
 GAP = 8.0
 
 # impressora A (a boa): precisao (encaixes que deslizam, dentes, furos pequenos) e pecas que o jogador ve de perto
-NA_A = ["Guia impressa inferior", "Guia impressa superior", "Base", "Espacador", "Suporte do motor", "Suporte do servo",
-        "Braco da comporta", "Rampa", "Carro B", "Anel", "Cabine", "Carro A", "Tubo inferior", "Tubo superior"]
+NA_A = ["Torre inferior", "Torre superior", "Suporte do servo", "Braco da comporta", "Rampa", "Carro B", "Anel", "Cabine",
+        "Carro A"]
 
 FUNCAO = {
-    "Base": "Pé do elevador, no piso do gabinete. Segura a guia de baixo e a polia de baixo (porca presa na bochecha). "
-            "Tem o batente onde a cabine para embaixo.",
-    "Guia impressa inferior": "Metade de baixo do trilho do elevador: dois trilhos em T por onde a cabine desliza. "
-                              "Precisa sair reta e lisa.",
-    "Guia impressa superior": "Metade de cima do trilho do elevador. Encaixa na de baixo por 2 pinos e segura o fim de curso de cima.",
-    "Cabine": "Leva uma bola por vez para cima. Desliza nos trilhos em T. A correia prende nas duas fendas dentadas do bloco da direita.",
-    "Espacador": "Anel que afasta a polia de baixo do pé da guia, para a correia ficar alinhada.",
-    "Suporte do motor": "Segura o motor N20 no topo do elevador. A orelha da frente vai parafusada na parede direita.",
-    "Tubo inferior": "Parede transparente da frente e dos lados do elevador (metade de baixo). Impede a bola de cair da cabine.",
-    "Tubo superior": "Metade de cima do tubo. No topo, prende no suporte do motor.",
+    "Torre inferior": "Metade de baixo do elevador, numa peça só: pé no piso, orelha na parede direita, os 2 trilhos em T, "
+                      "a frente do tubo, a polia de baixo (eixo M5 com rasgo para esticar a correia), o sensor de fenda de baixo "
+                      "e a canaleta de cabos atrás.",
+    "Torre superior": "Metade de cima do elevador, numa peça só: trilhos, frente do tubo, berço do motor N20, polia do motor, "
+                      "sensor de fenda de cima, pilares da rampa e orelha na parede. Encaixa na de baixo por 3 pinos e 4 M3.",
+    "Cabine": "Leva uma bola por vez para cima. Desliza nos 2 trilhos em T com 1 mm de folga. Atrás tem o bolso do fixador "
+              "de alumínio da correia e os 2 ressaltos dos parafusos-bandeira dos sensores.",
     "Fila": "Calha onde as bolas esperam a vez de subir. Desce para a direita até a comporta. Na frente, à esquerda de X 40, "
             "tem um lábio baixo por onde a bola entra vindo da bandeja.",
     "Fila esquerda": "Continuação da fila até a parede esquerda. Recebe as bolas que caem no lado esquerdo da bandeja.",
     "Rampa": "Recebe a bola que sai da cabine lá em cima e a leva rolando até o bolso, onde o ímã do carro A pega. "
+             "Presa nos pilares da torre por rasgos de ±4 mm: é ali que se acerta a altura da pega. "
              "O piso cai para a direita para a bola encostar sempre no mesmo lugar.",
     "Suporte do servo": "Segura o servo SG90 que mexe a comporta, no piso, na frente da fila.",
     "Braco da comporta": "Braço no servo com a lâmina que deixa passar uma bola por vez para a cabine. A ponta da lâmina "
@@ -42,7 +40,7 @@ FUNCAO = {
     "Bloco esquerdo": "Prende a ponta esquerda do perfil 2020 na parede esquerda. Leva o fim de curso KW10 que dá a posição "
                       "zero do carro. São 2 iguais: eixo de cima e de baixo.",
     "Bloco direito": "Prende a ponta direita do perfil na parede direita. Leva a polia tensora da correia, num rasgo para "
-                     "esticar. São 2 iguais.",
+                     "esticar, e o fim de curso KW10 de segurança. São 2 iguais.",
     "Suporte do NEMA de cima": "Segura o motor NEMA 17 do eixo de cima, com o eixo virado para cima, na parede esquerda.",
     "Suporte do NEMA de baixo": "Segura o motor NEMA 17 do eixo de baixo, apoiado no piso.",
     "Carro A": "Vai parafusado no patim do trilho de cima. Prende a correia com o fixador de alumínio e leva o eletroímã que segura e solta a bola.",
@@ -65,13 +63,12 @@ POR_QUE_POSICAO = {
     "-Y": "Em pé sobre a frente: assim as nervuras saem retas, sem suporte, e o piso fica liso.",
 }
 ESPECIAL = {
-    "Guia impressa inferior": "Deitada de costas para os trilhos em T saírem retos e lisos, sem suporte (a aba do T tem só 2 mm).",
-    "Guia impressa superior": "Igual à de baixo: de costas, trilhos para cima.",
-    "Cabine": "Em pé como monta, sobre a base plana. Só o bloco da correia precisa de suporte embaixo.",
+    "Torre inferior": "Em pé como monta: todas as paredes e os trilhos sobem retos, sem suporte. Aba (brim) de 5 mm.",
+    "Torre superior": "De cabeça para baixo, com o teto na mesa: os trilhos e paredes sobem retos e a frente do tubo faz "
+                      "uma ponte de 30 mm. Sem suporte. Aba (brim) de 5 mm.",
+    "Cabine": "Em pé como monta, sobre a base plana. Suporte em árvore só embaixo do bloco do fixador e dos 2 ressaltos.",
     "Carro A": "De lado: é a única posição em que a prateleira do ímã fica forte (a força passa ao longo das camadas). "
                "Precisa de suporte embaixo da presilha, da prateleira e da nervura, e de aba (brim) de 5 mm.",
-    "Tubo inferior": "Deitado com a abertura para baixo: a frente transparente fica lisa, em ponte de 32 mm.",
-    "Tubo superior": "Igual ao de baixo.",
     "Fila": "Em pé como monta: as nervuras embaixo do piso seguram o piso inclinado durante a impressão.",
     "Fila esquerda": "Em pé como monta, igual à fila da direita.",
     "Anel": "De cabeça para baixo: a borda do anel (a parte que leva as batidas da bola) sai na mesa, plana e forte.",
@@ -198,7 +195,7 @@ def main():
     # LEIA-ME
     NOME = {"A": "A - impressora grande (a melhor): pecas de precisao e as que ficam a vista",
             "B": "B - Creality 220 x 220", "C": "C - Creality 220 x 220"}
-    txt = ["PICBOX compacta R1 - ORDEM DE IMPRESSAO", "",
+    txt = ["PICBOX compacta R2 - ORDEM DE IMPRESSAO (gabinete 440 x 430 x 230)", "",
            "Cada placa_XX.stl ja tem as pecas arrumadas na mesa: e so abrir no fatiador e imprimir.",
            "Imprima na ordem (A1, A2, ...). PETG, bico 0,4, camada 0,2, 4 perimetros, 25% de preenchimento.",
            "Placas marcadas COM SUPORTE: ligue suporte (arvore) so onde precisa e aba (brim) de 5 mm.",
