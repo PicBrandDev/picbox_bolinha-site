@@ -17,7 +17,7 @@ IMPRESSORAS = (("A", "260 x 260", 260), ("B", "220 x 220", 220), ("C", "220 x 22
 
 ETAPAS = {
     1: "Torre de baixo, na bancada: polia de baixo no eixo M5 e sensor de fenda de baixo",
-    2: "Cabine nos trilhos da torre de baixo, com as 2 bandeiras (M3x25)",
+    2: "Cabine nos trilhos da torre de baixo, com as 2 bandeiras (M2x25)",
     3: "Torre de cima (motor N20, polia e sensor de cima) encaixada na de baixo",
     4: "Correia do elevador no fixador de aluminio da cabine",
     5: "Torre no gabinete: 2 parafusos de madeira no piso e 4 na parede direita",
@@ -34,7 +34,7 @@ NOTAS_ETAPA = {
     1: "Eixo M5x30 de tras para a frente pela placa de tras (rasgo de 6 mm): porca na frente da placa, arruela, polia, arruela "
        "e porca de nylon; deixe frouxo no alto do rasgo. Sensor de fenda de baixo deitado nos 2 calcos, fenda para cima, pinos "
        "para tras (na canaleta); M3x8 pelo furo da placa do sensor e porca por baixo do pe, no canal.",
-    2: "Rosqueie as 2 bandeiras (M3x25) nos ressaltos atras da cabine, com uma porca de trava cada: a de baixo com a ponta "
+    2: "Rosqueie as 2 bandeiras (M2x25) nos ressaltos atras da cabine, com uma porca de trava cada: a de baixo com a ponta "
        "para baixo, a de cima com a ponta para cima. Desca a cabine por cima da torre de baixo, um C em cada trilho.",
     3: "Motor N20 entra pela frente do berco do topo, face da caixa de reducao na placa: 2 M2x6 por tras. Bucha impressa no "
        "eixo, polia por cima, parafuso sem cabeca no lado chato. Sensor de cima no teto, fenda para baixo (M3x8 + porca por cima "
@@ -71,7 +71,7 @@ FIRMWARE = [
     "Acerto: a barreira IR do anel ve a bola. Sem IR em 400 ms depois de soltar = erro.",
     "Elevador: sobe ate o sensor de fenda de cima (saida D0 do LM393 muda quando a bandeira entra na fenda) e desce ate o de "
     "baixo. N20 a 50% nos ultimos 20 mm e corte em 1 s sem sensor; L9110S em freio na espera; servo SG90 no buck de 5 V.",
-    "Ajuste fino das paradas: gire a bandeira (M3x25) da cabine. Meia volta = 0,25 mm. Trave com a porca.",
+    "Ajuste fino das paradas: gire a bandeira (M2x25) da cabine. Meia volta = 0,25 mm. Trave com a porca.",
     "TMC2209: corrente 0,6 A e StallGuard desligado (os fins de curso fazem a casa). Aceleracao de no maximo 1500 mm/s2.",
 ]
 
@@ -209,7 +209,7 @@ def novidades(m):
               "Atrás da cabine: o mesmo fixador de alumínio dos carros, em pé, dentes nos dentes da correia. M3x14 pela direita "
               "e porca presa atrás do fixador.", z=el.zc_min, dist=110),
             f("Sensor de fenda de baixo", (E.X_BANDEIRA, E.Y_BANDEIRA, 14), (0.7, 0.8, 0.6), -60, 0,
-              "Módulo LM393 deitado no pé, fenda para cima. A bandeira (M3x25 da cabine) entra na fenda: girar o parafuso "
+              "Módulo LM393 deitado no pé, fenda para cima. A bandeira (M2x25 da cabine) entra na fenda: girar o parafuso "
               "ajusta a parada.", z=el.zc_min, dist=110),
             f("Sensor de fenda de cima", (E.X_BANDEIRA, E.Y_BANDEIRA, 416), (0.7, 0.8, -0.3), -60, 0,
               "Igual ao de baixo, pendurado no teto da torre, fenda para baixo.", z=el.zc_max, dist=120),

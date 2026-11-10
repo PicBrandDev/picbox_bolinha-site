@@ -15,7 +15,7 @@ Cabine: desliza nos 2 trilhos em T com 1 mm de folga por lado (C de 50 mm de alt
 prende num bloco atras da cabine com o FIXADOR DE ALUMINIO 40 x 9 x 5 (o mesmo dos carros): as 2 pontas se
 encontram no meio do fixador, a face dentada dele aperta a face dentada da correia contra a parede lisa do bloco,
 1 M3x14 entra pela direita e rosca numa porca presa atras do fixador.
-Sensores: 2 modulos LM393 de fenda 5 mm (baixo e topo). A "bandeira" e um parafuso M3x25 rosqueado na cabine: girar
+Sensores: 2 modulos LM393 de fenda 5 mm (baixo e topo). A "bandeira" e um parafuso M2x25 rosqueado na cabine: girar
 o parafuso ajusta a altura exata em que a cabine para (com contra-porca).
 """
 import math
@@ -50,7 +50,7 @@ PECAS = {
                        "no eixo do N20; o parafuso sem cabeca da polia aperta a bucha no lado chato do eixo"),
     "Sensor de fenda": ("comprada", "modulo LM393 com sensor optico de fenda 5 mm (FC-03 / H206), 2 unidades", 1,
                         "deitado na prateleira, 1 M3x8 + porca no rasgo (desliza para alinhar a fenda com a bandeira)"),
-    "Bandeira": ("comprada", "parafuso M3x25 + porca (2 conjuntos)", 2,
+    "Bandeira": ("comprada", "parafuso M2x25 + porca M2 (2 conjuntos); M2 e nao M3: sobra 1,5 mm de cada lado na fenda de 5 mm", 2,
                  "rosqueado no ressalto da cabine: girar ajusta a parada; travar com a porca"),
     "Servo": ("comprada", "SG90 (o que voce ja tem)", 8, "2 parafusos do proprio servo no suporte"),
     "Braco da comporta": ("impressa", "PETG preto", 8, "aparafusado no chifre do servo (2 parafusos do chifre)"),
@@ -381,15 +381,15 @@ def geometria(p: P):
     xf1 = p.x_ida - 0.7
     caixa(g, "fixador_cabine", "carro", xf1 - 5.0, xf1, *Y_FIXADOR, k0 + 2, k1 - 2, "carro_vis", "Fixador da cabine", "metal")
     caixa(g, "correia_presa", "carro", xf1, xf1 + 1.4, *p.y_correia, k0 - 3, k1 + 3, "carro_vis", "Correia", "correia")
-    # ressaltos e bandeiras (parafuso M3x25 rosqueado: a ponta passa no feixe do sensor)
+    # ressaltos e bandeiras (parafuso M2x25 rosqueado: a ponta passa no feixe do sensor)
     for nm, (z0, z1) in (("b", Z_RESSALTO_B), ("c", Z_RESSALTO_C)):
         caixa(g, f"ressalto_{nm}", "carro", *X_RESSALTO, *Y_RESSALTO, z0, z1, "carro", "Cabine", "acento")
     zb = p.bandeira_baixo
-    cilindro(g, "bandeira_baixo", "carro", (X_BANDEIRA, Y_BANDEIRA, (zb + zb + 25) / 2), 1.5, 12.5, "z", "carro_vis", "Bandeira", "metal")
-    cilindro(g, "bandeira_baixo_cab", "carro", (X_BANDEIRA, Y_BANDEIRA, zb + 26.5), 2.75, 1.5, "z", "carro_vis", "Bandeira", "metal")
+    cilindro(g, "bandeira_baixo", "carro", (X_BANDEIRA, Y_BANDEIRA, (zb + zb + 25) / 2), 1.0, 12.5, "z", "carro_vis", "Bandeira", "metal")
+    cilindro(g, "bandeira_baixo_cab", "carro", (X_BANDEIRA, Y_BANDEIRA, zb + 26.5), 2.0, 1.5, "z", "carro_vis", "Bandeira", "metal")
     zc_ = p.bandeira_cima
-    cilindro(g, "bandeira_cima", "carro", (X_BANDEIRA, Y_BANDEIRA, zc_ - 12.5), 1.5, 12.5, "z", "carro_vis", "Bandeira", "metal")
-    cilindro(g, "bandeira_cima_cab", "carro", (X_BANDEIRA, Y_BANDEIRA, zc_ - 26.5), 2.75, 1.5, "z", "carro_vis", "Bandeira", "metal")
+    cilindro(g, "bandeira_cima", "carro", (X_BANDEIRA, Y_BANDEIRA, zc_ - 12.5), 1.0, 12.5, "z", "carro_vis", "Bandeira", "metal")
+    cilindro(g, "bandeira_cima_cab", "carro", (X_BANDEIRA, Y_BANDEIRA, zc_ - 26.5), 2.0, 1.5, "z", "carro_vis", "Bandeira", "metal")
     # ------------------------------------------------ comporta (igual a R1)
     # suporte do servo impresso junto com a fila (ponte no piso ate a frente da fila)
     caixa(g, "suporte_servo", "mundo", 84, 116, 88, 116.5, 0, 21, "visual", "Fila", "preto")

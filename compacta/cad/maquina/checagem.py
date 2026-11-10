@@ -71,7 +71,7 @@ CONTATO_MOVEL.update({
 })
 for _s in ("baixo", "cima"):
     for _b in ("braco1", "braco2", "fundo"):
-        CONTATO_MOVEL[(f"bandeira_{_s}", f"sensor_{_s}_{_b}")] = "a bandeira entra na fenda do sensor (1 mm de cada lado)"
+        CONTATO_MOVEL[(f"bandeira_{_s}", f"sensor_{_s}_{_b}")] = "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
 for _k in ("A", "B"):
     for _p in ("patim_topo", "patim_fl1", "patim_fl2"):
         CONTATO_MOVEL[(f"{_p}_{_k}", f"trilho_{_k}")] = "o patim abraca o trilho"

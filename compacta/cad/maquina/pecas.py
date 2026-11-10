@@ -335,9 +335,9 @@ def detalhes_elevador(m, peca, el):
         cut.append(caixa_cq(xf1 - f, xf1 + 1.4 + f, el.y_correia[0] - f, el.y_correia[1] + f, zc + k0 - 1.0, zc + k1 + 1.0))
         # porca M3 presa atras do fixador (encosta nele), entra por cima
         cut.append(bolsa_porca((xf1 - 5.0 - 1.6 - f, E.Y_BANDEIRA, zf), (1, 0, 0), (0, 1, 0), (0, 0, 1), k1 - (k0 + k1) / 2 + 1))
-        # bandeiras: furo piloto M3 (2,7) atravessando os 2 ressaltos (o parafuso rosca no PETG e trava com porca)
+        # bandeiras: furo piloto M2 (1,8) atravessando os 2 ressaltos (o parafuso rosca no PETG e trava com porca)
         for z0, z1 in (E.Z_RESSALTO_B, E.Z_RESSALTO_C):
-            cut.append(cq.Solid.makeCylinder(1.35, z1 - z0 + 1, pnt=cq.Vector(E.X_BANDEIRA, E.Y_BANDEIRA, zc + z0 - 0.5)))
+            cut.append(cq.Solid.makeCylinder(0.9, z1 - z0 + 1, pnt=cq.Vector(E.X_BANDEIRA, E.Y_BANDEIRA, zc + z0 - 0.5)))
     return add, cut
 
 

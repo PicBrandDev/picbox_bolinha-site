@@ -4779,58 +4779,6 @@
     "nota": ""
    },
    {
-    "a": "bandeira_baixo",
-    "pa": "Bandeira",
-    "b": "sensor_baixo_braco1",
-    "pb": "Sensor de fenda",
-    "folga": 1.0,
-    "onde": {
-     "zc": 18.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": "a bandeira entra na fenda do sensor (1 mm de cada lado)"
-   },
-   {
-    "a": "bandeira_baixo",
-    "pa": "Bandeira",
-    "b": "sensor_baixo_braco2",
-    "pb": "Sensor de fenda",
-    "folga": 1.0,
-    "onde": {
-     "zc": 18.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": "a bandeira entra na fenda do sensor (1 mm de cada lado)"
-   },
-   {
-    "a": "bandeira_cima",
-    "pa": "Bandeira",
-    "b": "sensor_cima_braco1",
-    "pb": "Sensor de fenda",
-    "folga": 1.0,
-    "onde": {
-     "zc": 354.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": "a bandeira entra na fenda do sensor (1 mm de cada lado)"
-   },
-   {
-    "a": "bandeira_cima",
-    "pa": "Bandeira",
-    "b": "sensor_cima_braco2",
-    "pb": "Sensor de fenda",
-    "folga": 1.0,
-    "onde": {
-     "zc": 354.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": "a bandeira entra na fenda do sensor (1 mm de cada lado)"
-   },
-   {
     "a": "correia_presa",
     "pa": "Correia",
     "b": "polia_cima",
@@ -5297,6 +5245,58 @@
     },
     "ok": true,
     "nota": ""
+   },
+   {
+    "a": "bandeira_baixo",
+    "pa": "Bandeira",
+    "b": "sensor_baixo_braco1",
+    "pb": "Sensor de fenda",
+    "folga": 1.5,
+    "onde": {
+     "zc": 18.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
+   },
+   {
+    "a": "bandeira_baixo",
+    "pa": "Bandeira",
+    "b": "sensor_baixo_braco2",
+    "pb": "Sensor de fenda",
+    "folga": 1.5,
+    "onde": {
+     "zc": 18.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
+   },
+   {
+    "a": "bandeira_cima",
+    "pa": "Bandeira",
+    "b": "sensor_cima_braco1",
+    "pb": "Sensor de fenda",
+    "folga": 1.5,
+    "onde": {
+     "zc": 354.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
+   },
+   {
+    "a": "bandeira_cima",
+    "pa": "Bandeira",
+    "b": "sensor_cima_braco2",
+    "pb": "Sensor de fenda",
+    "folga": 1.5,
+    "onde": {
+     "zc": 354.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
    },
    {
     "a": "alav_barra",
@@ -6180,7 +6180,7 @@
      "cA": 165.8
     },
     "ok": true,
-    "nota": "a bandeira entra na fenda do sensor (1 mm de cada lado)"
+    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
    },
    {
     "a": "alav_ponte",
@@ -6375,7 +6375,7 @@
      "cA": 165.8
     },
     "ok": true,
-    "nota": "a bandeira entra na fenda do sensor (1 mm de cada lado)"
+    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
    },
    {
     "a": "costasB",
@@ -7262,7 +7262,7 @@
     "nota": ""
    }
   ],
-  "segundos": 599.5,
+  "segundos": 379.4,
   "posicoes": {
    "A": 105,
    "B": 99

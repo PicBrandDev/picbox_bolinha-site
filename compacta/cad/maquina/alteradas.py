@@ -140,7 +140,7 @@ O QUE MUDOU
 - Polia de baixo num eixo M5 com rasgo de 6 mm: puxe para baixo e aperte para esticar.
 - Motor N20 preso pela face (2 M2x6) numa placa da torre, corpo num berco fechado.
 - Sensores do elevador: 2 modulos opticos de fenda LM393 (5 mm), deitados, no pe e no teto
-  da torre. A "bandeira" e um M3x25 rosqueado na cabine: girar ajusta a parada (meia volta
+  da torre. A "bandeira" e um M2x25 rosqueado na cabine: girar ajusta a parada (meia volta
   = 0,25 mm), trava com porca. Os 2 KW10 do elevador vao para os eixos.
 - Rampa: presa nos pilares da torre com 4 M3x12 em rasgos de +-4 mm. Ajuste a altura com o
   carro A na pega: a bola deve quase encostar na arruela do ima.
@@ -156,7 +156,7 @@ O QUE MUDOU
 COMPRAR / SEPARAR (alem do que ja tinha na R1.2)
 - 1 fixador de correia GT2 de aluminio 40 x 9 x 5 (o 3o, para a cabine) + 1 M3x14 + 1 porca M3
 - 2 modulos sensor optico de fenda LM393, fenda 5 mm (FC-03 / H206)
-- 2 M3x25 + 2 porcas M3 (bandeiras)
+- 2 M2x25 + 2 porcas M2 (bandeiras)
 - 1 M5x30 + 1 porca M5 + 1 porca M5 de nylon + 2 arruelas M5 (eixo da polia de baixo)
 - 2 M2x6 (motor N20)
 - 4 M3x8 (emenda das torres) + 2 M3x8 + 2 porcas (sensores) + 4 M3x12 + 4 porcas (rampa)
