@@ -144,7 +144,7 @@ def casos(m: L.M):
     out.append(caso("Torre inferior", "4 parafusos de madeira das orelhas (peso + esbarrao 20 N)", "falha", 0.7 * G + 20.0,
                     (0.7 * G + 20.0) / 4 / 12, PULL_MADEIRA, "cisalhamento no MDF (N por mm)"))
     # 8. bloco nas paredes: 2 parafusos de madeira em cisalhamento
-    out.append(caso("Bloco direito", "parafusos de madeira na parede", "falha", T0 + F_falha, (T0 + F_falha) / 2 / 12,
+    out.append(caso("Bloco direito", "parafusos de madeira na parede", "falha", T0 + F_falha, (T0 + F_falha) / 4 / 12,
                     PULL_MADEIRA * 2, "cisalhamento no MDF (N por mm)"))
     return out, dict(F_trava=round(F_TRAVA), T0=T0, F_anel=round(F_anel), F_bandeja=round(F_b), F_batente=round(F_r),
                      v_anel=round(v, 2), a_carro=round(a, 2))

@@ -22,8 +22,8 @@ IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a 
         - Braco da comporta
         - Rampa
 
-IMPRESSORA B - Creality 220 x 220  -  total 30.8 h   (pasta B_creality_1)
-  01_placa_B1.stl        7.5 h  altura 48 mm
+IMPRESSORA B - Creality 220 x 220  -  total 25.9 h   (pasta B_creality_1)
+  01_placa_B1.stl        8.0 h  altura 48 mm
         - Bloco direito
         - Bloco esquerdo de cima
   02_placa_B2.stl        8.2 h  altura 105 mm
@@ -33,11 +33,9 @@ IMPRESSORA B - Creality 220 x 220  -  total 30.8 h   (pasta B_creality_1)
         - Ponta fixa da esteira
   04_placa_B4.stl        6.0 h  altura 77 mm
         - Bandeja do meio
-  05_placa_B5.stl        5.4 h  altura 77 mm
-        - Bandeja direita
 
-IMPRESSORA C - Creality 220 x 220  -  total 25.4 h   (pasta C_creality_2)
-  01_placa_C1.stl        9.2 h  altura 105 mm
+IMPRESSORA C - Creality 220 x 220  -  total 31.2 h   (pasta C_creality_2)
+  01_placa_C1.stl        9.6 h  altura 105 mm
         - Fila esquerda
         - Bloco direito
   02_placa_C2.stl        7.5 h  altura 48 mm
@@ -45,6 +43,8 @@ IMPRESSORA C - Creality 220 x 220  -  total 25.4 h   (pasta C_creality_2)
         - Prateleira da esteira esquerda
   03_placa_C3.stl        8.7 h  altura 77 mm
         - Bandeja esquerda
+  04_placa_C4.stl        5.4 h  altura 77 mm
+        - Bandeja direita
 
 Pecas avulsas (uma por arquivo, para reimprimir so uma): pasta pecas_avulsas.
 No nome, __x2 / __x3 = imprimir 2 / 3 copias.

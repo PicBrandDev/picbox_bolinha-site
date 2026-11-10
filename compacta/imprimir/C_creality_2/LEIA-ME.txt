@@ -1,11 +1,11 @@
-IMPRESSORA C - Creality 220 x 220  -  total 25.4 h
+IMPRESSORA C - Creality 220 x 220  -  total 31.2 h
 
 Configuracao: PETG, bico 0,4, camada 0,2, 4 perimetros, 25% de preenchimento.
 Os arquivos ja vem com as pecas arrumadas na mesa e na posicao certa: NAO use orientacao automatica.
 Se o fatiador juntar tudo num objeto so, use 'Dividir em objetos' (Split to objects).
 Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
 
-  01_placa_C1.stl        9.2 h  altura 105 mm
+  01_placa_C1.stl        9.6 h  altura 105 mm
         - Fila esquerda
         - Bloco direito
   02_placa_C2.stl        7.5 h  altura 48 mm
@@ -13,3 +13,5 @@ Placas COM SUPORTE: suporte em arvore so onde precisa e aba (brim) de 5 mm.
         - Prateleira da esteira esquerda
   03_placa_C3.stl        8.7 h  altura 77 mm
         - Bandeja esquerda
+  04_placa_C4.stl        5.4 h  altura 77 mm
+        - Bandeja direita

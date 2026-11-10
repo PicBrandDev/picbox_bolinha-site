@@ -382,10 +382,10 @@
    "ponto": "parafusos de madeira na parede",
    "regime": "falha",
    "carga_N": 96.0,
-   "tensao_MPa": 4.0,
+   "tensao_MPa": 2.0,
    "limite_MPa": 80.0,
    "direcao": "cisalhamento no MDF (N por mm)",
-   "fs": 20.0,
+   "fs": 40.0,
    "fs_min": 1.5,
    "ok": true,
    "nota": ""

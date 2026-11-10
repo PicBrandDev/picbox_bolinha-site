@@ -4,8 +4,8 @@
   "ruins": [],
   "n_ruins": 0,
   "previstas": 40,
-  "encostam": 214,
-  "pares": 34980
+  "encostam": 216,
+  "pares": 35511
  },
  "parafusos": [
   {
@@ -671,7 +671,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    -191.0,
+    -187.0,
     4.0,
     410.0
    ],
@@ -694,7 +694,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    -197.0,
+    -195.0,
     4.0,
     410.0
    ],
@@ -753,6 +753,52 @@
    "corpo": "mundo"
   },
   {
+   "nome": "bloco_orelha_A_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 10.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    214.0,
+    14.0,
+    368.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_orelha_A_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 10.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    214.0,
+    40.0,
+    368.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
    "nome": "luva_dir_A_0",
    "tipo": "M5x10 + martelo",
    "etapa": 10,
@@ -763,7 +809,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    191.0,
+    187.0,
     4.0,
     410.0
    ],
@@ -786,7 +832,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    197.0,
+    195.0,
     4.0,
     410.0
    ],
@@ -1530,7 +1576,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    -191.0,
+    -187.0,
     4.0,
     81.0
    ],
@@ -1553,7 +1599,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    -197.0,
+    -195.0,
     4.0,
     81.0
    ],
@@ -1612,6 +1658,52 @@
    "corpo": "mundo"
   },
   {
+   "nome": "bloco_orelha_B_0",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 10.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    214.0,
+    14.0,
+    39.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "bloco_orelha_B_1",
+   "tipo": "madeira 3,5x16",
+   "etapa": 9,
+   "prende": "Bloco direito",
+   "rosca": "Gabinete",
+   "pega": 10.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    214.0,
+    40.0,
+    39.0
+   ],
+   "dir": [
+    1,
+    0,
+    0
+   ],
+   "L": 16,
+   "corpo": "mundo"
+  },
+  {
    "nome": "luva_dir_B_0",
    "tipo": "M5x10 + martelo",
    "etapa": 10,
@@ -1622,7 +1714,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    191.0,
+    187.0,
     4.0,
     81.0
    ],
@@ -1645,7 +1737,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    197.0,
+    195.0,
     4.0,
     81.0
    ],
@@ -7262,7 +7354,7 @@
     "nota": ""
    }
   ],
-  "segundos": 379.4,
+  "segundos": 129.1,
   "posicoes": {
    "A": 105,
    "B": 99

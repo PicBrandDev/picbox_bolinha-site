@@ -343,7 +343,7 @@ def eixo_linear(g, m: M, k):
         xa, xb = sorted((x_par, x_ini))
         y_fim = 46.0 if s < 0 else 44.0
         caixa(g, f"bloco_{lado}_{k}", "mundo", xa, xb, 4, y_fim, zp - 14, zp + 14, pc, "preto")
-        xl0, xl1 = sorted((x_ini, 186 * s))           # luva 2 mm mais comprida: o rebaixo do M5 nao fura a ponta
+        xl0, xl1 = sorted((x_ini, 182 * s))           # luva de 18 mm (o perfil e de 400 num gabinete de 440)
         caixa(g, f"luva_frente_{lado}_{k}", "mundo", xl0, xl1, 4, ya, zp - 14, zp + 14, pc, "preto")
         caixa(g, f"luva_cima_{lado}_{k}", "mundo", xl0, xl1, ya, yb, zp + 10, zp + 14, pc, "preto")
         caixa(g, f"luva_baixo_{lado}_{k}", "mundo", xl0, xl1, ya, yb, zp - 14, zp - 10, pc, "preto")
@@ -364,6 +364,8 @@ def eixo_linear(g, m: M, k):
             xd = m.x_fdc_dir
             caixa(g, f"bloco_braco_dir_{k}", "mundo", xd + 2.5, GX, 38.4, 44.4, zp - 35, zp - 17, pc, "preto")
             caixa(g, f"bloco_braco_dir_liga_{k}", "mundo", 210.0, GX, 30, 38.4, zp - 35, zp - 14, pc, "preto")
+            # orelha embaixo do bloco, encostada na parede: mais 2 parafusos de madeira (4 no total)
+            caixa(g, f"bloco_orelha_{k}", "mundo", 214.0, GX, 4, 46, zp - 50, zp - 14, pc, "preto")
             caixa(g, f"fdc_dir_{k}", "mundo", xd + 2.5, xd + 12.7, 32, 38.4, zp - 35, zp - 15.2, "Fim de curso", "metal")
             caixa(g, f"fdc_dir_alav_{k}", "mundo", xd, xd + 2.5, 33, 37, zp - 29, zp - 26, "Fim de curso", "metal")
     # motor (eixo para cima) + suporte
@@ -638,7 +640,7 @@ PECAS_NOVAS = {
                                "2 parafusos de madeira 3,5x16 no bloco + 3 na aba do motor, na parede esquerda; 2 M5x10 + martelo no perfil"),
     "Bloco esquerdo de baixo": ("impressa", "PETG preto", 9, "pega o perfil, o motor NEMA 17 e o fim de curso da casa numa peca so: "
                                 "2 parafusos de madeira no bloco + 2 na parede e 2 no piso; 2 M5x10 + martelo no perfil"),
-    "Bloco direito": ("impressa", "PETG preto", 9, "2 parafusos de madeira 3,5x16 na parede direita; 2 M5x10 + porca martelo no perfil; "
+    "Bloco direito": ("impressa", "PETG preto", 9, "4 parafusos de madeira 3,5x16 na parede direita (2 no bloco, 2 na orelha de baixo); 2 M5x10 + porca martelo no perfil; "
                                                     "fim de curso de seguranca (KW10) com 2 M2x12"),
     "Perfil 2020 A": ("comprada", "perfil 2020 da maquina antiga, cortado em 400 mm", 10, "nas luvas dos blocos"),
     "Perfil 2020 B": ("comprada", "perfil 2020 da maquina antiga, cortado em 400 mm", 10, "nas luvas dos blocos"),
@@ -721,7 +723,11 @@ def fixadores(m: M):
             for i, dz in enumerate((-3.0, 9.0)):
                 add(f"bloco_{lado}_{k}_{i}", "madeira 3,5x16", (213.0 * s, 39.0 if s < 0 else 37.0, zp + dz), (s, 0, 0), 16,
                     pc, "Gabinete", 9, cab=7.0)
-            for i, x in enumerate((191.0, 197.0)):
+            if s > 0:
+                for i, y in enumerate((14.0, 40.0)):
+                    add(f"bloco_orelha_{k}_{i}", "madeira 3,5x16", (214.0, y, zp - 42), (1, 0, 0), 16, pc, "Gabinete", 9,
+                        cab=7.0)
+            for i, x in enumerate((187.0, 195.0)):
                 add(f"luva_{lado}_{k}_{i}", "M5x10 + martelo", (x * s, 4.0, zp), (0, 1, 0), 10, pc, f"Perfil 2020 {k}", 10,
                     cab=8.5)
         # trilho no perfil
