@@ -1,0 +1,31 @@
+PICBOX compacta R2 - TUDO NUMA IMPRESSORA SO (Creality SparkX i7, mesa 260 x 260)
+
+Cada mesa_XX.stl ja tem as pecas arrumadas e na posicao certa: NAO use orientacao automatica.
+PETG, bico 0,4, camada 0,2, 4 perimetros, 25%. Aba (brim) de 5 mm em todas as mesas.
+Mesas COM SUPORTE: suporte em arvore so nas pecas marcadas (cabine, carro A, carro B).
+Se o fatiador juntar tudo num objeto so, use 'Dividir em objetos'.
+
+TOTAL: 3 mesas, ~115.1 h
+
+  mesa 01   23.6 h  altura 105 mm  ocupa 74% da mesa  COM SUPORTE
+         - Prateleira da esteira esquerda
+         - Fila
+         - Carro B
+         - Cabine
+         - Rampa
+         - Carro A
+  mesa 02   26.0 h  altura 105 mm  ocupa 76% da mesa
+         - Bandeja do meio
+         - Bandeja esquerda
+         - Fila esquerda
+         - Bloco esquerdo de cima
+         - Braco da comporta
+  mesa 03   65.5 h  altura 239 mm  ocupa 83% da mesa
+         - Prateleira da esteira direita
+         - Bandeja direita
+         - Torre superior
+         - Torre inferior
+         - Bloco esquerdo de baixo
+         - Bloco direito x2
+         - Braco da comporta x2
+         - Ponta fixa da esteira
