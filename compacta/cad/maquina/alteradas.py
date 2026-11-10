@@ -124,7 +124,7 @@ medida. As mesas prontas estao nas pastas A_impressora_grande, B_creality_1 e C_
 (ORDEM_DE_IMPRESSAO.txt). Comece pela A1 (cabine + carro A): e o teste das folgas novas.
 PETG, bico 0,4, camada 0,2, 4 perimetros, 25%. Nao use orientacao automatica.
 As 2 torres: aba (brim) de 5 mm, sem suporte (a de cima ja vem de cabeca para baixo).
-A bucha da polia do N20 nao mudou (pecas_avulsas/bucha_da_polia_do_n20__x4.stl).
+A bucha da polia do N20 NAO e mais usada (a polia de cima agora vai num eixo de 5 mm).
 
 O QUE MUDOU
 - PECAS JUNTADAS (de 29 para 19 arquivos de impressao, menos parafusos e encaixes):
@@ -138,8 +138,9 @@ O QUE MUDOU
   bolso atras da cabine: as 2 pontas se encontram no meio dele, M3x14 pela direita (pela
   janela da parede direita da torre, com a cabine embaixo) e porca presa atras do fixador.
 - Polia de baixo num eixo M5 com rasgo de 6 mm: puxe para baixo e aperte para esticar.
-- Motor N20 preso pela face (2 M2x6) numa placa da torre, corpo num berco fechado.
-- Sensores do elevador: 2 modulos opticos de fenda LM393 (5 mm), deitados, no pe e no teto
+- Polia de cima presa dos 2 lados: eixo de 5 mm em 2 rolamentos 625ZZ (um em cada lado da
+  polia). O N20 so gira o eixo por um acoplamento rigido 3x5 e fica solto no berco.
+- Sensores do elevador: 2 sensores de fenda sem placa (o da foto, 24,5 mm), presos pelas orelhas no pe e no teto
   da torre. A "bandeira" e um M2x25 rosqueado na cabine: girar ajusta a parada (meia volta
   = 0,25 mm), trava com porca. Os 2 KW10 do elevador vao para os eixos.
 - Rampa: presa nos pilares da torre com 4 M3x12 em rasgos de +-4 mm. Ajuste a altura com o
@@ -155,10 +156,11 @@ O QUE MUDOU
 
 COMPRAR / SEPARAR (alem do que ja tinha na R1.2)
 - 1 fixador de correia GT2 de aluminio 40 x 9 x 5 (o 3o, para a cabine) + 1 M3x14 + 1 porca M3
-- 2 modulos sensor optico de fenda LM393, fenda 5 mm (FC-03 / H206)
+- 2 sensores opticos de fenda sem placa (os da foto) + 2 resistores de 220 ohm (LED) e 2 de 10 k (saida)
+- 4 M3x10 + 4 porcas (orelhas dos sensores)
+- 2 rolamentos 625ZZ + 1 acoplamento rigido 3 x 5 mm + 1 eixo liso de 5 mm x 45 mm (polia de cima)
 - 2 M2x25 + 2 porcas M2 (bandeiras)
 - 1 M5x30 + 1 porca M5 + 1 porca M5 de nylon + 2 arruelas M5 (eixo da polia de baixo)
-- 2 M2x6 (motor N20)
 - 4 M3x8 (emenda das torres) + 2 M3x8 + 2 porcas (sensores) + 4 M3x12 + 4 porcas (rampa)
 - 8 parafusos de madeira 3,5x16 (torre: 2 no piso + 4 na parede; servo/fila: 2) + 2 a mais no teto (agora 4 ganchos)
 - Correia GT2 6 mm do elevador: ~860 mm

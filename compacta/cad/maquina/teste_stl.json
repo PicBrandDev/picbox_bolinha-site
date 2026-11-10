@@ -54,7 +54,7 @@
   {
    "stl": "bloco_direito__x2.stl",
    "z0": 0.0,
-   "apoio_cm2": 25.7,
+   "apoio_cm2": 26.6,
    "fechada": true,
    "corpos": 1,
    "ok": true,
@@ -63,7 +63,7 @@
   {
    "stl": "bloco_esquerdo_de_baixo.stl",
    "z0": 0.0,
-   "apoio_cm2": 43.3,
+   "apoio_cm2": 43.2,
    "fechada": true,
    "corpos": 1,
    "ok": true,
@@ -108,7 +108,7 @@
   {
    "stl": "carro_a.stl",
    "z0": 0.0,
-   "apoio_cm2": 2.1,
+   "apoio_cm2": 2.7,
    "fechada": true,
    "corpos": 1,
    "ok": true,
@@ -162,7 +162,7 @@
   {
    "stl": "prateleira_da_esteira_esquerda.stl",
    "z0": 0.0,
-   "apoio_cm2": 72.5,
+   "apoio_cm2": 68.2,
    "fechada": true,
    "corpos": 1,
    "ok": true,
@@ -180,7 +180,7 @@
   {
    "stl": "torre_inferior.stl",
    "z0": 0.0,
-   "apoio_cm2": 47.0,
+   "apoio_cm2": 46.1,
    "fechada": true,
    "corpos": 1,
    "ok": true,
@@ -189,7 +189,7 @@
   {
    "stl": "torre_superior.stl",
    "z0": 0.0,
-   "apoio_cm2": 47.4,
+   "apoio_cm2": 47.9,
    "fechada": true,
    "corpos": 1,
    "ok": true,

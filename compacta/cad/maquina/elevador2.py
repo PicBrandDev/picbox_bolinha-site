@@ -15,7 +15,7 @@ Cabine: desliza nos 2 trilhos em T com 1 mm de folga por lado (C de 50 mm de alt
 prende num bloco atras da cabine com o FIXADOR DE ALUMINIO 40 x 9 x 5 (o mesmo dos carros): as 2 pontas se
 encontram no meio do fixador, a face dentada dele aperta a face dentada da correia contra a parede lisa do bloco,
 1 M3x14 entra pela direita e rosca numa porca presa atras do fixador.
-Sensores: 2 modulos LM393 de fenda 5 mm (baixo e topo). A "bandeira" e um parafuso M2x25 rosqueado na cabine: girar
+Sensores: 2 sensores de fenda sem placa (tipo ITR9608, fenda 5 mm), baixo e topo. A "bandeira" e um parafuso M2x25 rosqueado na cabine: girar
 o parafuso ajusta a altura exata em que a cabine para (com contra-porca).
 """
 import math
@@ -45,10 +45,18 @@ PECAS = {
     "Polia de baixo": ("comprada", "polia lisa/tensora GT2 20T furo 5 com rolamento (a da maquina antiga)", 1,
                        "eixo M5x30 em balanco na placa de tras: cabeca atras, porca na frente da placa, arruela, polia, "
                        "arruela e porca de nylon"),
-    "Motor N20": ("comprada", "N20 12 V 100 rpm (sem encoder)", 3, "face da caixa de reducao com 2 M2x6 na placa do topo"),
-    "Polia do motor": ("comprada", "GT2 20T furo 5 + bucha impressa 5 -> 3 mm em D", 3,
-                       "no eixo do N20; o parafuso sem cabeca da polia aperta a bucha no lado chato do eixo"),
-    "Sensor de fenda": ("comprada", "modulo LM393 com sensor optico de fenda 5 mm (FC-03 / H206), 2 unidades", 1,
+    "Motor N20": ("comprada", "N20 12 V 100 rpm (sem encoder)", 3,
+                  "solto no berco do topo (o berco so impede de girar); o eixo dele entra no acoplamento rigido"),
+    "Acoplamento 3x5": ("comprada", "acoplamento rigido 3 mm x 5 mm (diametro ate 10, comprimento ate 20)", 3,
+                        "liga o eixo do N20 ao eixo de 5 mm da polia (2 parafusos sem cabeca em cada lado)"),
+    "Eixo da polia de cima": ("comprada", "eixo liso de 5 mm x 45 mm (barra de 5 mm cortada)", 3,
+                              "atravessa os 2 rolamentos e a polia; a polia aperta nele pelo parafuso sem cabeca"),
+    "Rolamento 625ZZ": ("comprada", "rolamento 625ZZ (5 x 16 x 5), 2 unidades", 3,
+                        "um em cada lado da polia: na placa da frente e na placa de tras da torre de cima"),
+    "Polia do motor": ("comprada", "GT2 20T furo 5 (direto no eixo de 5 mm, sem bucha)", 3,
+                       "no eixo de 5 mm, entre os 2 rolamentos; o parafuso sem cabeca da polia aperta no eixo"),
+    "Sensor de fenda": ("comprada", "sensor optico de fenda sem placa (tipo ITR9608): 24,5 de comprimento, 2 orelhas com furo, "
+                        "fenda de 5 mm entre as 2 torres; 2 unidades", 1,
                         "deitado na prateleira, 1 M3x8 + porca no rasgo (desliza para alinhar a fenda com a bandeira)"),
     "Bandeira": ("comprada", "parafuso M2x25 + porca M2 (2 conjuntos); M2 e nao M3: sobra 1,5 mm de cada lado na fenda de 5 mm", 2,
                  "rosqueado no ressalto da cabine: girar ajusta a parada; travar com a porca"),
@@ -163,8 +171,8 @@ class P:
         return sum(self.y_correia) / 2
 
     # sensores (feixe) e bandeiras
-    Z_FEIXE_BAIXO = 14.6
-    Z_FEIXE_CIMA = 415.4
+    Z_FEIXE_BAIXO = 12.5
+    Z_FEIXE_CIMA = 417.5
 
     @property
     def bandeira_baixo(self):      # (ponta, cabeca) Z relativo; a ponta passa 1 mm do feixe na parada
@@ -225,7 +233,7 @@ X_TRILHO_D = dict(pesc=(209.0, 214.0), cab=(205.0, 209.0))
 Z_TRILHO = (5.0, 425.0)        # ate o teto (a ponta de cima nao fica em balanco na impressao)
 Z_TETO_TORRE = (425.0, 429.0)
 # cabine (Z relativo)
-Z_C = (-10.0, 40.0)             # altura dos C (50 mm)
+Z_C = (-8.0, 40.0)              # altura dos C (48 mm); 2 mm acima das orelhas do sensor de baixo
 Y_C = (162.0, 184.0)            # C: lados de 3 mm em volta da cabeca do trilho (folga 1)
 X_C_E = (169.0, 181.0)
 X_C_D = (201.0, 213.0)
@@ -247,26 +255,26 @@ Z_RESSALTO_C = (36.0, 46.0)
 X_RESSALTO = (204.0, 210.0)
 Y_RESSALTO = (188.0, 196.0)
 # motor
-Y_FACE_MOTOR = 177.5
+E_FRENTE_TETO = Y_FRENTE[0]     # o teto da torre vai ate a frente (o berco do motor sai um pouco para fora da torre)
+Y_FACE_MOTOR = 154.5            # face do N20 (o eixo dele entra no acoplamento)
+# sensor de fenda sem placa (tipo ITR9608): comprimento ao longo de Y, fenda no meio (o feixe cruza em Y)
+SENS_L, SENS_W, SENS_ORELHA, SENS_TORRE, SENS_FENDA, SENS_TORRE_L = 24.5, 6.3, 3.0, 8.0, 5.0, 13.0
+SENS_FUROS = 19.0               # distancia entre os furos das orelhas
 
 
-def sensor(g, nome, z_placa, para_cima):
-    """Modulo LM393 de fenda deitado: placa 38 x 14 x 1,6 e o sensor (2 bracos de 11 mm com fenda de 5 no meio)."""
+def sensor(g, nome, z_base, para_cima):
+    """Sensor de fenda sem placa: orelhas (com os 2 furos) apoiadas na torre e 2 torres com a fenda de 5 mm entre elas."""
     pc = "Sensor de fenda"
-    y0f, y1f = Y_BANDEIRA - 2.5, Y_BANDEIRA + 2.5
-    ya, yb = Y_BANDEIRA - 6.25, Y_BANDEIRA + 6.25
-    if para_cima:
-        zp0, zp1 = z_placa, z_placa + 1.6
-        za, zb_ = zp1, zp1 + 11.0
-        zf = (zp1, zp1 + 3.0)
-    else:
-        zp0, zp1 = z_placa - 1.6, z_placa
-        za, zb_ = zp0 - 11.0, zp0
-        zf = (zp0 - 3.0, zp0)
-    caixa(g, f"{nome}_placa", "mundo", *X_SENSOR, *Y_SENSOR, zp0, zp1, "visual", pc, "metal")
-    caixa(g, f"{nome}_braco1", "mundo", *X_FENDA, ya, y0f, za, zb_, "visual", pc, "metal")
-    caixa(g, f"{nome}_braco2", "mundo", *X_FENDA, y1f, yb, za, zb_, "visual", pc, "metal")
-    caixa(g, f"{nome}_fundo", "mundo", *X_FENDA, y0f, y1f, *zf, "visual", pc, "metal")
+    xb, yb = X_BANDEIRA, Y_BANDEIRA
+    x0, x1 = xb - SENS_W / 2, xb + SENS_W / 2
+    s = 1 if para_cima else -1
+    zo = sorted((z_base, z_base + s * SENS_ORELHA))
+    zt = sorted((z_base + s * SENS_ORELHA, z_base + s * (SENS_ORELHA + SENS_TORRE)))
+    caixa(g, f"{nome}_orelha", "mundo", x0, x1, yb - SENS_L / 2, yb + SENS_L / 2, *zo, "visual", pc, "metal")
+    caixa(g, f"{nome}_braco1", "mundo", x0, x1, yb - SENS_TORRE_L / 2, yb - SENS_FENDA / 2, *zt, "visual", pc, "metal")
+    caixa(g, f"{nome}_braco2", "mundo", x0, x1, yb + SENS_FENDA / 2, yb + SENS_TORRE_L / 2, *zt, "visual", pc, "metal")
+    zf = sorted((z_base + s * SENS_ORELHA, z_base + s * (SENS_ORELHA + 1.0)))
+    caixa(g, f"{nome}_fundo", "mundo", x0, x1, yb - SENS_FENDA / 2, yb + SENS_FENDA / 2, *zf, "visual", pc, "metal")
 
 
 def geometria(p: P):
@@ -325,20 +333,26 @@ def geometria(p: P):
     # ------------------------------------------------ motor no topo (face presa na placa, corpo no berco)
     zt = p.z_polia_cima
     fm = Y_FACE_MOTOR
+    # polia de cima presa dos 2 lados: eixo de 5 mm em 2 rolamentos 625ZZ (placa da frente e placa de tras);
+    # o N20 so da o giro, pelo acoplamento rigido, e fica solto no berco (sem forca da correia nele)
     caixa(g, "motor", "mundo", 185, 197, fm - 32.5, fm, zt - 5, zt + 5, "visual", "Motor N20", "metal")
-    caixa(g, "placa_motor", "mundo", 181.0, 201.0, fm, fm + 3.0, zt - 9.5, Z_TETO_TORRE[0], "fixa", T2, "preto")
-    caixa(g, "berco_motor", "mundo", 183.0, 199.0, fm - 32.5, fm, zt - 7.0, Z_TETO_TORRE[0], "fixa", T2, "preto")
+    caixa(g, "berco_motor", "mundo", 182.0, 200.0, fm - 32.5, fm, zt - 7.0, Z_TETO_TORRE[0], "fixa", T2, "preto")
+    caixa(g, "berco_motor_teto", "mundo", 182.0, 200.0, fm - 32.5, E_FRENTE_TETO, Z_TETO_TORRE[0], Z_TETO_TORRE[1], "fixa", T2,
+          "preto")
+    cilindro(g, "acoplamento", "mundo", (p.x_polia, fm + 10.5, zt), 5.0, 10.0, "y", "visual", "Acoplamento 3x5", "metal")
+    caixa(g, "mancal_frente", "mundo", 181.0, 201.0, 176.0, 182.0, zt - 10.0, Z_TETO_TORRE[0], "fixa", T2, "preto")
+    cilindro(g, "rolamento_frente", "mundo", (p.x_polia, 179.0, zt), 8.0, 2.5, "y", "visual", "Rolamento 625ZZ", "metal")
+    caixa(g, "mancal_tras", "mundo", 181.0, 201.0, 201.0, Y_PLACA[1], zt - 10.5, Z_TETO_TORRE[0], "fixa", T2, "preto")
+    cilindro(g, "rolamento_tras", "mundo", (p.x_polia, 206.0, zt), 8.0, 2.5, "y", "visual", "Rolamento 625ZZ", "metal")
+    cilindro(g, "eixo_cima", "mundo", (p.x_polia, (fm + 11.0 + 208.5) / 2, zt), 2.5, (208.5 - fm - 11.0) / 2, "y", "visual",
+             "Eixo da polia de cima", "metal")
     cilindro(g, "polia_cima", "mundo", (p.x_polia, 192.0, zt), p.r_polia, 3.5, "y", "visual", "Polia do motor", "metal")
-    cilindro(g, "cubo_cima", "mundo", (p.x_polia, 185.5, zt), 6.5, 3.0, "y", "visual", "Polia do motor", "metal")
+    cilindro(g, "cubo_cima", "mundo", (p.x_polia, 186.0, zt), 6.5, 2.5, "y", "visual", "Polia do motor", "metal")
     # ------------------------------------------------ correia: ramo livre (o preso anda com a cabine)
     caixa(g, "correia_volta", "mundo", p.x_volta - 0.7, p.x_volta + 0.7, *p.y_correia, pb, zt, "visual", "Correia", "correia")
-    # ------------------------------------------------ sensores de fenda (deitados), com os calcos da placa
-    sensor(g, "sensor_baixo", 7.0, True)
-    sensor(g, "sensor_cima", Z_TETO_TORRE[0] - 2.0, False)
-    for i, xs in enumerate((X_SENSOR[0], X_SENSOR[1] - 2)):
-        caixa(g, f"calco_sensor_baixo_{i}", "mundo", xs, xs + 2, Y_SENSOR[0], Y_PLACA[0], 5, 7, "fixa", T1, "preto")
-        caixa(g, f"calco_sensor_cima_{i}", "mundo", xs, xs + 2, Y_SENSOR[0], Y_PLACA[0], Z_TETO_TORRE[0] - 2, Z_TETO_TORRE[0],
-              "fixa", T2, "preto")
+    # ------------------------------------------------ sensores de fenda sem placa (orelhas no pe e no teto)
+    sensor(g, "sensor_baixo", 5.0, True)
+    sensor(g, "sensor_cima", Z_TETO_TORRE[0], False)
     # ------------------------------------------------ cabine (Z relativo a Zc)
     Rb = rot(rx=p.incl_berco_y, ry=p.incl_berco_x)
     xb0, xb1 = p.x_berco_ini, p.x_parede_dir
@@ -444,15 +458,13 @@ def fixadores(p: P):
     # eixo da polia de baixo: cabeca atras da placa, porca na frente (rasgo de 6 mm para cima para dar folga na correia)
     add("eixo_polia_baixo", "M5x30 + porcas", (p.x_polia, Y_PLACA[1], p.z_polia_baixo), (0, -1, 0), 30, T1, T1, 1,
         atravessa=("Polia de baixo",), cab=8.5, bancada=True, rasgo=(0, 0, 6.0))
-    # motor: 2 M2x6 da placa na face da caixa de reducao
-    for i, dx in enumerate((-4.5, 4.5)):
-        add(f"motor_{i}", "M2x6", (p.x_polia + dx, Y_FACE_MOTOR + 3.0, p.z_polia_cima), (0, -1, 0), 6, T2, "Motor N20", 3,
-            cab=3.8, bancada=True)
-    # sensores: 1 M3 + porca no rasgo (a posicao do furo varia com o fornecedor; a placa desliza no calco)
-    add("sensor_baixo", "M3x8 + porca", (X_BANDEIRA + 0.0, 205.0, 8.6), (0, 0, -1), 8, "Sensor de fenda", T1, 1,
-        bancada=True, rasgo_c=(0, 16.0, 0), cab=5.5, rasgo_em=T1)
-    add("sensor_cima", "M3x8 + porca", (X_BANDEIRA + 0.0, 205.0, Z_TETO_TORRE[0] - 3.6), (0, 0, 1), 8, "Sensor de fenda", T2, 3,
-        bancada=True, rasgo_c=(0, 16.0, 0), cab=5.5, rasgo_em=T2)
+    # sensores de fenda: 2 M3 pelas orelhas, porca embaixo do pe / em cima do teto (rasgo de +-1,5 mm: a distancia dos
+    # furos varia de fornecedor)
+    for i, dy in enumerate((-SENS_FUROS / 2, SENS_FUROS / 2)):
+        add(f"sensor_baixo_{i}", "M3x10 + porca", (X_BANDEIRA, Y_BANDEIRA + dy, 5.0 + SENS_ORELHA), (0, 0, -1), 10,
+            "Sensor de fenda", T1, 1, bancada=True, rasgo_c=(0, 3.0, 0), rasgo_em=T1, cab=5.5)
+        add(f"sensor_cima_{i}", "M3x10 + porca", (X_BANDEIRA, Y_BANDEIRA + dy, Z_TETO_TORRE[0] - SENS_ORELHA), (0, 0, 1), 10,
+            "Sensor de fenda", T2, 3, bancada=True, rasgo_c=(0, 3.0, 0), rasgo_em=T2, cab=5.5)
     # fixador da correia na cabine: M3x14 pela direita, porca presa atras do fixador
     k0, k1 = p.fix_z
     add("fixador_cabine", "M3x14 + porca", (X_BLOCO[1] - 3.0, Y_BANDEIRA, (k0 + k1) / 2), (-1, 0, 0), 14, "Cabine", "Cabine", 4,

@@ -50,10 +50,10 @@ def main():
     it = destaca(R.cena(m, el.zc_min, el.ang_baixa, -60.0, 0.0))
     seta(it, (xb, yb - 9, zfb), (0, 1, 0), 18)                 # feixe ao longo de Y
     seta(it, (xb + 6, yb, zfb + 22), (0, 0, -1), 14)           # bandeira desce
-    rot = [("Sensor de fenda de baixo: deitado no pe, fenda para CIMA", (xb, yb + 14, 9)),
+    rot = [("Sensor de fenda de baixo: orelhas presas no pe com 2 M3, fenda para CIMA", (xb, yb + 14, 7)),
            ("Feixe infravermelho (ao longo de Y, de frente para tras)", (xb, yb - 9, zfb)),
            ("Bandeira M2x25 da cabine: desce e corta o feixe", (xb + 6, yb, zfb + 22)),
-           ("Placa do modulo: pinos para tras, dentro da canaleta", (xb, 218, 8))]
+           ("Fios: furo no pe e canal por baixo ate a canaleta", (xb, 214, 2))]
     R.foto("s2_sensor_elevador_baixo.png", it, (200, 195, 22), (0.75, -0.55, 0.55), 38, [], rot, vidro=("Cabine",),
            titulo="Elevador embaixo (torres escondidas): a bandeira entra na fenda e a cabine para",
            esconde=("Torre inferior", "Torre superior", "Bandeja", "EVA", "Fila", "Perfil 2020 B", "Trilho MGN12 B", "Carro B",
@@ -63,7 +63,7 @@ def main():
     it = destaca(R.cena(m, el.zc_max, el.ang_baixa, -60.0, 0.0))
     seta(it, (xb, yb - 9, zft), (0, 1, 0), 18)
     seta(it, (xb + 6, yb, zft - 22), (0, 0, 1), 14)
-    rot = [("Sensor de fenda de cima: preso no teto da torre, fenda para BAIXO", (xb, yb + 14, 424)),
+    rot = [("Sensor de fenda de cima: orelhas presas no teto com 2 M3, fenda para BAIXO", (xb, yb + 14, 423)),
            ("Feixe (ao longo de Y)", (xb, yb - 9, zft)),
            ("Bandeira M2x25: sobe e corta o feixe na entrega", (xb + 6, yb, zft - 22)),
            ("Motor N20", (191, 160, el.z_polia_cima))]
@@ -73,18 +73,18 @@ def main():
                     "Esteira A", "Bloco direito", "Correia A", "Carro A", "Eletroima", "Rampa"))
 
     # 4. eixo A: casa (esquerda) e seguranca (direita)
-    for nome, ca, foco, txt in (("s4_fim_de_curso_casa.png", m.cA[0], (-176, 30, m.zpA - 22),
-                                 "Casa do eixo A: a face ESQUERDA da presilha do carro aperta a alavanca (alavanca virada para +X, a direita)"),
-                                ("s5_fim_de_curso_seguranca.png", m.cA[1], (184, 30, m.zpA - 26),
-                                 "Seguranca do eixo A: na pega a presilha fica 0,8 mm da alavanca (alavanca virada para -X); so aperta se passar")):
+    for nome, ca, foco, txt in (("s4_fim_de_curso_casa.png", m.cA[0], (-178, 44, m.zpA - 4),
+                                 "Casa do eixo A: o batedor da placa do carro aperta a alavanca, atras do trilho, longe da polia e da correia"),
+                                ("s5_fim_de_curso_seguranca.png", m.cA[1], (186, 33, m.zpA - 40),
+                                 "Seguranca do eixo A: abaixo da tensora; o batedor que desce do carro fica 0,8 mm da alavanca na pega")):
         it = destaca(R.cena(m, el.zc_max, el.ang_baixa, ca, 0.0))
         if "casa" in nome:
             seta(it, (-150, 30, m.zpA - 22), (-1, 0, 0), 18)
-            rot = [("KW10 da casa (no bloco esquerdo)", (-181, 35, m.zpA - 12)), ("Carro A indo para a esquerda", (-150, 30, m.zpA - 22))]
+            rot = [("KW10 da casa (atras do trilho)", (-181, 46, m.zpA + 4)), ("Carro A indo para a esquerda", (-150, 30, m.zpA - 22))]
         else:
             seta(it, (160, 30, m.zpA - 26), (1, 0, 0), 18)
-            rot = [("KW10 de seguranca (no bloco direito)", (190, 35, m.zpA - 18)), ("Carro A na pega", (160, 30, m.zpA - 26))]
-        R.foto(nome, it, foco, (0.35, -1.0, -0.45), 40, [], rot, titulo=txt,
+            rot = [("KW10 de seguranca (abaixo da tensora)", (190, 35, m.zpA - 36)), ("Carro A na pega", (160, 30, m.zpA - 26))]
+        R.foto(nome, it, foco, (0.35, -1.0, 0.35) if "casa" in nome else (0.35, -1.0, -0.45), 45, [], rot, titulo=txt,
                esconde=("Perfil 2020 A", "Prateleira", "Esteira A", "Eletroima", "Rampa", "Torre"))
 
     # 6. bolso e anel

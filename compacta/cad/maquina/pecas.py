@@ -295,27 +295,34 @@ def detalhes_elevador(m, peca, el):
     if peca == "Torre inferior":
         for (x, y), r in pinos:
             add.append(cq.Solid.makeCylinder(r, 5.0, pnt=cq.Vector(x, y, zj - 0.5)))
-        # janela de tras embaixo: a placa do sensor passa e o parafuso dela fica a vista
-        cut.append(caixa_cq(E.X_CANAL[0], E.X_SENSOR[1], E.Y_PLACA[0] - 0.5, E.Y_PLACA[1] + 0.5, 5.0, 14.0))
+        # pernas e fios do sensor de baixo: furo no pe e canal por baixo do pe ate a canaleta
+        cut.append(caixa_cq(E.X_BANDEIRA - 2.5, E.X_BANDEIRA + 2.5, E.Y_BANDEIRA - 6.0, E.Y_BANDEIRA + 6.0, -0.1, 5.1))
+        cut.append(caixa_cq(E.X_BANDEIRA - 2.5, E.X_BANDEIRA + 2.5, E.Y_BANDEIRA - 6.0, E.Y_CANAL[1] + 1, -0.1, 2.5))
         # janela na parede direita para a chave do fixador da cabine (com a cabine embaixo, na bancada)
         k0, k1 = el.fix_z
         zf = el.zc_min + (k0 + k1) / 2
         cut.append(caixa_cq(E.X_PAR_D[0] - 0.5, E.X_PAR_D[1] + 0.5, 186.0, 198.0, zf - 7, zf + 7))
-        # canal da porca do sensor de baixo, por baixo do pe (a porca anda junto no rasgo)
-        cut.append(caixa_cq(E.X_BANDEIRA - 3.15, E.X_BANDEIRA + 3.15, 205.0 - 8 - 3.5, 205.0 + 8 + 3.5, -0.1, 3.0))
+        # porcas dos parafusos das orelhas do sensor de baixo, por baixo do pe
+        for dy in (-E.SENS_FUROS / 2, E.SENS_FUROS / 2):
+            cut.append(caixa_cq(E.X_BANDEIRA - 3.15, E.X_BANDEIRA + 3.15, E.Y_BANDEIRA + dy - 4.7, E.Y_BANDEIRA + dy + 4.7, -0.1, 3.0))
     if peca == "Torre superior":
         for (x, y), r in pinos:
             cut.append(cq.Solid.makeCylinder(r + 0.3, 6.0, pnt=cq.Vector(x, y, zj - 0.1)))
         # janela de tras em cima: fios do motor, do sensor de cima e do sensor do bolso vao para a canaleta
-        cut.append(caixa_cq(177.0, E.X_SENSOR[1], E.Y_PLACA[0] - 0.5, E.Y_PLACA[1] + 0.5, 406.0, E.Z_TETO_TORRE[0] - 0.01))
+        cut.append(caixa_cq(201.5, E.X_PAR_D[0] - 0.01, E.Y_PLACA[0] - 0.5, E.Y_PLACA[1] + 0.5, 406.0, E.Z_TETO_TORRE[0] - 0.01))
+        # pernas e fios do sensor de cima: furo no teto e canal por cima ate a canaleta
+        cut.append(caixa_cq(E.X_BANDEIRA - 2.5, E.X_BANDEIRA + 2.5, E.Y_BANDEIRA - 6.0, E.Y_BANDEIRA + 6.0, E.Z_TETO_TORRE[0] - 1,
+                            E.Z_TETO_TORRE[1] + 1))
+        cut.append(caixa_cq(E.X_BANDEIRA - 2.5, E.X_BANDEIRA + 2.5, E.Y_BANDEIRA - 6.0, E.Y_CANAL[0] + 4, E.Z_TETO_TORRE[1] - 2.5,
+                            E.Z_TETO_TORRE[1] + 1))
         # teto vazado em cima da polia do motor
         cut.append(caixa_cq(el.x_polia - 10, el.x_polia + 10, 186.5, 197.5, E.Z_TETO_TORRE[0] - 1, E.Z_TETO_TORRE[1] + 1))
-        # eixo e bucha do N20 pela placa do motor
-        cut.append(cq.Solid.makeCylinder(2.6, 6.0, pnt=cq.Vector(el.x_polia, E.Y_FACE_MOTOR - 1, el.z_polia_cima),
-                                         dir=cq.Vector(0, 1, 0)))
-        # canal da porca do sensor de cima, no teto (por cima)
-        cut.append(caixa_cq(E.X_BANDEIRA - 3.15, E.X_BANDEIRA + 3.15, 205.0 - 8 - 3.5, 205.0 + 8 + 3.5,
-                            E.Z_TETO_TORRE[1] - 3.0, E.Z_TETO_TORRE[1] + 0.1))
+        # passagem do eixo de 5 mm pelos 2 mancais (o rolamento ja recorta a sede dele)
+        cut.append(cq.Solid.makeCylinder(3.5, 40.0, pnt=cq.Vector(el.x_polia, 170.0, el.z_polia_cima), dir=cq.Vector(0, 1, 0)))
+        # porcas dos parafusos das orelhas do sensor de cima, por cima do teto
+        for dy in (-E.SENS_FUROS / 2, E.SENS_FUROS / 2):
+            cut.append(caixa_cq(E.X_BANDEIRA - 3.15, E.X_BANDEIRA + 3.15, E.Y_BANDEIRA + dy - 4.7, E.Y_BANDEIRA + dy + 4.7,
+                                E.Z_TETO_TORRE[1] - 3.0, E.Z_TETO_TORRE[1] + 0.1))
         # porcas da rampa presas nos pilares (entram por uma fenda que desce do teto da torre)
         for x in (170.0, 212.0):
             for dz in (-6.0, 14.0):

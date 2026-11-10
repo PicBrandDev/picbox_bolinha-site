@@ -34,6 +34,11 @@ SOBREPOSICAO_PREVISTA = {
     frozenset(("Polia do motor", "Correia")): "a correia abraca a polia",
     frozenset(("Servo", "Fila")): "o servo entra no suporte (impresso junto com a fila)",
     frozenset(("Torre superior", "Polia do motor")): "a polia do motor passa por uma janela no teto da torre",
+    frozenset(("Torre superior", "Rolamento 625ZZ")): "os rolamentos ficam encaixados nas placas da torre",
+    frozenset(("Eixo da polia de cima", "Rolamento 625ZZ")): "o eixo passa dentro dos rolamentos",
+    frozenset(("Torre superior", "Eixo da polia de cima")): "o eixo passa pelo furo dos mancais (sem encostar: furo de 7 mm)",
+    frozenset(("Eixo da polia de cima", "Polia do motor")): "a polia aperta no eixo",
+    frozenset(("Eixo da polia de cima", "Acoplamento 3x5")): "o eixo entra no acoplamento",
 }
 PREVISTO = {frozenset(k) for k in SOBREPOSICAO_PREVISTA}
 for k in ("A", "B"):
@@ -63,6 +68,9 @@ CONTATO_MOVEL.update({
     ("presilha_A", "fdc_dir_alav_A"): "fim de curso de seguranca: 0,8 mm da alavanca com o carro A na pega (so aperta se passar)",
     ("presilha_piso_A", "fdc_dir_alav_A"): "fim de curso de seguranca do eixo A",
     ("batedorB", "fdc_dir_alav_B"): "fim de curso de seguranca do eixo B: o batedor aperta a alavanca no limite",
+    ("batedor_casa_A", "fdc_alav_A"): "fim de curso da casa A: o batedor da placa aperta a alavanca",
+    ("batedor_casa_B", "fdc_alav_B"): "fim de curso da casa B: o batedor da placa aperta a alavanca",
+    ("batedor_seg_A", "fdc_dir_alav_A"): "fim de curso de seguranca A: 0,8 mm da alavanca na pega (so aperta se passar)",
 })
 CONTATO_MOVEL.update({
     ("alav_braco", "servo"): "o braco vai no chifre do servo e gira com ele, 0,5 mm acima do corpo (igual R1)",

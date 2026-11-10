@@ -213,7 +213,7 @@ def anel(g, nome, corpo, c, r0, r1, z0, z1, peca, cor):
                   quat=[1, 0, 0, 0], grupo="fixa", peca=peca, cor=cor))
 
 
-BASE_CABINE = 10.0    # a cabine e impressa em pe sobre uma base plana em Z -10 (relativo a Zc)
+BASE_CABINE = 8.0     # a cabine e impressa em pe sobre uma base plana em Z -8 (relativo a Zc)
 
 # o que sai do modelo do elevador (substituido aqui)
 TIRAR = {"chao", "parede_dir", "rampa", "rampa_esq", "rampa_dir", "rampa_fim",
@@ -351,9 +351,10 @@ def eixo_linear(g, m: M, k):
             # fim de curso da CASA: KW10 de pe (19,8 em Z), 10,2 em X com a alavanca para +X, 6,4 em Y; a face
             # esquerda da presilha do carro (X c-28) aperta a alavanca na casa (c = -146)
             xe = m.c_casa + FIX[0] - 2                    # face esquerda da presilha na casa (X -174)
-            caixa(g, f"bloco_braco_{k}", "mundo", -GX, xe - 2.0, 38.4, 44.4, zp - 30, zp - 10, pc, "preto")
-            caixa(g, f"fdc_{k}", "mundo", xe - 12.2, xe - 2.0, 32, 38.4, zp - 30, zp - 10.2, "Fim de curso", "metal")
-            caixa(g, f"fdc_alav_{k}", "mundo", xe - 2.0, xe + 0.5, 33, 37, zp - 24, zp - 21, "Fim de curso", "metal")
+            # R2: atras do trilho (Y 43..49,4), 13 mm atras da polia e da correia; o batedor da placa do carro aperta
+            caixa(g, f"bloco_braco_{k}", "mundo", -200.0, xe - 2.0, 38.5, 43.0, zp - 14, zp + 6, pc, "preto")
+            caixa(g, f"fdc_{k}", "mundo", xe - 12.2, xe - 2.0, 43.0, 49.4, zp - 14, zp + 5.8, "Fim de curso", "metal")
+            caixa(g, f"fdc_alav_{k}", "mundo", xe - 2.0, xe + 0.5, 43.5, 46.5, zp - 6, zp - 3, "Fim de curso", "metal")
         else:
             # bracos da polia tensora (eixo vertical M5), com rasgo de 6 mm em X para esticar
             caixa(g, f"tens_alma_{k}", "mundo", 200, GX, 13, 30, zc - 11.0, zp - 14, pc, "preto")
@@ -361,13 +362,12 @@ def eixo_linear(g, m: M, k):
             caixa(g, f"tens_baixo_{k}", "mundo", 185, 200, 13, 30, zc - 11.0, zc - 5.5, pc, "preto")
             # fim de curso de SEGURANCA (fim do trilho): a face direita da presilha passa 0,8 mm da alavanca na pega
             # e aperta a alavanca se o carro passar dela (nunca no jogo normal)
+            # R2: abaixo da tensora (6 mm), longe da correia; um batedor que desce da presilha do carro aperta
             xd = m.x_fdc_dir
-            caixa(g, f"bloco_braco_dir_{k}", "mundo", xd + 2.5, GX, 38.4, 44.4, zp - 35, zp - 17, pc, "preto")
-            caixa(g, f"bloco_braco_dir_liga_{k}", "mundo", 210.0, GX, 30, 38.4, zp - 35, zp - 14, pc, "preto")
-            # orelha embaixo do bloco, encostada na parede: mais 2 parafusos de madeira (4 no total)
-            caixa(g, f"bloco_orelha_{k}", "mundo", 214.0, GX, 4, 46, zp - 50, zp - 14, pc, "preto")
-            caixa(g, f"fdc_dir_{k}", "mundo", xd + 2.5, xd + 12.7, 32, 38.4, zp - 35, zp - 15.2, "Fim de curso", "metal")
-            caixa(g, f"fdc_dir_alav_{k}", "mundo", xd, xd + 2.5, 33, 37, zp - 29, zp - 26, "Fim de curso", "metal")
+            caixa(g, f"bloco_braco_dir_{k}", "mundo", xd + 2.5, GX, 38.4, 44.4, zp - 52, zp - 32, pc, "preto")
+            caixa(g, f"bloco_orelha_{k}", "mundo", 214.0, GX, 4, 46, zp - 52, zp - 14, pc, "preto")
+            caixa(g, f"fdc_dir_{k}", "mundo", xd + 2.5, xd + 12.7, 32, 38.4, zp - 52, zp - 32.2, "Fim de curso", "metal")
+            caixa(g, f"fdc_dir_alav_{k}", "mundo", xd, xd + 2.5, 33, 37, zp - 46, zp - 43, "Fim de curso", "metal")
     # motor (eixo para cima) + suporte
     xm = m.x_motor
     zf = zc - 15.0                       # face do motor
@@ -429,6 +429,14 @@ def presilha(g, corpo, zc, k, pc):
           "metal")
 
 
+def batedores(g, corpo, m, zp, pc):
+    """Batedores dos fins de curso: o da casa na placa (atras do trilho), o de seguranca descendo da presilha."""
+    k = corpo[-1]
+    caixa(g, f"batedor_casa_{k}", corpo, FIX[0] - 2, -21.0, 41.0, 46.0, zp - 10, zp + 2, pc, "acento")
+    if k == "A":                  # no B quem aperta e o batedorB (mais comprido, para o carro B parar antes da tensora)
+        caixa(g, f"batedor_seg_{k}", corpo, FIX[1] - 2, FIX[1] + 2, 31.0, 39.0, zp - 48, zp - 30, pc, "acento")
+
+
 def carro_a(g, m: M):
     """Corpo 'carroA' no referencial do centro do patim (x = 0)."""
     zp, f = m.zpA, m.face_ima
@@ -442,6 +450,7 @@ def carro_a(g, m: M):
     anel(g, "copoA", "carroA", (m.dA, m.y_bola), 10.2, 11.9, f, f + e + 15, pc, "acento")
     anel(g, "arruela", "carroA", (m.dA, m.y_bola), m.arruela_furo / 2, 10.0, f, f + e, "Arruela M10 de aco", "metal")
     presilha(g, "carroA", zp + m.dz_correia, "A", pc)
+    batedores(g, "carroA", m, zp, pc)
     caixa(g, "ponta_estA", "carroA", -22, -14, 46, 46 + m.est_h + 1, 401 + m.dZ, 400.5 + m.dZ + m.est_w, pc, "acento")
     cil(g, "ima", "carroA", (m.dA, m.y_bola, f + m.arruela_e + 7.5), 10.0, 7.5, "z", "Eletroima P20/15", "metal")
 
@@ -463,13 +472,14 @@ def carro_b(g, m: M):
         caixa(g, f"ir_{lado}", "carroB", x0, x1, yb - 5, yb + 5, zb - 21, zb, pa, "anel")
         cil(g, f"led_{lado}", "carroB", (s * 27.5, yb, zb - 14.5), 2.5, 3.5, "x", "LED IR / fototransistor 5 mm", "metal")
     presilha(g, "carroB", zp + m.dz_correia, "B", pc)
+    batedores(g, "carroB", m, zp, pc)
     # barra ate a esteira de baixo (Y 1..11, ramo de cima em Z 36,5..47,5)
     caixa(g, "barra_estB", "carroB", 12, 20, 1, 41, 49, 54.5, pc, "acento")
     caixa(g, "ponta_estB", "carroB", 12, 20, 1, 41, 36.5 - 0.5, 49, pc, "acento")
     # batedor do fim de curso de seguranca: o bloco direito e igual nos 2 eixos, entao o carro B (que para em +120)
     # aperta a mesma alavanca 21 mm antes, longe da tensora
     zc = zp + m.dz_correia
-    caixa(g, "batedorB", "carroB", FIX[1] + 2, BATEDOR_B[1], 31.0, 40.0, zc - 8.5, zc + 2.0, pc, "acento")
+    caixa(g, "batedorB", "carroB", FIX[1] + 2, BATEDOR_B[1], 31.0, 40.0, zp - 48, zc + 2.0, pc, "acento")
 
 
 def bandeja(g, m: M):
@@ -530,7 +540,7 @@ NERVURAS = ((-185.0, -150.0, -115.0, -80.0, -36.0),
 ABAS_BANDEJA = ((-150.0, -80.0), (12.0, 84.0), (124.0, 183.0))
 
 
-GANCHOS = (-175.0, -12.0, 12.0, 175.0)      # 2 em cada metade da prateleira (cada metade fica em pe sozinha)
+GANCHOS = (-160.0, -12.0, 12.0, 175.0)      # 2 em cada metade da prateleira (cada metade fica em pe sozinha)
 
 
 def _R_normal(n):
@@ -544,7 +554,7 @@ def _R_normal(n):
 
 def suporte_esteira(g, m: M):
     """Prateleira da esteira A (pendurada no teto) e pontas fixas das duas esteiras."""
-    xa, xb = -185.0, 185.0
+    xa, xb = -172.0, 185.0
     d = m.dZ
     # dois trilhos (um embaixo de cada ramo da esteira) + travessas a cada ~46 mm
     for i, (x0, x1) in enumerate(((xa, 0), (0, xb))):
@@ -720,11 +730,13 @@ def fixadores(m: M):
         # blocos nas paredes
         for lado, s in (("esq", -1), ("dir", 1)):
             pc = f"Bloco esquerdo {'de cima' if k == 'A' else 'de baixo'}" if s < 0 else "Bloco direito"
-            for i, dz in enumerate((-3.0, 9.0)):
+            # no bloco esquerdo so o de cima: o rebaixo do de baixo cortava o braco do fim de curso (o bloco esquerdo
+            # ja fica preso na parede pela aba do motor, com mais 3 / 4 parafusos)
+            for i, dz in enumerate((-3.0, 9.0) if s > 0 else (9.0,)):
                 add(f"bloco_{lado}_{k}_{i}", "madeira 3,5x16", (213.0 * s, 39.0 if s < 0 else 37.0, zp + dz), (s, 0, 0), 16,
                     pc, "Gabinete", 9, cab=7.0)
             if s > 0:
-                for i, y in enumerate((14.0, 40.0)):
+                for i, y in enumerate((12.0, 24.0)):
                     add(f"bloco_orelha_{k}_{i}", "madeira 3,5x16", (214.0, y, zp - 42), (1, 0, 0), 16, pc, "Gabinete", 9,
                         cab=7.0)
             for i, x in enumerate((187.0, 195.0)):
@@ -757,9 +769,9 @@ def fixadores(m: M):
         # fim de curso no braco do bloco esquerdo
         xe = m.c_casa + FIX[0] - 2
         for i, dz in enumerate((-4.75, 4.75)):
-            add(f"fdc_{k}_{i}", "M2x12", (xe - 9.3, 32.0, zp - 20.1 + dz), (0, 1, 0), 12, "Fim de curso", pcs, 9,
+            add(f"fdc_{k}_{i}", "M2x12", (xe - 9.3, 49.4, zp - 4.1 + dz), (0, -1, 0), 12, "Fim de curso", pcs, 9,
                 cab=3.8, bancada=True)
-            add(f"fdc_dir_{k}_{i}", "M2x12", (m.x_fdc_dir + 9.8, 32.0, zp - 25.1 + dz), (0, 1, 0), 12, "Fim de curso",
+            add(f"fdc_dir_{k}_{i}", "M2x12", (m.x_fdc_dir + 9.8, 32.0, zp - 42.1 + dz), (0, 1, 0), 12, "Fim de curso",
                 "Bloco direito", 9, cab=3.8, bancada=True)
         # M3x16 de frente: cabeca no fixador, atravessa a correia entre as pontas, porca presa na presilha.
         # Aperta com a tensora solta (ramo da frente afastado com o dedo), depois estica na tensora.

@@ -3,8 +3,8 @@
   "ok": true,
   "ruins": [],
   "n_ruins": 0,
-  "previstas": 40,
-  "encostam": 216,
+  "previstas": 51,
+  "encostam": 206,
   "pares": 35511
  },
  "parafusos": [
@@ -270,95 +270,95 @@
    "corpo": "mundo"
   },
   {
-   "nome": "motor_0",
-   "tipo": "M2x6",
-   "etapa": 3,
-   "prende": "Torre superior",
-   "rosca": "Motor N20",
-   "pega": 3.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [],
-   "p0": [
-    186.5,
-    180.5,
-    419.0
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 6,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "motor_1",
-   "tipo": "M2x6",
-   "etapa": 3,
-   "prende": "Torre superior",
-   "rosca": "Motor N20",
-   "pega": 3.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [],
-   "p0": [
-    195.5,
-    180.5,
-    419.0
-   ],
-   "dir": [
-    0,
-    -1,
-    0
-   ],
-   "L": 6,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "sensor_baixo",
-   "tipo": "M3x8 + porca",
+   "nome": "sensor_baixo_0",
+   "tipo": "M3x10 + porca",
    "etapa": 1,
    "prende": "Sensor de fenda",
    "rosca": "Torre inferior",
-   "pega": 8.0,
+   "pega": 5.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
     207.0,
-    205.0,
-    8.6
+    182.5,
+    8.0
    ],
    "dir": [
     0,
     0,
     -1
    ],
-   "L": 8,
+   "L": 10,
    "corpo": "mundo"
   },
   {
-   "nome": "sensor_cima",
-   "tipo": "M3x8 + porca",
+   "nome": "sensor_cima_0",
+   "tipo": "M3x10 + porca",
    "etapa": 3,
    "prende": "Sensor de fenda",
    "rosca": "Torre superior",
-   "pega": 7.6,
+   "pega": 4.0,
    "ok": true,
    "problemas": [],
    "notas": [],
    "p0": [
     207.0,
-    205.0,
-    421.4
+    182.5,
+    422.0
    ],
    "dir": [
     0,
     0,
     1
    ],
-   "L": 8,
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sensor_baixo_1",
+   "tipo": "M3x10 + porca",
+   "etapa": 1,
+   "prende": "Sensor de fenda",
+   "rosca": "Torre inferior",
+   "pega": 5.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.0,
+    201.5,
+    8.0
+   ],
+   "dir": [
+    0,
+    0,
+    -1
+   ],
+   "L": 10,
+   "corpo": "mundo"
+  },
+  {
+   "nome": "sensor_cima_1",
+   "tipo": "M3x10 + porca",
+   "etapa": 3,
+   "prende": "Sensor de fenda",
+   "rosca": "Torre superior",
+   "pega": 4.0,
+   "ok": true,
+   "problemas": [],
+   "notas": [],
+   "p0": [
+    207.0,
+    201.5,
+    422.0
+   ],
+   "dir": [
+    0,
+    0,
+    1
+   ],
+   "L": 10,
    "corpo": "mundo"
   },
   {
@@ -627,29 +627,6 @@
    "p0": [
     -213.0,
     39.0,
-    407.0
-   ],
-   "dir": [
-    -1,
-    0,
-    0
-   ],
-   "L": 16,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "bloco_esq_A_1",
-   "tipo": "madeira 3,5x16",
-   "etapa": 9,
-   "prende": "Bloco esquerdo de cima",
-   "rosca": "Gabinete",
-   "pega": 9.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [],
-   "p0": [
-    -213.0,
-    39.0,
     419.0
    ],
    "dir": [
@@ -764,7 +741,7 @@
    "notas": [],
    "p0": [
     214.0,
-    14.0,
+    12.0,
     368.0
    ],
    "dir": [
@@ -787,7 +764,7 @@
    "notas": [],
    "p0": [
     214.0,
-    40.0,
+    24.0,
     368.0
    ],
    "dir": [
@@ -1402,7 +1379,7 @@
    "etapa": 9,
    "prende": "Fim de curso",
    "rosca": "Bloco esquerdo de cima",
-   "pega": 5.6,
+   "pega": 4.5,
    "ok": true,
    "problemas": [],
    "notas": [
@@ -1410,12 +1387,12 @@
    ],
    "p0": [
     -183.3,
-    32.0,
-    385.15
+    49.4,
+    401.15
    ],
    "dir": [
     0,
-    1,
+    -1,
     0
    ],
    "L": 12,
@@ -1436,7 +1413,7 @@
    "p0": [
     192.40000000000003,
     32.0,
-    380.15
+    363.15
    ],
    "dir": [
     0,
@@ -1452,7 +1429,7 @@
    "etapa": 9,
    "prende": "Fim de curso",
    "rosca": "Bloco esquerdo de cima",
-   "pega": 5.6,
+   "pega": 4.5,
    "ok": true,
    "problemas": [],
    "notas": [
@@ -1460,12 +1437,12 @@
    ],
    "p0": [
     -183.3,
-    32.0,
-    394.65
+    49.4,
+    410.65
    ],
    "dir": [
     0,
-    1,
+    -1,
     0
    ],
    "L": 12,
@@ -1486,7 +1463,7 @@
    "p0": [
     192.40000000000003,
     32.0,
-    389.65
+    372.65
    ],
    "dir": [
     0,
@@ -1521,29 +1498,6 @@
   },
   {
    "nome": "bloco_esq_B_0",
-   "tipo": "madeira 3,5x16",
-   "etapa": 9,
-   "prende": "Bloco esquerdo de baixo",
-   "rosca": "Gabinete",
-   "pega": 9.0,
-   "ok": true,
-   "problemas": [],
-   "notas": [],
-   "p0": [
-    -213.0,
-    39.0,
-    78.0
-   ],
-   "dir": [
-    -1,
-    0,
-    0
-   ],
-   "L": 16,
-   "corpo": "mundo"
-  },
-  {
-   "nome": "bloco_esq_B_1",
    "tipo": "madeira 3,5x16",
    "etapa": 9,
    "prende": "Bloco esquerdo de baixo",
@@ -1669,7 +1623,7 @@
    "notas": [],
    "p0": [
     214.0,
-    14.0,
+    12.0,
     39.0
    ],
    "dir": [
@@ -1692,7 +1646,7 @@
    "notas": [],
    "p0": [
     214.0,
-    40.0,
+    24.0,
     39.0
    ],
    "dir": [
@@ -2330,7 +2284,7 @@
    "etapa": 9,
    "prende": "Fim de curso",
    "rosca": "Bloco esquerdo de baixo",
-   "pega": 5.6,
+   "pega": 4.5,
    "ok": true,
    "problemas": [],
    "notas": [
@@ -2338,12 +2292,12 @@
    ],
    "p0": [
     -183.3,
-    32.0,
-    56.15
+    49.4,
+    72.15
    ],
    "dir": [
     0,
-    1,
+    -1,
     0
    ],
    "L": 12,
@@ -2364,7 +2318,7 @@
    "p0": [
     192.40000000000003,
     32.0,
-    51.15
+    34.15
    ],
    "dir": [
     0,
@@ -2380,7 +2334,7 @@
    "etapa": 9,
    "prende": "Fim de curso",
    "rosca": "Bloco esquerdo de baixo",
-   "pega": 5.6,
+   "pega": 4.5,
    "ok": true,
    "problemas": [],
    "notas": [
@@ -2388,12 +2342,12 @@
    ],
    "p0": [
     -183.3,
-    32.0,
-    65.65
+    49.4,
+    81.65
    ],
    "dir": [
     0,
-    1,
+    -1,
     0
    ],
    "L": 12,
@@ -2414,7 +2368,7 @@
    "p0": [
     192.40000000000003,
     32.0,
-    60.65
+    43.65
    ],
    "dir": [
     0,
@@ -2665,7 +2619,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    -180.0,
+    -165.0,
     111.5,
     426.0
    ],
@@ -2688,7 +2642,7 @@
    "problemas": [],
    "notas": [],
    "p0": [
-    -170.0,
+    -155.0,
     111.5,
     426.0
    ],
@@ -3101,7 +3055,7 @@
   ],
   "max": [
    220.0,
-   223.0,
+   219.0,
    430.0
   ],
   "fora": [],
@@ -3181,7 +3135,7 @@
     "nota": "fim de curso de seguranca do eixo B: o batedor aperta a alavanca no limite"
    },
    {
-    "a": "presilha_A",
+    "a": "batedor_casa_A",
     "pa": "Carro A",
     "b": "fdc_alav_A",
     "pb": "Fim de curso",
@@ -3191,10 +3145,10 @@
      "cB": -146.0
     },
     "ok": true,
-    "nota": "fim de curso do eixo A: a presilha aperta a alavanca na casa"
+    "nota": "fim de curso da casa A: o batedor da placa aperta a alavanca"
    },
    {
-    "a": "presilha_B",
+    "a": "batedor_casa_B",
     "pa": "Carro B",
     "b": "fdc_alav_B",
     "pb": "Fim de curso",
@@ -3204,7 +3158,7 @@
      "cB": -146.0
     },
     "ok": true,
-    "nota": "fim de curso do eixo B: a presilha aperta a alavanca na casa"
+    "nota": "fim de curso da casa B: o batedor da placa aperta a alavanca"
    },
    {
     "a": "est_movA",
@@ -3896,7 +3850,7 @@
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
    },
    {
-    "a": "presilha_A",
+    "a": "batedor_seg_A",
     "pa": "Carro A",
     "b": "fdc_dir_alav_A",
     "pb": "Fim de curso",
@@ -3906,7 +3860,7 @@
      "cB": -131.0
     },
     "ok": true,
-    "nota": "fim de curso de seguranca: 0,8 mm da alavanca com o carro A na pega (so aperta se passar)"
+    "nota": "fim de curso de seguranca A: 0,8 mm da alavanca na pega (so aperta se passar)"
    },
    {
     "a": "est_curvaA_0",
@@ -4034,6 +3988,32 @@
     "onde": {
      "cA": -29.0,
      "cB": -29.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "batedor_casa_A",
+    "pa": "Carro A",
+    "b": "prat_estA_0",
+    "pb": "Prateleira da esteira",
+    "folga": 1.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "batedor_casa_A",
+    "pa": "Carro A",
+    "b": "prat_estA_1",
+    "pb": "Prateleira da esteira",
+    "folga": 1.0,
+    "onde": {
+     "cA": 22.0,
+     "cB": 22.0
     },
     "ok": true,
     "nota": ""
@@ -4676,19 +4656,6 @@
     "nota": ""
    },
    {
-    "a": "C_dir_lado2",
-    "pa": "Cabine",
-    "b": "sensor_baixo_placa",
-    "pb": "Sensor de fenda",
-    "folga": 1.0,
-    "onde": {
-     "zc": 18.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "C_dir_labio1",
     "pa": "Cabine",
     "b": "parede_dir_inf",
@@ -5014,32 +4981,6 @@
     "nota": "elo da ponta da esteira preso no suporte"
    },
    {
-    "a": "C_dir_lado2",
-    "pa": "Cabine",
-    "b": "calco_sensor_baixo_0",
-    "pb": "Torre inferior",
-    "folga": 1.2,
-    "onde": {
-     "zc": 18.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "C_dir_lado2",
-    "pa": "Cabine",
-    "b": "calco_sensor_baixo_1",
-    "pb": "Torre inferior",
-    "folga": 1.2,
-    "onde": {
-     "zc": 18.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "est_curvaA_7",
     "pa": "Esteira A",
     "b": "prat_estA_1_trav_0",
@@ -5066,27 +5007,14 @@
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
    },
    {
-    "a": "alav_barra",
-    "pa": "Braco da comporta",
-    "b": "berco_macico",
-    "pb": "Cabine",
-    "folga": 1.28,
+    "a": "bloco_fixador",
+    "pa": "Cabine",
+    "b": "mancal_frente",
+    "pb": "Torre superior",
+    "folga": 1.27,
     "onde": {
-     "th": 0.0,
-     "zc": 18.1
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "alav_lamina",
-    "pa": "Braco da comporta",
-    "b": "berco_macico",
-    "pb": "Cabine",
-    "folga": 1.28,
-    "onde": {
-     "th": 0.0,
-     "zc": 21.1
+     "zc": 360.1,
+     "cA": 165.8
     },
     "ok": true,
     "nota": ""
@@ -5100,19 +5028,6 @@
     "onde": {
      "cA": -146.0,
      "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "alav_ponte",
-    "pa": "Braco da comporta",
-    "b": "berco_macico",
-    "pb": "Cabine",
-    "folga": 1.31,
-    "onde": {
-     "th": 0.0,
-     "zc": 28.1
     },
     "ok": true,
     "nota": ""
@@ -5139,6 +5054,45 @@
     "onde": {
      "th": 7.5,
      "zc": 18.1
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponte",
+    "pa": "Braco da comporta",
+    "b": "berco_macico",
+    "pb": "Cabine",
+    "folga": 1.35,
+    "onde": {
+     "th": 0.0,
+     "zc": 28.1
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_barra",
+    "pa": "Braco da comporta",
+    "b": "berco_macico",
+    "pb": "Cabine",
+    "folga": 1.35,
+    "onde": {
+     "th": 0.0,
+     "zc": 18.1
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_lamina",
+    "pa": "Braco da comporta",
+    "b": "berco_macico",
+    "pb": "Cabine",
+    "folga": 1.35,
+    "onde": {
+     "th": 0.0,
+     "zc": 21.1
     },
     "ok": true,
     "nota": ""
@@ -5339,6 +5293,19 @@
     "nota": ""
    },
    {
+    "a": "C_dir_lado2",
+    "pa": "Cabine",
+    "b": "sensor_baixo_braco1",
+    "pb": "Sensor de fenda",
+    "folga": 1.5,
+    "onde": {
+     "zc": 18.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
     "a": "bandeira_baixo",
     "pa": "Bandeira",
     "b": "sensor_baixo_braco1",
@@ -5371,7 +5338,7 @@
     "pb": "Sensor de fenda",
     "folga": 1.5,
     "onde": {
-     "zc": 354.1,
+     "zc": 356.1,
      "cA": 165.8
     },
     "ok": true,
@@ -5384,7 +5351,7 @@
     "pb": "Sensor de fenda",
     "folga": 1.5,
     "onde": {
-     "zc": 354.1,
+     "zc": 356.1,
      "cA": 165.8
     },
     "ok": true,
@@ -5586,32 +5553,6 @@
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
    },
    {
-    "a": "patim_topo_A",
-    "pa": "Patim MGN12H A",
-    "b": "fdc_dir_A",
-    "pb": "Fim de curso",
-    "folga": 1.7,
-    "onde": {
-     "cA": 163.0,
-     "cB": -134.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "patim_fl2_A",
-    "pa": "Patim MGN12H A",
-    "b": "fdc_dir_A",
-    "pb": "Fim de curso",
-    "folga": 1.7,
-    "onde": {
-     "cA": 163.0,
-     "cB": -134.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "alav_ponta_topo",
     "pa": "Braco da comporta",
     "b": "berco_piso",
@@ -5633,45 +5574,6 @@
     "onde": {
      "cA": -146.0,
      "cB": -101.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "prateleiraA",
-    "pa": "Carro A",
-    "b": "bloco_braco_dir_A",
-    "pb": "Bloco direito",
-    "folga": 1.72,
-    "onde": {
-     "cA": 148.0,
-     "cB": 147.1
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "placaA",
-    "pa": "Carro A",
-    "b": "bloco_braco_dir_A",
-    "pb": "Bloco direito",
-    "folga": 1.72,
-    "onde": {
-     "cA": 154.0,
-     "cB": -143.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "C_dir_lado2",
-    "pa": "Cabine",
-    "b": "sensor_baixo_braco1",
-    "pb": "Sensor de fenda",
-    "folga": 1.75,
-    "onde": {
-     "zc": 18.1,
-     "cA": 165.8
     },
     "ok": true,
     "nota": ""
@@ -5724,19 +5626,6 @@
     "onde": {
      "th": 1.5,
      "zc": 28.1
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "bloco_fixador",
-    "pa": "Cabine",
-    "b": "placa_motor",
-    "pb": "Torre superior",
-    "folga": 1.77,
-    "onde": {
-     "zc": 360.1,
-     "cA": 165.8
     },
     "ok": true,
     "nota": ""
@@ -5826,7 +5715,7 @@
     "pb": "Torre inferior",
     "folga": 1.8,
     "onde": {
-     "zc": 30.1,
+     "zc": 28.1,
      "cA": 165.8
     },
     "ok": true,
@@ -5839,7 +5728,7 @@
     "pb": "Torre superior",
     "folga": 1.8,
     "onde": {
-     "zc": 214.1,
+     "zc": 212.1,
      "cA": 165.8
     },
     "ok": true,
@@ -5863,9 +5752,22 @@
     "pa": "Braco da comporta",
     "b": "berco_macico_base",
     "pb": "Cabine",
-    "folga": 1.93,
+    "folga": 1.9,
     "onde": {
-     "th": 0.5,
+     "th": 0.0,
+     "zc": 28.1
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponta",
+    "pa": "Braco da comporta",
+    "b": "berco_macico_base",
+    "pb": "Cabine",
+    "folga": 1.9,
+    "onde": {
+     "th": 0.0,
      "zc": 28.1
     },
     "ok": true,
@@ -5885,19 +5787,6 @@
     "nota": ""
    },
    {
-    "a": "alav_ponta",
-    "pa": "Braco da comporta",
-    "b": "berco_macico_base",
-    "pb": "Cabine",
-    "folga": 1.96,
-    "onde": {
-     "th": 1.0,
-     "zc": 28.1
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "prateleiraA",
     "pa": "Carro A",
     "b": "bloco_dir_A",
@@ -5906,32 +5795,6 @@
     "onde": {
      "cA": 160.0,
      "cB": -137.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "presilha_A",
-    "pa": "Carro A",
-    "b": "bloco_braco_A",
-    "pb": "Bloco esquerdo de cima",
-    "folga": 2.0,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "presilha_A",
-    "pa": "Carro A",
-    "b": "fdc_A",
-    "pb": "Fim de curso",
-    "folga": 2.0,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
     },
     "ok": true,
     "nota": ""
@@ -5950,14 +5813,53 @@
     "nota": ""
    },
    {
+    "a": "batedor_casa_A",
+    "pa": "Carro A",
+    "b": "bloco_braco_A",
+    "pb": "Bloco esquerdo de cima",
+    "folga": 2.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "batedor_casa_A",
+    "pa": "Carro A",
+    "b": "fdc_A",
+    "pb": "Fim de curso",
+    "folga": 2.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "ponta_estA",
+    "pa": "Carro A",
+    "b": "prat_estA_0_trav_0",
+    "pb": "Prateleira da esteira",
+    "folga": 2.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
     "a": "ponta_estA",
     "pa": "Carro A",
     "b": "prat_estA_0_trav_1",
     "pb": "Prateleira da esteira",
     "folga": 2.0,
     "onde": {
-     "cA": -125.0,
-     "cB": -125.0
+     "cA": -116.0,
+     "cB": -116.0
     },
     "ok": true,
     "nota": ""
@@ -5969,8 +5871,8 @@
     "pb": "Prateleira da esteira",
     "folga": 2.0,
     "onde": {
-     "cA": -80.0,
-     "cB": -80.0
+     "cA": -74.0,
+     "cB": -74.0
     },
     "ok": true,
     "nota": ""
@@ -5982,8 +5884,8 @@
     "pb": "Prateleira da esteira",
     "folga": 2.0,
     "onde": {
-     "cA": -35.0,
-     "cB": -35.0
+     "cA": -32.0,
+     "cB": -32.0
     },
     "ok": true,
     "nota": ""
@@ -6223,32 +6125,6 @@
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
    },
    {
-    "a": "presilha_B",
-    "pa": "Carro B",
-    "b": "bloco_braco_B",
-    "pb": "Bloco esquerdo de baixo",
-    "folga": 2.0,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "presilha_B",
-    "pa": "Carro B",
-    "b": "fdc_B",
-    "pb": "Fim de curso",
-    "folga": 2.0,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "ponte_B",
     "pa": "Carro B",
     "b": "correia_tras_B",
@@ -6262,34 +6138,60 @@
     "nota": ""
    },
    {
-    "a": "bandeira_cima",
-    "pa": "Bandeira",
-    "b": "sensor_cima_fundo",
-    "pb": "Sensor de fenda",
+    "a": "batedor_casa_B",
+    "pa": "Carro B",
+    "b": "bloco_braco_B",
+    "pb": "Bloco esquerdo de baixo",
+    "folga": 2.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "batedor_casa_B",
+    "pa": "Carro B",
+    "b": "fdc_B",
+    "pb": "Fim de curso",
+    "folga": 2.0,
+    "onde": {
+     "cA": -146.0,
+     "cB": -146.0
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "bloco_fixador",
+    "pa": "Cabine",
+    "b": "mancal_tras",
+    "pb": "Torre superior",
     "folga": 2.0,
     "onde": {
      "zc": 360.1,
      "cA": 165.8
     },
     "ok": true,
-    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
-   },
-   {
-    "a": "alav_ponte",
-    "pa": "Braco da comporta",
-    "b": "frente_c",
-    "pb": "Torre inferior",
-    "folga": 2.0,
-    "onde": {
-     "th": 0.0,
-     "zc": 18.1
-    },
-    "ok": true,
     "nota": ""
    },
    {
     "a": "alav_ponte",
     "pa": "Braco da comporta",
+    "b": "frente_c",
+    "pb": "Torre inferior",
+    "folga": 2.0,
+    "onde": {
+     "th": 0.0,
+     "zc": 18.1
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "alav_ponte",
+    "pa": "Braco da comporta",
     "b": "fila_frente",
     "pb": "Fila",
     "folga": 2.0,
@@ -6457,17 +6359,56 @@
     "nota": ""
    },
    {
-    "a": "bandeira_baixo",
-    "pa": "Bandeira",
-    "b": "sensor_baixo_fundo",
+    "a": "alav_ponta_topo",
+    "pa": "Braco da comporta",
+    "b": "berco_macico_base",
+    "pb": "Cabine",
+    "folga": 2.1,
+    "onde": {
+     "th": 0.0,
+     "zc": 28.1
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "C_dir_face",
+    "pa": "Cabine",
+    "b": "sensor_baixo_orelha",
     "pb": "Sensor de fenda",
-    "folga": 2.0,
+    "folga": 2.12,
     "onde": {
      "zc": 18.1,
      "cA": 165.8
     },
     "ok": true,
-    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
+    "nota": ""
+   },
+   {
+    "a": "C_dir_lado2",
+    "pa": "Cabine",
+    "b": "sensor_baixo_orelha",
+    "pb": "Sensor de fenda",
+    "folga": 2.12,
+    "onde": {
+     "zc": 18.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
+    "a": "C_dir_labio2",
+    "pa": "Cabine",
+    "b": "sensor_baixo_orelha",
+    "pb": "Sensor de fenda",
+    "folga": 2.12,
+    "onde": {
+     "zc": 18.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": ""
    },
    {
     "a": "costasB",
@@ -6478,45 +6419,6 @@
     "onde": {
      "cA": -104.0,
      "cB": -50.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "alav_ponta_topo",
-    "pa": "Braco da comporta",
-    "b": "berco_macico_base",
-    "pb": "Cabine",
-    "folga": 2.16,
-    "onde": {
-     "th": 1.0,
-     "zc": 28.1
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "bloco_fixador",
-    "pa": "Cabine",
-    "b": "sensor_baixo_braco1",
-    "pb": "Sensor de fenda",
-    "folga": 2.17,
-    "onde": {
-     "zc": 18.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "bloco_fixador",
-    "pa": "Cabine",
-    "b": "sensor_baixo_braco2",
-    "pb": "Sensor de fenda",
-    "folga": 2.17,
-    "onde": {
-     "zc": 18.1,
-     "cA": 165.8
     },
     "ok": true,
     "nota": ""
@@ -6606,8 +6508,8 @@
     "pb": "Prateleira da esteira",
     "folga": 2.28,
     "onde": {
-     "cA": -134.0,
-     "cB": -134.0
+     "cA": -128.0,
+     "cB": -128.0
     },
     "ok": true,
     "nota": ""
@@ -6619,8 +6521,8 @@
     "pb": "Prateleira da esteira",
     "folga": 2.28,
     "onde": {
-     "cA": -89.0,
-     "cB": -89.0
+     "cA": -86.0,
+     "cB": -86.0
     },
     "ok": true,
     "nota": ""
@@ -6760,7 +6662,7 @@
     "pa": "Cabine",
     "b": "degrau_inf",
     "pb": "Torre inferior",
-    "folga": 2.33,
+    "folga": 2.4,
     "onde": {
      "zc": 18.1,
      "cA": 165.8
@@ -6773,9 +6675,9 @@
     "pa": "Cabine",
     "b": "degrau_sup",
     "pb": "Torre superior",
-    "folga": 2.33,
+    "folga": 2.4,
     "onde": {
-     "zc": 216.1,
+     "zc": 214.1,
      "cA": 165.8
     },
     "ok": true,
@@ -6786,7 +6688,7 @@
     "pa": "Cabine",
     "b": "tubo_esq_tras",
     "pb": "Torre inferior",
-    "folga": 2.33,
+    "folga": 2.4,
     "onde": {
      "zc": 18.1,
      "cA": 165.8
@@ -6799,9 +6701,9 @@
     "pa": "Cabine",
     "b": "tubo_esq_cima",
     "pb": "Torre inferior",
-    "folga": 2.33,
+    "folga": 2.4,
     "onde": {
-     "zc": 56.1,
+     "zc": 54.1,
      "cA": 165.8
     },
     "ok": true,
@@ -6812,9 +6714,9 @@
     "pa": "Cabine",
     "b": "tubo_esq_sup",
     "pb": "Torre superior",
-    "folga": 2.33,
+    "folga": 2.4,
     "onde": {
-     "zc": 216.1,
+     "zc": 214.1,
      "cA": 165.8
     },
     "ok": true,
@@ -7094,6 +6996,32 @@
     "nota": ""
    },
    {
+    "a": "bandeira_baixo",
+    "pa": "Bandeira",
+    "b": "sensor_baixo_fundo",
+    "pb": "Sensor de fenda",
+    "folga": 2.5,
+    "onde": {
+     "zc": 18.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
+   },
+   {
+    "a": "bandeira_cima",
+    "pa": "Bandeira",
+    "b": "sensor_cima_fundo",
+    "pb": "Sensor de fenda",
+    "folga": 2.5,
+    "onde": {
+     "zc": 360.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": "a bandeira (M2) entra na fenda do sensor (1,5 mm de cada lado)"
+   },
+   {
     "a": "costasB",
     "pa": "Carro B",
     "b": "band_placa_0",
@@ -7115,45 +7043,6 @@
     "onde": {
      "cA": 1.0,
      "cB": 100.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "placaA",
-    "pa": "Carro A",
-    "b": "fdc_dir_A",
-    "pb": "Fim de curso",
-    "folga": 2.6,
-    "onde": {
-     "cA": 154.0,
-     "cB": -143.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "bloco_fixador",
-    "pa": "Cabine",
-    "b": "sensor_cima_braco1",
-    "pb": "Sensor de fenda",
-    "folga": 2.67,
-    "onde": {
-     "zc": 360.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "bloco_fixador",
-    "pa": "Cabine",
-    "b": "sensor_cima_braco2",
-    "pb": "Sensor de fenda",
-    "folga": 2.67,
-    "onde": {
-     "zc": 360.1,
-     "cA": 165.8
     },
     "ok": true,
     "nota": ""
@@ -7230,7 +7119,7 @@
     "pb": "Torre superior",
     "folga": 2.8,
     "onde": {
-     "zc": 214.1,
+     "zc": 212.1,
      "cA": 165.8
     },
     "ok": true,
@@ -7256,7 +7145,7 @@
     "pb": "Torre inferior",
     "folga": 2.8,
     "onde": {
-     "zc": 54.1,
+     "zc": 52.1,
      "cA": 165.8
     },
     "ok": true,
@@ -7269,7 +7158,7 @@
     "pb": "Torre superior",
     "folga": 2.8,
     "onde": {
-     "zc": 214.1,
+     "zc": 212.1,
      "cA": 165.8
     },
     "ok": true,
@@ -7326,35 +7215,9 @@
     },
     "ok": true,
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
-   },
-   {
-    "a": "presilha_piso_A",
-    "pa": "Carro A",
-    "b": "fdc_A",
-    "pb": "Fim de curso",
-    "folga": 2.93,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "presilha_piso_B",
-    "pa": "Carro B",
-    "b": "fdc_B",
-    "pb": "Fim de curso",
-    "folga": 2.93,
-    "onde": {
-     "cA": -146.0,
-     "cB": -146.0
-    },
-    "ok": true,
-    "nota": ""
    }
   ],
-  "segundos": 129.1,
+  "segundos": 206.0,
   "posicoes": {
    "A": 105,
    "B": 99

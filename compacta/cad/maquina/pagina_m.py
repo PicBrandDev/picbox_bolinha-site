@@ -32,13 +32,14 @@ ETAPAS = {
 
 NOTAS_ETAPA = {
     1: "Eixo M5x30 de tras para a frente pela placa de tras (rasgo de 6 mm): porca na frente da placa, arruela, polia, arruela "
-       "e porca de nylon; deixe frouxo no alto do rasgo. Sensor de fenda de baixo deitado nos 2 calcos, fenda para cima, pinos "
-       "para tras (na canaleta); M3x8 pelo furo da placa do sensor e porca por baixo do pe, no canal.",
+       "e porca de nylon; deixe frouxo no alto do rasgo. Sensor de fenda de baixo com a fenda para cima, orelhas no pe: 2 M3x10 "
+       "pelos furos das orelhas, porcas por baixo do pe. As pernas passam pelo furo do pe e os fios vao pelo canal de baixo ate a canaleta.",
     2: "Rosqueie as 2 bandeiras (M2x25) nos ressaltos atras da cabine, com uma porca de trava cada: a de baixo com a ponta "
        "para baixo, a de cima com a ponta para cima. Desca a cabine por cima da torre de baixo, um C em cada trilho.",
-    3: "Motor N20 entra pela frente do berco do topo, face da caixa de reducao na placa: 2 M2x6 por tras. Bucha impressa no "
-       "eixo, polia por cima, parafuso sem cabeca no lado chato. Sensor de cima no teto, fenda para baixo (M3x8 + porca por cima "
-       "do teto). Encaixe nos 3 pinos e aperte 2 M3x8 atras e 2 na esquerda.",
+    3: "Polia de cima: rolamento 625ZZ em cada mancal (frente e tras), eixo de 5 mm por tras atravessando rolamento, polia e "
+       "rolamento; a polia aperta no eixo. Acoplamento rigido no eixo do N20, N20 entra pela frente no berco e o acoplamento "
+       "aperta no eixo de 5 mm (o motor fica solto: so nao gira). Sensor de cima no teto, fenda para baixo, 2 M3x10 + porca "
+       "por cima do teto. Encaixe nos 3 pinos e aperte 2 M3x8 atras e 2 na esquerda.",
     4: "Uma ponta da correia desce da polia do motor, a outra sobe da polia de baixo; as duas se encontram no meio do bolso de "
        "tras da cabine. Fixador de aluminio por cima, dentes nos dentes da correia; porca M3 na fenda atras dele; M3x14 pela "
        "janela da parede direita (cabine embaixo). Depois puxe a polia de baixo para baixo no rasgo e aperte a porca do eixo.",
@@ -69,7 +70,8 @@ FIRMWARE = [
     "Liga o ima, espera 150 ms, volta para o jogo.",
     "Jogo: carro A em seno de +-120 em 2,4 s (ate 314 mm/s), carro B em +-120. O botao corta o ima (MOSFET + TVS 33 V).",
     "Acerto: a barreira IR do anel ve a bola. Sem IR em 400 ms depois de soltar = erro.",
-    "Elevador: sobe ate o sensor de fenda de cima (saida D0 do LM393 muda quando a bandeira entra na fenda) e desce ate o de "
+    "Elevador: sobe ate o sensor de fenda de cima e desce ate o de baixo (sensor sem placa: LED com resistor de 220 ohm e "
+    "fototransistor com resistor de 10 k para o 3,3 V; a entrada muda quando a bandeira corta o feixe). "
     "baixo. N20 a 50% nos ultimos 20 mm e corte em 1 s sem sensor; L9110S em freio na espera; servo SG90 no buck de 5 V.",
     "Ajuste fino das paradas: gire a bandeira (M2x25) da cabine. Meia volta = 0,25 mm. Trave com a porca.",
     "TMC2209: corrente 0,6 A e StallGuard desligado (os fins de curso fazem a casa). Aceleracao de no maximo 1500 mm/s2.",
@@ -82,7 +84,8 @@ RISCOS = [
      "400 na cabeca do T; se sair folgada demais, a cabine so balanca, nao trava (C de 50 mm de altura)."),
     ("Momento no patim MGN12H do carro B", "Na batida da bola na borda do anel, FS 1,7 contra o limite estatico do catalogo. "
      "E um pico curto; se o patim ficar com folga, troque o patim (o trilho continua)."),
-    ("Sensor de fenda", "As medidas do modulo LM393 variam de fornecedor (placa de 31 a 38 mm). A prateleira aceita ate 38 x 14 "
+    ("Sensor de fenda", "O desenho usa o sensor da foto (24,5 mm, 2 orelhas). Confira a distancia entre os furos (19 mm no "
+     "desenho, os furos tem rasgo de +-1,5 mm), a largura da fenda (5 mm) e a altura total (11 mm). "
      "e o furo da placa pode cair em qualquer lugar do rasgo de 16 mm. Confira antes de imprimir se a fenda e de 5 mm."),
     ("Esteiras porta-cabo", "Medidas para 7x7 com raio 18-20. Se a de voces for maior, a de cima precisa de 2 mm a mais de prateleira."),
 ]
@@ -209,7 +212,7 @@ def novidades(m):
               "Atrás da cabine: o mesmo fixador de alumínio dos carros, em pé, dentes nos dentes da correia. M3x14 pela direita "
               "e porca presa atrás do fixador.", z=el.zc_min, dist=110),
             f("Sensor de fenda de baixo", (E.X_BANDEIRA, E.Y_BANDEIRA, 14), (0.7, 0.8, 0.6), -60, 0,
-              "Módulo LM393 deitado no pé, fenda para cima. A bandeira (M2x25 da cabine) entra na fenda: girar o parafuso "
+              "Sensor de fenda (sem placa) preso pelas 2 orelhas no pé, fenda para cima. A bandeira (M2x25 da cabine) entra na fenda: girar o parafuso "
               "ajusta a parada.", z=el.zc_min, dist=110),
             f("Sensor de fenda de cima", (E.X_BANDEIRA, E.Y_BANDEIRA, 416), (0.7, 0.8, -0.3), -60, 0,
               "Igual ao de baixo, pendurado no teto da torre, fenda para baixo.", z=el.zc_max, dist=120),
