@@ -195,7 +195,7 @@ function painel() {
       <span class="downs">${botao("impressora_" + atual, `picbox_${I.pasta}.zip`, `Baixar as ${lista.length} mesas (.zip)`, null, true)}
       </span></header>` +
     lista.map((p, i) => {
-      const nn = String(i + 1).padStart(2, "0"), arq = `${nn}_placa_${p.n}.stl`, ok = ler(p.n);
+      const nn = String(i + 1).padStart(2, "0"), arq = p.arquivo, ok = ler(p.n);
       const qtd = {}; p.pecas.forEach(x => qtd[x] = (qtd[x] || 0) + 1);
       return `<article class="mesa${ok ? " feita" : ""}" style="--cor:${I.cor}">
         <div class="ord"><span class="n">${nn}</span><input type="checkbox" data-n="${p.n}" ${ok ? "checked" : ""} aria-label="Mesa ${nn} impressa"><small>${ok ? "impressa" : "marcar"}</small></div>

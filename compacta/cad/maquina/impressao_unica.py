@@ -101,6 +101,7 @@ def main():
         ('"picbox-impresso-"', '"picbox-sparkx-"'),
         ('grid-template-columns:repeat(4,minmax(0,1fr))}', 'grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}'),
         ('let atual = "A";', 'let atual = "S";'),
+        ('arq = `${nn}_placa_${p.n}.stl`', 'arq = p.arquivo'),
         ('try { atual = localStorage.getItem("picbox-aba") || "A"; } catch (e) {}', ''),
         ('["A", "B", "C"].map(k =>', '["S"].map(k =>'),
         ('"Baixar tudo (.zip): 3 impressoras + peças avulsas"', '"Baixar tudo (.zip): as mesas + peças avulsas"'),
