@@ -88,6 +88,15 @@
    "nota": ""
   },
   {
+   "stl": "bucha_da_polia_do_n20__x4.stl",
+   "z0": -0.0,
+   "apoio_cm2": 0.4,
+   "fechada": true,
+   "corpos": 4,
+   "ok": true,
+   "nota": "pecas pequenas: aba (brim) de 5 mm"
+  },
+  {
    "stl": "cabine.stl",
    "z0": 0.0,
    "apoio_cm2": 9.3,

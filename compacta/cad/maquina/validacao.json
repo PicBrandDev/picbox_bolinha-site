@@ -4,8 +4,8 @@
   "ruins": [],
   "n_ruins": 0,
   "previstas": 40,
-  "encostam": 211,
-  "pares": 34453
+  "encostam": 214,
+  "pares": 34980
  },
  "parafusos": [
   {
@@ -3021,11 +3021,11 @@
    353.5
   ],
   "x": [
-   -172.8,
+   -172.0,
    160.0
   ],
   "tamanho": [
-   333,
+   332,
    237
   ],
   "bloqueia": [
@@ -7262,7 +7262,7 @@
     "nota": ""
    }
   ],
-  "segundos": 58.1,
+  "segundos": 599.5,
   "posicoes": {
    "A": 105,
    "B": 99

@@ -271,6 +271,8 @@ def detalhes(m, peca, el):
     if peca.startswith("Bloco esquerdo de"):    # ressalto de 22 mm da face do NEMA 17 (2 mm de altura): furo de 23 na placa
         zf = (m.zpA if peca.endswith("cima") else m.zpB) + m.dz_correia - 15.0
         cut.append(cq.Solid.makeCylinder(11.5, 4.4, pnt=cq.Vector(m.x_motor, m.y_correia, zf - 0.2)))
+        # rasgo do ressalto ate a borda da placa: o motor entra deslizando de lado entre a placa e o berco de baixo
+        cut.append(cq.Solid.makeBox(25.0, 23.0, 4.4, pnt=cq.Vector(m.x_motor, m.y_correia - 11.5, zf - 0.2)))
     if peca == "Bloco esquerdo de cima":     # furo do cabo do motor (aba e parede)
         cut.append(cq.Solid.makeCylinder(5.0, 10.0, pnt=cq.Vector(-212.0, m.y_correia, 312.0), dir=cq.Vector(1, 0, 0)))
     if peca == "Bloco esquerdo de baixo":    # furo do cabo do motor e do fim de curso de baixo

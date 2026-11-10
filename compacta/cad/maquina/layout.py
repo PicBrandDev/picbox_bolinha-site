@@ -378,12 +378,19 @@ def eixo_linear(g, m: M, k):
     if k == "A":
         caixa(g, f"sup_nema_aba_{k}", "mundo", -GX, -215.5, m.y_correia - 21.15, m.y_correia + 21.15, zf - 72, zp - 14,
               pc, "preto")
-        caixa(g, f"sup_nema_nerv_{k}", "mundo", -215.5, -180, m.y_correia + 21.15, m.y_correia + 25.0, zf - 30, zf + 4, pc,
+        # berco embaixo do motor (0,2 mm de folga): o motor nao fica pendurado so nos 4 M3 da face; a nervura de tras
+        # desce ate o berco e segura a outra ponta dele
+        caixa(g, f"sup_nema_nerv_{k}", "mundo", -215.5, -180, m.y_correia + 21.15, m.y_correia + 25.0, zf - 44.2, zf + 4, pc,
               "preto")
+        caixa(g, f"sup_nema_berco_{k}", "mundo", -215.5, -172, m.y_correia - 21.15, m.y_correia + 21.15, zf - 44.2, zf - 40.2,
+              pc, "preto")
     else:
         caixa(g, f"sup_nema_aba_{k}", "mundo", -GX, -215.5, m.y_correia - 21.15, m.y_correia + 21.15, 0, zp - 14, pc,
               "preto")
         caixa(g, f"sup_nema_pe_{k}", "mundo", -215.5, -175, m.y_correia + 21.15, m.y_correia + 29.5, 0, 4, pc, "preto")
+        # berco no piso embaixo do motor (0,2 mm de folga)
+        caixa(g, f"sup_nema_berco_{k}", "mundo", -215.5, -172, m.y_correia - 21.15, m.y_correia + 21.15, 0, zf - 40.2, pc,
+              "preto")
         caixa(g, f"sup_nema_aba2_{k}", "mundo", -GX, -215.5, m.y_correia + 21.15, m.y_correia + 28.5, 0, zf + 4, pc,
               "preto")
     # tensora

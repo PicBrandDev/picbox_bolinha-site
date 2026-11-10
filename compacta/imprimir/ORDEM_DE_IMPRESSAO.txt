@@ -22,8 +22,8 @@ IMPRESSORA A - impressora grande (a melhor): pecas de precisao e as que ficam a 
         - Braco da comporta
         - Rampa
 
-IMPRESSORA B - Creality 220 x 220  -  total 30.3 h   (pasta B_creality_1)
-  01_placa_B1.stl        7.0 h  altura 48 mm
+IMPRESSORA B - Creality 220 x 220  -  total 30.8 h   (pasta B_creality_1)
+  01_placa_B1.stl        7.5 h  altura 48 mm
         - Bloco direito
         - Bloco esquerdo de cima
   02_placa_B2.stl        8.2 h  altura 105 mm
@@ -36,11 +36,11 @@ IMPRESSORA B - Creality 220 x 220  -  total 30.3 h   (pasta B_creality_1)
   05_placa_B5.stl        5.4 h  altura 77 mm
         - Bandeja direita
 
-IMPRESSORA C - Creality 220 x 220  -  total 25.0 h   (pasta C_creality_2)
+IMPRESSORA C - Creality 220 x 220  -  total 25.4 h   (pasta C_creality_2)
   01_placa_C1.stl        9.2 h  altura 105 mm
         - Fila esquerda
         - Bloco direito
-  02_placa_C2.stl        7.1 h  altura 48 mm
+  02_placa_C2.stl        7.5 h  altura 48 mm
         - Bloco esquerdo de baixo
         - Prateleira da esteira esquerda
   03_placa_C3.stl        8.7 h  altura 77 mm
