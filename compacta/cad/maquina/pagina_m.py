@@ -40,7 +40,8 @@ NOTAS_ETAPA = {
        "rolamento; a polia aperta no eixo. Acoplamento rigido no eixo do N20, N20 entra pela frente no berco e o acoplamento "
        "aperta no eixo de 5 mm (o motor fica solto: so nao gira). Sensor de cima no teto, fenda para baixo, 2 M3x10 + porca "
        "por cima do teto. Encaixe nos 3 pinos e aperte 2 M3x8 atras e 2 na esquerda.",
-    4: "Uma ponta da correia desce da polia do motor, a outra sobe da polia de baixo; as duas se encontram no meio do bolso de "
+    4: "A correia e um laco: o ramo da ESQUERDA passa livre ao lado da cabine; o ramo da DIREITA e o que prende. Uma ponta "
+       "desce da polia do motor pela direita, a outra sobe da polia de baixo pela direita; as duas se encontram no meio do bolso de "
        "tras da cabine. Fixador de aluminio por cima, dentes nos dentes da correia; porca M3 na fenda atras dele; M3x14 pela "
        "janela da parede direita (cabine embaixo). Depois puxe a polia de baixo para baixo no rasgo e aperte a porca do eixo.",
     5: "A torre fica encostada na parede direita: 2 parafusos de madeira na aba da frente (piso) e 2 em cada orelha. "
@@ -209,8 +210,9 @@ def novidades(m):
               "O elevador virou 2 peças: a torre de baixo (pé, trilhos, frente, polia de baixo, sensor) e a de cima (motor, "
               "sensor, pilares da rampa). Encaixam por 3 pinos e 4 M3.", z=el.zc_min + 150, dist=430),
             f("Fixador da correia na cabine", (196, 192, zf), (0.9, 0.5, 0.35), -60, 0,
-              "Atrás da cabine: o mesmo fixador de alumínio dos carros, em pé, dentes nos dentes da correia. M3x14 pela direita "
-              "e porca presa atrás do fixador.", z=el.zc_min, dist=110),
+              "Atrás da cabine: a cabine prende no ramo da DIREITA da correia (o da esquerda passa livre). O mesmo fixador de "
+              "alumínio dos carros, em pé, dentes nos dentes da correia (lado de dentro do laço). M3x14 pela direita e porca presa "
+              "atrás do fixador.", z=el.zc_min, dist=110),
             f("Sensor de fenda de baixo", (E.X_BANDEIRA, E.Y_BANDEIRA, 14), (0.7, 0.8, 0.6), -60, 0,
               "Sensor de fenda (sem placa) preso pelas 2 orelhas no pé, fenda para cima. A bandeira (M2x25 da cabine) entra na fenda: girar o parafuso "
               "ajusta a parada.", z=el.zc_min, dist=110),

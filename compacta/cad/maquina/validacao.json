@@ -7217,10 +7217,24 @@
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
    }
   ],
-  "segundos": 206.0,
+  "segundos": 59.3,
   "posicoes": {
    "A": 105,
    "B": 99
   }
+ },
+ "correia_cabine": {
+  "ok": true,
+  "linhas": [
+   {
+    "a": "correia_ida_cima",
+    "b": "eixo_cima",
+    "pb": "Eixo da polia de cima",
+    "folga": 3.17,
+    "zc": 18.1,
+    "ok": true
+   }
+  ],
+  "x": 197.37
  }
 }

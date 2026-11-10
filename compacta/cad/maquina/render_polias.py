@@ -42,6 +42,19 @@ def main():
            titulo="Pe do elevador: a polia de baixo fica num eixo M5 em balanco na placa de tras",
            esconde=("Torre superior", "Bandeja", "EVA", "Fila", "Perfil 2020 B", "Trilho MGN12 B", "Carro B", "Patim MGN12H B",
                     "Esteira B", "Bloco direito", "LED", "Correia B"))
+    # laco inteiro da correia, visto de tras, cabine no meio do curso
+    zm = (el.zc_min + el.zc_max) / 2
+    it = destaca(R.cena(m, zm, el.ang_baixa, -60.0, 0.0))
+    k0, k1 = el.fix_z
+    rot = [("Polia do motor (topo)", (el.x_polia, 192, el.z_polia_cima + 9)), ("Polia de baixo", (el.x_polia, 192, el.z_polia_baixo - 9)),
+           ("Ramo PRESO: as 2 pontas entram no fixador", (el.x_ida, 192, zm + k1 + 60)),
+           ("Ramo LIVRE: passa ao lado da cabine", (el.x_volta, 192, zm - 60)),
+           ("Fixador de aluminio (dentes na face dentada)", (el.x_ida - 3, 192, zm + (k0 + k1) / 2))]
+    R.foto("p4_laco_correia.png", it, (191, 190, 215), (0.3, -1.0, 0.12), 250, [], rot, vidro=("Cabine",), tam=(1100, 1600),
+           titulo="Correia do elevador vista de frente (cabine transparente): um laco, a cabine presa no ramo da direita",
+           esconde=("Torre inferior", "Torre superior", "Gabinete", "Tela", "Bandeja", "EVA", "Fila", "Rampa", "Perfil", "Trilho MGN12",
+                    "Patim", "Carro", "Esteira", "Bloco", "Prateleira", "Eletroima", "Arruela", "Correia A", "Correia B", "Polia GT2",
+                    "Polia tensora", "NEMA", "Fim de curso", "Servo", "Braco", "LED", "Ponta fixa", "Fixador de correia", "Sensor do bolso"))
     print("ok")
 
 

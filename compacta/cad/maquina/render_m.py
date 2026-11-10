@@ -71,6 +71,11 @@ def cena(m, zc, th, cA, cB):
         cor = COR["eva"] if pc.startswith("EVA") else COR["correia"] if pc.startswith(("Correia", "Esteira")) else \
             COR["sensor"] if pc in ("Sensor do bolso", "LED IR / fototransistor 5 mm", "Sensor de fenda", "Fim de curso") else COR["comp"]
         itens.append((me, cor, 1.0, pc))
+    import elevador2 as E2
+    for e in E2.correia_ida(el, zc):
+        h = np.array(e["meio"]); cc = np.array(e["pos"])
+        itens.append((pv.Box(bounds=(cc[0] - h[0], cc[0] + h[0], cc[1] - h[1], cc[1] + h[1], cc[2] - h[2], cc[2] + h[2])),
+                      COR["correia"], 1.0, "Correia"))
     return itens
 
 
@@ -167,7 +172,8 @@ def main():
     it = cena(m, el.zc_min + 120, el.ang_baixa, -60.0, 0.0)
     zf = el.zc_min + 120 + sum(el.fix_z) / 2
     rot = [("Fixador 40x9x5 (dentes na correia)", (194, 192, zf + 15)), ("M3x14 pela direita", (204, 192, zf)),
-           ("Ramo livre da correia", (el.x_volta, 192, zf + 40))]
+           ("Ramo livre (esquerda)", (el.x_volta, 192, zf + 40)),
+           ("Ramo preso na cabine (direita)", (el.x_ida, 192, zf + 45))]
     foto("10_fixador_cabine.png", it, (195, 185, zf), (0.8, 0.75, 0.4), 45, [], rot, vidro=("Cabine",),
          titulo="Atras da cabine: o fixador de aluminio prende as 2 pontas da correia (cabine transparente)",
          esconde=("Torre inferior", "Torre superior", "Perfil 2020", "Trilho MGN12", "Bloco direito", "Rampa"))

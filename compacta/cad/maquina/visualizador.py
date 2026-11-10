@@ -153,7 +153,8 @@ def main():
         etapas=etapas, novo=novo, resumo=resumo, cabos=PM.CABOS, firmware=PM.FIRMWARE, riscos=PM.RISCOS, faq=PM.FAQ,
         m=dict(cA=r(m.cA), cB=r(m.cB), dA=m.dA, zc=r([el.zc_min, el.zc_max]), piv=r(el.piv), ang=el.ang_baixa, zs=round(m.zs, 2),
                zb=round(m.zb, 2), yb=m.y_bola, r=L.R, bolso=r(m.bola_bolso), curso=m.curso, dZ=m.dZ, gab=[L.GX, L.GY, L.GZ],
-               RcA=m.RcA, RcB=m.RcB, est_h=m.est_h, est_w=m.est_w))
+               RcA=m.RcA, RcB=m.RcB, est_h=m.est_h, est_w=m.est_w,
+               ida=dict(x=round(el.x_ida, 2), y=r(el.y_correia), zb=el.z_polia_baixo, zt=el.z_polia_cima, k=r(el.fix_z))))
     html = (AQUI / "visualizador_tpl.html").read_text(encoding="utf8").replace("__DADOS__", json.dumps(dados, ensure_ascii=False))
     SAIDA.write_text(html, encoding="utf8")
     print("ok", SAIDA, len(html) // 1024, "KB")

@@ -201,6 +201,17 @@ def caixa(lst, nome, corpo, x0, x1, y0, y1, z0, z1, grupo, peca, cor, R=None):
                     pos=c, quat=quat(R if R is not None else np.eye(3)), grupo=grupo, peca=peca, cor=cor))
 
 
+def correia_ida(p, zc, corpo="correia"):
+    """Ramo da correia preso na cabine (o da direita, X x_ida): da polia de baixo ate a ponta de baixo do fixador e da
+    ponta de cima do fixador ate a polia de cima. O comprimento muda com a cabine, por isso nao entra na geometria fixa."""
+    k0, k1 = p.fix_z
+    x, (y0, y1) = p.x_ida, p.y_correia
+    g = []
+    caixa(g, "correia_ida_baixo", corpo, x - 0.7, x + 0.7, y0, y1, p.z_polia_baixo, zc + k0 - 3, "visual", "Correia", "correia")
+    caixa(g, "correia_ida_cima", corpo, x - 0.7, x + 0.7, y0, y1, zc + k1 + 3, p.z_polia_cima, "visual", "Correia", "correia")
+    return g
+
+
 def placa(lst, nome, corpo, x0, x1, y0, y1, esp, R, z_topo_centro, grupo, peca, cor):
     n = R @ np.array([0, 0, 1.0])
     c = np.array([(x0 + x1) / 2, (y0 + y1) / 2, z_topo_centro]) - n * esp / 2

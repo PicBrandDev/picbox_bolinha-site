@@ -195,6 +195,41 @@ def varredura(c: Cena, passo=3.0):
                 posicoes=dict(A=len(xsA), B=len(xsB)))
 
 
+# ------------------------------------------------------------------ 2b. ramo da correia preso na cabine
+def correia_cabine(c: Cena, passo=2.0):
+    """O ramo da direita (preso na cabine) muda de comprimento com a cabine: folga dele contra tudo em todo o curso.
+    Fica de fora: polias (a correia abraca), o proprio fixador/bloco da cabine (a correia entra nele) e a outra correia."""
+    import elevador2 as E2
+    el = c.el
+    if "correia_ida_baixo" not in c.id:
+        for e in E2.correia_ida(el, el.zc_min):
+            c.g.append(e); i = len(c.g) - 1
+            c.id[e["nome"]] = i; c.corpo[e["nome"]] = "correia"; c.peca[e["nome"]] = "Correia"; c.pai[e["nome"]] = e["nome"]
+            c.tipo.append("box"); c.loc.append((np.array(e["pos"], float), np.eye(3))); c.meio.append(np.array(e["meio"], float))
+            c._c.append(None); c._R.append(None)
+    fora_p = {"Polia do motor", "Polia de baixo", "Correia", "Gabinete", "Tela", "Fixador da cabine"}
+    fora_n = {"bloco_fixador"}
+    minimo = {}
+    zcs = np.arange(el.zc_min, el.zc_max + 0.01, passo).tolist() + [el.zc_max]
+    for zc in zcs:
+        for e in E2.correia_ida(el, zc):
+            i = c.id[e["nome"]]
+            c.loc[i] = (np.array(e["pos"], float), np.eye(3)); c.meio[i] = np.array(e["meio"], float)
+        c.pose(zc=zc)
+        for a in ("correia_ida_baixo", "correia_ida_cima"):
+            for b in c.id:
+                if c.peca[b] in fora_p or b in fora_n or c.corpo[b] in ("correia", "bola"):
+                    continue
+                d = c.dist(a, b, corte=6.0)
+                k = (a, c.pai[b])
+                if k not in minimo or d < minimo[k][0]:
+                    minimo[k] = (d, round(zc, 1))
+    linhas = [dict(a=a, b=b, pb=c.peca.get(b, "?"), folga=round(d, 2), zc=z, ok=bool(d >= FOLGA - 1e-6))
+              for (a, b), (d, z) in sorted(minimo.items(), key=lambda kv: kv[1][0]) if d < 4]
+    c.pose()
+    return dict(ok=all(l["ok"] for l in linhas), linhas=linhas, x=round(el.x_ida, 2))
+
+
 # ------------------------------------------------------------------ 3. bola
 def bola(c: Cena):
     m, el = c.m, c.el
@@ -489,6 +524,9 @@ def main():
         print("VARREDURA ok" if v["ok"] else "VARREDURA RUIM", v["segundos"], "s", v["posicoes"])
         for l in v["linhas"][:40]:
             print("   ", l)
+    val["correia_cabine"] = correia_cabine(c)
+    v = val["correia_cabine"]
+    print("CORREIA DA CABINE", "ok" if v["ok"] else "RUIM", v["linhas"][:12])
     (AQUI / "validacao.json").write_text(json.dumps(val, indent=1, ensure_ascii=False, default=float), encoding="utf8")
     print(f"total {time.time() - t0:.0f}s")
 

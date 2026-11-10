@@ -303,6 +303,17 @@ for (const e of D.geo) {
   (corpos[e.c] || corpos.mundo).add(me);
   registra(me, e.peca, cor, tp !== "impressa", e.c, e.cor !== "correia");
 }
+/* ramo da correia preso na cabine: o comprimento muda com a cabine */
+const ida = [0, 1].map(() => {
+  const me = new THREE.Mesh(new THREE.BoxGeometry(1.4, M.ida.y[1] - M.ida.y[0], 1), material(COR.correia, false));
+  me.position.set(M.ida.x, (M.ida.y[0] + M.ida.y[1]) / 2, 0);
+  corpos.mundo.add(me); registra(me, "Correia", COR.correia, true, "mundo", false);
+  return me;
+});
+function poseIda(zc) {
+  const seg = [[M.ida.zb, zc + M.ida.k[0] - 3], [zc + M.ida.k[1] + 3, M.ida.zt]];
+  seg.forEach(([a, b], i) => { ida[i].scale.z = Math.max(b - a, .1); ida[i].position.z = (a + b) / 2; });
+}
 /* esteiras porta-cabo (seguem os carros, como no layout.py) */
 const estG = {A: new THREE.Group(), B: new THREE.Group()}; sc.add(estG.A); sc.add(estG.B);
 const matE = material(COR.correia, false);
@@ -689,6 +700,7 @@ function pose() {
   corpos.carroA.position.x = +sA.value - M.dA;
   corpos.carroB.position.x = +sB.value;
   corpos.carro.position.z = +sZ.value;
+  poseIda(+sZ.value);
   piv.rotation.y = THREE.MathUtils.degToRad(+sT.value);
   esteira("A", +sA.value - M.dA); esteira("B", +sB.value);
 }
