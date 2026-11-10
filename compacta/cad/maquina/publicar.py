@@ -75,6 +75,9 @@ def main():
             shutil.copy2(S / orig, C / "pagina" / dest)
     import alteradas
     alteradas.main()
+    if (AQUI / "saida_unica" / "plano.json").exists():      # visualizador 3D de arquivo unico (precisa do plano da SparkX i7)
+        import visualizador
+        visualizador.main()
     print("\n".join(geral))
 
 
