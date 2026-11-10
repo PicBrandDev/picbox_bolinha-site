@@ -33,12 +33,15 @@ def main():
                                                       ("02_frente.png", "De frente, como o jogador vê"),
                                                       ("04_pega.png", "Pega da bola no bolso"),
                                                       ("05_elevador_topo.png", "Elevador no topo"),
-                                                      ("06_comporta.png", "Comporta"), ("07_anel.png", "Anel no carro B"))]
+                                                      ("06_comporta.png", "Comporta"), ("07_anel.png", "Anel no carro B"),
+                                                      ("08_torre_baixo.png", "Pé da torre do elevador"),
+                                                      ("09_torre_cima.png", "Topo da torre do elevador"),
+                                                      ("s1_sensores_geral.png", "Onde ficam os sensores"))]
     pecas = [dict(peca=p["peca"], arquivo=p["arquivo"], quantidade=p["quantidade"], placas=p["placas"],
                   posicao=p["posicao"], suporte=p["suporte"], horas=p["horas"], funcao=p["funcao"], por_que=p["por_que"])
              for p in plano["pecas"]]
     zips = {}
-    tudo = [(IMP / "ORDEM_DE_IMPRESSAO.txt", "ORDEM_DE_IMPRESSAO.txt")]
+    tudo = [(IMP / "ORDEM_DE_IMPRESSAO.txt", "ORDEM_DE_IMPRESSAO.txt"), (IMP / "LEIA-ME_R2.txt", "LEIA-ME_R2.txt")]
     for k, pasta in PASTA.items():
         arqs = []
         for i, p in enumerate(plano["placas"][k], 1):
