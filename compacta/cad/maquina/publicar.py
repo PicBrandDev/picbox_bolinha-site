@@ -34,6 +34,8 @@ def limpa(p):
 def main():
     import bucha_n20
     bucha_n20.main()                        # bucha da polia do N20 (peca pequena, fora das mesas)
+    import polia_cima
+    polia_cima.main()                       # R2.1: acoplamento, arruelas e espacadores da polia de cima (fora das mesas)
     plano = json.loads((S / "plano.json").read_text(encoding="utf8"))
     imp = C / "imprimir"
     limpa(imp)

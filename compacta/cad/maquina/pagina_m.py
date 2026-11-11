@@ -36,10 +36,12 @@ NOTAS_ETAPA = {
        "pelos furos das orelhas, porcas por baixo do pe. As pernas passam pelo furo do pe e os fios vao pelo canal de baixo ate a canaleta.",
     2: "Rosqueie as 2 bandeiras (M2x25) nos ressaltos atras da cabine, com uma porca de trava cada: a de baixo com a ponta "
        "para baixo, a de cima com a ponta para cima. Desca a cabine por cima da torre de baixo, um C em cada trilho.",
-    3: "Polia de cima: rolamento 625ZZ em cada mancal (frente e tras), eixo de 5 mm por tras atravessando rolamento, polia e "
-       "rolamento; a polia aperta no eixo. Acoplamento rigido no eixo do N20, N20 entra pela frente no berco e o acoplamento "
-       "aperta no eixo de 5 mm (o motor fica solto: so nao gira). Sensor de cima no teto, fenda para baixo, 2 M3x10 + porca "
-       "por cima do teto. Encaixe nos 3 pinos e aperte 2 M3x8 atras e 2 na esquerda.",
+    3: "Polia de cima (passo a passo em imprimir/polia_de_cima/LEIA.txt): acoplamento impresso no eixo do N20 com o M3 sem "
+       "cabeca, motor pela frente no berco. Rolamento de tras por tras ate o degrau, colado na pista de fora. Torre de cabeca "
+       "para baixo: M5x45 com arruela por tras e, pela janela do teto, espacador de tras, polia (cubo para o motor), "
+       "espacador da frente, rolamento da frente e arruela. Gire o M5 por tras: ele rosqueia no acoplamento e aperta tudo. "
+       "Sensor de cima no teto, fenda para baixo, 2 M3x10 + porca por cima do teto. Encaixe nos 3 pinos e aperte 2 M3x8 "
+       "atras e 2 na esquerda.",
     4: "A correia e um laco: o ramo da ESQUERDA passa livre ao lado da cabine; o ramo da DIREITA e o que prende. Uma ponta "
        "desce da polia do motor pela direita, a outra sobe da polia de baixo pela direita; as duas se encontram no meio do bolso de "
        "tras da cabine. Fixador de aluminio por cima, dentes nos dentes da correia; porca M3 na fenda atras dele; M3x14 pela "

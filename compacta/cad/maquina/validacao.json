@@ -3,9 +3,9 @@
   "ok": true,
   "ruins": [],
   "n_ruins": 0,
-  "previstas": 51,
-  "encostam": 206,
-  "pares": 35511
+  "previstas": 61,
+  "encostam": 214,
+  "pares": 37128
  },
  "parafusos": [
   {
@@ -7217,19 +7217,92 @@
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
    }
   ],
-  "segundos": 59.3,
+  "segundos": 205.2,
   "posicoes": {
    "A": 105,
    "B": 99
   }
+ },
+ "polia_cima": {
+  "ok": true,
+  "pecas": [
+   {
+    "nome": "acoplamento",
+    "peca": "Acoplamento impresso",
+    "folga_radial": 1.0,
+    "ok": true
+   },
+   {
+    "nome": "m3_acopl",
+    "peca": "Parafuso sem cabeca M3",
+    "folga_radial": 1.5,
+    "ok": true
+   },
+   {
+    "nome": "arruela_f",
+    "peca": "Arruela impressa",
+    "folga_radial": 1.5,
+    "ok": true
+   },
+   {
+    "nome": "espacador_f",
+    "peca": "Espacador da frente",
+    "folga_radial": 1.5,
+    "ok": true
+   },
+   {
+    "nome": "cubo_cima",
+    "peca": "Polia do motor",
+    "folga_radial": 0.4,
+    "ok": true
+   },
+   {
+    "nome": "polia_cima",
+    "peca": "Polia do motor",
+    "folga_radial": 1.5,
+    "ok": true
+   },
+   {
+    "nome": "espacador_t",
+    "peca": "Espacador de tras",
+    "folga_radial": 0.3,
+    "ok": true
+   },
+   {
+    "nome": "arruela_t",
+    "peca": "Arruela impressa",
+    "folga_radial": 1.5,
+    "ok": true
+   },
+   {
+    "nome": "cabeca_m5",
+    "peca": "Parafuso M5 da polia",
+    "folga_radial": 1.5,
+    "ok": true
+   },
+   {
+    "nome": "m5_polia",
+    "peca": "Parafuso M5 da polia",
+    "folga_radial": 1.0,
+    "ok": true
+   }
+  ]
  },
  "correia_cabine": {
   "ok": true,
   "linhas": [
    {
     "a": "correia_ida_cima",
-    "b": "eixo_cima",
-    "pb": "Eixo da polia de cima",
+    "b": "espacador_t",
+    "pb": "Espacador de tras",
+    "folga": 2.52,
+    "zc": 18.1,
+    "ok": true
+   },
+   {
+    "a": "correia_ida_cima",
+    "b": "m5_polia",
+    "pb": "Parafuso M5 da polia",
     "folga": 3.17,
     "zc": 18.1,
     "ok": true

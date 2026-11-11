@@ -10,7 +10,7 @@ ROSA = "#d6246e"
 
 
 def destaca(itens):
-    return [(me, ROSA if pc.startswith(("Polia", "Rolamento", "Eixo da polia", "Acoplamento")) else cor, op, pc) for me, cor, op, pc in itens]
+    return [(me, ROSA if pc.startswith(("Polia", "Rolamento", "Parafuso M5", "Acoplamento", "Arruela", "Espacador", "Parafuso sem")) else cor, op, pc) for me, cor, op, pc in itens]
 
 
 def main():
@@ -28,11 +28,11 @@ def main():
            titulo="As 6 polias (rosa). Torres do elevador transparentes")
     it = destaca(R.cena(m, el.zc_max, el.ang_baixa, -60.0, 0.0))
     zt = el.z_polia_cima
-    rot = [("Motor N20 (solto no berco, so gira)", (191, 135, zt + 5)), ("Acoplamento rigido 3 x 5", (191, E.Y_FACE_MOTOR + 10.5, zt + 6)),
-           ("Rolamento 625ZZ da frente", (191, 179, zt + 8)), ("Polia (no eixo de 5 mm)", (191, 192, zt + 9)),
-           ("Rolamento 625ZZ de tras", (191, 206, zt + 8)), ("Sensor de fenda de cima", (E.X_BANDEIRA, E.Y_BANDEIRA, 418))]
+    rot = [("Motor N20 (deitado no berco)", (191, 135, zt + 5)), ("Acoplamento impresso (o M5 rosqueia nele)", (191, 165, zt + 6)),
+           ("Rolamento 625ZZ da frente", (191, 179, zt + 8)), ("Polia (no parafuso M5)", (191, 192, zt + 9)),
+           ("Rolamento 625ZZ de tras (colado)", (191, 206, zt + 8)), ("Cabeca do M5x45", (191, 212, zt + 4))]
     R.foto("p2_polia_topo_elevador.png", it, (192, 182, 412), (0.75, -0.6, 0.45), 42, [], rot, vidro=("Torre superior", "Cabine"),
-           titulo="Topo do elevador: a polia num eixo de 5 mm apoiado nos 2 lados por rolamentos 625ZZ",
+           titulo="Topo do elevador: a polia num parafuso M5 apoiado nos 2 lados por rolamentos 625ZZ",
            esconde=("Torre inferior", "Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "Prateleira", "Esteira A", "Bloco direito",
                     "Correia A", "Carro A", "Eletroima", "Rampa"))
     it = destaca(R.cena(m, el.zc_min, el.ang_baixa, -60.0, 0.0))
@@ -55,6 +55,53 @@ def main():
            esconde=("Torre inferior", "Torre superior", "Gabinete", "Tela", "Bandeja", "EVA", "Fila", "Rampa", "Perfil", "Trilho MGN12",
                     "Patim", "Carro", "Esteira", "Bloco", "Prateleira", "Eletroima", "Arruela", "Correia A", "Correia B", "Polia GT2",
                     "Polia tensora", "NEMA", "Fim de curso", "Servo", "Braco", "LED", "Ponta fixa", "Fixador de correia", "Sensor do bolso"))
+    # vista explodida da polia de cima (R2.1): as pecas na ordem do parafuso, afastadas ao longo do eixo
+    import numpy as np
+    import pyvista as pv
+    pv.OFF_SCREEN = True
+    ordem = [("Motor N20", "box", (E.Y_FACE_MOTOR - 32.5, E.Y_FACE_MOTOR), (6, 5), "#7d8790"),
+             ("Acoplamento impresso", "cil", E.PC_ACOPL, 5.0, "#2f9e8f"),
+             ("Arruela impressa", "cil", E.PC_ARR_F, 3.75, "#2f9e8f"),
+             ("Rolamento da frente", "cil", E.PC_ROL_F, 8.0, "#d6246e"),
+             ("Espacador da frente (2 mm)", "cil", E.PC_ESP_F, 3.75, "#2f9e8f"),
+             ("Polia (cubo para o motor)", "polia", (E.PC_CUBO[0], E.PC_POLIA[1]), 9.0, "#d6246e"),
+             ("Espacador de tras (7,65 mm)", "cil", E.PC_ESP_T, 3.2, "#2f9e8f"),
+             ("Rolamento de tras (colado)", "cil", E.PC_ROL_T, 8.0, "#d6246e"),
+             ("Arruela impressa", "cil", E.PC_ARR_T, 3.75, "#2f9e8f"),
+             ("Parafuso M5x45", "m5", E.PC_CABECA, 4.25, "#c8a23c")]
+    pl = pv.Plotter(off_screen=True, window_size=(2000, 560))
+    pl.set_background("#f4f6f4")
+    gap, desl, pts, txt = 14.0, 0.0, [], []
+    for i, (nome, tp, (y0, y1), r, cor) in enumerate(ordem):
+        d = i * gap + (E.PC_M5 + 6 if tp == "m5" else 0)
+        if tp == "box":
+            me = pv.Box(bounds=(-r[0], r[0], y0 + d, y1 + d, -r[1], r[1]))
+        elif tp == "polia":
+            me = pv.Cylinder(center=(0, (E.PC_CUBO[0] + E.PC_CUBO[1]) / 2 + d, 0), direction=(0, 1, 0), radius=6.5,
+                             height=E.PC_CUBO[1] - E.PC_CUBO[0], resolution=48)
+            me = me.merge(pv.Cylinder(center=(0, (E.PC_POLIA[0] + E.PC_POLIA[1]) / 2 + d, 0), direction=(0, 1, 0), radius=r,
+                                      height=E.PC_POLIA[1] - E.PC_POLIA[0], resolution=48))
+        elif tp == "m5":
+            me = pv.Cylinder(center=(0, (y0 + y1) / 2 + d, 0), direction=(0, 1, 0), radius=r, height=y1 - y0, resolution=48)
+            me = me.merge(pv.Cylinder(center=(0, y0 - E.PC_M5 / 2 + d + 0.01, 0), direction=(0, 1, 0), radius=2.5,
+                                      height=E.PC_M5, resolution=32))
+        else:
+            fora = pv.Cylinder(center=(0, (y0 + y1) / 2 + d, 0), direction=(0, 1, 0), radius=r, height=y1 - y0, resolution=48)
+            me = fora
+        pl.add_mesh(me, color=cor, smooth_shading=True)
+        rr = (r[1] if tp == "box" else r) + 4
+        pts.append((0, (y0 + y1) / 2 + d, rr if i % 2 else -rr - (16 if i == 4 else 5)))
+        txt.append(nome)
+    # eixo do N20 (curto) e linha do parafuso
+    pl.add_mesh(pv.Cylinder(center=(0, E.Y_FACE_MOTOR + 4, 0), direction=(0, 1, 0), radius=1.5, height=8), color="#7d8790")
+    pl.add_point_labels(np.array(pts), txt, font_size=15, point_size=1, shape_opacity=0.85, always_visible=True, show_points=False,
+                        text_color="#1d2328", shape_color="white")
+    pl.add_text("Polia de cima, separada na ordem (verde = imprime, rosa = rolamentos e polia, amarelo = M5x45 entra por tras)",
+                font_size=11, color="#1d2328")
+    pl.camera_position = [(-300, 262, 110), (0, 262, 0), (0, 0, 1)]
+    pl.camera.zoom(1.75)
+    pl.screenshot(str(R.IMG / "p5_montagem_polia_cima.png"))
+    pl.close()
     print("ok")
 
 

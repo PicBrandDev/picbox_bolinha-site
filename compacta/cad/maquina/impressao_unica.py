@@ -90,7 +90,8 @@ def main():
     zips["impressora_S"] = zip64(arqs)
     av = [(f, "pecas_avulsas/" + f.name) for f in sorted((IMP / "pecas_avulsas").glob("*.stl"))]
     zips["avulsas"] = zip64(av)
-    zips["tudo"] = zip64(arqs + av)
+    pc = [(f, "polia_de_cima/" + f.name) for f in sorted((IMP / "polia_de_cima").glob("*")) if f.suffix in (".stl", ".txt")]
+    zips["tudo"] = zip64(arqs + av + pc)
     dados = dict(placas=plano["placas"], total=plano["total"], pecas=pecas, imgs=imgs, fotos=fotos, zips=zips)
     longa = max(plano["placas"]["S"], key=lambda p: p["horas"])
     h = (AQUI / "impressao_tpl.html").read_text(encoding="utf8")

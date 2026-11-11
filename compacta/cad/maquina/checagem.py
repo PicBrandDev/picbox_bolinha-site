@@ -35,11 +35,15 @@ SOBREPOSICAO_PREVISTA = {
     frozenset(("Servo", "Fila")): "o servo entra no suporte (impresso junto com a fila)",
     frozenset(("Torre superior", "Polia do motor")): "a polia do motor passa por uma janela no teto da torre",
     frozenset(("Torre superior", "Rolamento 625ZZ")): "os rolamentos ficam encaixados nas placas da torre",
-    frozenset(("Eixo da polia de cima", "Rolamento 625ZZ")): "o eixo passa dentro dos rolamentos",
-    frozenset(("Torre superior", "Eixo da polia de cima")): "o eixo passa pelo furo dos mancais (sem encostar: furo de 7 mm)",
-    frozenset(("Eixo da polia de cima", "Polia do motor")): "a polia aperta no eixo",
-    frozenset(("Eixo da polia de cima", "Acoplamento 3x5")): "o eixo entra no acoplamento",
+    frozenset(("Torre superior", "Parafuso M5 da polia")): "o M5 passa pelo furo de 7 mm dos 2 apoios (sem encostar)",
+    frozenset(("Torre superior", "Espacador de tras")): "o espacador passa pelo furo de 7 mm do degrau de tras (sem encostar)",
+    frozenset(("Torre superior", "Arruela impressa")): "as arruelas ficam dentro das sedes dos rolamentos (furo de 16,8)",
+    frozenset(("Torre superior", "Espacador da frente")): "o espacador da frente fica dentro da sede do rolamento (furo de 16,8)",
 }
+for _p in ("Rolamento 625ZZ", "Polia do motor", "Acoplamento impresso", "Arruela impressa",
+           "Espacador da frente", "Espacador de tras"):
+    SOBREPOSICAO_PREVISTA[frozenset(("Parafuso M5 da polia", _p))] = "o M5 e o eixo: passa por dentro"
+SOBREPOSICAO_PREVISTA[frozenset(("Acoplamento impresso", "Parafuso sem cabeca M3"))] = "o M3 rosqueia no acoplamento"
 PREVISTO = {frozenset(k) for k in SOBREPOSICAO_PREVISTA}
 for k in ("A", "B"):
     PREVISTO |= {frozenset(p) for p in [
@@ -228,6 +232,51 @@ def correia_cabine(c: Cena, passo=2.0):
               for (a, b), (d, z) in sorted(minimo.items(), key=lambda kv: kv[1][0]) if d < 4]
     c.pose()
     return dict(ok=all(l["ok"] for l in linhas), linhas=linhas, x=round(el.x_ida, 2))
+
+
+# ------------------------------------------------------------------ 2c. polia de cima: o que gira x a torre impressa (malha real)
+GIRA = ("acoplamento", "m3_acopl", "arruela_f", "espacador_f", "cubo_cima", "polia_cima", "espacador_t",
+        "arruela_t", "cabeca_m5", "m5_polia")
+
+
+def polia_cima(c: Cena):
+    """Pontos na superficie de cada peca que gira (girando em volta do eixo) contra a malha da torre de cima impressa.
+    Folga radial = quanto a peca pode crescer de raio (com 0,3 mm a mais nas pontas) sem tocar o plastico. As peles finas (0,15 mm) das sedes dos rolamentos ficam de fora:
+    o fatiador nao imprime parede tao fina, e se imprimir a instrucao e cortar."""
+    import base64
+    import trimesh
+    el = c.el
+    tor = None
+    for o in json.loads((AQUI / "saida" / "malhas.json").read_text(encoding="utf8")):
+        if o["nome"] == "Torre superior":
+            V = np.frombuffer(base64.b64decode(o["v"]), np.float32).reshape(-1, 3).astype(float) + np.array(o["copias"][0])
+            T = np.frombuffer(base64.b64decode(o["t"]), np.uint32).reshape(-1, 3)
+            tor = trimesh.Trimesh(V, T)
+    if tor is None:
+        return dict(ok=False, erro="sem malha da torre")
+    pele = [(175.95, 176.2), (181.85, 182.1), (208.85, 209.1)]
+    a = np.linspace(0, 2 * np.pi, 48, endpoint=False)
+    out = []
+    for n in GIRA:
+        e = c.g[c.id[n]]
+        r, h = e["meio"]
+        cy = e["pos"][1]
+        if n == "m3_acopl":                                      # o M3 gira em volta do eixo: ponta a 4,75 do centro
+            r, h = 4.75, 1.5
+        ys = np.arange(cy - h - 0.3, cy + h + 0.3 + 1e-9, 0.25)  # 0,3 mm a mais nas pontas (folga de lado)
+        ys = ys[~np.any([(ys > y0) & (ys < y1) for y0, y1 in pele], axis=0)]
+        folga = None
+        for dl in (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.75, 1.0, 1.5):
+            P = np.array([[el.x_polia + (r + dl) * np.cos(t), y, el.z_polia_cima + (r + dl) * np.sin(t)] for y in ys for t in a])
+            if tor.contains(P).any():
+                folga = round(float(dl), 1)
+                break
+        folga = 1.5 if folga is None else folga
+        # centrados pelos 2 rolamentos (batida < 0,1): o espacador de tras passa no furo de 7 e o cubo da polia no recorte
+        # de 0,4 do teto; o resto quer 0,5
+        minimo = 0.3 if n in ("espacador_t", "cubo_cima") else 0.5
+        out.append(dict(nome=n, peca=e["peca"], folga_radial=folga, ok=bool(folga >= minimo)))
+    return dict(ok=all(o["ok"] for o in out), pecas=out)
 
 
 # ------------------------------------------------------------------ 3. bola
@@ -524,6 +573,8 @@ def main():
         print("VARREDURA ok" if v["ok"] else "VARREDURA RUIM", v["segundos"], "s", v["posicoes"])
         for l in v["linhas"][:40]:
             print("   ", l)
+    val["polia_cima"] = polia_cima(c)
+    print("POLIA DE CIMA", "ok" if val["polia_cima"]["ok"] else "RUIM", val["polia_cima"].get("pecas"))
     val["correia_cabine"] = correia_cabine(c)
     v = val["correia_cabine"]
     print("CORREIA DA CABINE", "ok" if v["ok"] else "RUIM", v["linhas"][:12])
