@@ -315,10 +315,14 @@ def detalhes_elevador(m, peca, el):
                             E.Z_TETO_TORRE[1] + 1))
         cut.append(caixa_cq(E.X_BANDEIRA - 2.5, E.X_BANDEIRA + 2.5, E.Y_BANDEIRA - 6.0, E.Y_CANAL[0] + 4, E.Z_TETO_TORRE[1] - 2.5,
                             E.Z_TETO_TORRE[1] + 1))
-        # teto vazado em cima da polia do motor
-        cut.append(caixa_cq(el.x_polia - 10, el.x_polia + 10, 186.5, 197.5, E.Z_TETO_TORRE[0] - 1, E.Z_TETO_TORRE[1] + 1))
-        # passagem do eixo de 5 mm pelos 2 mancais (o rolamento ja recorta a sede dele)
+        # teto vazado em cima da polia do motor (R2.2: vai ate o encaixe da frente, 182; na torre ja impressa e a tira
+        # 182..186,5 que se corta a mao)
+        cut.append(caixa_cq(el.x_polia - 10, el.x_polia + 10, *E.PC_JANELA, E.Z_TETO_TORRE[0] - 1, E.Z_TETO_TORRE[1] + 1))
+        # passagem do eixo de 5 mm pelos 2 mancais (o rolamento de tras ja recorta a sede dele)
         cut.append(cq.Solid.makeCylinder(3.5, 40.0, pnt=cq.Vector(el.x_polia, 170.0, el.z_polia_cima), dir=cq.Vector(0, 1, 0)))
+        # encaixe do rolamento da frente (R2.1, ja impresso): R2.2 sem rolamento, o flange do adaptador e o cubo entram nele
+        s0, s1 = E.PC_SEDE_F
+        cut.append(cq.Solid.makeCylinder(8.4, s1 - s0, pnt=cq.Vector(el.x_polia, s0, el.z_polia_cima), dir=cq.Vector(0, 1, 0)))
         # porcas dos parafusos das orelhas do sensor de cima, por cima do teto
         for dy in (-E.SENS_FUROS / 2, E.SENS_FUROS / 2):
             cut.append(caixa_cq(E.X_BANDEIRA - 3.15, E.X_BANDEIRA + 3.15, E.Y_BANDEIRA + dy - 4.7, E.Y_BANDEIRA + dy + 4.7,

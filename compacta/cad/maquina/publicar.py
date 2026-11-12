@@ -34,11 +34,11 @@ def limpa(p):
 def main():
     import bucha_n20
     bucha_n20.main()                        # bucha da polia do N20 (peca pequena, fora das mesas)
-    import polia_cima
-    polia_cima.main()                       # R2.1: acoplamento, arruelas e espacadores da polia de cima (fora das mesas)
     plano = json.loads((S / "plano.json").read_text(encoding="utf8"))
     imp = C / "imprimir"
     limpa(imp)
+    import polia_cima
+    polia_cima.main()                       # R2.2: adaptador N20-M5, espacador e arruela da polia de cima (fora das mesas)
     geral = ["PICBOX COMPACTA R2 - ORDEM DE IMPRESSAO (gabinete 440 x 430 x 230)", "", *CONFIG, "",
              "As 3 impressoras trabalham ao mesmo tempo. Em cada uma, imprima na ordem dos numeros.", ""]
     for k in ("A", "B", "C"):

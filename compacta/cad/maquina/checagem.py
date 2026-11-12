@@ -34,16 +34,15 @@ SOBREPOSICAO_PREVISTA = {
     frozenset(("Polia do motor", "Correia")): "a correia abraca a polia",
     frozenset(("Servo", "Fila")): "o servo entra no suporte (impresso junto com a fila)",
     frozenset(("Torre superior", "Polia do motor")): "a polia do motor passa por uma janela no teto da torre",
-    frozenset(("Torre superior", "Rolamento 625ZZ")): "os rolamentos ficam encaixados nas placas da torre",
-    frozenset(("Torre superior", "Parafuso M5 da polia")): "o M5 passa pelo furo de 7 mm dos 2 apoios (sem encostar)",
-    frozenset(("Torre superior", "Espacador de tras")): "o espacador passa pelo furo de 7 mm do degrau de tras (sem encostar)",
-    frozenset(("Torre superior", "Arruela impressa")): "as arruelas ficam dentro das sedes dos rolamentos (furo de 16,8)",
-    frozenset(("Torre superior", "Espacador da frente")): "o espacador da frente fica dentro da sede do rolamento (furo de 16,8)",
+    frozenset(("Torre superior", "Rolamento 625ZZ")): "o rolamento fica encaixado na sede de tras da torre",
+    frozenset(("Torre superior", "Parafuso M5 da polia")): "o M5 passa pelo furo de 7 mm da parede de tras (sem encostar)",
+    frozenset(("Torre superior", "Espacador da parede")): "o espacador passa pelo furo de 7 mm do degrau de tras (sem encostar)",
+    frozenset(("Torre superior", "Arruela impressa")): "a arruela fica dentro da sede do rolamento (furo de 16,8)",
+    frozenset(("Torre superior", "Adaptador N20-M5")): "o flange do adaptador fica dentro do encaixe vazio da frente (furo de 16,8)",
 }
-for _p in ("Rolamento 625ZZ", "Polia do motor", "Acoplamento impresso", "Arruela impressa",
-           "Espacador da frente", "Espacador de tras"):
+for _p in ("Rolamento 625ZZ", "Polia do motor", "Adaptador N20-M5", "Arruela impressa", "Espacador da parede"):
     SOBREPOSICAO_PREVISTA[frozenset(("Parafuso M5 da polia", _p))] = "o M5 e o eixo: passa por dentro"
-SOBREPOSICAO_PREVISTA[frozenset(("Acoplamento impresso", "Parafuso sem cabeca M3"))] = "o M3 rosqueia no acoplamento"
+SOBREPOSICAO_PREVISTA[frozenset(("Adaptador N20-M5", "Parafuso sem cabeca M3"))] = "o M3 rosqueia no adaptador"
 PREVISTO = {frozenset(k) for k in SOBREPOSICAO_PREVISTA}
 for k in ("A", "B"):
     PREVISTO |= {frozenset(p) for p in [
@@ -235,7 +234,7 @@ def correia_cabine(c: Cena, passo=2.0):
 
 
 # ------------------------------------------------------------------ 2c. polia de cima: o que gira x a torre impressa (malha real)
-GIRA = ("acoplamento", "m3_acopl", "arruela_f", "espacador_f", "cubo_cima", "polia_cima", "espacador_t",
+GIRA = ("acoplamento", "acoplamento_fl", "m3_acopl", "cubo_cima", "polia_cima", "espacador_t",
         "arruela_t", "cabeca_m5", "m5_polia")
 
 
@@ -261,8 +260,8 @@ def polia_cima(c: Cena):
         e = c.g[c.id[n]]
         r, h = e["meio"]
         cy = e["pos"][1]
-        if n == "m3_acopl":                                      # o M3 gira em volta do eixo: ponta a 4,75 do centro
-            r, h = 4.75, 1.5
+        if n == "m3_acopl":                                      # o M3 gira em volta do eixo: ponta a 5,25 do centro
+            r, h = 5.25, 1.5
         ys = np.arange(cy - h - 0.3, cy + h + 0.3 + 1e-9, 0.25)  # 0,3 mm a mais nas pontas (folga de lado)
         ys = ys[~np.any([(ys > y0) & (ys < y1) for y0, y1 in pele], axis=0)]
         folga = None
@@ -272,8 +271,8 @@ def polia_cima(c: Cena):
                 folga = round(float(dl), 1)
                 break
         folga = 1.5 if folga is None else folga
-        # centrados pelos 2 rolamentos (batida < 0,1): o espacador de tras passa no furo de 7 e o cubo da polia no recorte
-        # de 0,4 do teto; o resto quer 0,5
+        # R2.2: centrado pelo rolamento de tras e pelo eixo do N20 (folga do N20 ~0,1): o espacador passa no furo de 7 e o
+        # cubo da polia no encaixe vazio da frente (16,8); o resto quer 0,5
         minimo = 0.3 if n in ("espacador_t", "cubo_cima") else 0.5
         out.append(dict(nome=n, peca=e["peca"], folga_radial=folga, ok=bool(folga >= minimo)))
     return dict(ok=all(o["ok"] for o in out), pecas=out)

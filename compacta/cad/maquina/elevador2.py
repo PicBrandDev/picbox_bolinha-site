@@ -46,25 +46,25 @@ PECAS = {
                        "eixo M5x30 em balanco na placa de tras: cabeca atras, porca na frente da placa, arruela, polia, "
                        "arruela e porca de nylon"),
     "Motor N20": ("comprada", "N20 12 V 100 rpm (sem encoder)", 3,
-                  "deitado no berco do topo (o berco so impede de girar); o eixo dele entra no acoplamento impresso"),
-    "Acoplamento impresso": ("impressa", "acoplamento impresso (PETG 100%) 10 x 16 mm: furo 3,2 do N20 + parafuso sem cabeca "
-                             "M3 de um lado, rosca M5 direto no plastico do outro (ele e a porca do M5)", 3,
-                             "o M3 sem cabeca aperta o eixo do N20 (na bancada); o M5 da polia rosqueia nele por tras e aperta tudo"),
+                  "deitado no berco do topo (o berco so impede de girar); o eixo dele entra no adaptador"),
+    "Adaptador N20-M5": ("impressa", "adaptador reforcado (PETG 100%) Ø11 x 24,85 com flange Ø14: furo em D do N20 + parafuso "
+                         "sem cabeca M3 de um lado, rosca M5 direto no plastico do outro (16 mm de rosca: ele e a porca do M5)", 3,
+                         "o M3 sem cabeca aperta o chato do eixo do N20 (na bancada); o M5 da polia rosqueia nele por tras e "
+                         "aperta tudo; o flange encosta no cubo da polia"),
     "Parafuso sem cabeca M3": ("comprada", "parafuso Allen sem cabeca M3 x 3 (ou M3 x 4), 1 unidade", 3,
-                               "no furo do lado do acoplamento, aperta o eixo do N20 (de preferencia num lado chato do eixo)"),
+                               "no furo do lado do adaptador, aperta o chato do eixo do N20"),
     "Parafuso M5 da polia": ("comprada", "parafuso Allen M5 x 45 (DIN 912, cabeca cilindrica), de preferencia rosca parcial", 3,
-                             "e o eixo da polia de cima: entra por tras, atravessa rolamento, espacador, polia, espacador, "
-                             "rolamento e arruela, e rosqueia no acoplamento (aperta tudo num bloco so)"),
-    "Arruela impressa": ("impressa", "arruela impressa 7,5 x 5,3 x 1 (so encosta na pista de dentro do rolamento), 2 unidades", 3,
-                         "uma entre a cabeca do M5 e o rolamento de tras, outra entre o acoplamento e o rolamento da frente"),
-    "Espacador da frente": ("impressa", "espacador impresso 7,5 x 5,3 x 2,0", 3, "entre o rolamento da frente e o cubo da polia"),
-    "Espacador de tras": ("impressa", "espacador impresso 6,3 x 5,3 x 7,65 (passa no furo de 7 mm da torre)", 3,
-                          "entre a polia e o rolamento de tras"),
-    "Rolamento 625ZZ": ("comprada", "rolamento 625ZZ (5 x 16 x 5), 2 unidades", 3,
-                        "um em cada lado da polia: o de tras colado na sede (segura tudo no lugar), o da frente desliza na sede (fita crepe "
-                        "na pista de fora se ficar frouxo)"),
-    "Polia do motor": ("comprada", "GT2 20T furo 5 (a que voce ja tem)", 3,
-                       "no parafuso M5, entre os 2 espacadores; apertada no bloco pelo M5 (e pelo parafusinho dela)"),
+                             "e o eixo da polia de cima: entra por tras, atravessa arruela, rolamento, espacador e polia, "
+                             "e rosqueia no adaptador (aperta tudo num bloco so)"),
+    "Arruela impressa": ("impressa", "arruela impressa 7,5 x 5,3 x 1 (so encosta na pista de dentro do rolamento)", 3,
+                         "entre a cabeca do M5 e o rolamento"),
+    "Espacador da parede": ("impressa", "espacador impresso 6,4 x 5,2 x 6,8 (passa no furo de 7 mm da parede de tras)", 3,
+                            "entre a polia e a pista de dentro do rolamento (nunca encosta na parede)"),
+    "Rolamento 625ZZ": ("comprada", "rolamento 625ZZ (5 x 16 x 5), 1 unidade", 3,
+                        "na sede de tras, encostado no degrau, colado (gota de cola na pista de fora)"),
+    "Polia do motor": ("comprada", "GT2 20T furo 5, 16 mm (cubo Ø16 x 7,3 + dentes e abas 8,7), a que voce ja tem", 3,
+                       "no M5, cubo virado para o motor; apertada no bloco pelo M5 e pelo parafusinho dela. "
+                       "Cortar a tira do teto entre o encaixe da frente e a janela (o cubo bate ali)"),
     "Sensor de fenda": ("comprada", "sensor optico de fenda sem placa (tipo ITR9608): 24,5 de comprimento, 2 orelhas com furo, "
                         "fenda de 5 mm entre as 2 torres; 2 unidades", 1,
                         "deitado na prateleira, 1 M3x8 + porca no rasgo (desliza para alinhar a fenda com a bandeira)"),
@@ -277,18 +277,22 @@ X_RESSALTO = (204.0, 210.0)
 Y_RESSALTO = (188.0, 196.0)
 # motor
 E_FRENTE_TETO = Y_FRENTE[0]     # o teto da torre vai ate a frente (o berco do motor sai um pouco para fora da torre)
-# polia de cima (R2.1): parafuso M5 x 45 como eixo, tudo apertado num bloco entre a cabeca e a porca (eixo Y, X x_polia, Z z_polia_cima)
-PC_ACOPL = (155.5, 175.5)       # acoplamento impresso (Ø10), gira junto; e a "porca" do M5 (o M5 rosqueia nele)
-PC_ACOPL_R = 5.0
-PC_FURO_N20 = 162.65            # fundo do furo do eixo do N20 (entra da frente)
-PC_FURO_M5 = 163.65             # fundo da rosca M5 (entra de tras)
-PC_M3_Y = 159.0                 # parafuso sem cabeca M3 (radial)
-PC_ARR_F = (175.5, 176.5)       # arruela impressa da frente
-PC_ROL_F = (176.5, 181.5)       # rolamento da frente (sede passante 176,15..181,9)
-PC_ESP_F = (181.5, 183.5)       # espacador da frente
-PC_CUBO = (183.5, 188.5)        # cubo da polia
-PC_POLIA = (188.5, 195.5)       # dentes da polia (centro 192 = correia)
-PC_ESP_T = (195.5, 203.15)      # espacador de tras (passa no furo de 7 do degrau): 7,65 de comprimento
+# polia de cima (R2.2): polia GT2 20T de 16 mm (a que o usuario tem) num parafuso M5 x 45 com 1 rolamento so (o de tras);
+# tudo apertado num bloco entre a cabeca e o adaptador do N20 (o M5 rosqueia nele). A frente do eixo apoia no N20.
+# (eixo Y, X x_polia, Z z_polia_cima)
+PC_ACOPL = (155.5, 180.35)      # adaptador reforcado N20 -> M5 (impresso), gira junto
+PC_ACOPL_R = 5.5                # Ø11 na frente do encaixe (o teto fica 6 mm acima do eixo)
+PC_AD_FL = (176.5, 180.35)      # flange Ø14 dentro do encaixe vazio da frente (furo de 16,8): encosta no cubo da polia
+PC_AD_FL_R = 7.0
+PC_FURO_N20 = 162.65            # fundo do furo em D do eixo do N20 (entra da frente)
+PC_FURO_M5 = 163.9              # fundo da rosca M5 (entra de tras)
+PC_M3_Y = 159.0                 # parafuso sem cabeca M3 (radial, no chato do eixo do N20)
+PC_SEDE_F = (176.1, 181.9)      # encaixe do rolamento da frente (ja impresso, agora vazio): Ø16,8
+PC_CUBO = (180.35, 187.65)      # cubo da polia: Ø16 x 7,3 (virado para o motor)
+PC_POLIA = (187.65, 196.35)     # dentes + abas Ø16: 8,7 (centro 192 = correia)
+PC_R_POLIA = 8.0
+PC_ESP_T = (196.35, 203.15)     # espacador da parede (passa no furo de 7 do degrau, encosta na pista de dentro): 6,8
+PC_JANELA = (182.0, 197.5)      # janela do teto: R2.2 cortar a tira 182..186,5 (o cubo de 16 bate no teto ali)
 PC_ROL_T = (203.5, 208.5)       # rolamento de tras (desenho = a sede impressa; de verdade ele encosta no degrau em 203,15)
 PC_ARR_T = (208.5, 209.5)       # arruela impressa de tras
 PC_CABECA = (209.5, 214.5)      # cabeca do M5 (fora, atras da torre)
@@ -378,16 +382,14 @@ def geometria(p: P):
           "preto")
     def cy(nome, y01, r, peca, cor="metal", grupo="visual"):
         cilindro(g, nome, "mundo", (p.x_polia, (y01[0] + y01[1]) / 2, zt), r, (y01[1] - y01[0]) / 2, "y", grupo, peca, cor)
-    cy("acoplamento", PC_ACOPL, PC_ACOPL_R, "Acoplamento impresso", "acento")
-    cilindro(g, "m3_acopl", "mundo", (p.x_polia, PC_M3_Y, zt + 3.25), 1.5, 1.5, "z", "visual", "Parafuso sem cabeca M3", "metal")
+    cy("acoplamento", (PC_ACOPL[0], PC_AD_FL[0]), PC_ACOPL_R, "Adaptador N20-M5", "acento")
+    cy("acoplamento_fl", PC_AD_FL, PC_AD_FL_R, "Adaptador N20-M5", "acento")
+    cilindro(g, "m3_acopl", "mundo", (p.x_polia, PC_M3_Y, zt + 3.75), 1.5, 1.5, "z", "visual", "Parafuso sem cabeca M3", "metal")
     caixa(g, "mancal_frente", "mundo", 181.0, 201.0, 176.0, 182.0, zt - 10.0, Z_TETO_TORRE[0], "fixa", T2, "preto")
     caixa(g, "mancal_tras", "mundo", 181.0, 201.0, 201.0, Y_PLACA[1], zt - 10.5, Z_TETO_TORRE[0], "fixa", T2, "preto")
-    cy("arruela_f", PC_ARR_F, 3.75, "Arruela impressa", "acento")
-    cy("rolamento_frente", PC_ROL_F, 8.0, "Rolamento 625ZZ")
-    cy("espacador_f", PC_ESP_F, 3.75, "Espacador da frente", "acento")
-    cy("cubo_cima", PC_CUBO, 6.5, "Polia do motor")
-    cy("polia_cima", PC_POLIA, p.r_polia, "Polia do motor")
-    cy("espacador_t", PC_ESP_T, 3.2, "Espacador de tras", "acento")
+    cy("cubo_cima", PC_CUBO, PC_R_POLIA, "Polia do motor")
+    cy("polia_cima", PC_POLIA, PC_R_POLIA, "Polia do motor")
+    cy("espacador_t", PC_ESP_T, 3.2, "Espacador da parede", "acento")
     cy("rolamento_tras", PC_ROL_T, 8.0, "Rolamento 625ZZ")
     cy("arruela_t", PC_ARR_T, 3.75, "Arruela impressa", "acento")
     cy("cabeca_m5", PC_CABECA, 4.25, "Parafuso M5 da polia")

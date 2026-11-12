@@ -36,10 +36,11 @@ NOTAS_ETAPA = {
        "pelos furos das orelhas, porcas por baixo do pe. As pernas passam pelo furo do pe e os fios vao pelo canal de baixo ate a canaleta.",
     2: "Rosqueie as 2 bandeiras (M2x25) nos ressaltos atras da cabine, com uma porca de trava cada: a de baixo com a ponta "
        "para baixo, a de cima com a ponta para cima. Desca a cabine por cima da torre de baixo, um C em cada trilho.",
-    3: "Polia de cima (passo a passo em imprimir/polia_de_cima/LEIA.txt): acoplamento impresso no eixo do N20 com o M3 sem "
-       "cabeca, motor pela frente no berco. Rolamento de tras por tras ate o degrau, colado na pista de fora. Torre de cabeca "
-       "para baixo: M5x45 com arruela por tras e, pela janela do teto, espacador de tras, polia (cubo para o motor), "
-       "espacador da frente, rolamento da frente e arruela. Gire o M5 por tras: ele rosqueia no acoplamento e aperta tudo. "
+    3: "Polia de cima (passo a passo em imprimir/polia_de_cima/LEIA.txt): na torre ja impressa, corte a tira do teto entre o "
+       "encaixe da frente e a janela (4,5 mm). Adaptador no eixo do N20 (furo em D) com o M3 sem cabeca, motor no berco. "
+       "Rolamento por tras ate o degrau, colado na pista de fora. Pela janela do teto: polia (cubo para o motor) e espacador "
+       "de 6,8 (atravessa o furo da parede). M5x45 com arruela por tras, atravessando rolamento, espacador e polia: ele "
+       "rosqueia no adaptador e aperta tudo. Aperte o parafusinho da polia. "
        "Sensor de cima no teto, fenda para baixo, 2 M3x10 + porca por cima do teto. Encaixe nos 3 pinos e aperte 2 M3x8 "
        "atras e 2 na esquerda.",
     4: "A correia e um laco: o ramo da ESQUERDA passa livre ao lado da cabine; o ramo da DIREITA e o que prende. Uma ponta "

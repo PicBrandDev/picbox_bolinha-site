@@ -1,0 +1,28 @@
+PICBOX COMPACTA R2.2 - POLIA DE CIMA DO ELEVADOR (polia de 16 mm, 1 rolamento so)
+
+IMPRIMIR (uns 25 min, ja vem 1 de reserva de cada):
+  polia_de_cima__mesa.stl  = tudo junto (ou os separados: __x2 = 2 copias)
+  PETG, camada 0,12, 100% de preenchimento, SEM suporte, em pe como esta no arquivo
+  (adaptador com a parte grossa na mesa).
+
+COMPRAR: 1 rolamento 625ZZ, 1 parafuso Allen M5 x 45 (DIN 912), 1 parafuso sem cabeca M3 x 3 (ou x 4). Sem porca.
+
+A ORDEM (da frente para tras)
+  N20 | adaptador | polia (cubo virado para o motor) | espacador 6,8 (atravessa o furo de 7 da parede) |
+  rolamento (colado na sede, encostado no degrau) | arruela | cabeca do M5
+
+IMAGENS: montagem_r2.2.png (montado + ordem) e adaptador_corte.png.
+
+CORTE NA TORRE (obrigatorio)
+  Teto: tirar a tira entre o encaixe do rolamento da frente e a janela (4,5 mm de largura, a largura da janela).
+  O cubo de 16 da polia bate ali. O encaixe da frente nao precisa cortar (o cubo passa no furo de 16,8),
+  mas pode, se quiser folga.
+
+MONTAGEM
+ 1. Bancada: eixo do N20 no furo em D do adaptador ate o fundo; aperte o M3 sem cabeca no chato do eixo.
+ 2. Motor no berco com o adaptador para tras.
+ 3. Rolamento de tras na sede, encostado no degrau, gota de cola na pista de FORA.
+ 4. Polia (cubo para a frente) e espacador pela janela; M5 com a arruela por tras, atravessando rolamento,
+    espacador e polia, e rosqueie no adaptador (o berco segura o motor). Aperte firme.
+ 5. Confira os dentes no meio da correia e aperte o parafusinho da polia no M5.
+ 6. Gire com a mao: liso, sem raspar no teto.

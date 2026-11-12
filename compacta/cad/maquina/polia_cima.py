@@ -1,8 +1,10 @@
-"""Pecas impressas pequenas da polia de cima do elevador (R2.1): acoplamento N20 -> M5, arruelas e espacadores.
+"""Pecas impressas da polia de cima do elevador (R2.2): adaptador reforcado N20 -> M5 e espacador da parede.
 
-A polia de cima gira num parafuso M5 x 45 (o eixo) apoiado em 2 rolamentos 625ZZ. Tudo fica apertado num bloco so
-entre a cabeca do M5 (atras) e o acoplamento (na frente), que e a "porca": o M5 rosqueia nele por tras.
-Medidas (eixo Y da maquina) em elevador2.py (PC_*).
+Polia GT2 20T de 16 mm (cubo 7,3 x Ø16 para a frente, dentes+abas 8,7) num parafuso M5 x 45 com 1 rolamento 625ZZ so
+(o de tras, colado na sede, encostado no degrau). Da frente para tras (eixo Y da maquina):
+  N20 | adaptador (e a "porca" do M5) | polia | espacador (atravessa o furo de 7 da parede) | rolamento | arruela | cabeca M5
+O M5 aperta tudo num bloco: cabeca -> arruela -> pista de dentro do rolamento -> espacador -> polia -> adaptador.
+A frente do eixo fica apoiada no proprio N20 (eixo dele dentro do adaptador).
 
   python polia_cima.py  ->  compacta/imprimir/polia_de_cima/*.stl + LEIA.txt  (rodar pelo PowerShell: CadQuery)
 """
@@ -10,99 +12,103 @@ from pathlib import Path
 
 import cadquery as cq
 
-import elevador2 as E
-
 AQUI = Path(__file__).resolve().parent
 SAIDA = AQUI.parents[1] / "imprimir" / "polia_de_cima"
 
-FURO_M5 = 4.2        # rosca M5 direto no PETG (o parafuso abre a rosca)
-FURO_N20 = 3.2       # eixo de 3 do N20 entra sem forcar
-FURO_M3 = 2.7        # parafuso sem cabeca M3 abre a rosca
-FURO_PASSA = 5.3     # arruelas e espacadores: passam no M5
+# Y da maquina (frente -> tras)
+Y_FACE_N20 = 154.5      # face do motor
+Y_AD = (155.5, 180.35)  # adaptador
+Y_FLANGE = 176.5        # dali para tras o adaptador esta dentro do furo de 16,8 do encaixe da frente: pode ser mais grosso
+Y_POLIA = (180.35, 196.35)   # cubo 180,35..187,65 + dentes 187,65..196,35 (centro 192 = correia)
+Y_DEGRAU = 203.15       # o rolamento de tras encosta aqui (sede de tras)
+Y_ROL = (203.15, 208.15)
+Y_ARR = (208.15, 209.15)
+Y_CABECA = 209.15
+M5 = 45.0               # ponta do M5 em Y 164,15
+Y_M3 = 159.0            # parafuso sem cabeca M3 (radial, no chato do eixo do N20)
+
+D_CORPO = 11.0          # na frente do encaixe o teto da torre fica 6 mm acima do eixo
+D_FLANGE = 14.0         # dentro do furo de 16,8
+FURO_M5 = 4.2           # rosca M5 direto no PETG
+FURO_N20 = 3.2          # eixo de 3 do N20
+CHATO_N20 = 1.1         # eixo do N20 em D: chato a 1,0 do centro (+0,1 de folga)
+FURO_M3 = 2.7
+FURO_PASSA = 5.3
 
 
-def acoplamento():
-    """Em pe na mesa, lado do M5 para baixo (z 0 = ponta de tras, Y 175,5)."""
-    y0, y1 = E.PC_ACOPL
-    comp = y1 - y0                                   # 20
-    prof_m5 = y1 - E.PC_FURO_M5                      # 11,85
-    prof_n20 = E.PC_FURO_N20 - y0                    # 7,15
-    z_m3 = y1 - E.PC_M3_Y                            # 16,5
-    c = cq.Workplane("XY").circle(E.PC_ACOPL_R).extrude(comp)
+def adaptador():
+    """Em pe na mesa: face da polia (flange) para baixo. z 0 = Y 180,35 (encosta no cubo da polia)."""
+    y0, y1 = Y_AD
+    L = y1 - y0                                       # 24,85
+    zf = y1 - Y_FLANGE                                # 3,85
+    prof_m5 = y1 - (Y_CABECA - M5 - 0.25)             # 16,45: a ponta do M5 fica 0,25 antes do fundo
+    prof_n20 = (Y_FACE_N20 + 1.0 + 7.15) - y0         # 7,15 de eixo dentro
+    z_m3 = y1 - Y_M3                                  # 21,35
+    c = cq.Workplane("XY").circle(D_FLANGE / 2).extrude(zf)
+    c = c.union(cq.Workplane("XY").workplane(offset=zf).circle(D_CORPO / 2).extrude(L - zf))
     c = c.cut(cq.Workplane("XY").circle(FURO_M5 / 2).extrude(prof_m5))
-    c = c.cut(cq.Workplane("XY").circle(FURO_M5 / 2 + 0.4).extrude(0.4))          # chanfro de entrada da rosca
-    c = c.cut(cq.Workplane("XY").workplane(offset=comp - prof_n20).circle(FURO_N20 / 2).extrude(prof_n20))
-    c = c.cut(cq.Workplane("YZ").workplane(offset=0).center(0, z_m3).circle(FURO_M3 / 2).extrude(E.PC_ACOPL_R + 1))
+    c = c.cut(cq.Workplane("XY").circle(FURO_M5 / 2 + 0.5).workplane(offset=0.5).circle(FURO_M5 / 2).loft())  # chanfro
+    # furo em D do N20 (eixo em D: transmite o giro sem depender so do M3)
+    d = cq.Workplane("XY").workplane(offset=L - prof_n20).circle(FURO_N20 / 2).extrude(prof_n20 + 0.1)
+    corta_chato = cq.Workplane("XY").workplane(offset=L - prof_n20 - 0.1).center(CHATO_N20 + 2.0, 0).rect(4.0, 6.0) \
+        .extrude(prof_n20 + 0.3)
+    c = c.cut(d.cut(corta_chato))
+    c = c.cut(cq.Workplane("XY").workplane(offset=L - 0.4).circle(FURO_N20 / 2 + 0.4).extrude(0.5))     # chanfro
+    # M3 sem cabeca radial, entra pelo lado do chato (+X)
+    c = c.cut(cq.Workplane("YZ").center(0, z_m3).circle(FURO_M3 / 2).extrude(D_CORPO))
     return c
 
 
-def anel(d_fora, comp):
-    return cq.Workplane("XY").circle(d_fora / 2).circle(FURO_PASSA / 2).extrude(comp)
+def espacador_parede():
+    """Atravessa o furo de 7 mm da parede de tras: encosta na polia e na pista de dentro do rolamento (nunca na parede)."""
+    return cq.Workplane("XY").circle(3.2).circle(2.6).extrude(Y_DEGRAU - Y_POLIA[1])          # 6,8
 
 
 def arruela():
-    return anel(7.5, E.PC_ARR_F[1] - E.PC_ARR_F[0])
+    return cq.Workplane("XY").circle(3.75).circle(FURO_PASSA / 2).extrude(Y_ARR[1] - Y_ARR[0])
 
 
-def espacador_frente():
-    return anel(7.5, E.PC_ESP_F[1] - E.PC_ESP_F[0])
-
-
-def espacador_tras():
-    # passa no furo de 7 mm do degrau da torre: parede fina, furo um pouco menor (o fatiador fecha um pouco o furo)
-    return cq.Workplane("XY").circle(3.2).circle(2.6).extrude(E.PC_ESP_T[1] - E.PC_ESP_T[0])
-
-
-PECAS = [  # (arquivo, funcao, quantidade a imprimir: 1 de reserva em cada)
-    ("acoplamento_n20_m5__x2.stl", acoplamento, 2),
-    ("arruela_7.5x1__x4.stl", arruela, 4),
-    ("espacador_da_frente_2mm__x2.stl", espacador_frente, 2),
-    ("espacador_de_tras_7.65mm__x2.stl", espacador_tras, 2),
+PECAS = [  # (arquivo, funcao, quantidade: 1 de reserva em cada)
+    ("adaptador_n20_m5_reforcado__x2.stl", adaptador, 2),
+    ("espacador_da_parede_6.8mm__x2.stl", espacador_parede, 2),
+    ("arruela_7.5x1__x2.stl", arruela, 2),
 ]
 
-LEIA = """PICBOX COMPACTA R2.1 - POLIA DE CIMA DO ELEVADOR (parafuso M5 como eixo)
+LEIA = """PICBOX COMPACTA R2.2 - POLIA DE CIMA DO ELEVADOR (polia de 16 mm, 1 rolamento so)
 
-IMPRIMIR (qualquer impressora, uns 20 min, ja vem 1 de reserva de cada):
-  polia_de_cima__mesa.stl  = tudo junto numa mesa so
-  (ou os arquivos separados, a quantidade esta no nome: __x2 = 2 copias)
-  PETG, camada 0,12 a 0,16, 100% de preenchimento, SEM suporte, como esta no arquivo (em pe).
+IMPRIMIR (uns 25 min, ja vem 1 de reserva de cada):
+  polia_de_cima__mesa.stl  = tudo junto (ou os separados: __x2 = 2 copias)
+  PETG, camada 0,12, 100% de preenchimento, SEM suporte, em pe como esta no arquivo
+  (adaptador com a parte grossa na mesa).
 
-COMPRAR
-  2  rolamentos 625ZZ (5 x 16 x 5 mm)
-  1  parafuso Allen M5 x 45 (DIN 912, cabeca cilindrica) - de preferencia rosca parcial
-     (tem que ser 45: com 50 bate no eixo do motor, com 40 pega pouca rosca)
-  1  parafuso Allen sem cabeca M3 x 3 (ou M3 x 4)
-  NAO precisa de porca: o acoplamento impresso e a porca do M5.
-  Ja tem: polia GT2 20T furo 5, motor N20. Separar: cola instantanea (super bonder), fita crepe.
+COMPRAR: 1 rolamento 625ZZ, 1 parafuso Allen M5 x 45 (DIN 912), 1 parafuso sem cabeca M3 x 3 (ou x 4). Sem porca.
 
-A ORDEM NO PARAFUSO (de tras para a frente)
-  cabeca M5 | arruela | rolamento de tras | espacador de tras (7,65) | polia (cubo para a frente) |
-  espacador da frente (2) | rolamento da frente | arruela | acoplamento | eixo do N20
+A ORDEM (da frente para tras)
+  N20 | adaptador | polia (cubo virado para o motor) | espacador 6,8 (atravessa o furo de 7 da parede) |
+  rolamento (colado na sede, encostado no degrau) | arruela | cabeca do M5
 
-MONTAGEM (torre de cima sozinha, na bancada)
- 0. Se ficou uma pelicula fina tampando os furos dos rolamentos, corte com estilete
-    (as 2 faces do furo da frente e a face de tras do furo de tras).
- 1. Na bancada: eixo do N20 no acoplamento (furo pequeno) ate o fundo; aperte o M3 sem cabeca
-    (se o eixo for redondo, lixe um chatinho nele onde o M3 encosta).
- 2. Motor com o acoplamento pela frente, no encaixe do motor: o acoplamento passa pelo encaixe e o motor deita no berco.
- 3. Rolamento de tras: por tras da torre, ate encostar no degrau. Uma gota de cola na pista de FORA
-    (nao deixe a cola chegar na tampinha do meio). E ele que segura tudo no lugar.
- 4. Rolamento da frente: se ficar frouxo na sede, 1 volta de fita crepe na pista de fora.
- 5. Torre de cabeca para baixo, apoiada em 2 livros, com a janela do teto livre por baixo.
-    Arruela na cabeca do M5 e o M5 por tras, atravessando o rolamento de tras.
-    Pelo vao aberto da torre (agora em cima) solte uma peca de cada vez e encaixe na ponta do M5 com o dedo
-    pela janela do teto, empurrando o M5 um pouco a cada peca:
-      espacador de tras -> polia (cubo virado para o motor) -> espacador da frente -> rolamento da frente -> arruela
-    O rolamento da frente entra na sede da frente.
- 6. Gire o M5 por tras com a chave Allen: ele rosqueia no acoplamento (o motor no berco nao deixa o acoplamento
-    girar). Aperte firme: tudo vira um bloco so. Uma gota de trava-rosca (ou cola) na ponta do M5 antes.
- 7. Centralize os dentes da polia na janela do teto e aperte o parafusinho da polia pela janela.
- 8. Gire com a mao: tem que girar liso.
+IMAGENS: montagem_r2.2.png (montado + ordem) e adaptador_corte.png.
+
+CORTE NA TORRE (obrigatorio)
+  Teto: tirar a tira entre o encaixe do rolamento da frente e a janela (4,5 mm de largura, a largura da janela).
+  O cubo de 16 da polia bate ali. O encaixe da frente nao precisa cortar (o cubo passa no furo de 16,8),
+  mas pode, se quiser folga.
+
+MONTAGEM
+ 1. Bancada: eixo do N20 no furo em D do adaptador ate o fundo; aperte o M3 sem cabeca no chato do eixo.
+ 2. Motor no berco com o adaptador para tras.
+ 3. Rolamento de tras na sede, encostado no degrau, gota de cola na pista de FORA.
+ 4. Polia (cubo para a frente) e espacador pela janela; M5 com a arruela por tras, atravessando rolamento,
+    espacador e polia, e rosqueie no adaptador (o berco segura o motor). Aperte firme.
+ 5. Confira os dentes no meio da correia e aperte o parafusinho da polia no M5.
+ 6. Gire com a mao: liso, sem raspar no teto.
 """
 
 
 def main():
     SAIDA.mkdir(parents=True, exist_ok=True)
+    for f in list(SAIDA.glob("*.stl")) + list(SAIDA.glob("*.png")):
+        f.unlink()
     mesa, x = None, 0.0
     for arq, f, n in PECAS:
         w = f()
@@ -117,6 +123,9 @@ def main():
         x += bb.ylen + 5.0
     cq.exporters.export(mesa, str(SAIDA / "polia_de_cima__mesa.stl"), tolerance=0.01, angularTolerance=0.1)
     (SAIDA / "LEIA.txt").write_text(LEIA, encoding="utf8")
+    import polia_cima_imagens as I
+    I.corte_adaptador(SAIDA / PECAS[0][0], SAIDA / "adaptador_corte.png")
+    I.montagem(SAIDA / "montagem_r2.2.png")
     print("ok", SAIDA)
 
 

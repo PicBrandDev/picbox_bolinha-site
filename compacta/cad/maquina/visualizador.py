@@ -20,8 +20,8 @@ SAIDA = AQUI.parents[1] / "pagina" / "PICBOX_R2_visualizador_3D.html"
 
 GRUPOS = [
     ("Elevador", ("Torre inferior", "Torre superior", "Cabine", "Rampa", "Motor N20", "Polia do motor", "Polia de baixo",
-                  "Acoplamento impresso", "Parafuso sem cabeca M3", "Parafuso M5 da polia", "Arruela impressa",
-                  "Espacador da frente", "Espacador de tras", "Rolamento 625ZZ",
+                  "Adaptador N20-M5", "Parafuso sem cabeca M3", "Parafuso M5 da polia", "Arruela impressa",
+                  "Espacador da parede", "Rolamento 625ZZ",
                   "Correia", "Fixador da cabine", "Bandeira", "Sensor de fenda", "Sensor do bolso", "EVA 5 mm")),
     ("Fila e comporta", ("Fila", "Fila esquerda", "Braco da comporta", "Servo")),
     ("Eixo de cima (A)", ("Bloco esquerdo de cima", "Perfil 2020 A", "Trilho MGN12 A", "Patim MGN12H A", "NEMA 17 A",

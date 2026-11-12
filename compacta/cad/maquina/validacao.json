@@ -3,9 +3,9 @@
   "ok": true,
   "ruins": [],
   "n_ruins": 0,
-  "previstas": 61,
-  "encostam": 214,
-  "pares": 37128
+  "previstas": 59,
+  "encostam": 211,
+  "pares": 36585
  },
  "parafusos": [
   {
@@ -4840,19 +4840,6 @@
    {
     "a": "correia_presa",
     "pa": "Correia",
-    "b": "polia_cima",
-    "pb": "Polia do motor",
-    "folga": 1.01,
-    "onde": {
-     "zc": 360.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
-    "a": "correia_presa",
-    "pa": "Correia",
     "b": "polia_baixo",
     "pb": "Polia de baixo",
     "folga": 1.01,
@@ -5787,6 +5774,19 @@
     "nota": ""
    },
    {
+    "a": "correia_presa",
+    "pa": "Correia",
+    "b": "polia_cima",
+    "pb": "Polia do motor",
+    "folga": 1.94,
+    "onde": {
+     "zc": 360.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": ""
+   },
+   {
     "a": "prateleiraA",
     "pa": "Carro A",
     "b": "bloco_dir_A",
@@ -6450,19 +6450,6 @@
     "nota": ""
    },
    {
-    "a": "bloco_fixador",
-    "pa": "Cabine",
-    "b": "polia_cima",
-    "pb": "Polia do motor",
-    "folga": 2.27,
-    "onde": {
-     "zc": 360.1,
-     "cA": 165.8
-    },
-    "ok": true,
-    "nota": ""
-   },
-   {
     "a": "prateleiraA",
     "pa": "Carro A",
     "b": "prat_estA_0",
@@ -6812,6 +6799,19 @@
     },
     "ok": true,
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
+   },
+   {
+    "a": "correia_presa",
+    "pa": "Correia",
+    "b": "cubo_cima",
+    "pb": "Polia do motor",
+    "folga": 2.44,
+    "onde": {
+     "zc": 360.1,
+     "cA": 165.8
+    },
+    "ok": true,
+    "nota": ""
    },
    {
     "a": "costasB",
@@ -7217,7 +7217,7 @@
     "nota": "esteira porta-cabo (flexivel, desenho aproximado)"
    }
   ],
-  "segundos": 205.2,
+  "segundos": 341.6,
   "posicoes": {
    "A": 105,
    "B": 99
@@ -7228,26 +7228,20 @@
   "pecas": [
    {
     "nome": "acoplamento",
-    "peca": "Acoplamento impresso",
-    "folga_radial": 1.0,
+    "peca": "Adaptador N20-M5",
+    "folga_radial": 0.5,
+    "ok": true
+   },
+   {
+    "nome": "acoplamento_fl",
+    "peca": "Adaptador N20-M5",
+    "folga_radial": 1.5,
     "ok": true
    },
    {
     "nome": "m3_acopl",
     "peca": "Parafuso sem cabeca M3",
-    "folga_radial": 1.5,
-    "ok": true
-   },
-   {
-    "nome": "arruela_f",
-    "peca": "Arruela impressa",
-    "folga_radial": 1.5,
-    "ok": true
-   },
-   {
-    "nome": "espacador_f",
-    "peca": "Espacador da frente",
-    "folga_radial": 1.5,
+    "folga_radial": 0.8,
     "ok": true
    },
    {
@@ -7264,7 +7258,7 @@
    },
    {
     "nome": "espacador_t",
-    "peca": "Espacador de tras",
+    "peca": "Espacador da parede",
     "folga_radial": 0.3,
     "ok": true
    },
@@ -7294,8 +7288,8 @@
    {
     "a": "correia_ida_cima",
     "b": "espacador_t",
-    "pb": "Espacador de tras",
-    "folga": 2.52,
+    "pb": "Espacador da parede",
+    "folga": 2.81,
     "zc": 18.1,
     "ok": true
    },
