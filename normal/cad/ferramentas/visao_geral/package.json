@@ -1,0 +1,9 @@
+{
+  "name": "picbox-visao-geral",
+  "private": true,
+  "description": "Gera as imagens de saidas/imagens/visao_geral a partir de saidas/montagem/maquina_a.glb",
+  "devDependencies": {
+    "three": "0.147.0",
+    "@gltf-transform/cli": "^4"
+  }
+}
