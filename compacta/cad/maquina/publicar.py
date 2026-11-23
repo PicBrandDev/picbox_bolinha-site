@@ -5,7 +5,8 @@
   compacta/imprimir/B_creality_1/ ...
   compacta/imprimir/C_creality_2/ ...
   compacta/imprimir/pecas_avulsas/*.stl                         (uma peca por arquivo, para reimprimir)
-  compacta/pagina/picbox_compacta.html                          (3D, montagem, checagens)
+  compacta/pagina/PICBOX_compacta_visualizacao.html             (3D, montagem, checagens)
+  compacta/pagina/PICBOX_R2_visualizador_3D.html, PICBOX_elevador_3D.html, PICBOX_elevador_montagem.html, ...
   compacta/imagens/*.png                                         (montagem com as pecas reais)
   compacta/step/*.step                                           (pecas na posicao de montagem, para editar)
 """
@@ -76,10 +77,18 @@ def main():
         if (S / orig).exists():
             shutil.copy2(S / orig, C / "pagina" / dest)
     import alteradas
-    alteradas.main()
+    alteradas.main()                        # LEIA-ME_R2 (a ficha da SparkX embute ele) + zip
+    if (AQUI / "saida_unica" / "plano.json").exists():      # ficha + mesas de uma impressora so (SparkX i7)
+        import impressao_unica
+        impressao_unica.main()
+        alteradas.main()                    # zip de novo, agora com a pasta SparkX_i7
     if (AQUI / "saida_unica" / "plano.json").exists():      # visualizador 3D de arquivo unico (precisa do plano da SparkX i7)
         import visualizador
         visualizador.main()
+    import elevador3d
+    import elevador_montagem
+    elevador3d.main()                       # elevador em 3D com os nomes (cabine animada)
+    elevador_montagem.main()                # montagem do elevador passo a passo em 3D
     print("\n".join(geral))
 
 

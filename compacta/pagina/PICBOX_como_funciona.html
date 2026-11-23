@@ -72,7 +72,7 @@ text{font-family:var(--f-body)}
   <!-- 1. elevador -->
   <section class="sec">
     <header><h2>1. O elevador e a correia aberta</h2>
-      <p class="muted">A correia não é um anel fechado: são duas pontas, as duas presas na cabine. O motor puxa um lado e a cabine anda junto.</p></header>
+      <p class="muted">A correia é um laço aberto: as duas pontas se encontram no fixador de alumínio atrás da cabine. O motor gira a polia de cima, puxa um lado e a cabine anda junto.</p></header>
     <div class="bloco largo">
       <div class="fig">
         <div class="vistas">
@@ -85,7 +85,7 @@ text{font-family:var(--f-body)}
       <div class="txt">
         <div><h3>Passo a passo de uma bola</h3>
         <ol class="passos" id="passos"></ol></div>
-        <p class="nota"><b>A correia, sem mistério:</b> a ponta de baixo sai da presilha de baixo da cabine, desce, contorna a polia de baixo, sobe pelo outro lado (o ramo livre), contorna a polia do motor lá em cima e desce até a presilha de cima da cabine. Quando o motor gira, o ramo da cabine sobe e o ramo livre desce, ou o contrário. A cabine nunca chega nas polias: entre elas só passa correia.</p>
+        <p class="nota"><b>A correia, sem mistério:</b> uma ponta sai de baixo do fixador da cabine, desce pelo ramo da direita, contorna a polia de baixo, sobe pelo ramo da esquerda (o ramo livre), contorna a polia do motor lá em cima e desce pela direita até o fixador, onde encontra a outra ponta. O fixador de alumínio aperta as duas com 1 M3x14. Quando o motor gira, o ramo da cabine sobe e o ramo livre desce, ou o contrário. A cabine nunca chega nas polias: entre elas só passa correia.</p>
       </div>
     </div>
   </section>
@@ -106,7 +106,8 @@ text{font-family:var(--f-body)}
           <li>Pela frente ela vai até a tensora, contorna e volta por trás até a presilha. Ali entra a ponta 2.</li>
           <li>O motor gira, o ramo de trás puxa a presilha e o carro anda. Girando ao contrário, ele volta.</li>
           <li>Para esticar a correia, a tensora corre num rasgo de 6 mm no bloco da direita.</li>
-          <li>Casa: o carro vai devagar para a esquerda até a placa tocar o fim de curso.</li>
+          <li>Casa: o carro vai devagar para a esquerda até a placa tocar o fim de curso (KW10 no bloco esquerdo).</li>
+          <li>Segurança: um segundo KW10, no bloco direito, para o motor se o carro passar do fim do curso.</li>
         </ol>
       </div>
     </div>
@@ -132,16 +133,16 @@ text{font-family:var(--f-body)}
 
   <!-- 4. anel no patim -->
   <section class="sec">
-    <header><h2>4. Como o anel prende no patim do trilho</h2></header>
+    <header><h2>4. Como o carro B (com o anel) prende no patim do trilho</h2></header>
     <div class="bloco">
-      <div class="fig"><div class="cap">Corte de lado, peças separadas</div><svg id="sv-anel" viewBox="0 0 620 300" role="img" aria-label="Fixação do anel no patim"></svg></div>
+      <div class="fig"><div class="cap">Corte de lado</div><svg id="sv-anel" viewBox="0 0 620 300" role="img" aria-label="Fixação do anel no patim"></svg></div>
       <div class="txt">
         <ol class="passos">
           <li>O perfil 2020 é parafusado nas paredes, com o trilho MGN12 na face de trás.</li>
           <li>O patim MGN12H corre no trilho. Nunca tire o patim do trilho: as esferas caem.</li>
+          <li>Desde a R2, o carro B e o anel são <b>uma peça só</b> (sem parafusos entre eles).</li>
           <li>A placa do carro B entra no patim com <b>4 parafusos M3x8</b>, pela face de trás da placa.</li>
-          <li>As costas do anel encostam na placa e prendem com <b>4 M3x12 e porca</b>: 2 embaixo e 2 em cima.</li>
-          <li>A presilha da correia fica na frente da placa, embaixo do patim.</li>
+                    <li>A presilha da correia fica na frente da placa, embaixo do patim, com o fixador de alumínio apertando a correia.</li>
         </ol>
       </div>
     </div>
@@ -167,11 +168,11 @@ const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, t)));
 const T = 14;
 const ETAPAS = [
   [0.0, 1.4, "Comporta: o servo abaixa a lâmina e uma bola rola da fila para a cabine."],
-  [1.4, 4.6, "Elevador: o motor N20 gira e a correia puxa a cabine para cima (Z 19 → 357)."],
-  [4.6, 5.8, "Topo: a cabine para, o berço fica alinhado com a rampa e a bola rola até o bolso."],
+  [1.4, 4.6, `Elevador: o motor N20 gira a polia de cima e a correia puxa a cabine para cima (Z ${Math.round(M.zc[0])} → ${Math.round(M.zc[1])}).`],
+  [4.6, 5.8, "Topo: o sensor de fenda de cima para a cabine, o berço fica alinhado com a rampa e a bola rola até o bolso."],
   [5.8, 7.0, "Pega: o carro A para sobre o bolso, o ímã liga e a bola sobe 1 mm."],
   [7.0, 9.0, "Jogo: o carro A leva a bola, a cabine desce para buscar a próxima."],
-  [9.0, 9.7, "Soltura: o botão desliga o ímã e a bola cai 250 mm até o anel."],
+  [9.0, 9.7, `Soltura: o botão desliga o ímã e a bola cai ${Math.round(M.zs - M.zb)} mm até o anel.`],
   [9.7, 12.6, "Volta: a bola cai na bandeja com EVA, rola para o fundo e entra na fila."],
   [12.6, 14.0, "A bola anda na fila até encostar nas outras, e o ciclo recomeça."],
 ];
@@ -206,9 +207,9 @@ function desenhaFrente(s) {
   const sv = $("sv-elev"); sv.innerHTML = "";
   const imp = css("--imp"), anda = css("--anda"), comp = css("--comp"), cor = css("--correia"), al = css("--alerta");
   el(sv, "rect", {x: 0, y: 0, width: 300, height: 620, fill: "#fbfcfb"});
-  // guia (trilhos em T, atras) e tubo
-  el(sv, "rect", {x: fx(174.5), y: fz(413), width: fx(207.5) - fx(174.5), height: fz(5) - fz(413), fill: imp, opacity: .12});
-  el(sv, "text", {x: fx(200), y: fz(260), "font-size": 11, fill: imp, "text-anchor": "middle", transform: `rotate(-90 ${fx(203)} ${fz(260)})`}, "guia (trilhos em T, atrás)");
+  // torre (trilhos em T)
+  el(sv, "rect", {x: fx(174.5), y: fz(429), width: fx(207.5) - fx(174.5), height: fz(0) - fz(429), fill: imp, opacity: .12});
+  el(sv, "text", {x: fx(200), y: fz(260), "font-size": 11, fill: imp, "text-anchor": "middle", transform: `rotate(-90 ${fx(203)} ${fz(260)})`}, "torre (trilhos em T)");
   // fila
   el(sv, "polygon", {points: `${fx(150)},${fz(M.f150)} ${fx(174)},${fz(20)} ${fx(174)},${fz(17)} ${fx(150)},${fz(M.f150 - 3)}`, fill: imp});
   el(sv, "text", {x: fx(152), y: fz(M.f150) - 8, "font-size": 11, fill: imp}, "fila");
@@ -220,22 +221,22 @@ function desenhaFrente(s) {
   const rp = 14;
   el(sv, "circle", {cx: fx(191), cy: fz(M.zp[1]), r: rp, fill: comp, stroke: "#555", "stroke-width": 1});
   el(sv, "circle", {cx: fx(191), cy: fz(M.zp[0]), r: rp, fill: comp, stroke: "#555", "stroke-width": 1});
-  el(sv, "text", {x: fx(191), y: fz(M.zp[1]) - rp - 6, "font-size": 11, "text-anchor": "middle"}, "polia do motor N20");
+  el(sv, "text", {x: fx(191) - rp - 6, y: fz(M.zp[1]) + 4, "font-size": 11, "text-anchor": "end"}, "polia do motor N20");
   el(sv, "text", {x: fx(191) + rp + 4, y: fz(M.zp[0]) + 4, "font-size": 11}, "polia de baixo");
   // cabine
-  const zc = s.zc, cab = [fx(178), fz(zc + 37), fx(205.5) - fx(178), fz(zc - 2) - fz(zc + 37)];
+  const zc = s.zc, cab = [fx(178), fz(zc + 48), fx(205.5) - fx(178), fz(zc - 8) - fz(zc + 48)];
   el(sv, "rect", {x: cab[0], y: cab[1], width: cab[2], height: cab[3], fill: anda, opacity: .9, rx: 2});
   el(sv, "text", {x: fx(178) - 4, y: fz(zc + 18), "font-size": 11, fill: anda, "text-anchor": "end"}, "cabine");
-  // correia: ramo livre (esq) inteiro; ramo da cabine em 2 pedacos ate as presilhas
+  // correia: ramo livre (esq) inteiro; ramo da cabine em 2 pedacos ate o fixador
   const xi = fx(191) + rp, xv = fx(191) - rp, desl = (zc - M.zc[0]) * ef.sz;
   const dash = {"stroke-dasharray": "10 6", stroke: cor, "stroke-width": 3, fill: "none"};
   el(sv, "line", Object.assign({x1: xv, y1: fz(M.zp[0]), x2: xv, y2: fz(M.zp[1]), "stroke-dashoffset": desl}, dash));
-  el(sv, "line", Object.assign({x1: xi, y1: fz(M.zp[0]), x2: xi, y2: fz(zc + 12), "stroke-dashoffset": -desl}, dash));
-  el(sv, "line", Object.assign({x1: xi, y1: fz(zc + 35), x2: xi, y2: fz(M.zp[1]), "stroke-dashoffset": -desl}, dash));
+  el(sv, "line", Object.assign({x1: xi, y1: fz(M.zp[0]), x2: xi, y2: fz(zc + 6), "stroke-dashoffset": -desl}, dash));
+  el(sv, "line", Object.assign({x1: xi, y1: fz(zc + 46), x2: xi, y2: fz(M.zp[1]), "stroke-dashoffset": -desl}, dash));
   el(sv, "path", {d: `M ${xv} ${fz(M.zp[1])} A ${rp} ${rp} 0 0 1 ${xi} ${fz(M.zp[1])}`, stroke: cor, "stroke-width": 3, fill: "none"});
   el(sv, "path", {d: `M ${xv} ${fz(M.zp[0])} A ${rp} ${rp} 0 0 0 ${xi} ${fz(M.zp[0])}`, stroke: cor, "stroke-width": 3, fill: "none"});
-  // presilhas na cabine
-  for (const [z0, z1, t] of [[zc + 10, zc + 21, "presilha de baixo"], [zc + 29, zc + 37, "presilha de cima"]]) {
+  // fixador de aluminio na cabine (as 2 pontas se encontram no meio dele)
+  for (const [z0, z1, t] of [[zc + 6, zc + 46, "fixador"]]) {
     el(sv, "rect", {x: xi - 6, y: fz(z1), width: 12, height: fz(z0) - fz(z1), fill: al, rx: 2});
     el(sv, "text", {x: xi + 10, y: fz((z0 + z1) / 2) + 4, "font-size": 10, fill: al}, t);
   }
@@ -247,12 +248,12 @@ function desenhaFrente(s) {
     el(sv, "text", {x: xv - 22, y: fz(zc + 70), "font-size": 18, fill: cor}, subindo ? "↓" : "↑");
   }
   // rampa e bolso (topo)
-  el(sv, "rect", {x: fx(177), y: fz(374), width: fx(208) - fx(177), height: fz(339) - fz(374), fill: imp, opacity: .35});
+  el(sv, "rect", {x: fx(177), y: fz(380), width: fx(208) - fx(177), height: fz(344) - fz(380), fill: imp, opacity: .35});
   el(sv, "text", {x: fx(152), y: fz(386), "font-size": 11, fill: imp}, "rampa e bolso (saem para a frente) →");
-  // fins de curso
-  el(sv, "rect", {x: fx(200), y: fz(18.7), width: fx(206.4) - fx(200), height: fz(8.5) - fz(18.7), fill: al});
-  el(sv, "rect", {x: fx(200), y: fz(412), width: fx(206.4) - fx(200), height: fz(401.8) - fz(412), fill: al});
-  el(sv, "text", {x: fx(207), y: fz(28), "font-size": 10, fill: al, "text-anchor": "end"}, "fim de curso");
+  // sensores de fenda (a bandeira da cabine entra na fenda)
+  el(sv, "rect", {x: fx(204), y: fz(16), width: fx(210) - fx(204), height: fz(5) - fz(16), fill: al});
+  el(sv, "rect", {x: fx(204), y: fz(425), width: fx(210) - fx(204), height: fz(414) - fz(425), fill: al});
+  el(sv, "text", {x: fx(210), y: fz(24), "font-size": 10, fill: al, "text-anchor": "end"}, "sensor de fenda");
   // bola
   if (s.bf) el(sv, "circle", {cx: fx(s.bf[0]), cy: fz(s.bf[1]), r: M.r * ef.sz, fill: css("--bola"), stroke: "#555"});
 }
@@ -270,7 +271,7 @@ function desenhaLado(s) {
   // coluna do elevador
   el(sv, "rect", {x: ly(128), y: lz(413), width: ly(199) - ly(128), height: lz(5) - lz(413), fill: imp, opacity: .1});
   // cabine
-  el(sv, "rect", {x: ly(130.5), y: lz(s.zc + 37), width: ly(199) - ly(130.5), height: lz(s.zc - 2) - lz(s.zc + 37), fill: anda, opacity: .85, rx: 2});
+  el(sv, "rect", {x: ly(130.5), y: lz(s.zc + 48), width: ly(199) - ly(130.5), height: lz(s.zc - 8) - lz(s.zc + 48), fill: anda, opacity: .85, rx: 2});
   // rampa
   el(sv, "polygon", {points: `${ly(128)},${lz(352)} ${ly(55)},${lz(344.3)} ${ly(55)},${lz(339)} ${ly(128)},${lz(339)}`, fill: imp});
   el(sv, "rect", {x: ly(55), y: lz(374), width: ly(60) - ly(55), height: lz(344) - lz(374), fill: eva});
@@ -363,25 +364,23 @@ function desenhaAnel() {
   const ay = y => 20 + y * 5.2, az = z => 280 - (z - 40) * 3.4;
   el(sv, "rect", {x: 0, y: 0, width: 620, height: 300, fill: "#fbfcfb"});
   const pecas = [[8, 28, 71, 91, comp, "perfil 2020"], [28, 36, 75, 87, "#6f787d", "trilho"], [31, 41, 67.5, 94.5, comp, "patim MGN12H"],
-    [41, 46, 49, 104, anda, "placa do carro B"], [46, 50, 50, 110, anda, "costas do anel"], [50, 54, 88, 110, anda, ""], [93, 99.7, 88, 110, anda, ""]];
-  const sep = [0, 0, 0, 12, 24, 24, 24];
+    [41, 46, 49, 104, anda, "carro B + anel (1 peça)"], [46, 50, 50, 110, anda, ""], [50, 54, 88, 110, anda, ""], [93, 99.7, 88, 110, anda, ""]];
+  const sep = [0, 0, 0, 12, 12, 12, 12];
   pecas.forEach((p, i) => { el(sv, "rect", {x: ay(p[0]) + sep[i] * 1.0, y: az(p[3]), width: ay(p[1]) - ay(p[0]), height: az(p[2]) - az(p[3]), fill: p[4], opacity: .9});
     if (p[5]) el(sv, "text", {x: ay(p[0]) + sep[i] + (ay(p[1]) - ay(p[0])) / 2, y: az(p[2]) + 16, "font-size": 11, "text-anchor": "middle"}, p[5]); });
   el(sv, "text", {x: ay(75) + 24, y: az(114), "font-size": 12, "text-anchor": "middle", fill: anda}, "anel (furo 38)");
   for (const z of [71, 91]) el(sv, "line", {x1: ay(36), y1: az(z), x2: ay(46) + 12, y2: az(z), stroke: "#111", "stroke-width": 2, "stroke-dasharray": "4 3"});
   el(sv, "text", {x: ay(46) + 16, y: az(91) - 6, "font-size": 11}, "4 × M3x8: placa → patim");
-  for (const z of [60, 100]) el(sv, "line", {x1: ay(39), y1: az(z), x2: ay(50) + 24, y2: az(z), stroke: "#b8327a", "stroke-width": 2, "stroke-dasharray": "4 3"});
-  el(sv, "text", {x: ay(50) + 28, y: az(60) + 4, "font-size": 11, fill: "#b8327a"}, "4 × M3x12 + porca: costas → placa");
 }
 
 /* ---------------- sensores ---------------- */
 const SENS = [
-  ["Fim de curso do eixo A", "KW10 (de toque)", "Bloco esquerdo de cima, X −197", "A placa do carro A aperta a alavanca na casa (X −165)"],
-  ["Fim de curso do eixo B", "KW10 (de toque)", "Bloco esquerdo de baixo, X −197", "A placa do carro B aperta a alavanca na casa"],
-  ["Fim de curso de baixo do elevador", "KW10 (de toque)", "No pé da guia, Z 8 a 19", "A cabine aperta quando chega no batente"],
-  ["Fim de curso de cima do elevador", "KW10 (de toque)", "Na cabeça da guia, Z 402 a 412", "A cabine aperta no topo: hora de a bola rolar"],
+  ["Fins de curso do eixo A", "2 KW10 (de toque)", "Casa no bloco esquerdo de cima; segurança no bloco direito", `A placa do carro A aperta a alavanca na casa (c = ${M.cA[0]}); o de segurança só se passar do curso`],
+  ["Fins de curso do eixo B", "2 KW10 (de toque)", "Casa no bloco esquerdo de baixo; segurança no bloco direito", "O batedor do carro B aperta a alavanca na casa"],
+  ["Sensor de baixo do elevador", "Sensor óptico de fenda sem placa (tipo ITR9608)", "No pé da torre, Z 5 a 16", "A bandeira (M2x25 na cabine) entra na fenda: cabine embaixo. Girar a bandeira ajusta a parada"],
+  ["Sensor de cima do elevador", "Sensor óptico de fenda sem placa (tipo ITR9608)", "No teto da torre, Z 414 a 425", "A bandeira de cima entra na fenda: cabine no topo, hora de a bola rolar"],
   ["Sensor do bolso", "TCRT5000 (óptico refletivo)", "Embaixo do piso do bolso", "Vê a bola parada no bolso; confirma a pega"],
-  ["Barreira do anel", "LED IR + fototransistor 5 mm", "Nas laterais do anel, Z 95", "A bola corta o feixe ao passar: conta o acerto"],
+  ["Barreira do anel", "LED IR + fototransistor 5 mm", `Nas laterais do anel, Z ${Math.round(M.zb - 14.5)}`, "A bola corta o feixe ao passar: conta o acerto"],
 ];
 $("t-sens").innerHTML = "<thead><tr><th>Sensor</th><th>Tipo hoje</th><th>Onde</th><th>O que faz</th></tr></thead><tbody>" +
   SENS.map(r => `<tr>${r.map((c, i) => `<td${i === 0 ? ' style="font-weight:600"' : ""}>${c}</td>`).join("")}</tr>`).join("") + "</tbody>";

@@ -7,25 +7,26 @@ Se o fatiador juntar tudo num objeto so, use 'Dividir em objetos'.
 
 TOTAL: 3 mesas, ~115.2 h
 
-  mesa 01   24.6 h  altura 105 mm  ocupa 73% da mesa  COM SUPORTE
-         - Fila
-         - Carro B
-         - Bandeja do meio
-         - Carro A
-         - Braco da comporta
-         - Cabine
-  mesa 02   24.9 h  altura 105 mm  ocupa 77% da mesa
-         - Bandeja esquerda
+  mesa 01   23.9 h  altura 105 mm  ocupa 68% da mesa  COM SUPORTE
          - Prateleira da esteira esquerda
+         - Carro B
          - Fila esquerda
-         - Bloco esquerdo de cima
          - Rampa
-  mesa 03   65.7 h  altura 239 mm  ocupa 84% da mesa
-         - Prateleira da esteira direita
-         - Bandeja direita
-         - Torre superior
-         - Torre inferior
-         - Bloco esquerdo de baixo
-         - Bloco direito x2
          - Braco da comporta x2
+         - Bloco direito
+         - Cabine
+  mesa 02   64.3 h  altura 239 mm  ocupa 87% da mesa  COM SUPORTE
+         - Bandeja esquerda
+         - Prateleira da esteira direita
+         - Torre superior
+         - Bloco esquerdo de cima
+         - Carro A
+         - Torre inferior
+  mesa 03   27.0 h  altura 105 mm  ocupa 79% da mesa
+         - Fila
+         - Bandeja do meio
+         - Bandeja direita
+         - Bloco esquerdo de baixo
+         - Bloco direito
+         - Braco da comporta
          - Ponta fixa da esteira

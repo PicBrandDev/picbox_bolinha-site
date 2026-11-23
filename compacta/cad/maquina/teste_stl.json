@@ -189,7 +189,7 @@
   {
    "stl": "torre_superior.stl",
    "z0": 0.0,
-   "apoio_cm2": 47.9,
+   "apoio_cm2": 47.0,
    "fechada": true,
    "corpos": 1,
    "ok": true,
