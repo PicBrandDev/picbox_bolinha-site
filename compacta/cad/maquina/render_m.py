@@ -33,8 +33,8 @@ def malhas_impressas():
     return out
 
 
-def cena(m, zc, th, cA, cB):
-    """Lista (malha, cor, opacidade, peca) na pose pedida."""
+def cena(m, zc, th, cA, cB, prim=()):
+    """Lista (malha, cor, opacidade, peca) na pose pedida. prim: pecas impressas que entram como primitivas (sem malha real)."""
     el = m.el
     itens = []
     for o, me in IMPRESSAS:
@@ -58,7 +58,7 @@ def cena(m, zc, th, cA, cB):
     for n, i in c.id.items():
         pc = c.peca[n]
         tp = L.PECAS.get(pc, ("?",))[0]
-        if tp == "impressa" or pc in ("Gabinete", "Tela") or c.tipo[i] == "sphere":
+        if (tp == "impressa" and pc not in prim) or pc in ("Gabinete", "Tela") or c.tipo[i] == "sphere":
             continue
         cc, R, h = c._c[i], c._R[i], c.meio[i]
         T = np.eye(4)
@@ -68,7 +68,7 @@ def cena(m, zc, th, cA, cB):
         else:
             me = pv.Cylinder(center=(0, 0, 0), direction=(0, 0, 1), radius=h[0], height=2 * h[1], resolution=32)
         me = me.transform(T, inplace=False)
-        cor = COR["eva"] if pc.startswith("EVA") else COR["correia"] if pc.startswith(("Correia", "Esteira")) else \
+        cor = COR["anda"] if pc in prim else COR["eva"] if pc.startswith("EVA") else COR["correia"] if pc.startswith(("Correia", "Esteira")) else \
             COR["sensor"] if pc in ("Sensor do bolso", "LED IR / fototransistor 5 mm", "Sensor de fenda", "Fim de curso") else COR["comp"]
         itens.append((me, cor, 1.0, pc))
     import elevador2 as E2

@@ -1,0 +1,268 @@
+<meta charset="utf-8">
+<title>Montagem do elevador</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Folha de montagem: carimbo, vista 3D com as pecas entrando, ficha do passo ao lado */
+:root{
+  --paper:#eef1ee; --sheet:#fbfcfa; --ink:#1b231f; --muted:#5b6862; --rule:#cfd7d2;
+  --accent:#2753d6; --pin:#c23b6b; --cut:#e0352b; --scene:#f4f6f4; --tag:#ffffffe8; --tag-ink:#1b231f; --tag-muted:#4e5b55; --tag-rule:#c9d1cc;
+  --f-disp:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#101412; --sheet:#161b18; --ink:#e1e8e3; --muted:#99a69f; --rule:#2b332f;
+  --accent:#7f9dff; --cut:#ff6b5e; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --paper:#101412; --sheet:#161b18; --ink:#e1e8e3; --muted:#99a69f; --rule:#2b332f;
+  --accent:#7f9dff; --cut:#ff6b5e; color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.45 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 18px;
+  display:flex;flex-direction:column;gap:10px}
+.carimbo{display:flex;flex-wrap:wrap;border:1.5px solid var(--ink);background:var(--sheet)}
+.carimbo>div{padding:8px 12px;border-left:1px solid var(--ink);display:flex;flex-direction:column;min-width:0}
+.carimbo>div:first-child{border-left:0;flex:1 1 260px}
+.lbl{font:600 .72rem var(--f-disp);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 1.6rem/1.05 var(--f-disp);margin:0;text-wrap:balance}
+.v{font-family:var(--f-mono);font-size:.82rem;font-variant-numeric:tabular-nums}
+.mesa{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:10px;align-items:start}
+@media (max-width:900px){ .mesa{grid-template-columns:1fr} }
+.vista{position:relative;height:max(460px,76vh);border:1px solid var(--rule);background:var(--scene);overflow:hidden}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+canvas:active{cursor:grabbing}
+.tags{position:absolute;inset:0;pointer-events:none}
+.tag{position:absolute;display:flex;align-items:center;gap:6px;transform:translate(-4px,-50%);white-space:nowrap}
+.tag i{width:9px;height:9px;border-radius:50%;background:var(--pin);flex:none;box-shadow:0 0 0 2px var(--scene)}
+.tag span{position:relative;background:var(--tag);border:1px solid var(--tag-rule);padding:4px 9px;font-size:.8rem;font-weight:600;color:var(--tag-ink)}
+.tag[hidden]{display:none}
+.tag.corta span{color:#b3261e;border-color:#e0352b}
+.dica{position:absolute;left:10px;bottom:8px;font-size:.75rem;color:var(--tag-muted);pointer-events:none}
+.ficha{background:var(--sheet);border:1.5px solid var(--ink);display:flex;flex-direction:column}
+.ficha header{display:flex;align-items:baseline;gap:10px;padding:10px 14px;border-bottom:1px solid var(--ink)}
+.num{font:700 2.6rem/1 var(--f-disp);font-variant-numeric:tabular-nums}
+.de{font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+.ficha h2{font:700 1.35rem/1.1 var(--f-disp);margin:0;padding:10px 14px 4px;text-wrap:balance}
+.ficha ol{margin:0;padding:4px 14px 12px 34px;display:flex;flex-direction:column;gap:7px}
+.ficha li{padding-left:2px}
+.ficha li::marker{font:600 .9rem var(--f-mono);color:var(--muted)}
+.entra{border-top:1px solid var(--rule);padding:9px 14px 11px;display:flex;flex-direction:column;gap:5px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-size:.78rem;border:1px solid var(--rule);padding:2px 8px;display:flex;align-items:center;gap:6px}
+.chip i{width:9px;height:9px;flex:none;border:1px solid #0003}
+.nav{display:flex;gap:6px;padding:10px 14px;border-top:1px solid var(--ink)}
+.nav button{flex:1}
+button{font:600 .82rem var(--f-disp);letter-spacing:.08em;text-transform:uppercase;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:7px 10px;cursor:pointer}
+button.pri{background:var(--accent);border-color:var(--accent);color:var(--sheet)}
+button:disabled{opacity:.35;cursor:default}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.trilha{display:flex;flex-wrap:wrap;gap:4px;background:var(--sheet);border:1px solid var(--rule);padding:8px 10px;align-items:center}
+.trilha button{min-width:34px;padding:5px 6px;font-family:var(--f-mono);font-size:.8rem;letter-spacing:0;border-width:1px;border-color:var(--rule)}
+.trilha button.feito{border-color:var(--ink)}
+.trilha button[aria-current="step"]{background:var(--accent);border-color:var(--accent);color:var(--sheet)}
+.trilha .sep{flex:1}
+.vistas{display:flex;gap:4px}
+.vistas button{font-size:.74rem;padding:4px 8px;border-width:1px}
+</style>
+
+<div class="carimbo" role="group" aria-label="Carimbo">
+  <div><span class="lbl">Desenho</span><h1>Montagem do elevador · PICBOX Compacta R2.2</h1></div>
+  <div><span class="lbl">Cores</span><span class="v">azul impressa · laranja impressa que gira/anda · cinza comprada</span></div>
+  <div><span class="lbl">Unidade</span><span class="v">mm</span></div>
+</div>
+
+<div class="mesa">
+  <div class="vista" id="vista">
+    <canvas id="c3d" aria-label="Montagem do elevador em 3D: arraste para girar, role para aproximar"></canvas>
+    <div class="tags" id="tags"></div>
+    <div class="dica">Arraste para girar · role para aproximar · ← → trocam o passo</div>
+  </div>
+  <section class="ficha" aria-live="polite">
+    <header><span class="num" id="f-num">1</span><span class="de" id="f-de"></span></header>
+    <h2 id="f-tit"></h2>
+    <ol id="f-lin"></ol>
+    <div class="entra"><span class="lbl">Entra neste passo</span><div class="chips" id="f-pecas"></div></div>
+    <div class="nav">
+      <button id="bt-ant" type="button">← Anterior</button>
+      <button id="bt-rep" type="button">Repetir</button>
+      <button class="pri" id="bt-prox" type="button">Próximo →</button>
+    </div>
+  </section>
+</div>
+
+<nav class="trilha" aria-label="Passos">
+  <span id="trilha" style="display:contents"></span>
+  <span class="sep"></span>
+  <span class="vistas"><button id="bt-tras" type="button">Trás</button><button id="bt-frente" type="button">Frente</button><button id="bt-lado" type="button">Lado</button></span>
+</nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const D = /*DADOS*/null;
+const $ = id => document.getElementById(id);
+const dec = (s, T) => { const b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return new T(u.buffer); };
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const N = D.passos.length;
+
+const vista = $("vista"), cv = $("c3d");
+const ren = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+ren.setPixelRatio(Math.min(devicePixelRatio, 2));
+const cena = new THREE.Scene();
+const ESC = 235;
+const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, -5000, 5000);
+cam.up.set(0, 0, 1);
+cena.add(new THREE.HemisphereLight(0xffffff, 0x8a9690, 0.75));
+const sol = new THREE.DirectionalLight(0xffffff, 0.55); cena.add(sol);
+const sol2 = new THREE.DirectionalLight(0xffffff, 0.25); sol2.position.set(-1, -0.6, 0.4); cena.add(sol2);
+
+// pecas
+const P = D.pecas.map(p => {
+  const v = dec(p.v, Float32Array), g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(v.slice(), 3));
+  g.setIndex(new THREE.BufferAttribute(dec(p.t, Uint32Array), 1));
+  g.computeVertexNormals();
+  const mat = new THREE.MeshStandardMaterial({ color: p.cor, roughness: 0.62, metalness: 0.08, side: THREE.DoubleSide, transparent: p.vidro });
+  const me = new THREE.Mesh(g, mat);
+  if (p.vidro) me.renderOrder = 2;
+  cena.add(me);
+  return Object.assign(p, { g, me, mat, v0: v, dvA: p.dv ? dec(p.dv, Float32Array) : null, ini: p.q[0][0],
+    cur: new THREE.Vector3(), de: new THREE.Vector3(), para: new THREE.Vector3() });
+});
+const K = Object.fromEntries(P.map(p => [p.k, p]));
+const offAt = (p, s) => { let o = [0, 0, 0]; for (const q of p.q) if (q[0] <= s) o = q.slice(1); return new THREE.Vector3(...o); };
+const vis = (p, s) => s >= p.ini && (!p.ate || s <= p.ate);
+
+// nomes
+const tags = $("tags");
+const els = {};
+for (const p of P) {
+  const e = document.createElement("div"); e.className = "tag" + (p.k === "tira" ? " corta" : "");
+  e.innerHTML = "<i></i><span></span>"; e.querySelector("span").textContent = p.nome;
+  e.querySelector("span").style.top = (p.dy || 0) + "px"; e.hidden = true;
+  tags.appendChild(e); els[p.k] = e;
+}
+
+// cabine (passo final: sobe e desce)
+let k = 0;
+function cabine(kk) {
+  k = kk;
+  for (const p of P) if (p.dvA) {
+    const a = p.g.attributes.position.array;
+    for (let i = 0; i < a.length; i++) a[i] = p.v0[i] + p.dvA[i] * k;
+    p.g.attributes.position.needsUpdate = true; p.g.computeBoundingSphere();
+  }
+}
+
+// camera
+const ctl = new THREE.OrbitControls(cam, cv);
+ctl.enableDamping = true; ctl.dampingFactor = 0.12; ctl.zoomSpeed = 1.1;
+function olha(dir) {
+  const d = new THREE.Vector3(...dir).normalize().multiplyScalar(2000);
+  cam.position.copy(ctl.target).add(d); ctl.update();
+}
+function tam() {
+  const w = vista.clientWidth, h = vista.clientHeight, a = w / h;
+  ren.setSize(w, h, false);
+  cam.left = -ESC * a; cam.right = ESC * a; cam.top = ESC; cam.bottom = -ESC; cam.updateProjectionMatrix();
+}
+new ResizeObserver(tam).observe(vista);
+
+// passos
+let passo = 1, tr = null;
+const DUR = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0.01 : 1.4;
+const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+const trilha = $("trilha");
+const bts = D.passos.map((s, i) => {
+  const b = document.createElement("button"); b.type = "button"; b.textContent = i + 1; b.title = s.t;
+  b.onclick = () => vai(i + 1); trilha.appendChild(b); return b;
+});
+
+function vai(s, repete) {
+  s = Math.max(1, Math.min(N, s));
+  const S = D.passos[s - 1];
+  for (const p of P) {
+    p.para.copy(offAt(p, s));
+    const v = vis(p, s), chega = () => p.de.copy(p.para).add(new THREE.Vector3(...p.vem));
+    if (!v) { p.me.visible = false; continue; }
+    if (repete) { if (vis(p, s - 1)) p.de.copy(offAt(p, s - 1)); else chega(); }
+    else if (!p.me.visible) { if (p.ini === s) chega(); else p.de.copy(p.para); }
+    else p.de.copy(p.cur);
+    p.me.visible = true;
+    if (p.vidro) { const solida = p.ini === s; p.mat.opacity = solida ? 1 : 0.2; p.mat.depthWrite = solida; }
+  }
+  const zoom = ESC / S.h;
+  tr = { t: 0, z0: cam.zoom, z1: zoom, a0: ctl.target.clone(), a1: new THREE.Vector3(...S.alvo),
+    d0: cam.position.clone().sub(ctl.target).normalize(), d1: new THREE.Vector3(...S.dir).normalize() };
+  passo = s;
+  if (s !== N) cabine(0);
+  // ficha
+  $("f-num").textContent = s; $("f-de").textContent = "de " + N; $("f-tit").textContent = S.t;
+  const ol = $("f-lin"); ol.replaceChildren(...S.l.map(t => { const li = document.createElement("li"); li.textContent = t; return li; }));
+  const ch = $("f-pecas");
+  ch.replaceChildren(...(S.novas.length ? S.novas : []).map(kk => {
+    const c = document.createElement("span"); c.className = "chip"; const i = document.createElement("i");
+    i.style.background = K[kk].cor; c.append(i, K[kk].nome); return c;
+  }));
+  if (!S.novas.length) ch.textContent = "nenhuma peça nova: só mover/apertar";
+  for (const kk in els) els[kk].hidden = !S.nomes.includes(kk);
+  bts.forEach((b, i) => { b.toggleAttribute("aria-current", i + 1 === s); if (i + 1 === s) b.setAttribute("aria-current", "step"); b.classList.toggle("feito", i + 1 < s); });
+  $("bt-ant").disabled = s === 1; $("bt-prox").disabled = s === N;
+}
+
+const vt = new THREE.Vector3();
+function nomes() {
+  const w = vista.clientWidth, h = vista.clientHeight;
+  for (const p of P) {
+    const e = els[p.k]; if (e.hidden) continue;
+    vt.set(p.c[0], p.c[1], p.c[2]).add(p.cur);
+    if (p.dc) vt.add(new THREE.Vector3(...p.dc).multiplyScalar(k));
+    vt.project(cam);
+    e.style.left = ((vt.x + 1) / 2 * w) + "px"; e.style.top = ((1 - vt.y) / 2 * h) + "px";
+  }
+}
+
+const VEL = 100 / 60 * 40, CURSO = D.z1 - D.z0;
+let ult = performance.now(), tf = 0;
+function quadro(t) {
+  const dt = Math.min(0.25, (t - ult) / 1000); ult = t;
+  if (tr) {
+    tr.t = Math.min(1, tr.t + dt / DUR); const e = ease(tr.t);
+    for (const p of P) { p.cur.lerpVectors(p.de, p.para, e); p.me.position.copy(p.cur); }
+    const a = new THREE.Vector3().lerpVectors(tr.a0, tr.a1, e), d = new THREE.Vector3().lerpVectors(tr.d0, tr.d1, e);
+    if (d.lengthSq() < 1e-6) d.copy(tr.d1);
+    ctl.target.copy(a); cam.position.copy(a).add(d.normalize().multiplyScalar(2000));
+    cam.zoom = tr.z0 + (tr.z1 - tr.z0) * e; cam.updateProjectionMatrix();
+    if (tr.t >= 1) tr = null;
+  } else if (passo === N && DUR > 0.1) {
+    tf += dt; const per = 2 * CURSO / VEL + 2, x = tf % per, sub = CURSO / VEL;
+    cabine(x < 1 ? 0 : x < 1 + sub ? (x - 1) * VEL : x < 2 + sub ? CURSO : Math.max(0, CURSO - (x - 2 - sub) * VEL));
+  }
+  ctl.update();
+  sol.position.copy(cam.position).add(new THREE.Vector3(0, 0, 900));
+  ren.setClearColor(css("--scene") || "#f4f6f4");
+  ren.render(cena, cam);
+  nomes();
+  requestAnimationFrame(quadro);
+}
+
+$("bt-ant").onclick = () => vai(passo - 1);
+$("bt-prox").onclick = () => vai(passo + 1);
+$("bt-rep").onclick = () => vai(passo, true);
+$("bt-tras").onclick = () => olha(D.cam);
+$("bt-frente").onclick = () => olha([0, -1, 0.0001]);
+$("bt-lado").onclick = () => olha([1, 0, 0.0001]);
+addEventListener("keydown", e => {
+  if (e.target.closest && e.target.closest("input,textarea")) return;
+  if (e.key === "ArrowRight") vai(passo + 1); else if (e.key === "ArrowLeft") vai(passo - 1);
+});
+
+tam();
+ctl.target.set(...D.passos[0].alvo); olha(D.cam); cam.zoom = ESC / D.passos[0].h; cam.updateProjectionMatrix();
+for (const p of P) p.me.visible = false;
+vai(1);
+requestAnimationFrame(quadro);
+</script>
