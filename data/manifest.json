@@ -1,0 +1,761 @@
+{
+ "gerado_em": "2026-11-24",
+ "revisao": "R2.2",
+ "gabinete_mm": [
+  440,
+  430,
+  230
+ ],
+ "bola": "aço 1\" (Ø25,4 mm, 67 g)",
+ "pecas": [
+  {
+   "nome": "Torre inferior",
+   "id": "torre_inferior",
+   "quantidade": 1,
+   "impressora": "A",
+   "placas": [
+    "A2"
+   ],
+   "funcao": "Metade de baixo do elevador, numa peça só: pé no piso, orelha na parede direita, os 2 trilhos em T, a frente do tubo, a polia de baixo (eixo M5 com rasgo para esticar a correia), o sensor de fenda de baixo e a canaleta de cabos atrás.",
+   "por_que": "Em pé como monta: todas as paredes e os trilhos sobem retos, sem suporte. Aba (brim) de 5 mm.",
+   "suporte": "nao (em pe, como monta)",
+   "mesa_mm": [
+    107.0,
+    56.5
+   ],
+   "altura_mm": 214.5,
+   "vol_cm3": 319.1,
+   "massa_g": 304.0,
+   "horas": 22.0,
+   "thumb": "peca-torre_inferior.png",
+   "step": "compacta/step/torre_inferior.step",
+   "stl": "compacta/imprimir/pecas_avulsas/torre_inferior.stl"
+  },
+  {
+   "nome": "Torre superior",
+   "id": "torre_superior",
+   "quantidade": 1,
+   "impressora": "A",
+   "placas": [
+    "A3"
+   ],
+   "funcao": "Metade de cima do elevador, numa peça só: trilhos, frente do tubo, berço do motor N20, polia do motor, sensor de fenda de cima, pilares da rampa e orelha na parede. Encaixa na de baixo por 3 pinos e 4 M3.",
+   "por_que": "De cabeça para baixo, com o teto na mesa: os trilhos e paredes sobem retos e a frente do tubo faz uma ponte de 30 mm. Sem suporte. Aba (brim) de 5 mm.",
+   "suporte": "nao (de cabeca para baixo: o teto fica na mesa)",
+   "mesa_mm": [
+    107.0,
+    59.5
+   ],
+   "altura_mm": 239.0,
+   "vol_cm3": 346.2,
+   "massa_g": 330.0,
+   "horas": 23.8,
+   "thumb": "peca-torre_superior.png",
+   "step": "compacta/step/torre_superior.step",
+   "stl": "compacta/imprimir/pecas_avulsas/torre_superior.stl"
+  },
+  {
+   "nome": "Cabine",
+   "id": "cabine",
+   "quantidade": 1,
+   "impressora": "A",
+   "placas": [
+    "A1"
+   ],
+   "funcao": "Leva uma bola por vez para cima. Desliza nos 2 trilhos em T com 1 mm de folga. Atrás tem o bolso do fixador de alumínio da correia e os 2 ressaltos dos parafusos-bandeira dos sensores.",
+   "por_que": "Em pé como monta, sobre a base plana. Suporte em árvore só embaixo do bloco do fixador e dos 2 ressaltos.",
+   "suporte": "sim: arvore so embaixo do bloco do fixador e dos 2 ressaltos da bandeira",
+   "mesa_mm": [
+    67.5,
+    44.0
+   ],
+   "altura_mm": 55.7,
+   "vol_cm3": 49.5,
+   "massa_g": 47.0,
+   "horas": 3.6,
+   "thumb": "peca-cabine.png",
+   "step": "compacta/step/cabine.step",
+   "stl": "compacta/imprimir/pecas_avulsas/cabine.stl"
+  },
+  {
+   "nome": "Fila",
+   "id": "fila",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "B2"
+   ],
+   "funcao": "Calha onde as bolas esperam a vez de subir. O suporte do servo da comporta vem impresso junto, na frente. Desce para a direita até a comporta. Na frente, à esquerda de X 40, tem um lábio baixo por onde a bola entra vindo da bandeja.",
+   "por_que": "Em pé como monta: as nervuras embaixo do piso seguram o piso inclinado durante a impressão.",
+   "suporte": "nao (nervuras embaixo do piso)",
+   "mesa_mm": [
+    205.7,
+    78.5
+   ],
+   "altura_mm": 105.0,
+   "vol_cm3": 114.4,
+   "massa_g": 109.0,
+   "horas": 8.0,
+   "thumb": "peca-fila.png",
+   "step": "compacta/step/fila.step",
+   "stl": "compacta/imprimir/pecas_avulsas/fila.stl"
+  },
+  {
+   "nome": "Rampa",
+   "id": "rampa",
+   "quantidade": 1,
+   "impressora": "A",
+   "placas": [
+    "A4"
+   ],
+   "funcao": "Recebe a bola que sai da cabine lá em cima e a leva rolando até o bolso, onde o ímã do carro A pega. Presa nos pilares da torre por rasgos de ±4 mm: é ali que se acerta a altura da pega. O piso cai para a direita para a bola encostar sempre no mesmo lugar.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "suporte": "nao (piso macico)",
+   "mesa_mm": [
+    77.0,
+    52.0
+   ],
+   "altura_mm": 35.4,
+   "vol_cm3": 29.4,
+   "massa_g": 28.0,
+   "horas": 2.2,
+   "thumb": "peca-rampa.png",
+   "step": "compacta/step/rampa.step",
+   "stl": "compacta/imprimir/pecas_avulsas/rampa.stl"
+  },
+  {
+   "nome": "Braco da comporta",
+   "id": "braco_da_comporta",
+   "quantidade": 3,
+   "impressora": "A",
+   "placas": [
+    "A4"
+   ],
+   "funcao": "Braço no servo com a lâmina que deixa passar uma bola por vez para a cabine. A ponta da lâmina tem 0,8 mm (por isso imprimir 3 e escolher a melhor).",
+   "por_que": "De cabeça para baixo: o topo da lâmina fica na mesa, então a ponta de 0,8 mm sai inteira.",
+   "suporte": "nao",
+   "mesa_mm": [
+    83.6,
+    38.0
+   ],
+   "altura_mm": 15.5,
+   "vol_cm3": 3.7,
+   "massa_g": 4.0,
+   "horas": 1.4,
+   "thumb": "peca-braco_da_comporta.png",
+   "step": "compacta/step/braco_da_comporta.step",
+   "stl": "compacta/imprimir/pecas_avulsas/braco_da_comporta__x3.stl"
+  },
+  {
+   "nome": "Fila esquerda",
+   "id": "fila_esquerda",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "C1"
+   ],
+   "funcao": "Calha onde as bolas esperam a vez de subir. O suporte do servo da comporta vem impresso junto, na frente. Desce para a direita até a comporta. Na frente, à esquerda de X 40, tem um lábio baixo por onde a bola entra vindo da bandeja.",
+   "por_que": "Em pé como monta: as nervuras embaixo do piso seguram o piso inclinado durante a impressão.",
+   "suporte": "nao (nervuras embaixo do piso)",
+   "mesa_mm": [
+    189.0,
+    38.5
+   ],
+   "altura_mm": 105.0,
+   "vol_cm3": 89.6,
+   "massa_g": 85.0,
+   "horas": 6.3,
+   "thumb": "peca-fila_esquerda.png",
+   "step": "compacta/step/fila_esquerda.step",
+   "stl": "compacta/imprimir/pecas_avulsas/fila_esquerda.stl"
+  },
+  {
+   "nome": "Bloco esquerdo de cima",
+   "id": "bloco_esquerdo_de_cima",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "B1"
+   ],
+   "funcao": "Ponta esquerda do eixo de cima numa peça só: prende o perfil 2020 na parede, segura o motor NEMA 17 com a polia e leva o fim de curso KW10 da casa.",
+   "por_que": "Deitada sobre a face que encosta na parede (ou na lateral): a face plana vai na mesa.",
+   "suporte": "nao (deitado na face da parede)",
+   "mesa_mm": [
+    123.0,
+    46.2
+   ],
+   "altura_mm": 48.0,
+   "vol_cm3": 64.1,
+   "massa_g": 61.0,
+   "horas": 4.6,
+   "thumb": "peca-bloco_esquerdo_de_cima.png",
+   "step": "compacta/step/bloco_esquerdo_de_cima.step",
+   "stl": "compacta/imprimir/pecas_avulsas/bloco_esquerdo_de_cima.stl"
+  },
+  {
+   "nome": "Bloco esquerdo de baixo",
+   "id": "bloco_esquerdo_de_baixo",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "C2"
+   ],
+   "funcao": "Igual ao de cima, no eixo de baixo: perfil, motor NEMA 17 (apoiado no piso) e fim de curso da casa.",
+   "por_que": "Deitada sobre a face que encosta na parede (ou na lateral): a face plana vai na mesa.",
+   "suporte": "nao (deitado na face da parede)",
+   "mesa_mm": [
+    95.0,
+    50.7
+   ],
+   "altura_mm": 48.0,
+   "vol_cm3": 54.6,
+   "massa_g": 52.0,
+   "horas": 3.9,
+   "thumb": "peca-bloco_esquerdo_de_baixo.png",
+   "step": "compacta/step/bloco_esquerdo_de_baixo.step",
+   "stl": "compacta/imprimir/pecas_avulsas/bloco_esquerdo_de_baixo.stl"
+  },
+  {
+   "nome": "Bloco direito",
+   "id": "bloco_direito",
+   "quantidade": 2,
+   "impressora": "BC",
+   "placas": [
+    "B1",
+    "C1"
+   ],
+   "funcao": "Prende a ponta direita do perfil na parede direita. Leva a polia tensora da correia, num rasgo para esticar, e o fim de curso KW10 de segurança. São 2 iguais.",
+   "por_que": "Deitada sobre a face que encosta na parede: essa face é plana e tudo o mais cresce para cima, sem suporte.",
+   "suporte": "nao",
+   "mesa_mm": [
+    66.0,
+    42.0
+   ],
+   "altura_mm": 38.0,
+   "vol_cm3": 42.8,
+   "massa_g": 41.0,
+   "horas": 6.2,
+   "thumb": "peca-bloco_direito.png",
+   "step": "compacta/step/bloco_direito.step",
+   "stl": "compacta/imprimir/pecas_avulsas/bloco_direito__x2.stl"
+  },
+  {
+   "nome": "Carro A",
+   "id": "carro_a",
+   "quantidade": 1,
+   "impressora": "A",
+   "placas": [
+    "A1"
+   ],
+   "funcao": "Vai parafusado no patim do trilho de cima. Prende a correia com o fixador de alumínio e leva o eletroímã que segura e solta a bola.",
+   "por_que": "De lado: é a única posição em que a prateleira do ímã fica forte (a força passa ao longo das camadas). Precisa de suporte embaixo da presilha, da prateleira e da nervura, e de aba (brim) de 5 mm.",
+   "suporte": "sim: embaixo da presilha, da prateleira e da nervura",
+   "mesa_mm": [
+    69.0,
+    61.5
+   ],
+   "altura_mm": 66.0,
+   "vol_cm3": 25.8,
+   "massa_g": 25.0,
+   "horas": 2.0,
+   "thumb": "peca-carro_a.png",
+   "step": "compacta/step/carro_a.step",
+   "stl": "compacta/imprimir/pecas_avulsas/carro_a.stl"
+  },
+  {
+   "nome": "Carro B",
+   "id": "carro_b",
+   "quantidade": 1,
+   "impressora": "A",
+   "placas": [
+    "A1"
+   ],
+   "funcao": "Vai parafusado no patim do trilho de baixo. Prende a correia com o fixador de alumínio. O anel (alvo de 38 mm, com os furos da barreira infravermelha) é impresso junto.",
+   "por_que": "De cabeça para baixo: a borda do anel (a parte que leva as batidas da bola) sai na mesa, plana e forte. Suporte em árvore só embaixo da presilha da correia, do batedor e da barra da esteira.",
+   "suporte": "sim: arvore so embaixo da presilha, do batedor e da barra da esteira",
+   "mesa_mm": [
+    99.2,
+    68.0
+   ],
+   "altura_mm": 83.2,
+   "vol_cm3": 63.1,
+   "massa_g": 60.0,
+   "horas": 4.5,
+   "thumb": "peca-carro_b.png",
+   "step": "compacta/step/carro_b.step",
+   "stl": "compacta/imprimir/pecas_avulsas/carro_b.stl"
+  },
+  {
+   "nome": "Bandeja esquerda",
+   "id": "bandeja_esquerda",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "C3"
+   ],
+   "funcao": "Piso inclinado que recebe a bola depois da queda e a leva para a fila. O EVA 5 mm vai colado em cima.",
+   "por_que": "Em pé sobre a frente: assim as nervuras saem retas, sem suporte, e o piso fica liso.",
+   "suporte": "nao (impressa em pe, frente na mesa)",
+   "mesa_mm": [
+    188.8,
+    100.0
+   ],
+   "altura_mm": 77.0,
+   "vol_cm3": 122.3,
+   "massa_g": 116.0,
+   "horas": 8.5,
+   "thumb": "peca-bandeja_esquerda.png",
+   "step": "compacta/step/bandeja_esquerda.step",
+   "stl": "compacta/imprimir/pecas_avulsas/bandeja_esquerda.stl"
+  },
+  {
+   "nome": "Bandeja do meio",
+   "id": "bandeja_do_meio",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "B4"
+   ],
+   "funcao": "Parte do meio da bandeja (embaixo do anel).",
+   "por_que": "Em pé sobre a frente: assim as nervuras saem retas, sem suporte, e o piso fica liso.",
+   "suporte": "nao (impressa em pe, frente na mesa)",
+   "mesa_mm": [
+    149.6,
+    82.8
+   ],
+   "altura_mm": 76.8,
+   "vol_cm3": 82.2,
+   "massa_g": 78.0,
+   "horas": 5.8,
+   "thumb": "peca-bandeja_do_meio.png",
+   "step": "compacta/step/bandeja_do_meio.step",
+   "stl": "compacta/imprimir/pecas_avulsas/bandeja_do_meio.stl"
+  },
+  {
+   "nome": "Bandeja direita",
+   "id": "bandeja_direita",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "C4"
+   ],
+   "funcao": "Parte da direita da bandeja. Leva a bola para a esquerda, até a entrada da fila.",
+   "por_que": "Em pé sobre a frente: assim as nervuras saem retas, sem suporte, e o piso fica liso.",
+   "suporte": "nao (impressa em pe, frente na mesa)",
+   "mesa_mm": [
+    100.0,
+    95.5
+   ],
+   "altura_mm": 76.6,
+   "vol_cm3": 73.1,
+   "massa_g": 70.0,
+   "horas": 5.2,
+   "thumb": "peca-bandeja_direita.png",
+   "step": "compacta/step/bandeja_direita.step",
+   "stl": "compacta/imprimir/pecas_avulsas/bandeja_direita.stl"
+  },
+  {
+   "nome": "Prateleira da esteira esquerda",
+   "id": "prateleira_da_esteira_esquerda",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "B3"
+   ],
+   "funcao": "Apoio deitado da esteira porta-cabo do carro A, perto do teto. São 2 metades, cada uma com os seus 2 ganchos para o teto; a da esquerda já tem a ponta fixa da esteira.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "suporte": "nao",
+   "mesa_mm": [
+    172.0,
+    72.0
+   ],
+   "altura_mm": 28.0,
+   "vol_cm3": 43.1,
+   "massa_g": 41.0,
+   "horas": 3.1,
+   "thumb": "peca-prateleira_da_esteira_esquerda.png",
+   "step": "compacta/step/prateleira_da_esteira_esquerda.step",
+   "stl": "compacta/imprimir/pecas_avulsas/prateleira_da_esteira_esquerda.stl"
+  },
+  {
+   "nome": "Prateleira da esteira direita",
+   "id": "prateleira_da_esteira_direita",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "C2"
+   ],
+   "funcao": "Apoio deitado da esteira porta-cabo do carro A, perto do teto. São 2 metades, cada uma com os seus 2 ganchos para o teto; a da esquerda já tem a ponta fixa da esteira.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "suporte": "nao",
+   "mesa_mm": [
+    185.0,
+    72.0
+   ],
+   "altura_mm": 28.0,
+   "vol_cm3": 43.8,
+   "massa_g": 42.0,
+   "horas": 3.2,
+   "thumb": "peca-prateleira_da_esteira_direita.png",
+   "step": "compacta/step/prateleira_da_esteira_direita.step",
+   "stl": "compacta/imprimir/pecas_avulsas/prateleira_da_esteira_direita.stl"
+  },
+  {
+   "nome": "Ponta fixa da esteira",
+   "id": "ponta_fixa_da_esteira",
+   "quantidade": 1,
+   "impressora": "BC",
+   "placas": [
+    "B3"
+   ],
+   "funcao": "Onde a ponta parada da esteira porta-cabo do carro B é parafusada, no piso.",
+   "por_que": "Impressa como monta: a base dela já é plana e as paredes sobem retas.",
+   "suporte": "nao",
+   "mesa_mm": [
+    26.0,
+    11.0
+   ],
+   "altura_mm": 12.5,
+   "vol_cm3": 2.2,
+   "massa_g": 2.0,
+   "horas": 0.3,
+   "thumb": "peca-ponta_fixa_da_esteira.png",
+   "step": "compacta/step/ponta_fixa_da_esteira.step",
+   "stl": "compacta/imprimir/pecas_avulsas/ponta_fixa_da_esteira.stl"
+  }
+ ],
+ "placas": [
+  {
+   "n": "A1",
+   "impressora": "A",
+   "horas": 10.3,
+   "altura": 83.2,
+   "suporte": true,
+   "pecas": [
+    "Cabine",
+    "Carro B",
+    "Carro A"
+   ],
+   "stl": "compacta/imprimir/A_impressora_grande/01_placa_A1.stl"
+  },
+  {
+   "n": "A2",
+   "impressora": "A",
+   "horas": 22.2,
+   "altura": 214.5,
+   "suporte": false,
+   "pecas": [
+    "Torre inferior"
+   ],
+   "stl": "compacta/imprimir/A_impressora_grande/02_placa_A2.stl"
+  },
+  {
+   "n": "A3",
+   "impressora": "A",
+   "horas": 24.0,
+   "altura": 239.0,
+   "suporte": false,
+   "pecas": [
+    "Torre superior"
+   ],
+   "stl": "compacta/imprimir/A_impressora_grande/03_placa_A3.stl"
+  },
+  {
+   "n": "A4",
+   "impressora": "A",
+   "horas": 3.8,
+   "altura": 35.4,
+   "suporte": false,
+   "pecas": [
+    "Braco da comporta",
+    "Braco da comporta",
+    "Braco da comporta",
+    "Rampa"
+   ],
+   "stl": "compacta/imprimir/A_impressora_grande/04_placa_A4.stl"
+  },
+  {
+   "n": "B1",
+   "impressora": "B",
+   "horas": 7.9,
+   "altura": 48.0,
+   "suporte": false,
+   "pecas": [
+    "Bloco direito",
+    "Bloco esquerdo de cima"
+   ],
+   "stl": "compacta/imprimir/B_creality_1/01_placa_B1.stl"
+  },
+  {
+   "n": "B2",
+   "impressora": "B",
+   "horas": 8.2,
+   "altura": 105.0,
+   "suporte": false,
+   "pecas": [
+    "Fila"
+   ],
+   "stl": "compacta/imprimir/B_creality_1/02_placa_B2.stl"
+  },
+  {
+   "n": "B3",
+   "impressora": "B",
+   "horas": 3.6,
+   "altura": 28.0,
+   "suporte": false,
+   "pecas": [
+    "Prateleira da esteira esquerda",
+    "Ponta fixa da esteira"
+   ],
+   "stl": "compacta/imprimir/B_creality_1/03_placa_B3.stl"
+  },
+  {
+   "n": "B4",
+   "impressora": "B",
+   "horas": 6.0,
+   "altura": 76.8,
+   "suporte": false,
+   "pecas": [
+    "Bandeja do meio"
+   ],
+   "stl": "compacta/imprimir/B_creality_1/04_placa_B4.stl"
+  },
+  {
+   "n": "C1",
+   "impressora": "C",
+   "horas": 9.6,
+   "altura": 105.0,
+   "suporte": false,
+   "pecas": [
+    "Fila esquerda",
+    "Bloco direito"
+   ],
+   "stl": "compacta/imprimir/C_creality_2/01_placa_C1.stl"
+  },
+  {
+   "n": "C2",
+   "impressora": "C",
+   "horas": 7.3,
+   "altura": 48.0,
+   "suporte": false,
+   "pecas": [
+    "Bloco esquerdo de baixo",
+    "Prateleira da esteira direita"
+   ],
+   "stl": "compacta/imprimir/C_creality_2/02_placa_C2.stl"
+  },
+  {
+   "n": "C3",
+   "impressora": "C",
+   "horas": 8.7,
+   "altura": 77.0,
+   "suporte": false,
+   "pecas": [
+    "Bandeja esquerda"
+   ],
+   "stl": "compacta/imprimir/C_creality_2/03_placa_C3.stl"
+  },
+  {
+   "n": "C4",
+   "impressora": "C",
+   "horas": 5.4,
+   "altura": 76.6,
+   "suporte": false,
+   "pecas": [
+    "Bandeja direita"
+   ],
+   "stl": "compacta/imprimir/C_creality_2/04_placa_C4.stl"
+  }
+ ],
+ "horas_por_impressora": {
+  "A": 60.3,
+  "B": 25.7,
+  "C": 31.0
+ },
+ "vistas": [
+  {
+   "grupo": "Máquina",
+   "arquivo": "01_geral.png",
+   "titulo": "Geral",
+   "legenda": "Montagem completa: azul é impressa, laranja é impressa que anda, cinza é comprada."
+  },
+  {
+   "grupo": "Máquina",
+   "arquivo": "02_frente.png",
+   "titulo": "Frente",
+   "legenda": "Vista de frente, sem o gabinete."
+  },
+  {
+   "grupo": "Máquina",
+   "arquivo": "03_lado.png",
+   "titulo": "Lado",
+   "legenda": "Vista de lado: tela no fundo, trilhos e elevador."
+  },
+  {
+   "grupo": "Máquina",
+   "arquivo": "04_pega.png",
+   "titulo": "Pega",
+   "legenda": "O carro A pega a bola no bolso com o eletroímã."
+  },
+  {
+   "grupo": "Máquina",
+   "arquivo": "06_comporta.png",
+   "titulo": "Comporta",
+   "legenda": "Comporta da fila com o servo SG90."
+  },
+  {
+   "grupo": "Máquina",
+   "arquivo": "07_anel.png",
+   "titulo": "Anel",
+   "legenda": "Carro B com o anel e a barreira infravermelha."
+  },
+  {
+   "grupo": "Elevador",
+   "arquivo": "e1_elevador.png",
+   "titulo": "Elevador",
+   "legenda": "Elevador com o nome de cada peça."
+  },
+  {
+   "grupo": "Elevador",
+   "arquivo": "05_elevador_topo.png",
+   "titulo": "Topo",
+   "legenda": "Topo do elevador: a cabine alinhada com a rampa."
+  },
+  {
+   "grupo": "Elevador",
+   "arquivo": "08_torre_baixo.png",
+   "titulo": "Torre de baixo",
+   "legenda": "Torre de baixo: trilhos, polia de baixo e sensor de baixo."
+  },
+  {
+   "grupo": "Elevador",
+   "arquivo": "09_torre_cima.png",
+   "titulo": "Torre de cima",
+   "legenda": "Torre de cima: motor N20, polia de cima e sensor de cima."
+  },
+  {
+   "grupo": "Elevador",
+   "arquivo": "10_fixador_cabine.png",
+   "titulo": "Fixador",
+   "legenda": "Fixador de alumínio da correia atrás da cabine."
+  },
+  {
+   "grupo": "Polias",
+   "arquivo": "p1_polias_geral.png",
+   "titulo": "Polias",
+   "legenda": "Todas as polias e correias."
+  },
+  {
+   "grupo": "Polias",
+   "arquivo": "p2_polia_topo_elevador.png",
+   "titulo": "Polia de cima",
+   "legenda": "Polia de cima do elevador (N20)."
+  },
+  {
+   "grupo": "Polias",
+   "arquivo": "p3_polia_baixo_elevador.png",
+   "titulo": "Polia de baixo",
+   "legenda": "Polia de baixo do elevador, com rasgo para esticar."
+  },
+  {
+   "grupo": "Polias",
+   "arquivo": "p4_laco_correia.png",
+   "titulo": "Laço da correia",
+   "legenda": "O laço da correia GT2 6 do elevador."
+  },
+  {
+   "grupo": "Polias",
+   "arquivo": "p5_montagem_polia_cima.png",
+   "titulo": "Montagem da polia",
+   "legenda": "Ordem das peças no parafuso M5 da polia de cima."
+  },
+  {
+   "grupo": "Sensores",
+   "arquivo": "s1_sensores_geral.png",
+   "titulo": "Sensores",
+   "legenda": "Onde fica cada sensor."
+  },
+  {
+   "grupo": "Sensores",
+   "arquivo": "s2_sensor_elevador_baixo.png",
+   "titulo": "Elevador embaixo",
+   "legenda": "Sensor de fenda de baixo do elevador."
+  },
+  {
+   "grupo": "Sensores",
+   "arquivo": "s3_sensor_elevador_cima.png",
+   "titulo": "Elevador em cima",
+   "legenda": "Sensor de fenda de cima do elevador."
+  },
+  {
+   "grupo": "Sensores",
+   "arquivo": "s4_fim_de_curso_casa.png",
+   "titulo": "Casa",
+   "legenda": "KW10 da casa dos eixos."
+  },
+  {
+   "grupo": "Sensores",
+   "arquivo": "s5_fim_de_curso_seguranca.png",
+   "titulo": "Segurança",
+   "legenda": "KW10 de segurança dos eixos."
+  },
+  {
+   "grupo": "Sensores",
+   "arquivo": "s6_sensor_bolso.png",
+   "titulo": "Bolso",
+   "legenda": "Sensor do bolso."
+  },
+  {
+   "grupo": "Sensores",
+   "arquivo": "s7_barreira_anel.png",
+   "titulo": "Barreira",
+   "legenda": "Barreira infravermelha do anel."
+  }
+ ],
+ "paginas": [
+  {
+   "id": "maquina",
+   "arquivo": "pagina/PICBOX_compacta_visualizacao.html",
+   "titulo": "Máquina completa",
+   "legenda": "Máquina inteira: 3D, peças, montagem, cabos, firmware e checagens."
+  },
+  {
+   "id": "visualizador",
+   "arquivo": "pagina/PICBOX_R2_visualizador_3D.html",
+   "titulo": "Peças e mesas",
+   "legenda": "Cada peça, onde fica na mesa de impressão e em que passo entra."
+  },
+  {
+   "id": "elevador",
+   "arquivo": "pagina/PICBOX_elevador_3D.html",
+   "titulo": "Elevador 3D",
+   "legenda": "Elevador com os nomes e a cabine subindo e descendo."
+  },
+  {
+   "id": "montagem",
+   "arquivo": "pagina/PICBOX_elevador_montagem.html",
+   "titulo": "Montagem do elevador",
+   "legenda": "Montagem do elevador em 15 passos, com as peças entrando no lugar."
+  },
+  {
+   "id": "funciona",
+   "arquivo": "pagina/PICBOX_como_funciona.html",
+   "titulo": "Como funciona",
+   "legenda": "O ciclo da bola, animado."
+  }
+ ],
+ "produto": [
+  {
+   "id": "r2-3d",
+   "arquivo": "picbox/r2-3d.html",
+   "titulo": "Modelo 3D",
+   "legenda": "Gabinete de 45 × 45 × 170 cm com o mecanismo R2 e o ciclo de jogo: repouso, Pix, jogadas, resultado e prêmio."
+  },
+  {
+   "id": "r2-wireframe",
+   "arquivo": "picbox/r2-wireframe.html",
+   "titulo": "Wireframe",
+   "legenda": "Wireframe R2 v1.0: gabinete, dimensões, modelo 3D, jogo e firmware, mecanismo e peças."
+  }
+ ]
+}

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PICBOX Bolinha · Documentação</title>
+<meta name="description" content="Documentação técnica da PICBOX Bolinha (máquina A, compacta R2.2): visualizador 3D, vistas, catálogo de peças, mesas de impressão e páginas do produto.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;600;700&display=swap">
+<style>
+/* Layout: caderno técnico, igual ao site do pinball. Barra de seções fixa, coluna única, tudo gerado de data/manifest.json. */
+:root {
+  --bg: #e9edf1; --panel: #f7f9fb; --fg: #17212b; --muted: #586675; --line: #cdd6de;
+  --accent: #c2255c; --accent-fg: #ffffff; --hover: #e3e9ee; --sheet: #eef2f5;
+  --f-display: Outfit, "Segoe UI", system-ui, sans-serif;
+  --f-body: Inter, "Segoe UI", system-ui, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10151a; --panel: #171e25; --fg: #e4eaf0; --muted: #94a2b0; --line: #2a343e;
+  --accent: #ff7aa5; --accent-fg: #1a0710; --hover: #202932; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10151a; --panel: #171e25; --fg: #e4eaf0; --muted: #94a2b0; --line: #2a343e;
+  --accent: #ff7aa5; --accent-fg: #1a0710; --hover: #202932; color-scheme: dark }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--f-body); }
+a { color: var(--accent); }
+button, select, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+img { max-width: 100%; display: block; }
+code { font: 13px var(--f-data); }
+
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; padding-block: 12px; }
+.top strong { font: 600 16px var(--f-display); }
+.top nav { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--fg); }
+
+header.intro { padding-block: 40px 8px; }
+header.intro h1 { font: 700 clamp(30px, 5vw, 46px)/1.05 var(--f-display); letter-spacing: -0.02em; margin: 0 0 12px; text-wrap: balance; }
+header.intro p { max-width: 65ch; color: var(--muted); margin: 0; font-size: 16px; }
+.specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: 28px 0 0; border-block: 1px solid var(--line); }
+.specs div { padding: 14px 16px 14px 0; }
+.specs dt { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.specs dd { margin: 2px 0 0; font: 500 16px var(--f-data); font-variant-numeric: tabular-nums; }
+
+section { padding-block: 34px 6px; }
+section > h2 { font: 600 24px/1.2 var(--f-display); letter-spacing: -0.01em; margin: 0 0 6px; }
+section > p.lead { color: var(--muted); max-width: 70ch; margin: 0 0 18px; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.tabs button { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 8px 14px; font-size: 14px; }
+.tabs button:hover { background: var(--hover); }
+.tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.tabs.sub button { padding: 6px 12px; font-size: 13px; }
+.tabs.sub button[aria-selected="true"] { background: var(--panel); color: var(--fg); border-color: var(--fg); }
+.sheet { margin: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--sheet); }
+.sheet img { width: 100%; height: min(68vh, 620px); object-fit: contain; }
+.sheet figcaption, .vbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; padding: 10px 14px; border-top: 1px solid var(--line); background: var(--panel); font-size: 13px; color: var(--muted); }
+.sheet figcaption a, .vbar a { margin-left: auto; }
+.embed { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); }
+.embed iframe { display: block; width: 100%; height: min(86vh, 820px); min-height: 520px; border: 0; background: #0a0b0e; }
+.embed .load { display: grid; place-items: center; height: min(86vh, 820px); min-height: 520px; color: var(--muted); font-size: 14px; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-bottom: 12px; }
+.controls input[type="search"], .controls select { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 9px 12px; min-width: 0; }
+.controls label { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+.chip { background: var(--panel); border: 1px solid var(--line); border-radius: 99px; padding: 8px 14px; font-size: 13px; display: inline-flex; align-items: center; gap: 7px; }
+.chip[aria-pressed="true"] { border-color: var(--fg); }
+.chip[aria-pressed="false"] { opacity: 0.55; }
+.count { font-size: 13px; color: var(--muted); margin-left: auto; }
+
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td.wrapt { white-space: normal; min-width: 260px; }
+tbody tr:last-child td { border-bottom: 0; }
+th { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+td.num, th.num { text-align: right; font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+tbody tr:hover { background: var(--hover); }
+tfoot td { font-weight: 600; border-top: 1px solid var(--line); border-bottom: 0; }
+
+.parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.part { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); overflow: hidden; display: flex; flex-direction: column; }
+.part .thumb { background: var(--sheet); border-bottom: 1px solid var(--line); aspect-ratio: 4 / 3; }
+.part .thumb img { width: 100%; height: 100%; object-fit: contain; }
+.part .body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.part h3 { font: 600 16px/1.2 var(--f-display); margin: 0; }
+.part .file { font: 12px var(--f-data); color: var(--muted); overflow-wrap: anywhere; }
+.part dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 0; font: 12px var(--f-data); font-variant-numeric: tabular-nums; }
+.part dt { color: var(--muted); }
+.part dd { margin: 0; text-align: right; }
+.part details { font-size: 13px; color: var(--muted); }
+.part summary { cursor: pointer; color: var(--fg); }
+.part details p { margin: 6px 0 0; }
+.part .acts { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; margin-top: auto; }
+
+pre { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; font: 13px/1.6 var(--f-data); margin: 0 0 14px; }
+ul.open { margin: 0; padding-left: 20px; max-width: 75ch; }
+ul.open li { margin-bottom: 6px; }
+footer { padding-block: 34px 48px; color: var(--muted); font-size: 13px; }
+.err { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--panel); }
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <strong>PICBOX Bolinha</strong>
+  <nav aria-label="Seções">
+    <a href="#visualizador">Visualizador</a><a href="#vistas">Vistas</a><a href="#pecas">Peças</a><a href="#mesas">Mesas</a>
+    <a href="#picbox">PICBOX R2</a><a href="#regenerar">Regenerar</a><a href="#aberto">Em aberto</a>
+  </nav>
+</div></div>
+
+<main class="wrap">
+  <header class="intro">
+    <h1>Documentação técnica da PICBOX Bolinha</h1>
+    <p>Máquina A, versão compacta R2.2. Dois carros oscilam em trilhos, um acima do outro: o de cima leva a bola de aço num eletroímã e o de baixo leva o anel. O jogador aperta o botão para soltar a bola. Um elevador devolve a bola ao topo. Os dados desta página saem do CAD em CadQuery do projeto.</p>
+    <dl class="specs" id="specs"></dl>
+  </header>
+
+  <section id="visualizador">
+    <h2>Visualizador 3D</h2>
+    <p class="lead">Páginas interativas geradas do CAD. Arraste para girar e role para aproximar. Cada uma também abre sozinha, em tela cheia.</p>
+    <div class="tabs" role="tablist" aria-label="Páginas 3D" id="vtabs"></div>
+    <div class="embed" id="vembed">
+      <div class="load" id="vload">Carregando…</div>
+      <div class="vbar"><span id="vcap"></span><a id="vopen" href="#">Abrir em tela cheia</a></div>
+    </div>
+  </section>
+
+  <section id="vistas">
+    <h2>Vistas da montagem</h2>
+    <p class="lead">Renders sem o gabinete. Azul é peça impressa, laranja é impressa que anda, cinza é comprada.</p>
+    <div class="tabs" role="tablist" aria-label="Grupos de vistas" id="gtabs"></div>
+    <div class="tabs sub" role="tablist" aria-label="Vistas" id="itabs"></div>
+    <figure class="sheet">
+      <a id="ilink" href="img/01_geral.png"><img id="iimg" src="img/01_geral.png" alt="Montagem completa"></a>
+      <figcaption><span id="icap"></span><a id="iopen" href="#">Abrir imagem inteira</a></figcaption>
+    </figure>
+  </section>
+
+  <section id="pecas">
+    <h2>Catálogo de peças</h2>
+    <p class="lead">Peças impressas em PETG, na posição em que vão para a mesa. Massa e horas são do fatiamento estimado (0,2 mm, 4 perímetros, 25% de preenchimento).</p>
+    <div class="controls">
+      <input type="search" id="q" placeholder="Procurar peça…" aria-label="Procurar peça">
+      <span id="chips" style="display:contents"></span>
+      <label>Ordenar <select id="sort"><option value="nome">por nome</option><option value="horas">por horas</option><option value="massa">por massa</option><option value="alt">pela altura</option></select></label>
+      <span class="count" id="ptotal"></span>
+    </div>
+    <div class="parts" id="parts"></div>
+  </section>
+
+  <section id="mesas">
+    <h2>Mesas de impressão</h2>
+    <p class="lead">Cada impressora tem as suas mesas, na ordem. A: 260 × 260 (peças de precisão e à vista). B e C: Creality 220 × 220.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Mesa</th><th>Impressora</th><th>Peças</th><th class="num">Altura (mm)</th><th class="num">Horas</th><th>Suporte</th><th></th></tr></thead>
+      <tbody id="mrows"></tbody><tfoot id="mfoot"></tfoot>
+    </table></div>
+  </section>
+
+  <section id="picbox">
+    <h2>Páginas do PICBOX R2</h2>
+    <p class="lead">As páginas do produto rodam aqui dentro, cada uma com a sua navegação. Cada uma tem cerca de 9 MB e leva alguns segundos para abrir.</p>
+    <div class="tabs" role="tablist" aria-label="Páginas do PICBOX R2" id="ptabs"></div>
+    <div class="embed" id="pembed">
+      <div class="load" id="pload">Carregando…</div>
+      <div class="vbar"><span id="pcap"></span><a id="popen" href="#">Abrir em tela cheia</a></div>
+    </div>
+  </section>
+
+  <section id="regenerar">
+    <h2>Regenerar peças, imagens e este site</h2>
+    <p class="lead">O CAD em <code>compacta/cad/maquina/</code> é a fonte. STL, STEP, mesas, imagens, páginas e este site são derivados. Precisa de Python com CadQuery e PyVista (no Windows, rodar pelo PowerShell).</p>
+<pre>cd compacta/cad/maquina
+python regerar.py              # checagens, peças, mesas, imagens, páginas e docs/ (~6 min)
+python site_publico.py         # só o site: docs/data, docs/img, docs/pagina, docs/picbox
+python -m http.server -d ../../../docs 5173    # este site em http://localhost:5173
+git subtree push --prefix docs site main      # da raiz: envia docs/ para o site público</pre>
+    <p class="lead">Os arquivos-fonte ficam no repositório privado <a href="https://github.com/PicBrandDev/picbox_bolinha">PicBrandDev/picbox_bolinha</a>; os links STEP e STL desta página exigem acesso a ele.</p>
+  </section>
+
+  <section id="aberto">
+    <h2>Pontos em aberto</h2>
+    <ul class="open">
+      <li>Polia de cima (R2.2) ainda não testada na peça real: a frente do eixo apoia no próprio N20, o cubo tem 0,4 mm de folga e a rosca do M5 no PETG pode espanar (vem 1 adaptador de reserva).</li>
+      <li>Na montagem 3D, o motor N20 entra no berço pela frente, deduzido da geometria da torre. Conferir na peça real.</li>
+      <li>Aperto do fixador de alumínio na correia da cabine.</li>
+      <li>Medidas de compradas que não foram medidas: orelhas do SG90, rosca do P20/15, esteira 7 × 7 e sensores de fenda.</li>
+      <li>Firmware fora deste repositório: casa dos eixos no mínimo de X, devagar; elevador com PWM de 50% nos últimos 20 mm e corte em 1 s; servo no buck de 5 V.</li>
+    </ul>
+  </section>
+
+  <footer id="foot"></footer>
+</main>
+
+<script type="module">
+const REPO = 'https://github.com/PicBrandDev/picbox_bolinha/blob/main/';
+const $ = (id) => document.getElementById(id);
+const fmt = (v, d = 1) => Number(v).toLocaleString('pt-BR', { maximumFractionDigits: d });
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const IMP = { A: 'A · 260 × 260', B: 'B · Creality 220', C: 'C · Creality 220' };
+
+// quadro com abas de páginas; carrega só quando a seção aparece
+function quadro(lista, tabs, embed, load, cap, open) {
+  let atual = lista[0]?.id, visivel = false;
+  const frames = {};
+  $(tabs).innerHTML = lista.map((p, i) => `<button role="tab" aria-selected="${i === 0}" data-p="${p.id}">${esc(p.titulo)}</button>`).join('');
+  function mostra(id) {
+    atual = id;
+    const p = lista.find((x) => x.id === id);
+    for (const b of $(tabs).children) b.setAttribute('aria-selected', b.dataset.p === id);
+    if (visivel && !frames[id]) {
+      const f = document.createElement('iframe');
+      f.title = p.titulo; f.allow = 'fullscreen; autoplay'; f.hidden = true;
+      f.onload = () => { f.dataset.ok = 1; if (atual === id) { f.hidden = false; $(load).hidden = true; } };
+      f.src = p.arquivo; frames[id] = f;
+      $(embed).insertBefore(f, $(load));
+    }
+    for (const [k, f] of Object.entries(frames)) f.hidden = !(k === id && f.dataset.ok);
+    $(load).hidden = !!frames[id]?.dataset.ok;
+    $(cap).textContent = p.legenda; $(open).href = p.arquivo;
+  }
+  $(tabs).onclick = (e) => { const b = e.target.closest('[data-p]'); if (b) mostra(b.dataset.p); };
+  new IntersectionObserver((es, o) => { if (es.some((x) => x.isIntersecting)) { visivel = true; mostra(atual); o.disconnect(); } }, { rootMargin: '300px' }).observe($(embed));
+  if (atual) mostra(atual);
+}
+
+try {
+  const M = await (await fetch('data/manifest.json')).json();
+  const n = M.pecas.reduce((s, p) => s + p.quantidade, 0);
+  const massa = M.pecas.reduce((s, p) => s + p.massa_g * p.quantidade, 0);
+  const H = M.horas_por_impressora;
+  $('specs').innerHTML = [
+    ['Gabinete livre', M.gabinete_mm.join(' × ') + ' mm'], ['Bola', M.bola], ['Revisão', M.revisao],
+    ['Peças impressas', `${M.pecas.length} arquivos · ${n} peças`], ['Mesas de impressão', M.placas.length],
+    ['Horas por impressora', `A ${fmt(H.A, 0)} · B ${fmt(H.B, 0)} · C ${fmt(H.C, 0)}`], ['PETG estimado', fmt(massa / 1000, 2) + ' kg'],
+  ].map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
+  $('foot').textContent = `Gerado de data/manifest.json em ${M.gerado_em.split('-').reverse().join('/')}.`;
+
+  quadro(M.paginas, 'vtabs', 'vembed', 'vload', 'vcap', 'vopen');
+  quadro(M.produto, 'ptabs', 'pembed', 'pload', 'pcap', 'popen');
+
+  // ---------- vistas ----------
+  const grupos = [...new Set(M.vistas.map((v) => v.grupo))];
+  $('gtabs').innerHTML = grupos.map((g, i) => `<button role="tab" aria-selected="${i === 0}" data-g="${esc(g)}">${esc(g)}</button>`).join('');
+  function vista(arq) {
+    const v = M.vistas.find((x) => x.arquivo === arq), src = 'img/' + v.arquivo;
+    $('iimg').src = src; $('iimg').alt = v.titulo; $('ilink').href = src; $('iopen').href = src; $('icap').textContent = v.legenda;
+    for (const b of $('itabs').children) b.setAttribute('aria-selected', b.dataset.i === arq);
+  }
+  function grupo(g) {
+    for (const b of $('gtabs').children) b.setAttribute('aria-selected', b.dataset.g === g);
+    const vs = M.vistas.filter((v) => v.grupo === g);
+    $('itabs').innerHTML = vs.map((v) => `<button role="tab" data-i="${v.arquivo}">${esc(v.titulo)}</button>`).join('');
+    vista(vs[0].arquivo);
+  }
+  $('gtabs').onclick = (e) => { const b = e.target.closest('[data-g]'); if (b) grupo(b.dataset.g); };
+  $('itabs').onclick = (e) => { const b = e.target.closest('[data-i]'); if (b) vista(b.dataset.i); };
+  grupo(grupos[0]);
+
+  // ---------- peças ----------
+  const ativo = new Set(['A', 'B', 'C']);
+  $('chips').innerHTML = ['A', 'B', 'C'].map((k) => `<button class="chip" data-imp="${k}" aria-pressed="true">Impressora ${IMP[k]}</button>`).join('');
+  function renderPecas() {
+    const q = $('q').value.trim().toLowerCase(), by = $('sort').value;
+    const list = M.pecas.filter((p) => p.placas.some((pl) => ativo.has(pl[0])) && (!q || (p.nome + ' ' + p.id + ' ' + p.funcao).toLowerCase().includes(q)))
+      .sort((a, b) => by === 'horas' ? b.horas - a.horas : by === 'massa' ? b.massa_g - a.massa_g : by === 'alt' ? b.altura_mm - a.altura_mm : a.nome.localeCompare(b.nome, 'pt-BR'));
+    $('parts').innerHTML = list.map((p) => `<article class="part">
+      <div class="thumb"><img src="img/${p.thumb}" alt="${esc(p.nome)}" loading="lazy"></div>
+      <div class="body"><div><h3>${esc(p.nome)}${p.quantidade > 1 ? ' × ' + p.quantidade : ''}</h3><div class="file">${esc(p.id)}.step</div></div>
+      <dl><dt>Na mesa</dt><dd>${fmt(p.mesa_mm[0])} × ${fmt(p.mesa_mm[1])} × ${fmt(p.altura_mm)} mm</dd>
+      <dt>Massa</dt><dd>${fmt(p.massa_g, 0)} g</dd><dt>Horas</dt><dd>${fmt(p.horas)} h</dd>
+      <dt>Mesa</dt><dd>${p.placas.join(', ')}</dd></dl>
+      <details><summary>Função e impressão</summary><p>${esc(p.funcao)}</p><p>${esc(p.por_que)}</p><p>Suporte: ${esc(p.suporte)}</p></details>
+      <div class="acts"><a href="${REPO}${p.step}">STEP</a><a href="${REPO}${p.stl}">STL</a></div></div></article>`).join('')
+      || '<p class="err">Nenhuma peça com esse filtro.</p>';
+    const h = list.reduce((s, p) => s + p.horas * p.quantidade, 0), g = list.reduce((s, p) => s + p.massa_g * p.quantidade, 0);
+    $('ptotal').textContent = `${list.length} de ${M.pecas.length} arquivos · ${fmt(g / 1000, 2)} kg · ≈ ${fmt(h, 0)} h`;
+  }
+  $('q').oninput = renderPecas; $('sort').onchange = renderPecas;
+  $('chips').onclick = (e) => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    b.setAttribute('aria-pressed', on); on ? ativo.add(b.dataset.imp) : ativo.delete(b.dataset.imp); renderPecas();
+  };
+  renderPecas();
+
+  // ---------- mesas ----------
+  $('mrows').innerHTML = M.placas.map((m) => `<tr><td><b>${m.n}</b></td><td>${IMP[m.impressora]}</td><td class="wrapt">${esc(m.pecas.join(', '))}</td>
+    <td class="num">${fmt(m.altura)}</td><td class="num">${fmt(m.horas)}</td><td>${m.suporte ? 'sim' : 'não'}</td><td><a href="${REPO}${m.stl}">STL</a></td></tr>`).join('');
+  $('mfoot').innerHTML = `<tr><td colspan="4">Total (as 3 impressoras ao mesmo tempo: ≈ ${fmt(Math.max(H.A, H.B, H.C), 0)} h)</td><td class="num">${fmt(H.A + H.B + H.C)}</td><td colspan="2"></td></tr>`;
+} catch (e) {
+  console.error(e);
+  $('specs').outerHTML = '<p class="err">Não foi possível ler data/manifest.json. Abra o site por um servidor (python -m http.server), não direto do arquivo.</p>';
+}
+</script>
+</body>
+</html>

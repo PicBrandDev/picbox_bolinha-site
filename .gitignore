@@ -1,9 +1,0 @@
-__pycache__/
-*.pyc
-node_modules/
-.impeccable/
-# pasta interna de geracao da compacta (o resultado vai para compacta/imprimir, pagina, imagens, step)
-compacta/cad/maquina/saida/
-normal/cad/saidas/*.zip
-normal/cad/saidas/referencia_cad_antigo/
-compacta/cad/maquina/saida_unica/
