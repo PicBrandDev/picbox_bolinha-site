@@ -710,6 +710,42 @@
    "arquivo": "s7_barreira_anel.png",
    "titulo": "Barreira",
    "legenda": "Barreira infravermelha do anel."
+  },
+  {
+   "grupo": "R3 (bola 15)",
+   "arquivo": "r3_01_geral.png",
+   "titulo": "Geral",
+   "legenda": "R3: bola de 15 mm, elevador de rosca e pecas de encaixe (laranja)."
+  },
+  {
+   "grupo": "R3 (bola 15)",
+   "arquivo": "r3_02_elevador.png",
+   "titulo": "Elevador",
+   "legenda": "Elevador de rosca visto de tras: canal em C, 3 postes e o N20 em cima."
+  },
+  {
+   "grupo": "R3 (bola 15)",
+   "arquivo": "r3_03_entrada.png",
+   "titulo": "Entrada",
+   "legenda": "A bola sai da fila e para no pe do canal."
+  },
+  {
+   "grupo": "R3 (bola 15)",
+   "arquivo": "r3_04_saida.png",
+   "titulo": "Saida",
+   "legenda": "O canal abre no topo e a bola rola para o forro da rampa."
+  },
+  {
+   "grupo": "R3 (bola 15)",
+   "arquivo": "r3_05_bolso.png",
+   "titulo": "Bolso",
+   "legenda": "Forro (+10,4 mm), calco de 5,2 e o sensor dentro do forro."
+  },
+  {
+   "grupo": "R3 (bola 15)",
+   "arquivo": "r3_06_anel.png",
+   "titulo": "Anel",
+   "legenda": "Bucha do anel: furo de 27,6 (folga de 6,3 por lado)."
   }
  ],
  "paginas": [
@@ -742,6 +778,12 @@
    "arquivo": "pagina/PICBOX_como_funciona.html",
    "titulo": "Como funciona",
    "legenda": "O ciclo da bola, animado."
+  },
+  {
+   "id": "r3",
+   "arquivo": "pagina/PICBOX_R3_elevador_rosca_3D.html",
+   "titulo": "R3: elevador de rosca",
+   "legenda": "R3 (bola de 15 mm): a rosca girando e as bolas subindo."
   }
  ],
  "produto": [
