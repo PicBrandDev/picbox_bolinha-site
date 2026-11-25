@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PICBOX Bolinha · Documentação</title>
-<meta name="description" content="Documentação técnica da PICBOX Bolinha (máquina A, compacta R2.2): visualizador 3D, vistas, catálogo de peças, mesas de impressão e páginas do produto.">
+<meta name="description" content="Documentação técnica da PICBOX Bolinha (máquina A, compacta R3.0, elevador de rosca): o que mudou, visualizador 3D, vistas, peças, mesas de impressão, STEP e versões.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;600;700&display=swap">
 <style>
 /* Layout: caderno técnico, igual ao site do pinball. Barra de seções fixa, coluna única, tudo gerado de data/manifest.json. */
@@ -106,24 +106,55 @@ ul.open { margin: 0; padding-left: 20px; max-width: 75ch; }
 ul.open li { margin-bottom: 6px; }
 footer { padding-block: 34px 48px; color: var(--muted); font-size: 13px; }
 .err { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--panel); }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 18px; }
+.box { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 14px 18px; }
+.box h3, h3.sub { font: 600 15px var(--f-display); margin: 12px 0 6px; }
+.box h3:first-child { margin-top: 0; }
+.box ul { margin: 0; padding-left: 18px; }
+.box li { margin-bottom: 6px; }
+.box p { margin: 0 0 6px; }
+h3.sub { margin: 18px 0 8px; }
+.tag { display: inline-block; font: 500 11px var(--f-data); letter-spacing: 0.04em; text-transform: uppercase; border-radius: 99px; padding: 2px 8px; margin-bottom: 6px; border: 1px solid var(--line); color: var(--muted); }
+.tag.nova { border-color: #d98a1c; color: #b36b00; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; background: #2f6fd6; }
+.dot.nova { background: #e8a33d; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tag.nova { color: #f0b860; } }
 </style>
 </head>
 <body>
 <div class="top"><div class="wrap">
   <strong>PICBOX Bolinha</strong>
   <nav aria-label="Seções">
-    <a href="#visualizador">Visualizador</a><a href="#vistas">Vistas</a><a href="#pecas">Peças</a><a href="#mesas">Mesas</a>
-    <a href="#picbox">PICBOX R2</a><a href="#regenerar">Regenerar</a><a href="#aberto">Em aberto</a>
+    <a href="#versao">Versão atual</a><a href="#visualizador">3D</a><a href="#vistas">Vistas</a><a href="#pecas">Peças</a><a href="#mesas">Mesas</a>
+    <a href="#step">STEP</a><a href="#versoes">Versões</a><a href="#produto">Produto</a><a href="#aberto">Em aberto</a>
   </nav>
 </div></div>
 
 <main class="wrap">
   <header class="intro">
     <h1>Documentação técnica da PICBOX Bolinha</h1>
-    <p>Máquina A, versão compacta. Dois carros oscilam em trilhos, um acima do outro: o de cima leva a bola de aço num eletroímã e o de baixo leva o anel. O jogador aperta o botão para soltar a bola. Um elevador devolve a bola ao topo. Os dados desta página saem do CAD em CadQuery do projeto.</p>
-    <p><b>R3 em teste:</b> bola de 15 mm com elevador de rosca e 4 peças de encaixe, aproveitando a R2.2 já impressa. Veja a aba <b>Máquina completa</b> (abre na R3), a aba <b>R3: elevador de rosca</b> e as vistas <b>R3 (bola 15)</b>. O catálogo e as mesas abaixo são da R2.2.</p>
+    <p>Máquina A, versão compacta. Dois carros oscilam em trilhos, um acima do outro: o de cima leva a bola de aço num eletroímã e o de baixo leva o anel. O jogador aperta o botão para soltar a bola; se ela passar pelo anel, conta ponto. Um elevador de rosca devolve a bola ao topo. Tudo nesta página sai do CAD do projeto.</p>
     <dl class="specs" id="specs"></dl>
   </header>
+
+  <section id="versao">
+    <h2 id="v-titulo">Versão atual</h2>
+    <p class="lead" id="v-resumo"></p>
+    <div class="cols">
+      <div class="box"><h3>O que mudou</h3><ul id="v-mudou"></ul></div>
+      <div class="box">
+        <h3>Imprimir</h3><p id="v-imprimir"></p>
+        <h3>Sai (não usa mais)</h3><ul id="v-sai"></ul>
+        <h3>Comprar</h3><p id="v-comprar"></p>
+      </div>
+    </div>
+    <h3 class="sub">Reaproveitar da R2.2 (já impressas)</h3>
+    <div class="scroll"><table>
+      <thead><tr><th>Peça</th><th class="num">Qtd</th><th>O que muda nela</th></tr></thead><tbody id="v-reap"></tbody>
+    </table></div>
+    <h3 class="sub">Compradas que continuam</h3>
+    <ul class="open" id="v-reapc"></ul>
+  </section>
 
   <section id="visualizador">
     <h2>Visualizador 3D</h2>
@@ -137,18 +168,17 @@ footer { padding-block: 34px 48px; color: var(--muted); font-size: 13px; }
 
   <section id="vistas">
     <h2>Vistas da montagem</h2>
-    <p class="lead">Renders sem o gabinete. Azul é peça impressa, laranja é impressa que anda, cinza é comprada.</p>
-    <div class="tabs" role="tablist" aria-label="Grupos de vistas" id="gtabs"></div>
-    <div class="tabs sub" role="tablist" aria-label="Vistas" id="itabs"></div>
+    <p class="lead">Renders sem o gabinete. Azul é peça impressa da R2.2, laranja é peça nova, rosa é a rosca, cinza é comprada.</p>
+    <div class="tabs" role="tablist" aria-label="Vistas" id="itabs"></div>
     <figure class="sheet">
-      <a id="ilink" href="img/01_geral.png"><img id="iimg" src="img/01_geral.png" alt="Montagem completa"></a>
+      <a id="ilink" href="img/r3_01_geral.png"><img id="iimg" src="img/r3_01_geral.png" alt="Montagem completa"></a>
       <figcaption><span id="icap"></span><a id="iopen" href="#">Abrir imagem inteira</a></figcaption>
     </figure>
   </section>
 
   <section id="pecas">
-    <h2>Catálogo de peças</h2>
-    <p class="lead">Peças impressas em PETG, na posição em que vão para a mesa. Massa e horas são do fatiamento estimado (0,2 mm, 4 perímetros, 25% de preenchimento).</p>
+    <h2>Catálogo de peças impressas</h2>
+    <p class="lead">Todas as peças impressas da versão atual. <b>Novas</b> são as que precisam ser impressas; <b>reaproveitadas</b> já estão impressas desde a R2.2 (o STL fica para reimprimir se quebrar). Massa e horas são estimadas (PETG, 0,2 mm, 4 perímetros, 25%). O STEP de cada peça está na posição de montagem.</p>
     <div class="controls">
       <input type="search" id="q" placeholder="Procurar peça…" aria-label="Procurar peça">
       <span id="chips" style="display:contents"></span>
@@ -160,17 +190,31 @@ footer { padding-block: 34px 48px; color: var(--muted); font-size: 13px; }
 
   <section id="mesas">
     <h2>Mesas de impressão</h2>
-    <p class="lead">Cada impressora tem as suas mesas, na ordem. A: 260 × 260 (peças de precisão e à vista). B e C: Creality 220 × 220.</p>
+    <p class="lead">Só as peças novas, já arrumadas na mesa e sem suporte. A: 260 × 260. B e C: Creality 220 × 220. As 3 impressoras podem trabalhar ao mesmo tempo.</p>
     <div class="scroll"><table>
-      <thead><tr><th>Mesa</th><th>Impressora</th><th>Peças</th><th class="num">Altura (mm)</th><th class="num">Horas</th><th>Suporte</th><th></th></tr></thead>
+      <thead><tr><th>Mesa</th><th>Impressora</th><th>Peças</th><th class="num">Horas</th><th></th></tr></thead>
       <tbody id="mrows"></tbody><tfoot id="mfoot"></tfoot>
     </table></div>
   </section>
 
-  <section id="picbox">
-    <h2>Páginas do PICBOX R2</h2>
+  <section id="step">
+    <h2>Máquina em STEP</h2>
+    <p class="lead">A máquina completa com os grupos (elevador de rosca, rampa e bolso, fila, eixos, carros, bandeja, esteiras), um STEP por grupo e um por peça, todos nas coordenadas da montagem. Abre no Fusion 360 como componentes. Arquivos no repositório privado.</p>
+    <p><a id="stepzip" href="#">PICBOX_R3_STEP.zip</a> · <a id="stepcomp" href="#">máquina completa (.step)</a> · <a id="impzip" href="#">arquivos de impressão (.zip)</a></p>
+  </section>
+
+  <section id="versoes">
+    <h2>Versões</h2>
+    <p class="lead">Cada versão tem uma tag no repositório (<code>git checkout r2.2</code>, por exemplo). O detalhe de cada uma está no CHANGELOG.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Versão</th><th>Data</th><th>O que é</th></tr></thead><tbody id="vrows"></tbody>
+    </table></div>
+  </section>
+
+  <section id="produto">
+    <h2>Produto: páginas do PICBOX</h2>
     <p class="lead">As páginas do produto rodam aqui dentro, cada uma com a sua navegação. Cada uma tem cerca de 9 MB e leva alguns segundos para abrir.</p>
-    <div class="tabs" role="tablist" aria-label="Páginas do PICBOX R2" id="ptabs"></div>
+    <div class="tabs" role="tablist" aria-label="Páginas do produto" id="ptabs"></div>
     <div class="embed" id="pembed">
       <div class="load" id="pload">Carregando…</div>
       <div class="vbar"><span id="pcap"></span><a id="popen" href="#">Abrir em tela cheia</a></div>
@@ -179,23 +223,22 @@ footer { padding-block: 34px 48px; color: var(--muted); font-size: 13px; }
 
   <section id="regenerar">
     <h2>Regenerar peças, imagens e este site</h2>
-    <p class="lead">O CAD em <code>compacta/cad/maquina/</code> é a fonte. STL, STEP, mesas, imagens, páginas e este site são derivados. Precisa de Python com CadQuery e PyVista (no Windows, rodar pelo PowerShell).</p>
+    <p class="lead">O CAD em <code>compacta/cad/maquina/</code> é a fonte. STL, STEP, mesas, imagens, páginas e este site são derivados. Precisa de Python com CadQuery, manifold3d e PyVista (no Windows, rodar pelo PowerShell).</p>
 <pre>cd compacta/cad/maquina
-python regerar.py              # checagens, peças, mesas, imagens, páginas e docs/ (~6 min)
+python regerar.py              # checagens, peças, imagens, páginas, STEP e docs/ (~6 min)
 python site_publico.py         # só o site: docs/data, docs/img, docs/pagina, docs/picbox
 python -m http.server -d ../../../docs 5173    # este site em http://localhost:5173
 git subtree push --prefix docs site main      # da raiz: envia docs/ para o site público</pre>
-    <p class="lead">Os arquivos-fonte ficam no repositório privado <a href="https://github.com/PicBrandDev/picbox_bolinha">PicBrandDev/picbox_bolinha</a>; os links STEP e STL desta página exigem acesso a ele.</p>
   </section>
 
   <section id="aberto">
     <h2>Pontos em aberto</h2>
     <ul class="open">
-      <li>Polia de cima (R2.2) ainda não testada na peça real: a frente do eixo apoia no próprio N20, o cubo tem 0,4 mm de folga e a rosca do M5 no PETG pode espanar (vem 1 adaptador de reserva).</li>
-      <li>Na montagem 3D, o motor N20 entra no berço pela frente, deduzido da geometria da torre. Conferir na peça real.</li>
-      <li>Aperto do fixador de alumínio na correia da cabine.</li>
-      <li>Medidas de compradas que não foram medidas: orelhas do SG90, rosca do P20/15, esteira 7 × 7 e sensores de fenda.</li>
-      <li>Firmware fora deste repositório: casa dos eixos no mínimo de X, devagar; elevador com PWM de 50% nos últimos 20 mm e corte em 1 s; servo no buck de 5 V.</li>
+      <li>Testar o eletroímã com a bola de 15 mm (14 g): segura firme e solta na hora, sem ficar presa pelo magnetismo que sobra.</li>
+      <li>Testar o TCRT5000 vendo a bola de aço a ~1 mm, dentro do forro.</li>
+      <li>Rosca: conferir no fatiador o balanço do filete (as 2 metades imprimem em pé, com aba de 8 mm).</li>
+      <li>Sentido do N20: se a rosca descer a bola, inverter os fios.</li>
+      <li>Firmware fora deste repositório: elevador gira até o sensor do bolso ver a bola; aviso depois de ~20 s sem bola; sem comporta.</li>
     </ul>
   </section>
 
@@ -204,10 +247,13 @@ git subtree push --prefix docs site main      # da raiz: envia docs/ para o site
 
 <script type="module">
 const REPO = 'https://github.com/PicBrandDev/picbox_bolinha/blob/main/';
+const TAGS = 'https://github.com/PicBrandDev/picbox_bolinha/releases/tag/';
 const $ = (id) => document.getElementById(id);
 const fmt = (v, d = 1) => Number(v).toLocaleString('pt-BR', { maximumFractionDigits: d });
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const IMP = { A: 'A · 260 × 260', B: 'B · Creality 220', C: 'C · Creality 220' };
+const ACENTO = { Armacao: 'Armação', Braco: 'Braço', Eletroima: 'Eletroímã', aco: 'aço', esta: 'está' };
+const tx = (s) => String(s).replace(/\b[A-Za-z]+\b/g, (w) => ACENTO[w] || w);
 
 // quadro com abas de páginas; carrega só quando a seção aparece
 function quadro(lista, tabs, embed, load, cap, open) {
@@ -236,68 +282,77 @@ function quadro(lista, tabs, embed, load, cap, open) {
 
 try {
   const M = await (await fetch('data/manifest.json')).json();
-  const n = M.pecas.reduce((s, p) => s + p.quantidade, 0);
-  const massa = M.pecas.reduce((s, p) => s + p.massa_g * p.quantidade, 0);
-  const H = M.horas_por_impressora;
+  const V = M.versao;
+  const novas = M.pecas.filter((p) => p.status === 'nova'), reap = M.pecas.filter((p) => p.status === 'reaproveitada');
+  const hN = M.placas.reduce((s, m) => s + m.horas, 0), gN = novas.reduce((s, p) => s + p.massa_g * p.quantidade, 0);
+  const nReap = reap.reduce((s, p) => s + p.quantidade, 0);
   $('specs').innerHTML = [
-    ['Gabinete livre', M.gabinete_mm.join(' × ') + ' mm'], ['Bola', M.bola], ['Revisão', M.revisao],
-    ['Peças impressas', `${M.pecas.length} arquivos · ${n} peças`], ['Mesas de impressão', M.placas.length],
-    ['Horas por impressora', `A ${fmt(H.A, 0)} · B ${fmt(H.B, 0)} · C ${fmt(H.C, 0)}`], ['PETG estimado', fmt(massa / 1000, 2) + ' kg'],
+    ['Versão', `${V.versao} · ${V.data}`], ['Bola', M.bola], ['Elevador', 'rosca, 1 bola por volta'],
+    ['Gabinete livre', M.gabinete_mm.join(' × ') + ' mm'], ['Imprimir', `${novas.length} peças · ${M.placas.length} mesas · ≈ ${fmt(hN, 0)} h`],
+    ['Reaproveitadas', `${nReap} peças da R2.2`], ['Checagens', `${M.checagens.ok} de ${M.checagens.total} ok`],
   ].map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
   $('foot').textContent = `Gerado de data/manifest.json em ${M.gerado_em.split('-').reverse().join('/')}.`;
+
+  // ---------- versao atual ----------
+  $('v-titulo').textContent = `Versão atual: ${V.versao} · ${V.titulo}`;
+  $('v-resumo').textContent = V.resumo;
+  $('v-mudou').innerHTML = V.mudou.map(([t, d]) => `<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join('');
+  $('v-imprimir').innerHTML = `<b>${novas.length} peças novas</b> em ${M.placas.length} mesas, ≈ ${fmt(hN, 0)} h e ${fmt(gN, 0)} g de PETG, sem suporte: ${novas.map((p) => esc(tx(p.nome))).join(', ')}. <a href="#mesas">Mesas</a>`;
+  $('v-sai').innerHTML = `<li><b>Impressas:</b> ${V.sai_impressas.map((x) => esc(tx(x))).join(', ')}.</li>` + V.sai_compradas.map((x) => `<li>${esc(x)}</li>`).join('');
+  $('v-comprar').textContent = `${V.comprar} Parafusos e miudezas do estoque: ${V.parafusos.join('; ')}.`;
+  $('v-reap').innerHTML = V.reaproveitadas.map((p) => `<tr><td>${esc(tx(p.peca))}</td><td class="num">${p.qtd}</td><td class="wrapt">${esc(tx(p.nota))}</td></tr>`).join('');
+  $('v-reapc').innerHTML = V.reaproveita_compradas.map((x) => `<li>${esc(x)}</li>`).join('');
 
   quadro(M.paginas, 'vtabs', 'vembed', 'vload', 'vcap', 'vopen');
   quadro(M.produto, 'ptabs', 'pembed', 'pload', 'pcap', 'popen');
 
   // ---------- vistas ----------
-  const grupos = [...new Set(M.vistas.map((v) => v.grupo))];
-  $('gtabs').innerHTML = grupos.map((g, i) => `<button role="tab" aria-selected="${i === 0}" data-g="${esc(g)}">${esc(g)}</button>`).join('');
+  $('itabs').innerHTML = M.vistas.map((v, i) => `<button role="tab" aria-selected="${i === 0}" data-i="${v.arquivo}">${esc(v.titulo)}</button>`).join('');
   function vista(arq) {
     const v = M.vistas.find((x) => x.arquivo === arq), src = 'img/' + v.arquivo;
     $('iimg').src = src; $('iimg').alt = v.titulo; $('ilink').href = src; $('iopen').href = src; $('icap').textContent = v.legenda;
     for (const b of $('itabs').children) b.setAttribute('aria-selected', b.dataset.i === arq);
   }
-  function grupo(g) {
-    for (const b of $('gtabs').children) b.setAttribute('aria-selected', b.dataset.g === g);
-    const vs = M.vistas.filter((v) => v.grupo === g);
-    $('itabs').innerHTML = vs.map((v) => `<button role="tab" data-i="${v.arquivo}">${esc(v.titulo)}</button>`).join('');
-    vista(vs[0].arquivo);
-  }
-  $('gtabs').onclick = (e) => { const b = e.target.closest('[data-g]'); if (b) grupo(b.dataset.g); };
   $('itabs').onclick = (e) => { const b = e.target.closest('[data-i]'); if (b) vista(b.dataset.i); };
-  grupo(grupos[0]);
+  vista(M.vistas[0].arquivo);
 
-  // ---------- peças ----------
-  const ativo = new Set(['A', 'B', 'C']);
-  $('chips').innerHTML = ['A', 'B', 'C'].map((k) => `<button class="chip" data-imp="${k}" aria-pressed="true">Impressora ${IMP[k]}</button>`).join('');
+  // ---------- pecas ----------
+  const ST = { nova: 'Novas (imprimir)', reaproveitada: 'Reaproveitadas (R2.2)' };
+  const ativo = new Set(Object.keys(ST));
+  $('chips').innerHTML = Object.entries(ST).map(([k, t]) => `<button class="chip" data-st="${k}" aria-pressed="true"><i class="dot ${k}"></i>${t}</button>`).join('');
   function renderPecas() {
     const q = $('q').value.trim().toLowerCase(), by = $('sort').value;
-    const list = M.pecas.filter((p) => p.placas.some((pl) => ativo.has(pl[0])) && (!q || (p.nome + ' ' + p.id + ' ' + p.funcao).toLowerCase().includes(q)))
-      .sort((a, b) => by === 'horas' ? b.horas - a.horas : by === 'massa' ? b.massa_g - a.massa_g : by === 'alt' ? b.altura_mm - a.altura_mm : a.nome.localeCompare(b.nome, 'pt-BR'));
+    const list = M.pecas.filter((p) => ativo.has(p.status) && (!q || (p.nome + ' ' + p.id + ' ' + p.funcao).toLowerCase().includes(q)))
+      .sort((a, b) => by === 'horas' ? b.horas - a.horas : by === 'massa' ? b.massa_g - a.massa_g : by === 'alt' ? b.altura_mm - a.altura_mm : (a.status === b.status ? a.nome.localeCompare(b.nome, 'pt-BR') : a.status === 'nova' ? -1 : 1));
     $('parts').innerHTML = list.map((p) => `<article class="part">
-      <div class="thumb"><img src="img/${p.thumb}" alt="${esc(p.nome)}" loading="lazy"></div>
-      <div class="body"><div><h3>${esc(p.nome)}${p.quantidade > 1 ? ' × ' + p.quantidade : ''}</h3><div class="file">${esc(p.id)}.step</div></div>
+      <div class="thumb"><img src="img/${p.thumb}" alt="${esc(tx(p.nome))}" loading="lazy"></div>
+      <div class="body"><div><span class="tag ${p.status}">${p.status === 'nova' ? 'nova · imprimir' : 'reaproveitada'}</span>
+      <h3>${esc(tx(p.nome))}${p.quantidade > 1 ? ' × ' + p.quantidade : ''}</h3><div class="file">${esc(p.id)}</div></div>
       <dl><dt>Na mesa</dt><dd>${fmt(p.mesa_mm[0])} × ${fmt(p.mesa_mm[1])} × ${fmt(p.altura_mm)} mm</dd>
       <dt>Massa</dt><dd>${fmt(p.massa_g, 0)} g</dd><dt>Horas</dt><dd>${fmt(p.horas)} h</dd>
-      <dt>Mesa</dt><dd>${p.placas.join(', ')}</dd></dl>
-      <details><summary>Função e impressão</summary><p>${esc(p.funcao)}</p><p>${esc(p.por_que)}</p><p>Suporte: ${esc(p.suporte)}</p></details>
-      <div class="acts"><a href="${REPO}${p.step}">STEP</a><a href="${REPO}${p.stl}">STL</a></div></div></article>`).join('')
+      ${p.placas.length ? `<dt>Mesa</dt><dd>${p.placas.join(', ')}</dd>` : ''}</dl>
+      <details><summary>Função e montagem</summary><p>${esc(p.funcao)}</p><p>${esc(tx(p.fixa))}</p><p>Impressão: ${esc(p.suporte)}</p></details>
+      <div class="acts">${p.step ? `<a href="${REPO}${p.step}">STEP</a>` : ''}<a href="${REPO}${p.stl}">STL</a></div></div></article>`).join('')
       || '<p class="err">Nenhuma peça com esse filtro.</p>';
-    const h = list.reduce((s, p) => s + p.horas * p.quantidade, 0), g = list.reduce((s, p) => s + p.massa_g * p.quantidade, 0);
-    $('ptotal').textContent = `${list.length} de ${M.pecas.length} arquivos · ${fmt(g / 1000, 2)} kg · ≈ ${fmt(h, 0)} h`;
+    $('ptotal').textContent = `${list.length} de ${M.pecas.length} arquivos`;
   }
   $('q').oninput = renderPecas; $('sort').onchange = renderPecas;
   $('chips').onclick = (e) => {
     const b = e.target.closest('.chip'); if (!b) return;
     const on = b.getAttribute('aria-pressed') !== 'true';
-    b.setAttribute('aria-pressed', on); on ? ativo.add(b.dataset.imp) : ativo.delete(b.dataset.imp); renderPecas();
+    b.setAttribute('aria-pressed', on); on ? ativo.add(b.dataset.st) : ativo.delete(b.dataset.st); renderPecas();
   };
   renderPecas();
 
   // ---------- mesas ----------
-  $('mrows').innerHTML = M.placas.map((m) => `<tr><td><b>${m.n}</b></td><td>${IMP[m.impressora]}</td><td class="wrapt">${esc(m.pecas.join(', '))}</td>
-    <td class="num">${fmt(m.altura)}</td><td class="num">${fmt(m.horas)}</td><td>${m.suporte ? 'sim' : 'não'}</td><td><a href="${REPO}${m.stl}">STL</a></td></tr>`).join('');
-  $('mfoot').innerHTML = `<tr><td colspan="4">Total (as 3 impressoras ao mesmo tempo: ≈ ${fmt(Math.max(H.A, H.B, H.C), 0)} h)</td><td class="num">${fmt(H.A + H.B + H.C)}</td><td colspan="2"></td></tr>`;
+  $('mrows').innerHTML = M.placas.map((m) => `<tr><td><b>${m.n}</b></td><td>${IMP[m.impressora]}</td><td class="wrapt">${esc(m.pecas.map(tx).join(', '))}</td>
+    <td class="num">${fmt(m.horas)}</td><td><a href="${REPO}${m.stl}">STL</a></td></tr>`).join('');
+  const hI = (k) => M.placas.filter((m) => m.impressora === k).reduce((s, m) => s + m.horas, 0);
+  $('mfoot').innerHTML = `<tr><td colspan="3">Total (as 3 impressoras ao mesmo tempo: ≈ ${fmt(Math.max(hI('A'), hI('B'), hI('C')), 0)} h)</td><td class="num">${fmt(hN)}</td><td></td></tr>`;
+
+  // ---------- step e versoes ----------
+  $('stepzip').href = REPO + M.step.zip; $('stepcomp').href = REPO + M.step.completa; $('impzip').href = REPO + M.impressao_zip;
+  $('vrows').innerHTML = V.versoes.map((v, i) => `<tr><td><a href="${TAGS}${v.tag}"><b>${v.versao}</b></a>${i === 0 ? ' <span class="tag nova">atual</span>' : ''}</td><td>${v.data}</td><td class="wrapt">${esc(v.resumo)}</td></tr>`).join('');
 } catch (e) {
   console.error(e);
   $('specs').outerHTML = '<p class="err">Não foi possível ler data/manifest.json. Abra o site por um servidor (python -m http.server), não direto do arquivo.</p>';
